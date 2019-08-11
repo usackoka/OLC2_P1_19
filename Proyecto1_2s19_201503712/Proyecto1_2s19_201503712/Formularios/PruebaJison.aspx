@@ -76,6 +76,9 @@
 </script>
 
     <form id="form1" runat="server">
+        <asp:Button ID="prueba" runat ="server" OnClick="prueba_Click" Text="Prueba hellow world"/>
+        <pre id="resultado" runat="server"></pre>
     </form>
+
 </body>
 </html>
