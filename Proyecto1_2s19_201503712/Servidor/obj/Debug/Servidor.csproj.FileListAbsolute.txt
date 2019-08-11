@@ -1,0 +1,10 @@
+C:\Users\Koka\Desktop\OLC2_P1_19\Proyecto1_2s19_201503712\Servidor\bin\Debug\Servidor.exe.config
+C:\Users\Koka\Desktop\OLC2_P1_19\Proyecto1_2s19_201503712\Servidor\bin\Debug\Servidor.exe
+C:\Users\Koka\Desktop\OLC2_P1_19\Proyecto1_2s19_201503712\Servidor\bin\Debug\Servidor.pdb
+C:\Users\Koka\Desktop\OLC2_P1_19\Proyecto1_2s19_201503712\Servidor\obj\Debug\Servidor.csprojAssemblyReference.cache
+C:\Users\Koka\Desktop\OLC2_P1_19\Proyecto1_2s19_201503712\Servidor\obj\Debug\Servidor.Properties.Resources.resources
+C:\Users\Koka\Desktop\OLC2_P1_19\Proyecto1_2s19_201503712\Servidor\obj\Debug\Servidor.csproj.GenerateResource.cache
+C:\Users\Koka\Desktop\OLC2_P1_19\Proyecto1_2s19_201503712\Servidor\obj\Debug\Servidor.csproj.CoreCompileInputs.cache
+C:\Users\Koka\Desktop\OLC2_P1_19\Proyecto1_2s19_201503712\Servidor\obj\Debug\Servidor.exe
+C:\Users\Koka\Desktop\OLC2_P1_19\Proyecto1_2s19_201503712\Servidor\obj\Debug\Servidor.pdb
+C:\Users\Koka\Desktop\OLC2_P1_19\Proyecto1_2s19_201503712\Servidor\obj\Debug\Servidor.Principal.resources
