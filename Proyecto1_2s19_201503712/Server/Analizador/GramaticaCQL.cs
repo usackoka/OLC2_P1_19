@@ -8,7 +8,7 @@ namespace Server.Analizador
 {
     public class GramaticaCQL:Grammar
     {
-        public GramaticaCQL() : base(true)
+        public GramaticaCQL() : base(false)
         {
             #region Expresiones Regulares
             var numero = new NumberLiteral("numero");
@@ -27,6 +27,7 @@ namespace Server.Analizador
 
             #region Terminales
             var coma = ToTerm(",");
+            var puntocoma = ToTerm(";");
             var dospuntos = ToTerm(":");
             var l_parent = ToTerm("(");
             var r_parent = ToTerm(")");
@@ -36,6 +37,8 @@ namespace Server.Analizador
             var r_llave = ToTerm("}");
             var punto = ToTerm(".");
             var igual = ToTerm("=");
+            var arroba = ToTerm("@");
+            var interrogacion = ToTerm("?");
 
             Terminal
             mas = ToTerm("+"),
@@ -62,8 +65,10 @@ namespace Server.Analizador
             res_boolean = ToTerm("boolean"),
             res_date = ToTerm("date"),
             res_time = ToTerm("time"),
+            res_null = ToTerm("null"),
 
             res_create = ToTerm("Create"),
+            res_table = ToTerm("Table"),
             res_type = ToTerm("type"),
             res_user_type = ToTerm("User_Type"),
             res_new = ToTerm("new"),
@@ -93,6 +98,7 @@ namespace Server.Analizador
 
             //DCL
             res_with = ToTerm("with"),
+            res_user = ToTerm("user"),
             res_password = ToTerm("password"),
             res_grant = ToTerm("grant"),
             res_on = ToTerm("on"),
@@ -135,13 +141,27 @@ namespace Server.Analizador
             res_log = ToTerm("log"),
             res_throw = ToTerm("throw"),
             res_catch = ToTerm("catch"),
-            res_try = ToTerm("try");
+            res_order = ToTerm("order"),
+            res_by = ToTerm("by"),
+            res_limit = ToTerm("limit"),
+            res_asc = ToTerm("asc"),
+            res_desc = ToTerm("desc"),
+            res_in = ToTerm("in"),
+            res_true = ToTerm("true"),
+            res_false = ToTerm("false"),
+            res_today = ToTerm("Today"),
+            res_now = ToTerm("now"),
+            res_try = ToTerm("try"),
 
-            MarkReservedWords("int", "double", "string", "boolean", "date", "time",
+            //excepciones
+            res_ArithmeticException = ToTerm("ArithmeticException");
+
+            MarkReservedWords("ArithmeticException",
+                        "int", "double", "string", "boolean", "date", "time",
                         "Create", "type", "res_User_Type", "new", "alter", "add", "delete",
                         "database", "if", "not", "exists", "use", "drop", "counter", "primary", "key", "update", "map", "set", "list", "truncate",
-                        "commit", "rollback",
-                        "with", "password", "grant", "on", "revoke",
+                        "commit", "rollback", "null","table","user","order","by","limit","asc","desc",
+                        "with", "password", "grant", "on", "revoke", "in", "Today", "now",
                         "insert", "into", "values", "where", "from", "select", "begin", "batch", "apply", "count", "min", "max", "sum", "avg",
                         "else", "switch", "case", "default", "while", "do", "for", "procedure", "call", "break", "continue",
                         "return", "cursor", "is", "each", "open", "close", "log", "throw", "catch", "try");
@@ -157,12 +177,11 @@ namespace Server.Analizador
             var SENTENCIA = new NonTerminal("SENTENCIA");
             var GLOBAL = new NonTerminal("GLOBAL");
             var BLOCK = new NonTerminal("BLOCK");
-            var LISTA_GLOBAL = new NonTerminal("LISTA_GLOBAL");
             var LISTA_IDS = new NonTerminal("LISTA_IDS");
             var LISTA_E = new NonTerminal("LISTA_E");
             var FUNCION = new NonTerminal("FUNCION");
             var LLAMADA_FUNCION = new NonTerminal("LLAMADA_FUNCION");
-            var CLASE = new NonTerminal("CLASE");
+            var CURSOR = new NonTerminal("CURSOR");
             var INSTRUCCION = new NonTerminal("INSTRUCCION");
             var ELSEIF = new NonTerminal("ELSEIF");
             var ELSEIFS = new NonTerminal("ELSEIFS");
@@ -172,82 +191,221 @@ namespace Server.Analizador
             var FUENTE_FOR = new NonTerminal("FUENTE_FOR");
             var DECLARACION = new NonTerminal("DECLARACION");
             var COLECCION = new NonTerminal("COLECCION");
-            var KEY_VALUE_LIST = new NonTerminal("KEY_VALUE_LIST");
-            var KEY_VALUE = new NonTerminal("KEY_VALLUE");
             var REFERENCIAS = new NonTerminal("REFERENCIAS");
             var REFERENCIA = new NonTerminal("REFERENCIA");
-            var IMPORT = new NonTerminal("IMPORT");
             var LISTA_CORCHETES = new NonTerminal("LISTA_CORCHETES");
             var ACCESO_ARR = new NonTerminal("ACCESO_ARR");
             var CORCHETES = new NonTerminal("CORCHETES");
             var TIPO = new NonTerminal("TIPO");
             var UNPARAMETRO = new NonTerminal("UNPARAMETRO");
             var LISTA_IDS2 = new NonTerminal("LISTA_IDS2");
+            var TYPES = new NonTerminal("TYPES");
+            var INE = new NonTerminal("INE");
+            var IE = new NonTerminal("IE");
+            var CASTEOS = new NonTerminal("CASTEOS");
+            var DDL = new NonTerminal("DDL");
+            var LISTA_COLDEF = new NonTerminal("LISTA_COLDEF");
+            var COLDEF = new NonTerminal("COLDEF");
+            var LISTA_CQLTIPOS = new NonTerminal("LISTA_CQLTIPOS");
+            var CQLTIPO = new NonTerminal("CQLTIPO");
+            var TCL = new NonTerminal("TCL");
+            var DCL = new NonTerminal("DCL");
+            var DML = new NonTerminal("DML");
+            var ASIG_CQL = new NonTerminal("ASIG_CQL");
+            var LISTA_ASIG_CQL = new NonTerminal("LISTA_ASIG_CQL");
+            var WHERE_Q = new NonTerminal("WHERE_Q");
+            var WHERE = new NonTerminal("WHERE");
+            var ORDERBY_Q = new NonTerminal("ORDERBY_Q");
+            var ORDERBY = new NonTerminal("ORDERBY");
+            var LIMIT_Q = new NonTerminal("LIMIT_Q");
+            var LIMIT = new NonTerminal("LIMIT");
+            var ORDER = new NonTerminal("ORDER");
+            var LISTA_ORDER = new NonTerminal("LISTA_ORDER");
+            var SELECT_TYPE = new NonTerminal("SELECT_TYPE");
+            var SELECT = new NonTerminal("SELECT");
+            var BATCH = new NonTerminal("BATCH");
+            var LISTA_DML = new NonTerminal("LISTA_DML");
+            var FUN_AGR = new NonTerminal("FUN_AGR");
+            var TIPO_AGR = new NonTerminal("TIPO_AGR");
+            var KEY_VALUE_LIST = new NonTerminal("KEY_VALUE_LIST");
+            var KEY_VALUE = new NonTerminal("KEY_VALUE");
+            var INSTANCIA = new NonTerminal("INSTANCIA");
+            var PROCEDURE = new NonTerminal("PROCEDURE");
+            var EXCEPTION = new NonTerminal("EXCEPTION");
             #endregion
 
-            /*
             #region Gramatica
-            LISTA_GLOBAL.Rule = MakePlusRule(LISTA_GLOBAL, GLOBAL);
+            BLOCK.Rule = MakePlusRule(BLOCK, GLOBAL);
 
             GLOBAL.Rule = SENTENCIA
                         | FUNCION
-                        | DECLARACION + Eos
-                        | CLASE
-                        | INSTRUCCION + Eos
-                        | IMPORT + Eos;
+                        | PROCEDURE
+                        | DECLARACION
+                        | BATCH
+                        | FUN_AGR
+                        | INSTRUCCION + puntocoma
+                        | DCL + puntocoma
+                        | TCL + puntocoma
+                        | DDL + puntocoma
+                        | CURSOR + puntocoma
+                        | SELECT + puntocoma;
 
-            CLASE.Rule = res_class + id + dospuntos + Eos + BLOCK;
+            CURSOR.Rule = res_cursor + arroba + id + res_is + SELECT
+                | res_open + arroba + id
+                | res_close + arroba + id;
 
-            BLOCK.Rule = Indent + LISTA_GLOBAL + Dedent;
+            PROCEDURE.Rule = res_procedure + id + l_parent + LISTA_IDS + r_parent + coma + 
+                l_parent + LISTA_IDS + r_parent + l_llave + BLOCK + r_llave;
 
-            FUNCION.Rule = TIPO + id + l_parent + LISTA_IDS + r_parent + dospuntos + Eos + BLOCK;
+            FUNCION.Rule = TIPO + id + l_parent + LISTA_IDS + r_parent + l_llave + BLOCK + r_llave;
             //FUNCION.NodeCaptionTemplate = "def #{1}(...)";
 
+            //=================== OTROS CQL =====================================
+            BATCH.Rule = res_begin + res_bath + LISTA_DML + res_apply + res_bath;
+
+            FUN_AGR.Rule = TIPO_AGR + l_parent + menor_que + SELECT + mayor_que + r_parent;
+
+            TIPO_AGR.Rule = res_count
+                | res_min
+                | res_max
+                | res_sum
+                | res_avg;
+
+            //===================== DDL ==========================================
+            DDL.Rule = res_create + res_database + INE + id
+                | res_create + res_table + INE + id + l_parent + LISTA_COLDEF + r_parent
+                | res_alter + res_table + id + res_add + LISTA_CQLTIPOS
+                | res_alter + res_table + id + res_drop + LISTA_IDS2
+                | res_drop + res_table + IE + id
+                | res_truncate + res_table + id
+                | res_use + id
+                | res_drop + id;
+
+            //================== DML =============================================
+            LISTA_DML.Rule = MakeStarRule(LISTA_DML, DML);
+
+            DML.Rule = res_insert + res_into + id + res_values + l_parent + LISTA_E + r_parent
+                | res_insert + res_into + id + l_parent + LISTA_IDS2 + r_parent + res_values + l_parent + LISTA_E + r_parent
+                | res_update + id + res_set + LISTA_ASIG_CQL + WHERE_Q
+                | res_delete + res_from + id + WHERE_Q;
+
+            SELECT.Rule = res_select + SELECT_TYPE + res_from + id + WHERE_Q + ORDERBY_Q + LIMIT_Q;
+
+            SELECT_TYPE.Rule = LISTA_IDS2
+                | l_parent + por + r_parent;
+
+            LIMIT_Q.Rule = LIMIT
+                | Empty;
+
+            LIMIT.Rule = res_limit + E;
+
+            ORDERBY_Q.Rule = ORDERBY
+                | Empty;
+
+            ORDERBY.Rule = res_order + res_by + LISTA_ORDER;
+
+            LISTA_ORDER.Rule = MakePlusRule(LISTA_ORDER, coma, ORDER);
+
+            ORDER.Rule = id
+                | id + res_desc
+                | id + res_asc;
+
+            WHERE_Q.Rule = WHERE
+                | Empty;
+
+            WHERE.Rule = res_where + E; 
+
+            LISTA_ASIG_CQL.Rule = MakePlusRule(LISTA_ASIG_CQL,coma,ASIG_CQL);
+
+            ASIG_CQL.Rule = id + igual + E;
+
+            //=================== DCL =============================================
+            DCL.Rule = res_create + res_user + id + res_with + res_password + E
+                | res_grant + id + res_on + id
+                | res_revoke + id + res_on + id;
+
+            //=================== TCL ============================================
+            TCL.Rule = res_commit
+                | res_rollback;
+
+            //=================== USER TYPES =====================================
+
+            TYPES.Rule = res_create + res_type + INE + id + l_parent + LISTA_CQLTIPOS + r_parent
+                | res_alter + res_type + id + res_add + l_parent + LISTA_CQLTIPOS + r_parent
+                | res_alter + res_type + id + res_delete + l_parent + LISTA_IDS2 + r_parent
+                | res_delete + res_type + id;
+
+            INE.Rule = res_if + res_not + res_exists
+                | Empty;
+
+            IE.Rule = res_if + res_exists
+                | Empty;
+
+            LISTA_COLDEF.Rule = MakeStarRule(LISTA_COLDEF, coma, COLDEF);
+
+            COLDEF.Rule = id + TIPO + res_primary + res_key
+                | id + TIPO
+                | res_primary + res_key + l_parent + LISTA_IDS2 + r_parent;
+
+            //============ lista CQL TIPOS
+            LISTA_CQLTIPOS.Rule = MakeStarRule(LISTA_CQLTIPOS, coma, CQLTIPO);
+
+            CQLTIPO.Rule = id + TIPO;
+
+            //============ lista parametros
             LISTA_IDS.Rule = MakeStarRule(LISTA_IDS, coma, UNPARAMETRO);
 
-            LISTA_IDS2.Rule = MakeStarRule(LISTA_IDS2, coma, id);
+            UNPARAMETRO.Rule = TIPO + arroba + id;
 
-            UNPARAMETRO.Rule = TIPO + id | res_self;
+            //============ LISTA IDS
+            LISTA_IDS2.Rule = MakeStarRule(LISTA_IDS2, coma, id);
 
             DECLARACION.Rule = TIPO + LISTA_IDS2;
 
             INSTRUCCION.Rule = TIPO + id + igual + E
                         | id + OPERADOR + igual + E
-                        | res_print + l_parent + E + r_parent
-                        | id + igual + E
+                        | res_log + l_parent + E + r_parent
+                        //| id + igual + E ===> se incluye en REFERENCIAS
                         | REFERENCIAS + igual + E
                         | res_return + E
                         | res_return
-                        | REFERENCIAS
                         | res_break
                         | res_continue
-                        | res_pass;
+                        | REFERENCIAS
+                        | TYPES;
 
-            OPERADOR.Rule = mas | menos | modular | por | div | pot;
+            OPERADOR.Rule = mas | menos | modular | por | div;
 
             TIPO.Rule = res_int
                 | res_boolean
                 | res_double
                 | res_string
+                | res_counter
+                | res_set
+                | res_map
+                | res_list
                 | id
-                | res_list + menor_que + TIPO + mayor_que
-                | res_tup + menor_que + TIPO + mayor_que
-                | res_dic + menor_que + TIPO + coma + TIPO + mayor_que;
+                | res_date
+                | res_time;
 
-            SENTENCIA.Rule = res_if + E + dospuntos + Eos + BLOCK + ELSEIFS + ELSE
-                            | res_if + E + dospuntos + Eos + BLOCK + ELSEIFS
-                            | res_for + id + res_in + FUENTE_FOR + dospuntos + Eos + BLOCK
-                            | res_for + id + res_in + FUENTE_FOR + dospuntos + Eos + BLOCK + ELSE
-                            | res_while + E + dospuntos + Eos + BLOCK;
-
+            SENTENCIA.Rule = res_if + l_parent + E + r_parent + l_llave + BLOCK + r_llave + ELSEIFS + ELSE
+                            | res_if + l_parent + E + r_parent + l_llave + BLOCK + r_llave + ELSEIFS
+                            | res_for + l_parent + r_parent + l_llave + BLOCK + r_llave
+                            | res_while + l_parent + E + r_parent + l_llave + BLOCK + r_llave
+                            | res_do + l_llave + BLOCK + r_llave + res_while + l_parent + E + r_parent + puntocoma
+                            | res_try + l_llave + BLOCK + r_llave + res_catch + l_parent + EXCEPTION + arroba 
+                                    + id + r_parent + l_llave + BLOCK + r_llave;
+            
+            /*
             FUENTE_FOR.Rule = res_range + l_parent + LISTA_E + r_parent
                             | id;
+            */
 
             ELSEIFS.Rule = MakeStarRule(ELSEIFS, ELSEIF);
 
-            ELSEIF.Rule = res_elif + E + dospuntos + Eos + BLOCK;
+            ELSEIF.Rule = res_else + res_if + l_parent + E + r_parent + l_llave + BLOCK + r_llave;
 
-            ELSE.Rule = res_else + dospuntos + Eos + BLOCK;
+            ELSE.Rule = res_else + l_llave  + BLOCK + r_llave;
 
             //=========================== EXPRESIONES ===============================================
             E.Rule = TERMINO | UNARIO
@@ -265,20 +423,23 @@ namespace Server.Analizador
                 | E + menor_que + E
                 | E + xor + E
                 | E + or + E
-                | E + and + E;
+                | E + and + E
+                | E + res_in + E
+                | E + interrogacion + E + dospuntos + E;
 
-            TERMINO.Rule = PRIMITIVO | E_PARENT | LLAMADA_FUNCION | NATIVAS | COLECCION | ACCESO_ARR | REFERENCIAS;
+            TERMINO.Rule = PRIMITIVO | E_PARENT | LLAMADA_FUNCION | NATIVAS | COLECCION | ACCESO_ARR | REFERENCIAS | CASTEOS | INSTANCIA;
 
-            NATIVAS.Rule = res_len + l_parent + E + r_parent
-                        | res_bool + l_parent + E + r_parent
-                        | res_chr + l_parent + E + r_parent
-                        | res_str + l_parent + E + r_parent
-                        | res_float + l_parent + E + r_parent
-                        | res_type + l_parent + E + r_parent
-                        | res_int + l_parent + E + r_parent
-                        | res_input + l_parent + E + r_parent;
+            INSTANCIA.Rule = res_new + id + l_parent + LISTA_E + r_parent;
 
-            REFERENCIA.Rule = id | res_self | LLAMADA_FUNCION | ACCESO_ARR;
+            CASTEOS.Rule = l_parent + TIPO + r_parent + E;
+
+            NATIVAS.Rule = res_today + l_parent + r_parent
+                | res_now + l_parent + r_parent
+                | res_throw + res_new + EXCEPTION;
+
+            EXCEPTION.Rule = res_ArithmeticException;
+
+            REFERENCIA.Rule = id | arroba + id | LLAMADA_FUNCION | ACCESO_ARR;
 
             REFERENCIAS.Rule = MakePlusRule(REFERENCIAS, punto, REFERENCIA);
 
@@ -286,10 +447,11 @@ namespace Server.Analizador
 
             LISTA_CORCHETES.Rule = MakePlusRule(LISTA_CORCHETES, CORCHETES);
 
-            CORCHETES.Rule = "[" + E + "]";
+            CORCHETES.Rule = l_corchete + E + r_corchete;
 
             //TUPLAS, LISTAS, CONJUNTOS, DICCIONARIOS // PAG 66
-            COLECCION.Rule = l_parent + LISTA_E + r_parent | "[" + LISTA_E + "]" | "{" + LISTA_E + "}" | "{" + KEY_VALUE_LIST + "}";
+            COLECCION.Rule = l_parent + LISTA_E + r_parent | l_corchete + LISTA_E + r_corchete 
+                | l_llave + LISTA_E + r_llave | l_llave + KEY_VALUE_LIST + r_llave;
 
             KEY_VALUE_LIST.Rule = MakePlusRule(KEY_VALUE_LIST, coma, KEY_VALUE);
 
@@ -299,18 +461,18 @@ namespace Server.Analizador
 
             UNARIO.Rule = mas + E | menos + E | res_not + E;
 
-            PRIMITIVO.Rule = id | numero | cadena | cadena2 | res_true | res_false | res_self | res_none;
+            PRIMITIVO.Rule = id | numero | cadena | cadena2 | res_true | res_false | res_null | arroba + id;
 
             //========================================================================
 
             LISTA_E.Rule = MakeStarRule(LISTA_E, coma, E);
 
-            LLAMADA_FUNCION.Rule = id + l_parent + LISTA_E + r_parent;
+            LLAMADA_FUNCION.Rule = id + l_parent + LISTA_E + r_parent
+                | res_call + id + l_parent + LISTA_E + r_parent;
             //LLAMADA_FUNCION.NodeCaptionTemplate = "Llamada #{0}(...)";
 
-            this.Root = LISTA_GLOBAL;
+            this.Root = BLOCK;
             #endregion
-            */
 
             NonGrammarTerminals.Add(ToTerm(@"\"));
 
@@ -322,14 +484,15 @@ namespace Server.Analizador
             RegisterOperators(7, Associativity.Left, mas, menos);
             RegisterOperators(8, Associativity.Left, por, div);
             RegisterOperators(9, Associativity.Right, pot, modular);
-            RegisterOperators(10, Associativity.Right, not);
+            RegisterOperators(10, Associativity.Right, interrogacion);
+            RegisterOperators(11, Associativity.Right, not);
 
             //SIGNOS DE PUNTUACION
             /*MarkPunctuation("(", ")", ":");
             RegisterBracePair("(", ")");*/
 
             //RECUPERACION
-            GLOBAL.ErrorRule = SyntaxError + Eos;
+            GLOBAL.ErrorRule = SyntaxError ;
             FUNCION.ErrorRule = SyntaxError + Dedent;
 
             //REPORTE DE ERRORES

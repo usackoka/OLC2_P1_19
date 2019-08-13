@@ -199,7 +199,6 @@
     <Content Include="codeMirror\doc\upgrade_v3.html" />
     <Content Include="codeMirror\doc\upgrade_v4.html" />
     <Content Include="codeMirror\doc\yinyang.png" />
-    <Content Include="codeMirror\EditorTexto.js" />
     <Content Include="codeMirror\keymap\emacs.js" />
     <Content Include="codeMirror\keymap\sublime.js" />
     <Content Include="codeMirror\keymap\vim.js" />

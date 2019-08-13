@@ -1,0 +1,28 @@
+DUDAS
+
+PAG 30:
+UPDATE Estudiante  
+SET Nombre= ‘Pao’, 
+        Edad=21  
+WHERE Nombre==”Paola” && Edad<18; 
+
+se puede string con comilla simple?
+
+PAG 31:
+Sintaxis
+SELECT ( Lista_Campos | * )  
+Ejemplo:
+SELECT alumno.carnet FROM Estudiante 
+
+PAG 38:
+6.8.4 User Types Se crea la siguiente tabla de ejemplo para mostrar los accesos que se pueden realizar sobre los tipos definidos por el usuario. 
+CREATE TABLE Estadio (  Id int,  Juga Jugador,  Asi Asiento  ); 
+ 
+6.8.4.1  Insertar Se utilizará la siguiente sentencia para insertar elementos a una lista dentro de una tabla. 
+INSERT INTO Estadio (id,juga,Asi)  VALUES(1, {“nombre” : “Juan”, “Edad”: 20}, {“fila”:5, “No.” : 3}); 
+
+se confunde con el valor que se le asigna a MAPS
+
+
+
+

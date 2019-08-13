@@ -2,7 +2,7 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 <head runat="server">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title></title>
@@ -35,7 +35,7 @@
 
     <script src="../codeMirror/keymap/sublime.js"></script>
 
-    <script src="../Js/FileManager.js"></script>
+
 </head>
 <body>
     <style>
@@ -55,12 +55,26 @@
         Seleccionar Pestaña:
         <select id="buffers_top"></select>
         &nbsp; &nbsp;
-        <button onclick="newBuf()">Nueva Pestaña</button>
+        <input type="file" id="openfile" value="Nueva Pestaña"/>
+        <asp:button  runat="server" OnClick="Unnamed_Click" Text="Prueba CQL"></asp:button>
+        <%--<button onclick="newBuf('')">Nueva Pestaña</button>--%>
     </div>
     <div id="code_top"></div>
 
-    <input type="file" onchange='readText(this)' />
-    <div id="main"></div>
+    <script>
+        var cont = 0;
+        var fileInput = document.getElementById('openfile');
+        var fileDisplayArea = document.getElementById('fileDisplayArea');
+
+        fileInput.addEventListener('change', function () {
+            var fr = new FileReader();
+            fr.onload = function () {
+                newBuf(this.result, "Pestaña"+(cont++));
+                //document.getElementById("filecontent").textContent = this.result;
+            }
+            fr.readAsText(this.files[0]);
+        });
+    </script>
 
     <script>
         var sel_top = document.getElementById("buffers_top");
@@ -77,14 +91,14 @@
             sel_top.appendChild(opt);
         }
 
-        function newBuf() {
-            var name = prompt("Nombre pestaña nueva", "untitled");
+        function newBuf(texto,name) {
+            //var name = prompt("Nombre pestaña nueva", "untitled");
             if (name == null) return;
             if (buffers.hasOwnProperty(name)) {
                 alert("Ya hay una pestaña con este nombre");
                 return;
             }
-            openBuffer(name, "", "javascript");
+            openBuffer(name, texto, "javascript");
             selectBuffer(ed_top, name);
             var sel = sel_top;
             sel.value = name;

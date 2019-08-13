@@ -13,5 +13,12 @@ namespace Proyecto1_2s19_201503712.Formularios
         {
 
         }
+
+        protected void Unnamed_Click(object sender, EventArgs e)
+        {
+            localhost.Rutas servidor = new localhost.Rutas();
+            String res = servidor.HelloWorld();
+            //String res = servidor.AnalizarPruebaCQL("");
+        }
     }
 }

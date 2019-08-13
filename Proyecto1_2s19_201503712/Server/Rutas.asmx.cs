@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Server.Analizador;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -19,13 +20,24 @@ namespace Server
         [WebMethod]
         public string HelloWorld()
         {
-            return "Hola a todos";
+            return "Hola Mundo";
         }
 
         [WebMethod]
-        public string HelloWorld2()
-        {
-            return "Hola a todos 2";
+        public string AnalizarPruebaCQL(String cadena) {
+            Generador parserCollete = new Generador();
+            if (parserCollete.esCadenaValida(cadena, new GramaticaCQL()))
+            {
+                if (parserCollete.padre.Root != null)
+                {
+                    return "Analizado con éxito";
+                }
+                return "Padre null";
+            }
+            else
+            {
+                return "Errores CQL";
+            }
         }
     }
 }

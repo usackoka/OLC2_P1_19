@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>201503712</title>
+</head>
+<body>
+	<h1>Evaluacion 1 - 201503712</h1>
+	<h3>ENTRADA</h3>
+	<textarea id="txtEntrada" style="width:300px;height:150px;"></textarea>
+	<br/>
+	<button id="btnAnalizar" onclick="Parser()">Analizar</button>
+	<br/>
+	<h3>SALIDA</h3>
+	<textarea id="txtSalida" style="width:300px;height:150px;" value=""></textarea>
+
+	<script src="Analizador.js"></script>
+	<script type="text/javascript">
+		function Parser(){
+			var text = document.getElementById("txtEntrada").value;
+			var result = Analizador.parse(text);
+			alert(String(result));
+			document.getElementById("txtSalida").value = String(result);
+		}
+	</script>
+
+</body>
+</html>
