@@ -37,7 +37,7 @@ namespace Server.Analizador
                     return new Print((Expresion)recorrido(raiz.ChildNodes[2]), getFila(raiz, 1), getColumna(raiz, 1));
                 }
                 else {
-                    ast.mensajes.Add("RecorridoCQL no soportado: " + raiz.ChildNodes.Count);
+                    ast.addError("","RecorridoCQL no soportado: " + raiz.ChildNodes.Count,0,0);
                     return "NULL";
                 }
             }
@@ -93,7 +93,7 @@ namespace Server.Analizador
                 return lista;
             }
             else {
-                ast.mensajes.Add("RecorridoCQL no soportado: " + raiz.ToString());
+                ast.addError("","RecorridoCQL no soportado: " + raiz.ToString(),0,0);
                 return "NULL";
             }
         }

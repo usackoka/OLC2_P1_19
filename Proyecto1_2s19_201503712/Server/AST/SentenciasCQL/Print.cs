@@ -19,7 +19,7 @@ namespace Server.AST.SentenciasCQL
         public override object Ejecutar(AST_CQL arbol)
         {
             Object value = exp.getValor(arbol);
-            arbol.mensajes.Add(">> "+value.ToString());
+            arbol.mensajes.Add(""+value);
             return null;
         }
     }

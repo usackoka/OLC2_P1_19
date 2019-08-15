@@ -38,7 +38,7 @@ namespace Server.AST.ExpresionesCQL
                         return Primitivo.TIPO_DATO.INT;
                     }
                     else {
-                        arbol.mensajes.Add("(Binaria, getTipo, Suma) No soportado: "+izq+" y "+der);
+                        arbol.addError("","(Binaria, getTipo, Suma) No soportado: "+izq+" y "+der,fila,columna);
                         return Primitivo.TIPO_DATO.NULL;
                     }
                 case "-":
@@ -55,7 +55,7 @@ namespace Server.AST.ExpresionesCQL
                     }
                     else
                     {
-                        arbol.mensajes.Add("(Binaria, getTipo, Multiplicación, Resta, Módulo, División) No soportado: " + izq + " y " + der);
+                        arbol.addError("","(Binaria, getTipo, Multiplicación, Resta, Módulo, División) No soportado: " + izq + " y " +der,fila,columna);
                         return Primitivo.TIPO_DATO.NULL;
                     }
                 case "**":
@@ -69,7 +69,7 @@ namespace Server.AST.ExpresionesCQL
                     }
                     else
                     {
-                        arbol.mensajes.Add("(Binaria, getTipo, potencia) No soportado: " + izq + " y " + der);
+                        arbol.addError("","(Binaria, getTipo, potencia) No soportado: " + izq + " y " +der,fila,columna);
                         return Primitivo.TIPO_DATO.NULL;
                     }
                 case "<=":
@@ -83,7 +83,7 @@ namespace Server.AST.ExpresionesCQL
                 case "^":
                     return Primitivo.TIPO_DATO.BOOLEAN;
                 default:
-                    arbol.mensajes.Add("(Binaria, getTipo, default) No soportado: "+operador);
+                    arbol.addError("","(Binaria, getTipo, default) No soportado: "+operador, fila, columna);
                     return Primitivo.TIPO_DATO.STRING;
             }
         }
@@ -109,7 +109,7 @@ namespace Server.AST.ExpresionesCQL
                     }
                     else
                     {
-                        arbol.mensajes.Add("(Binaria, getValor, Suma) No soportado: " + tipIzq + " y " + tipDer);
+                        arbol.addError("","(Binaria, getValor, Suma) No soportado: " + tipIzq + " y " +tipDer,fila,columna);
                         return -1;
                     }
                 case "-":
@@ -123,7 +123,7 @@ namespace Server.AST.ExpresionesCQL
                     }
                     else
                     {
-                        arbol.mensajes.Add("(Binaria, getValor, Resta) No soportado: " + tipIzq + " y " + tipDer);
+                        arbol.addError("","(Binaria, getValor, Resta) No soportado: " + tipIzq + " y " +tipDer,fila,columna);
                         return -1;
                     }
                 case "*":
@@ -137,7 +137,7 @@ namespace Server.AST.ExpresionesCQL
                     }
                     else
                     {
-                        arbol.mensajes.Add("(Binaria, getValor, Multiplicación) No soportado: " + tipIzq + " y " + tipDer);
+                        arbol.addError("","(Binaria, getValor, Multiplicación) No soportado: " + tipIzq + " y " +tipDer,fila,columna);
                         return -1;
                     }
                 case "%":
@@ -151,7 +151,7 @@ namespace Server.AST.ExpresionesCQL
                     }
                     else
                     {
-                        arbol.mensajes.Add("(Binaria, getValor, Modular) No soportado: " + tipIzq + " y " + tipDer);
+                        arbol.addError("","(Binaria, getValor, Modular) No soportado: " + tipIzq + " y " +tipDer,fila,columna);
                         return -1;
                     }
                 case "/":
@@ -165,7 +165,7 @@ namespace Server.AST.ExpresionesCQL
                     }
                     else
                     {
-                        arbol.mensajes.Add("(Binaria, getValor, División) No soportado: " + tipIzq + " y " + tipDer);
+                        arbol.addError("","(Binaria, getValor, División) No soportado: " + tipIzq + " y " +tipDer,fila,columna);
                         return -1;
                     }
                 case "**":
@@ -179,7 +179,7 @@ namespace Server.AST.ExpresionesCQL
                     }
                     else
                     {
-                        arbol.mensajes.Add("(Binaria, getTipo, potencia) No soportado: " + tipIzq + " y " + tipDer);
+                        arbol.addError("","(Binaria, getTipo, potencia) No soportado: " + tipIzq + " y " +tipDer,fila,columna);
                         return -1;
                     }
                 case "<=":
@@ -201,7 +201,7 @@ namespace Server.AST.ExpresionesCQL
                     }
                     else
                     {
-                        arbol.mensajes.Add("(Binaria, getValor, <=) No soportado: " + tipIzq + " y " + tipDer);
+                        arbol.addError("","(Binaria, getValor, <=) No soportado: " + tipIzq + " y " +tipDer,fila,columna);
                         return -1;
                     }
                 case ">=":
@@ -223,7 +223,7 @@ namespace Server.AST.ExpresionesCQL
                     }
                     else
                     {
-                        arbol.mensajes.Add("(Binaria, getValor, >=) No soportado: " + tipIzq + " y " + tipDer);
+                        arbol.addError("","(Binaria, getValor, >=) No soportado: " + tipIzq + " y " +tipDer,fila,columna);
                         return -1;
                     }
                 case ">":
@@ -245,7 +245,7 @@ namespace Server.AST.ExpresionesCQL
                     }
                     else
                     {
-                        arbol.mensajes.Add("(Binaria, getValor, >) No soportado: " + tipIzq + " y " + tipDer);
+                        arbol.addError("","(Binaria, getValor, >) No soportado: " + tipIzq + " y " +tipDer,fila,columna);
                         return -1;
                     }
                 case "<":
@@ -267,7 +267,7 @@ namespace Server.AST.ExpresionesCQL
                     }
                     else
                     {
-                        arbol.mensajes.Add("(Binaria, getValor, <) No soportado: " + tipIzq + " y " + tipDer);
+                        arbol.addError("","(Binaria, getValor, <) No soportado: " + tipIzq + " y " +tipDer,fila,columna);
                         return -1;
                     }
                 case "!=":
@@ -293,7 +293,7 @@ namespace Server.AST.ExpresionesCQL
                     }
                     else
                     {
-                        arbol.mensajes.Add("(Binaria, getValor, !=) No soportado: " + tipIzq + " y " + tipDer);
+                        arbol.addError("","(Binaria, getValor, !=) No soportado: " + tipIzq + " y " +tipDer,fila,columna);
                         return -1;
                     }
                 case "==":
@@ -319,7 +319,7 @@ namespace Server.AST.ExpresionesCQL
                     }
                     else
                     {
-                        arbol.mensajes.Add("(Binaria, getValor, !=) No soportado: " + tipIzq + " y " + tipDer);
+                        arbol.addError("","(Binaria, getValor, !=) No soportado: " + tipIzq + " y " +tipDer,fila,columna);
                         return -1;
                     }
                 case "&&":
@@ -329,7 +329,7 @@ namespace Server.AST.ExpresionesCQL
                     }
                     else
                     {
-                        arbol.mensajes.Add("(Primitivo, getValor, &&) No soportado: " + operador);
+                        arbol.addError("","(Primitivo, getValor, &&) No soportado: " + operador, fila, columna);
                         return -1;
                     }
                 case "||":
@@ -339,7 +339,7 @@ namespace Server.AST.ExpresionesCQL
                     }
                     else
                     {
-                        arbol.mensajes.Add("(Primitivo, getValor, ||) No soportado: " + operador);
+                        arbol.addError("","(Primitivo, getValor, ||) No soportado: " + operador, fila, columna);
                         return -1;
                     }
                 case "^":
@@ -349,11 +349,11 @@ namespace Server.AST.ExpresionesCQL
                     }
                     else
                     {
-                        arbol.mensajes.Add("(Primitivo, getValor, ^) No soportado: " + operador);
+                        arbol.addError("","(Primitivo, getValor, ^) No soportado: " + operador, fila, columna);
                         return -1;
                     }
                 default:
-                    arbol.mensajes.Add("(Primitivo, getValor, default) No soportado: "+operador);
+                    arbol.addError("","(Primitivo, getValor, default) No soportado: "+operador, fila, columna);
                     return -1;
             }
         }

@@ -80,6 +80,7 @@
     <Compile Include="Analizador\GramaticaCQL.cs" />
     <Compile Include="Analizador\RecorridoCQL.cs" />
     <Compile Include="AST\AST_CQL.cs" />
+    <Compile Include="AST\Entorno.cs" />
     <Compile Include="AST\ExpresionesCQL\Binaria.cs" />
     <Compile Include="AST\ExpresionesCQL\Expresion.cs" />
     <Compile Include="AST\ExpresionesCQL\Primitivo.cs" />
@@ -88,6 +89,7 @@
     <Compile Include="AST\NodoCQL.cs" />
     <Compile Include="AST\SentenciasCQL\Print.cs" />
     <Compile Include="AST\SentenciasCQL\Sentencia.cs" />
+    <Compile Include="AST\TablaSimbolos.cs" />
     <Compile Include="Otros\Graficar.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rutas.asmx.cs">

@@ -19,12 +19,42 @@ namespace Server.AST.ExpresionesCQL
 
         public override object getTipo(AST_CQL arbol)
         {
-            throw new NotImplementedException();
+            return unario.getTipo(arbol);
         }
 
         public override object getValor(AST_CQL arbol)
         {
-            throw new NotImplementedException();
+            Object tipo = unario.getTipo(arbol);
+            switch (operador) {
+                case "-":
+                    if (tipo.Equals(Primitivo.TIPO_DATO.INT))
+                    {
+                        return Convert.ToInt32(unario.getValor(arbol));
+                    }
+                    else if (tipo.Equals(Primitivo.TIPO_DATO.DOUBLE))
+                    {
+                        return Convert.ToDouble(unario.getValor(arbol));
+                    }
+                    else
+                    {
+                        arbol.addError("", "(Unario, -, no soportado: " + tipo + ")", fila, columna);
+                        return 0;
+                    }
+                case "+":
+                    return unario.getValor(arbol);
+                case "!":
+                    if (tipo.Equals(Primitivo.TIPO_DATO.BOOLEAN))
+                    {
+                        return !Convert.ToBoolean(unario.getValor(arbol));
+                    }
+                    else {
+                        arbol.addError("", "(Unario, !, no soportado: " + tipo + ")", fila, columna);
+                        return 0;
+                    }
+                default:
+                    arbol.addError("","(Unario, no soportado: "+operador+")",fila,columna);
+                    return 0;
+            }
         }
     }
 }

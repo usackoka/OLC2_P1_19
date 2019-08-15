@@ -37,13 +37,29 @@ namespace Server
                     recorrido.ast.Ejecutar();
                     return recorrido.ast.getLUP();
                 }
-                return "Padre null";
+                return "\n[+ERROR]\nPadre Null\n[-ERROR]\n";
             }
             else
             {
-                var jsonSerialiser = new JavaScriptSerializer();
-                var json = jsonSerialiser.Serialize(parserCQL.ListaErrores);
-                return json;
+                String respuesta = "";
+                foreach (clsToken error in parserCQL.ListaErrores)
+                {
+                    respuesta += "\n[+ERROR]\n";
+                    respuesta += "\n[+LINE]\n";
+                    respuesta += error.fila;
+                    respuesta += "\n[-LINE]\n";
+                    respuesta += "\n[+COLUMN]\n";
+                    respuesta += error.columna;
+                    respuesta += "\n[-COLUMN]\n";
+                    respuesta += "\n[+TYPE]\n";
+                    respuesta += error.tipo;
+                    respuesta += "\n[-TYPE]\n";
+                    respuesta += "\n[+DESC]\n";
+                    respuesta += error.descripcion;
+                    respuesta += "\n[-DESC]\n";
+                    respuesta += "\n[-ERROR]\n";
+                }
+                return respuesta;
             }
         }
     }

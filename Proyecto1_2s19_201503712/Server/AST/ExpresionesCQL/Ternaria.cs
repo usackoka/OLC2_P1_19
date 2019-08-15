@@ -19,12 +19,25 @@ namespace Server.AST.ExpresionesCQL
 
         public override object getTipo(AST_CQL arbol)
         {
-            throw new NotImplementedException();
+            if (Convert.ToBoolean(condicion.getValor(arbol)))
+            {
+                return expVerdadero.getTipo(arbol);
+            }
+            else
+            {
+                return expFalso.getTipo(arbol);
+            }
         }
 
         public override object getValor(AST_CQL arbol)
         {
-            throw new NotImplementedException();
+            if (Convert.ToBoolean(condicion.getValor(arbol)))
+            {
+                return expVerdadero.getValor(arbol);
+            }
+            else {
+                return expFalso.getValor(arbol);
+            }
         }
     }
 }

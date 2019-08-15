@@ -94,7 +94,7 @@ namespace Server.AST.ExpresionesCQL
                 case TIPO_DATO.ID:
                     return "not suported yet";
                 default:
-                    Console.WriteLine("(Primitivo) no soportado tipo: "+this.tipoDato);
+                    arbol.addError("","(Primitivo) no soportado tipo: "+this.tipoDato,fila,columna);
                     return "not supported yet";
             }
         }
