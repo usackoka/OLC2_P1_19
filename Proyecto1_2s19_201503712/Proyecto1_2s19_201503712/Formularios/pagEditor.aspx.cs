@@ -12,14 +12,19 @@ namespace Proyecto1_2s19_201503712.Formularios
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (!IsPostBack)
+            {
 
+            }
         }
 
         protected void Unnamed_Click(object sender, EventArgs e)
         {
             localhost.RutasSoapClient servidor = new localhost.RutasSoapClient();
             String res = servidor.AnalizarPruebaCQL(hdCadena.Value);
-            Response.Write("<script>alert('" + res + "')</script>");
+            //Response.Write("<script>alert('" + res + "')</script>");
+            //Response.Write("<textarea>"+res+"</textarea>");
+            txtSalida.Value = res;
         }
     }
 }

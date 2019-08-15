@@ -57,15 +57,15 @@
         <select id="desplegable"></select>
         &nbsp; &nbsp;
         <input type="file" id="openfile" value="Nueva Pestaña"/>
+        <form id="form1" runat="server">
+            <asp:HiddenField id="hdCadena" runat="server"/>
+            <asp:button  runat="server" OnClientClick="AlmacenarTexto()" OnClick="Unnamed_Click" Text="Analizar CQL"></asp:button>
+        </form>
     </div>
 
     <form id="form_txtEntrada">
-        <textarea runat="server" id="txtEntrada"></textarea>
-    </form>
-
-    <form id="form1" runat="server">
-        <asp:HiddenField id="hdCadena" runat="server"/>
-        <asp:button  runat="server" OnClientClick="AlmacenarTexto()" OnClick="Unnamed_Click" Text="Analizar CQL"></asp:button>
+        <textarea id="txtEntrada"></textarea>
+        <textarea id="txtSalida" rows="5" cols="50" runat="server"></textarea>
     </form>
 
     <script>

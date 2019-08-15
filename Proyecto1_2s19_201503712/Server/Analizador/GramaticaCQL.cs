@@ -403,8 +403,8 @@ namespace Server.Analizador
 
             INSTRUCCION.Rule = TIPO + arroba + id + igual + E
                         | arroba + id + OPERADOR + igual + E
-                        | LISTA_IDS_ARROBA + igual + E
                         | res_log + l_parent + E + r_parent
+                        | LISTA_IDS_ARROBA + igual + E
                         //| id + igual + E ===> se incluye en REFERENCIAS
                         | REFERENCIAS + igual + E
                         | res_return + LISTA_E

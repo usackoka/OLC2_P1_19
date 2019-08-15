@@ -33,7 +33,9 @@ namespace Server
                 if (parserCQL.padre.Root != null)
                 {
                     Graficar.ConstruirArbol(parserCQL.padre.Root, "AST_CQL", "");
-                    return "Analizado con éxito";
+                    RecorridoCQL recorrido = new RecorridoCQL(parserCQL.padre.Root);
+                    recorrido.ast.Ejecutar();
+                    return recorrido.ast.getLUP();
                 }
                 return "Padre null";
             }
@@ -41,7 +43,6 @@ namespace Server
             {
                 var jsonSerialiser = new JavaScriptSerializer();
                 var json = jsonSerialiser.Serialize(parserCQL.ListaErrores);
-
                 return json;
             }
         }
