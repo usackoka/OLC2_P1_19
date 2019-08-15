@@ -1,12 +1,12 @@
 Create type Estudiante(        
-	int carnet,         
-	String nombre 
+	carnet int,         
+	nombre String
 ); 
 
-Estudiante @est;                                // Crea la declaración del objeto 
+Estudiante @est, @prueba1, @prueba2;                                // Crea la declaración del objeto 
 @est = new Estudiante;                          // Crea una instancia del objeto 
 Estudiante @est2 = new Estudiante;              // Crea otra instancia del objeto 
-Estudiante @est3 = {201504481, "Julio Arango"}  // Crea otra instancia del objeto
+//Estudiante @est3 = {201504481, "Julio Arango"}  // Crea otra instancia del objeto
 
 Alter type Estudiante Delete(
         Carnet,
@@ -15,7 +15,7 @@ Alter type Estudiante Delete(
 
 Delete type Estudiante;
 
-(double)(3+4);
+@var = (int)(3+4);
 
 Create database if not exists base1;
 Create database base2;
@@ -59,9 +59,9 @@ GRANT Pedro ON Prueba1;
 
 REVOKE Pedro ON Prueba1;
 
-INSERT INTO Estudiante VALUES (  1, "Juan Valdez" , "Colombia") ;
+//INSERT INTO Estudiante VALUES (  1, "Juan Valdez" , "Colombia") ;
 
-INSERT INTO Estudiante( id, Nombre) VALUES (  2, "Juan Valdez" ) ; 
+//INSERT INTO Estudiante( id, Nombre) VALUES (  2, "Juan Valdez" ) ; 
 
 UPDATE Estudiante  
 	SET Nombre= 'Pao', 
@@ -70,15 +70,15 @@ WHERE Nombre=="Paola" && Edad<18;
  
 UPDATE UserActions 
    SET total = total + 2 
-WHERE userID = "B70DE1D0-9908-4AE3-BE34-5573E5B09F14" 
-	&& action = "click";
+WHERE userID == "B70DE1D0-9908-4AE3-BE34-5573E5B09F14" 
+	&& action == "click";
 
 DELETE FROM Estudiante  
 WHERE Nombre=="Julio" && Edad<18; 
 
 DELETE FROM Estudiante;
 
-COUNT( < SELECT Id FROM Estudiante >);
+COUNT( < SELECT hola FROM Estudiante >);
 
 SELECT alumno.carnet FROM Estudiante;
 
@@ -92,4 +92,45 @@ WHERE event_type == "my event"
   && tiempo <= '2012-01-01'
 ORDER BY value ASC, tiempo DESC
 LIMIT 5;
+
+if(@var){
+	log('hola');
+}else{
+	log('hola2');
+}
+
+switch(@variable){
+	case 1:
+		LOG("hola mundo");
+		break;
+	case 2:
+		LOG("Hola mundo2");
+		break;
+	default:
+		break;
+}
+
+Int factorial(int @n){       
+	if (@n == 0) {             
+		return 1;       
+	} 
+	else {
+		return @n * factorial(n - 1);      
+	} 
+} 
+
+Call Proc_ejemplo(1,2,3,4,5,"aaa"); 
+
+Int @A; Int @B; 
+ 
+@A, @B = Call Ejemplo_Procedure (1,2);
+
+Procedure Ejemplo_Procedure(int @n, int @p), (int @retorno1, int @ret2){
+       if (@n == 0) {
+       	return 1, 2;
+       } 
+       else {           
+        return @n, @n *2;      
+       } 
+}
 

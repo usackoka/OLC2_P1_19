@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -16,9 +17,9 @@ namespace Proyecto1_2s19_201503712.Formularios
 
         protected void Unnamed_Click(object sender, EventArgs e)
         {
-            localhost.Rutas servidor = new localhost.Rutas();
-            String res = servidor.HelloWorld();
-            //String res = servidor.AnalizarPruebaCQL("");
+            localhost.RutasSoapClient servidor = new localhost.RutasSoapClient();
+            String res = servidor.AnalizarPruebaCQL(hdCadena.Value);
+            Response.Write("<script>alert('" + res + "')</script>");
         }
     }
 }

@@ -627,6 +627,19 @@
     <Content Include="codeMirror\theme\yeti.css" />
     <Content Include="codeMirror\theme\yonce.css" />
     <Content Include="codeMirror\theme\zenburn.css" />
+    <Content Include="Connected Services\localhost\Proyecto1_2s19_201503712.localhost.AnalizarPruebaCQLResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\localhost\Proyecto1_2s19_201503712.localhost.HelloWorldResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <None Include="Connected Services\localhost\Rutas.disco" />
+    <None Include="Connected Services\localhost\configuration91.svcinfo" />
+    <None Include="Connected Services\localhost\configuration.svcinfo" />
+    <None Include="Connected Services\localhost\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
     <Content Include="Js\FileManager.js" />
     <Content Include="Formularios\pagEditor.aspx" />
     <Content Include="Jison\Analizador.js" />
@@ -636,18 +649,19 @@
     <Content Include="codeMirror\bin\lint" />
     <Content Include="codeMirror\bin\release" />
     <Content Include="codeMirror\bin\source-highlight" />
+    <None Include="Connected Services\localhost\Rutas.wsdl" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <Content Include="Web References\localhost\Reference.map">
-      <Generator>MSDiscoCodeGenerator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </Content>
-    <None Include="Web References\localhost\Rutas.disco" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Connected Services\localhost\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="Formularios\pagBlockly.aspx.cs">
       <DependentUpon>pagBlockly.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -668,16 +682,10 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="Web References\localhost\Reference.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Reference.map</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Jison\Analizador.jison" />
     <None Include="packages.config" />
-    <None Include="Web References\localhost\Rutas.wsdl" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -692,17 +700,7 @@
     <WebReferences Include="Web References\" />
   </ItemGroup>
   <ItemGroup>
-    <WebReferenceUrl Include="http://localhost:47252/Rutas.asmx">
-      <UrlBehavior>Dynamic</UrlBehavior>
-      <RelPath>Web References\localhost\</RelPath>
-      <UpdateFromURL>http://localhost:47252/Rutas.asmx</UpdateFromURL>
-      <ServiceLocationURL>
-      </ServiceLocationURL>
-      <CachedDynamicPropName>
-      </CachedDynamicPropName>
-      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
-      <CachedSettingsPropName>Proyecto1_2s19_201503712_localhost_Rutas</CachedSettingsPropName>
-    </WebReferenceUrl>
+    <WCFMetadataStorage Include="Connected Services\localhost\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

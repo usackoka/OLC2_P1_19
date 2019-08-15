@@ -31,6 +31,8 @@
     <script src="../codeMirror/addon/fold/brace-fold.js"></script>
 
     <script src="../codeMirror/mode/javascript/javascript.js"></script>
+    <script src="../codeMirror/mode/sql/sql.js"></script>
+    
     <script src="../codeMirror/mode/css/css.js"></script>
 
     <script src="../codeMirror/keymap/sublime.js"></script>
@@ -45,7 +47,6 @@
             line-height: 1.3;
             height: 500px
         }
-
         .CodeMirror-linenumbers {
             padding: 0 8px;
         }
@@ -53,13 +54,19 @@
 
     <div>
         Seleccionar Pestaña:
-        <select id="buffers_top"></select>
+        <select id="desplegable"></select>
         &nbsp; &nbsp;
         <input type="file" id="openfile" value="Nueva Pestaña"/>
-        <asp:button  runat="server" OnClick="Unnamed_Click" Text="Prueba CQL"></asp:button>
-        <%--<button onclick="newBuf('')">Nueva Pestaña</button>--%>
     </div>
-    <div id="code_top"></div>
+
+    <form id="form_txtEntrada">
+        <textarea runat="server" id="txtEntrada"></textarea>
+    </form>
+
+    <form id="form1" runat="server">
+        <asp:HiddenField id="hdCadena" runat="server"/>
+        <asp:button  runat="server" OnClientClick="AlmacenarTexto()" OnClick="Unnamed_Click" Text="Analizar CQL"></asp:button>
+    </form>
 
     <script>
         var cont = 0;
@@ -70,37 +77,52 @@
             var fr = new FileReader();
             fr.onload = function () {
                 newBuf(this.result, "Pestaña"+(cont++));
-                //document.getElementById("filecontent").textContent = this.result;
             }
             fr.readAsText(this.files[0]);
         });
     </script>
 
     <script>
-        var sel_top = document.getElementById("buffers_top");
-        CodeMirror.on(sel_top, "change", function () {
-            selectBuffer(ed_top, sel_top.options[sel_top.selectedIndex].value);
+        var desplegable = document.getElementById("desplegable");
+        CodeMirror.on(desplegable, "change", function () {
+            selectBuffer(txtEntrada, desplegable.options[desplegable.selectedIndex].value);
         });
 
         var buffers = {};
+
+        var txtEntrada = CodeMirror.fromTextArea(document.getElementById('txtEntrada'), {
+            lineNumbers: true,
+            mode: "text/x-mssql",
+            keyMap: "sublime",
+            autoCloseBrackets: true,
+            matchBrackets: true,
+            showCursorWhenSelecting: true,
+            theme: "monokai"
+        });
+
+        openBuffer("untitled", "", "text/x-mssql");
+        selectBuffer(txtEntrada, "untitled");
+        
+        function AlmacenarTexto() {
+            document.getElementById('hdCadena').value = txtEntrada.getValue();
+        }
 
         function openBuffer(name, text, mode) {
             buffers[name] = CodeMirror.Doc(text, mode);
             var opt = document.createElement("option");
             opt.appendChild(document.createTextNode(name));
-            sel_top.appendChild(opt);
+            desplegable.appendChild(opt);
         }
 
         function newBuf(texto,name) {
-            //var name = prompt("Nombre pestaña nueva", "untitled");
             if (name == null) return;
             if (buffers.hasOwnProperty(name)) {
                 alert("Ya hay una pestaña con este nombre");
                 return;
             }
-            openBuffer(name, texto, "javascript");
-            selectBuffer(ed_top, name);
-            var sel = sel_top;
+            openBuffer(name, texto, "text/x-mssql");
+            selectBuffer(txtEntrada, name);
+            var sel = desplegable;
             sel.value = name;
         }
 
@@ -122,22 +144,7 @@
             val = val.slice(val.match(/^\s*/)[0].length, val.length - val.match(/\s*$/)[0].length) + "\n";
             return val;
         }
-        openBuffer("untitled", "", "javascript");
-
-        var ed_top = CodeMirror(document.getElementById("code_top"), {
-            lineNumbers: true,
-            mode: "javascript",
-            keyMap: "sublime",
-            autoCloseBrackets: true,
-            matchBrackets: true,
-            showCursorWhenSelecting: true,
-            theme: "monokai"
-        });
-        selectBuffer(ed_top, "js");
     </script>
-
-    <form id="form1" runat="server">
-    </form>
 
 </body>
 </html>

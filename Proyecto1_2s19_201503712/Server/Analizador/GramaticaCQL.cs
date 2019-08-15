@@ -53,8 +53,8 @@ namespace Server.Analizador
             mayor_que = ToTerm(">"),
             mayor_igual = ToTerm(">="),
             menor_igual = ToTerm("<="),
-            and = ToTerm("&"),
-            or = ToTerm("|"),
+            and = ToTerm("&&"),
+            or = ToTerm("||"),
             xor = ToTerm("^"),
             modular = ToTerm("%");
 
@@ -86,7 +86,7 @@ namespace Server.Analizador
             res_counter = ToTerm("counter"),
             res_primary = ToTerm("primary"),
             res_key = ToTerm("key"),
-            res_update = ToTerm("update"),
+            res_update = ToTerm("UPDATE"),
             res_map = ToTerm("map"),
             res_set = ToTerm("set"),
             res_list = ToTerm("list"),
@@ -152,11 +152,34 @@ namespace Server.Analizador
             res_today = ToTerm("Today"),
             res_now = ToTerm("now"),
             res_try = ToTerm("try"),
+            res_elseif = ToTerm("else if"),
 
             //excepciones
-            res_ArithmeticException = ToTerm("ArithmeticException");
+            res_ArithmeticException = ToTerm("ArithmeticException"),
+            res_TypeAlreadyExists = ToTerm("TypeAlreadyExists"),
+            res_TypeDontExists = ToTerm("TypeDontExists"),
+            res_BDAlreadyExists = ToTerm("BDAlreadyExists"),
+            res_BDDontExists = ToTerm("BDDontExists"),
+            res_UseBDException = ToTerm("UseBDException"),
+            res_TableAlreadyExists = ToTerm("TableAlreadyExists"),
+            res_TableDontExists = ToTerm("TableDontExists"),
+            res_CounterTypeException = ToTerm("CounterTypeException"),
+            res_UserAlreadyExists = ToTerm("UserAlreadyExists"),
+            res_UserDontExists = ToTerm("UserDontExists"),
+            res_ValuesException = ToTerm("ValuesException"),
+            res_ColumnException = ToTerm("ColumnException"),
+            res_BatchException = ToTerm("BatchException"),
+            res_IndexOutException = ToTerm("IndexOutException"),
+            res_NullPointerException = ToTerm("NullPointerException"),
+            res_NumberReturnsException = ToTerm("NumberReturnsException"),
+            res_FunctionAlreadyExists = ToTerm("FunctionAlreadyExists"),
+            res_ProcedureAlreadyExists = ToTerm("ProcedureAlreadyExists"),
+            res_ObjectAlreadyExists = ToTerm("ObjectAlreadyExists");
 
-            MarkReservedWords("ArithmeticException",
+            MarkReservedWords("ArithmeticException", "TableAlreadyExists", "UseBDException", "BDDontExists", "BDAlreadyExists",
+                        "TypeDontExists", "TypeAlreadyExists", "TableDontExists", "CounterTypeException","UserAlreadyExists",
+                        "UserDontExists","ValuesException","ColumnException","BatchException","IndexOutException","NullPointerException",
+                        "NumberReturnsException","FunctionAlreadyExists","ProcedureAlreadyExists","ObjectAlreadyExists",
                         "int", "double", "string", "boolean", "date", "time",
                         "Create", "type", "res_User_Type", "new", "alter", "add", "delete",
                         "database", "if", "not", "exists", "use", "drop", "counter", "primary", "key", "update", "map", "set", "list", "truncate",
@@ -164,7 +187,7 @@ namespace Server.Analizador
                         "with", "password", "grant", "on", "revoke", "in", "Today", "now",
                         "insert", "into", "values", "where", "from", "select", "begin", "batch", "apply", "count", "min", "max", "sum", "avg",
                         "else", "switch", "case", "default", "while", "do", "for", "procedure", "call", "break", "continue",
-                        "return", "cursor", "is", "each", "open", "close", "log", "throw", "catch", "try");
+                        "return", "cursor", "is", "each", "open", "close", "log", "throw", "catch", "try", "else if");
             #endregion
 
             #region No Terminales
@@ -177,7 +200,7 @@ namespace Server.Analizador
             var SENTENCIA = new NonTerminal("SENTENCIA");
             var GLOBAL = new NonTerminal("GLOBAL");
             var BLOCK = new NonTerminal("BLOCK");
-            var LISTA_IDS = new NonTerminal("LISTA_IDS");
+            var LISTA_PARAMETROS = new NonTerminal("LISTA_PARAMETROS");
             var LISTA_E = new NonTerminal("LISTA_E");
             var FUNCION = new NonTerminal("FUNCION");
             var LLAMADA_FUNCION = new NonTerminal("LLAMADA_FUNCION");
@@ -198,7 +221,8 @@ namespace Server.Analizador
             var CORCHETES = new NonTerminal("CORCHETES");
             var TIPO = new NonTerminal("TIPO");
             var UNPARAMETRO = new NonTerminal("UNPARAMETRO");
-            var LISTA_IDS2 = new NonTerminal("LISTA_IDS2");
+            var LISTA_IDS_ARROBA = new NonTerminal("LISTA_IDS_ARROBA");
+            var LISTA_IDS = new NonTerminal("LISTA_IDS");
             var TYPES = new NonTerminal("TYPES");
             var INE = new NonTerminal("INE");
             var IE = new NonTerminal("IE");
@@ -213,13 +237,13 @@ namespace Server.Analizador
             var DML = new NonTerminal("DML");
             var ASIG_CQL = new NonTerminal("ASIG_CQL");
             var LISTA_ASIG_CQL = new NonTerminal("LISTA_ASIG_CQL");
-            var WHERE_Q = new NonTerminal("WHERE_Q");
             var WHERE = new NonTerminal("WHERE");
-            var ORDERBY_Q = new NonTerminal("ORDERBY_Q");
             var ORDERBY = new NonTerminal("ORDERBY");
-            var LIMIT_Q = new NonTerminal("LIMIT_Q");
             var LIMIT = new NonTerminal("LIMIT");
             var ORDER = new NonTerminal("ORDER");
+            var WHERE_Q = new NonTerminal("WHERE_Q");
+            var LIMIT_Q = new NonTerminal("LIMIT_Q");
+            var ORDERBY_Q = new NonTerminal("ORDERBY_Q");
             var LISTA_ORDER = new NonTerminal("LISTA_ORDER");
             var SELECT_TYPE = new NonTerminal("SELECT_TYPE");
             var SELECT = new NonTerminal("SELECT");
@@ -232,6 +256,12 @@ namespace Server.Analizador
             var INSTANCIA = new NonTerminal("INSTANCIA");
             var PROCEDURE = new NonTerminal("PROCEDURE");
             var EXCEPTION = new NonTerminal("EXCEPTION");
+            var LISTA_SELECT = new NonTerminal("LISTA_SELECT");
+            var SEL = new NonTerminal("SEL");
+            var LISTA_CASOS = new NonTerminal("LISTA_CASOS");
+            var CASOS = new NonTerminal("CASOS");
+            var CASO_DEF = new NonTerminal("CASO_DEF");
+            var CASO = new NonTerminal("CASO");
             #endregion
 
             #region Gramatica
@@ -240,10 +270,12 @@ namespace Server.Analizador
             GLOBAL.Rule = SENTENCIA
                         | FUNCION
                         | PROCEDURE
-                        | DECLARACION
                         | BATCH
-                        | FUN_AGR
+                        | TYPES + puntocoma
+                        | FUN_AGR + puntocoma
+                        | DECLARACION + puntocoma
                         | INSTRUCCION + puntocoma
+                        | DML + puntocoma
                         | DCL + puntocoma
                         | TCL + puntocoma
                         | DDL + puntocoma
@@ -254,10 +286,10 @@ namespace Server.Analizador
                 | res_open + arroba + id
                 | res_close + arroba + id;
 
-            PROCEDURE.Rule = res_procedure + id + l_parent + LISTA_IDS + r_parent + coma + 
-                l_parent + LISTA_IDS + r_parent + l_llave + BLOCK + r_llave;
+            PROCEDURE.Rule = res_procedure + id + l_parent + LISTA_PARAMETROS + r_parent + coma + 
+                l_parent + LISTA_PARAMETROS + r_parent + l_llave + BLOCK + r_llave;
 
-            FUNCION.Rule = TIPO + id + l_parent + LISTA_IDS + r_parent + l_llave + BLOCK + r_llave;
+            FUNCION.Rule = TIPO + id + l_parent + LISTA_PARAMETROS + r_parent + l_llave + BLOCK + r_llave;
             //FUNCION.NodeCaptionTemplate = "def #{1}(...)";
 
             //=================== OTROS CQL =====================================
@@ -275,24 +307,29 @@ namespace Server.Analizador
             DDL.Rule = res_create + res_database + INE + id
                 | res_create + res_table + INE + id + l_parent + LISTA_COLDEF + r_parent
                 | res_alter + res_table + id + res_add + LISTA_CQLTIPOS
-                | res_alter + res_table + id + res_drop + LISTA_IDS2
+                | res_alter + res_table + id + res_drop + LISTA_IDS
                 | res_drop + res_table + IE + id
                 | res_truncate + res_table + id
                 | res_use + id
-                | res_drop + id;
+                | res_drop + res_database + id;
 
             //================== DML =============================================
             LISTA_DML.Rule = MakeStarRule(LISTA_DML, DML);
 
             DML.Rule = res_insert + res_into + id + res_values + l_parent + LISTA_E + r_parent
-                | res_insert + res_into + id + l_parent + LISTA_IDS2 + r_parent + res_values + l_parent + LISTA_E + r_parent
+                | res_insert + res_into + id + l_parent + LISTA_IDS_ARROBA + r_parent + res_values + l_parent + LISTA_E + r_parent
                 | res_update + id + res_set + LISTA_ASIG_CQL + WHERE_Q
                 | res_delete + res_from + id + WHERE_Q;
 
             SELECT.Rule = res_select + SELECT_TYPE + res_from + id + WHERE_Q + ORDERBY_Q + LIMIT_Q;
 
-            SELECT_TYPE.Rule = LISTA_IDS2
+            SELECT_TYPE.Rule = LISTA_SELECT
                 | l_parent + por + r_parent;
+
+            LISTA_SELECT.Rule = MakePlusRule(LISTA_SELECT, coma, SEL);
+
+            SEL.Rule = id + punto + id
+                | id;
 
             LIMIT_Q.Rule = LIMIT
                 | Empty;
@@ -328,11 +365,10 @@ namespace Server.Analizador
             TCL.Rule = res_commit
                 | res_rollback;
 
-            //=================== USER TYPES =====================================
-
+            //=================== TYPES =====================================
             TYPES.Rule = res_create + res_type + INE + id + l_parent + LISTA_CQLTIPOS + r_parent
                 | res_alter + res_type + id + res_add + l_parent + LISTA_CQLTIPOS + r_parent
-                | res_alter + res_type + id + res_delete + l_parent + LISTA_IDS2 + r_parent
+                | res_alter + res_type + id + res_delete + l_parent + LISTA_IDS + r_parent
                 | res_delete + res_type + id;
 
             INE.Rule = res_if + res_not + res_exists
@@ -345,7 +381,7 @@ namespace Server.Analizador
 
             COLDEF.Rule = id + TIPO + res_primary + res_key
                 | id + TIPO
-                | res_primary + res_key + l_parent + LISTA_IDS2 + r_parent;
+                | res_primary + res_key + l_parent + LISTA_IDS + r_parent;
 
             //============ lista CQL TIPOS
             LISTA_CQLTIPOS.Rule = MakeStarRule(LISTA_CQLTIPOS, coma, CQLTIPO);
@@ -353,26 +389,28 @@ namespace Server.Analizador
             CQLTIPO.Rule = id + TIPO;
 
             //============ lista parametros
-            LISTA_IDS.Rule = MakeStarRule(LISTA_IDS, coma, UNPARAMETRO);
+            LISTA_PARAMETROS.Rule = MakeStarRule(LISTA_PARAMETROS, coma, UNPARAMETRO);
 
             UNPARAMETRO.Rule = TIPO + arroba + id;
 
+            //============ LISTA IDS CON ARROBA
+            LISTA_IDS_ARROBA.Rule = MakeStarRule(LISTA_IDS_ARROBA, coma, arroba + id);
+
             //============ LISTA IDS
-            LISTA_IDS2.Rule = MakeStarRule(LISTA_IDS2, coma, id);
+            LISTA_IDS.Rule = MakeStarRule(LISTA_IDS, coma, id);
 
-            DECLARACION.Rule = TIPO + LISTA_IDS2;
+            DECLARACION.Rule = TIPO + LISTA_IDS_ARROBA;
 
-            INSTRUCCION.Rule = TIPO + id + igual + E
-                        | id + OPERADOR + igual + E
+            INSTRUCCION.Rule = TIPO + arroba + id + igual + E
+                        | arroba + id + OPERADOR + igual + E
+                        | LISTA_IDS_ARROBA + igual + E
                         | res_log + l_parent + E + r_parent
                         //| id + igual + E ===> se incluye en REFERENCIAS
                         | REFERENCIAS + igual + E
-                        | res_return + E
-                        | res_return
+                        | res_return + LISTA_E
                         | res_break
                         | res_continue
-                        | REFERENCIAS
-                        | TYPES;
+                        | REFERENCIAS;
 
             OPERADOR.Rule = mas | menos | modular | por | div;
 
@@ -392,10 +430,39 @@ namespace Server.Analizador
                             | res_if + l_parent + E + r_parent + l_llave + BLOCK + r_llave + ELSEIFS
                             | res_for + l_parent + r_parent + l_llave + BLOCK + r_llave
                             | res_while + l_parent + E + r_parent + l_llave + BLOCK + r_llave
+                            | res_switch + l_parent + E + r_parent + l_llave + LISTA_CASOS + CASO_DEF + r_llave
                             | res_do + l_llave + BLOCK + r_llave + res_while + l_parent + E + r_parent + puntocoma
                             | res_try + l_llave + BLOCK + r_llave + res_catch + l_parent + EXCEPTION + arroba 
                                     + id + r_parent + l_llave + BLOCK + r_llave;
-            
+
+            LISTA_CASOS.Rule = MakePlusRule(LISTA_CASOS,CASO);
+
+            CASO.Rule = res_case + E + dospuntos + BLOCK;
+
+            CASO_DEF.Rule = Empty
+                | res_default + dospuntos + BLOCK;
+
+            EXCEPTION.Rule = res_ArithmeticException
+                | res_CounterTypeException
+                | res_UserAlreadyExists
+                | res_UserDontExists
+                | res_ValuesException
+                | res_ColumnException
+                | res_BatchException
+                | res_IndexOutException
+                | res_NullPointerException
+                | res_NumberReturnsException
+                | res_FunctionAlreadyExists
+                | res_ProcedureAlreadyExists
+                | res_ObjectAlreadyExists
+                | res_TypeAlreadyExists
+                | res_TypeDontExists
+                | res_BDAlreadyExists
+                | res_BDDontExists
+                | res_UseBDException
+                | res_TableAlreadyExists
+                | res_TableDontExists;
+
             /*
             FUENTE_FOR.Rule = res_range + l_parent + LISTA_E + r_parent
                             | id;
@@ -403,7 +470,7 @@ namespace Server.Analizador
 
             ELSEIFS.Rule = MakeStarRule(ELSEIFS, ELSEIF);
 
-            ELSEIF.Rule = res_else + res_if + l_parent + E + r_parent + l_llave + BLOCK + r_llave;
+            ELSEIF.Rule = res_elseif + l_parent + E + r_parent + l_llave + BLOCK + r_llave;
 
             ELSE.Rule = res_else + l_llave  + BLOCK + r_llave;
 
@@ -427,17 +494,15 @@ namespace Server.Analizador
                 | E + res_in + E
                 | E + interrogacion + E + dospuntos + E;
 
-            TERMINO.Rule = PRIMITIVO | E_PARENT | LLAMADA_FUNCION | NATIVAS | COLECCION | ACCESO_ARR | REFERENCIAS | CASTEOS | INSTANCIA;
+            TERMINO.Rule = PRIMITIVO | E_PARENT | NATIVAS | COLECCION | REFERENCIAS | CASTEOS | INSTANCIA;
 
-            INSTANCIA.Rule = res_new + id + l_parent + LISTA_E + r_parent;
+            INSTANCIA.Rule = res_new + id;
 
             CASTEOS.Rule = l_parent + TIPO + r_parent + E;
 
             NATIVAS.Rule = res_today + l_parent + r_parent
                 | res_now + l_parent + r_parent
                 | res_throw + res_new + EXCEPTION;
-
-            EXCEPTION.Rule = res_ArithmeticException;
 
             REFERENCIA.Rule = id | arroba + id | LLAMADA_FUNCION | ACCESO_ARR;
 
@@ -492,8 +557,8 @@ namespace Server.Analizador
             RegisterBracePair("(", ")");*/
 
             //RECUPERACION
-            GLOBAL.ErrorRule = SyntaxError ;
-            FUNCION.ErrorRule = SyntaxError + Dedent;
+            BLOCK.ErrorRule = SyntaxError + puntocoma;
+            BLOCK.ErrorRule = SyntaxError + r_llave;
 
             //REPORTE DE ERRORES
             AddToNoReportGroup("(");

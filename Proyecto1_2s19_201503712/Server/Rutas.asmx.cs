@@ -1,9 +1,11 @@
 ﻿using Server.Analizador;
+using Server.Otros;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Services;
+using System.Web.Script.Serialization;
 
 namespace Server
 {
@@ -25,18 +27,22 @@ namespace Server
 
         [WebMethod]
         public string AnalizarPruebaCQL(String cadena) {
-            Generador parserCollete = new Generador();
-            if (parserCollete.esCadenaValida(cadena, new GramaticaCQL()))
+            Generador parserCQL = new Generador();
+            if (parserCQL.esCadenaValida(cadena, new GramaticaCQL()))
             {
-                if (parserCollete.padre.Root != null)
+                if (parserCQL.padre.Root != null)
                 {
+                    Graficar.ConstruirArbol(parserCQL.padre.Root, "AST_CQL", "");
                     return "Analizado con éxito";
                 }
                 return "Padre null";
             }
             else
             {
-                return "Errores CQL";
+                var jsonSerialiser = new JavaScriptSerializer();
+                var json = jsonSerialiser.Serialize(parserCQL.ListaErrores);
+
+                return json;
             }
         }
     }

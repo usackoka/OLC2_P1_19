@@ -13,6 +13,15 @@ namespace Proyecto1_2s19_201503712.Formularios {
     public partial class PruebaJison {
         
         /// <summary>
+        /// Control txtEntrada.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTextArea txtEntrada;
+        
+        /// <summary>
         /// Control form1.
         /// </summary>
         /// <remarks>
@@ -20,5 +29,14 @@ namespace Proyecto1_2s19_201503712.Formularios {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
+        
+        /// <summary>
+        /// Control hdCadena.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hdCadena;
     }
 }

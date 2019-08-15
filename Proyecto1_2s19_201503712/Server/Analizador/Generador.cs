@@ -37,7 +37,7 @@ namespace Server.Analizador
 
         }
 
-        public void Errores()
+        private void Errores()
         {
             for (int i = 0; i < arbol.ParserMessages.Count; i++)
             {

@@ -22,15 +22,5 @@ namespace Proyecto1_2s19_201503712.Properties {
                 return defaultInstance;
             }
         }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://localhost:47252/Rutas.asmx")]
-        public string Proyecto1_2s19_201503712_localhost_Rutas {
-            get {
-                return ((string)(this["Proyecto1_2s19_201503712_localhost_Rutas"]));
-            }
-        }
     }
 }
