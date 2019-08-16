@@ -13,11 +13,13 @@ namespace Server.AST
         public List<NodoCQL> nodos { get; set; }
         public List<String> mensajes { get; set; }
         public List<clsToken> errores { get; set; }
+        public Entorno entorno { get; set; }
 
         public AST_CQL() {
             this.nodos = new List<NodoCQL>();
             this.mensajes = new List<String>();
             this.errores = new List<clsToken>();
+            this.entorno = new Entorno(null);
         }
 
         public void Ejecutar() {

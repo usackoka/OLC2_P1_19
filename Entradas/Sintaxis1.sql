@@ -93,10 +93,12 @@ WHERE event_type == "my event"
 ORDER BY value ASC, tiempo DESC
 LIMIT 5;
 
-if(@var){
+if(@var==1){
 	log('hola');
-}else{
+}else if(@var==2){
 	log('hola2');
+}else{
+	log('hola3');
 }
 
 switch(@variable){
@@ -134,3 +136,15 @@ Procedure Ejemplo_Procedure(int @n, int @p), (int @retorno1, int @ret2){
        } 
 }
 
+log(3+4*2**2);
+
+int @n1,@n2=3,@n4;
+log("Esto debería dar 3: "+@n1+@n2);
+log("Esto debería dar 0: "+@n1+@n4);
+
+boolean @b1 = true;
+if(@b1){
+	log("if super básico");
+}else{
+	log("está mal campeon :c");
+}

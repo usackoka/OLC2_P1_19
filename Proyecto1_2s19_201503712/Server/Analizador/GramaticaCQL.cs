@@ -262,6 +262,13 @@ namespace Server.Analizador
             var CASOS = new NonTerminal("CASOS");
             var CASO_DEF = new NonTerminal("CASO_DEF");
             var CASO = new NonTerminal("CASO");
+            var LISTA_DECLARACION_E = new NonTerminal("LISTA_DECLARACION_E");
+            var DECLARACION_E = new NonTerminal("DECLARACION_E");
+            var IF = new NonTerminal("IF");
+            var FOR = new NonTerminal("FOR");
+            var WHILE = new NonTerminal("WHILE");
+            var SWITCH = new NonTerminal("SWITCH");
+            var TRY = new NonTerminal("TRY");
             #endregion
 
             #region Gramatica
@@ -399,10 +406,17 @@ namespace Server.Analizador
             //============ LISTA IDS
             LISTA_IDS.Rule = MakeStarRule(LISTA_IDS, coma, id);
 
-            DECLARACION.Rule = TIPO + LISTA_IDS_ARROBA;
+            //============= DECLARACION
+            DECLARACION.Rule = TIPO + LISTA_DECLARACION_E;
 
-            INSTRUCCION.Rule = TIPO + arroba + id + igual + E
-                        | arroba + id + OPERADOR + igual + E
+            LISTA_DECLARACION_E.Rule = MakePlusRule(LISTA_DECLARACION_E, coma, DECLARACION_E);
+
+            DECLARACION_E.Rule = arroba + id + igual + E
+                | arroba + id;
+            //===================================
+
+            INSTRUCCION.Rule = arroba + id + OPERADOR + igual + E
+                        | arroba + id + igual + E
                         | res_log + l_parent + E + r_parent
                         | LISTA_IDS_ARROBA + igual + E
                         //| id + igual + E ===> se incluye en REFERENCIAS
@@ -426,13 +440,23 @@ namespace Server.Analizador
                 | res_date
                 | res_time;
 
-            SENTENCIA.Rule = res_if + l_parent + E + r_parent + l_llave + BLOCK + r_llave + ELSEIFS + ELSE
-                            | res_if + l_parent + E + r_parent + l_llave + BLOCK + r_llave + ELSEIFS
-                            | res_for + l_parent + r_parent + l_llave + BLOCK + r_llave
-                            | res_while + l_parent + E + r_parent + l_llave + BLOCK + r_llave
-                            | res_switch + l_parent + E + r_parent + l_llave + LISTA_CASOS + CASO_DEF + r_llave
-                            | res_do + l_llave + BLOCK + r_llave + res_while + l_parent + E + r_parent + puntocoma
-                            | res_try + l_llave + BLOCK + r_llave + res_catch + l_parent + EXCEPTION + arroba 
+            SENTENCIA.Rule = IF
+                            | FOR
+                            | WHILE
+                            | SWITCH
+                            | TRY;
+
+            IF.Rule = res_if + l_parent + E + r_parent + l_llave + BLOCK + r_llave + ELSEIFS + ELSE
+                            | res_if + l_parent + E + r_parent + l_llave + BLOCK + r_llave + ELSEIFS;
+
+            FOR.Rule = res_for + l_parent + r_parent + l_llave + BLOCK + r_llave;
+
+            WHILE.Rule = res_while + l_parent + E + r_parent + l_llave + BLOCK + r_llave
+                | res_do + l_llave + BLOCK + r_llave + res_while + l_parent + E + r_parent + puntocoma;
+
+            SWITCH.Rule = res_switch + l_parent + E + r_parent + l_llave + LISTA_CASOS + CASO_DEF + r_llave;
+
+            TRY.Rule = res_try + l_llave + BLOCK + r_llave + res_catch + l_parent + EXCEPTION + arroba
                                     + id + r_parent + l_llave + BLOCK + r_llave;
 
             LISTA_CASOS.Rule = MakePlusRule(LISTA_CASOS,CASO);

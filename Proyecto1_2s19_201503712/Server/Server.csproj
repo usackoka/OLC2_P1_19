@@ -86,7 +86,12 @@
     <Compile Include="AST\ExpresionesCQL\Primitivo.cs" />
     <Compile Include="AST\ExpresionesCQL\Ternaria.cs" />
     <Compile Include="AST\ExpresionesCQL\Unario.cs" />
+    <Compile Include="AST\ExpresionesCQL\Variable.cs" />
     <Compile Include="AST\NodoCQL.cs" />
+    <Compile Include="AST\SentenciasCQL\Declaracion.cs" />
+    <Compile Include="AST\SentenciasCQL\Else.cs" />
+    <Compile Include="AST\SentenciasCQL\ElseIf.cs" />
+    <Compile Include="AST\SentenciasCQL\If.cs" />
     <Compile Include="AST\SentenciasCQL\Print.cs" />
     <Compile Include="AST\SentenciasCQL\Sentencia.cs" />
     <Compile Include="AST\TablaSimbolos.cs" />
@@ -106,7 +111,9 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="AST\ColeccionesCQL\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

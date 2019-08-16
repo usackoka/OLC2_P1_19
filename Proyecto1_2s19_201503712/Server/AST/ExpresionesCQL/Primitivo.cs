@@ -44,7 +44,7 @@ namespace Server.AST.ExpresionesCQL
                 }
                 else
                 {
-                    this.value = -1;
+                    this.value = TIPO_DATO.NULL;
                     this.tipoDato = TIPO_DATO.NULL;
                 }
             }
@@ -72,13 +72,44 @@ namespace Server.AST.ExpresionesCQL
             }
         }
 
+        public static Object getDefecto(Object tipoDato, AST_CQL arbol) {
+            if (tipoDato is String) {
+                return TIPO_DATO.NULL;
+            }
+            switch (tipoDato) {
+                case TIPO_DATO.INT:
+                    return 0;
+                case TIPO_DATO.BOOLEAN:
+                    return false;
+                case TIPO_DATO.DOUBLE:
+                    return 0.0;
+                case TIPO_DATO.STRING:
+                    return "";
+                case TIPO_DATO.DATE:
+                    return DateTime.Now;
+                case TIPO_DATO.TIME:
+                    return DateTime.Now;
+                case TIPO_DATO.NULL:
+                    return TIPO_DATO.NULL;
+                default:
+                    arbol.addError(tipoDato.ToString(),"No hay defecto para el tipo de dato: "+tipoDato,0,0);
+                    return -1;
+            }
+        }
+
         public enum TIPO_DATO {
-            INT, BOOLEAN, DOUBLE, STRING, DATE, TIME, NULL, ID
+            INT, BOOLEAN, DOUBLE, STRING, DATE, TIME, NULL, ID, LIST, SET, MAP, COUNTER, STRUCT
         }
 
         public override object getTipo(AST_CQL arbol)
         {
-            return this.tipoDato;
+            if (this.tipoDato.Equals(TIPO_DATO.ID))
+            {
+                return arbol.entorno.getTipoVariable(this.value.ToString(), arbol, fila, columna);
+            }
+            else {
+                return this.tipoDato;
+            }
         }
 
         public override object getValor(AST_CQL arbol)
@@ -92,7 +123,7 @@ namespace Server.AST.ExpresionesCQL
                 case TIPO_DATO.STRING:
                     return this.value;
                 case TIPO_DATO.ID:
-                    return "not suported yet";
+                    return arbol.entorno.getValorVariable(this.value.ToString(),arbol,fila,columna);
                 default:
                     arbol.addError("","(Primitivo) no soportado tipo: "+this.tipoDato,fila,columna);
                     return "not supported yet";
