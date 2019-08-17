@@ -571,16 +571,16 @@ namespace Server.Analizador
 
             NonGrammarTerminals.Add(ToTerm(@"\"));
 
-            RegisterOperators(1, Associativity.Left, or);
-            RegisterOperators(2, Associativity.Left, and);
-            RegisterOperators(3, Associativity.Left, xor);
-            RegisterOperators(4, Associativity.Left, igual_igual, not_igual);
+            RegisterOperators(1, Associativity.Right, interrogacion);
+            RegisterOperators(2, Associativity.Left, or);
+            RegisterOperators(3, Associativity.Left, and);
+            RegisterOperators(4, Associativity.Left, xor);
+            RegisterOperators(5, Associativity.Left, igual_igual, not_igual);
             RegisterOperators(6, Associativity.Left, mayor_que, menor_que);
             RegisterOperators(7, Associativity.Left, mas, menos);
             RegisterOperators(8, Associativity.Left, por, div);
             RegisterOperators(9, Associativity.Right, pot, modular);
-            RegisterOperators(10, Associativity.Right, interrogacion);
-            RegisterOperators(11, Associativity.Right, not);
+            RegisterOperators(10, Associativity.Right, not);
 
             //SIGNOS DE PUNTUACION
             /*MarkPunctuation("(", ")", ":");

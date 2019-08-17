@@ -32,7 +32,7 @@ namespace Server
             {
                 if (parserCQL.padre.Root != null)
                 {
-                    //Graficar.ConstruirArbol(parserCQL.padre.Root, "AST_CQL", "");
+                    Graficar.ConstruirArbol(parserCQL.padre.Root, "AST_CQL", "");
                     RecorridoCQL recorrido = new RecorridoCQL(parserCQL.padre.Root);
                     recorrido.ast.Ejecutar();
                     return recorrido.ast.getLUP();
@@ -45,6 +45,9 @@ namespace Server
                 foreach (clsToken error in parserCQL.ListaErrores)
                 {
                     respuesta += "\n[+ERROR]\n";
+                    respuesta += "\n[+LEXEMA]\n";
+                    respuesta += error.lexema;
+                    respuesta += "\n[-LEXEMA]\n";
                     respuesta += "\n[+LINE]\n";
                     respuesta += error.fila;
                     respuesta += "\n[-LINE]\n";

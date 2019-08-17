@@ -180,7 +180,7 @@ namespace Server.Analizador
                     (Expresion)recorrido(raiz.ChildNodes[2]), getFila(raiz, 1), getColumna(raiz, 1));
                 }
                 else if (raiz.ChildNodes.Count == 5)
-                {
+                {// E + interrogacion + E + dospuntos + E;
                     return new Ternaria((Expresion)recorrido(raiz.ChildNodes[0]), (Expresion)recorrido(raiz.ChildNodes[2]),
                         (Expresion)recorrido(raiz.ChildNodes[4]), getFila(raiz, 1), getColumna(raiz, 1));
                 }

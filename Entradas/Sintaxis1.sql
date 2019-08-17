@@ -190,7 +190,13 @@ switch(@entero){
 		break;
 }
 
-log(factorial(5));
+log(prueba());
+//log(factorial(5));
+
+Int prueba(){
+	int @var = 3;
+	return @var>4?"Si es mayor":"No es mayor";
+}
 
 Int factorial(int @n){       
 	if (@n == 0) {             
