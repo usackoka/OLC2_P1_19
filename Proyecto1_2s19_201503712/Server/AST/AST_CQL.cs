@@ -14,8 +14,10 @@ namespace Server.AST
         public List<String> mensajes { get; set; }
         public List<clsToken> errores { get; set; }
         public Entorno entorno { get; set; }
+        public List<Funcion> funciones { get; set; }
 
         public AST_CQL() {
+            this.funciones = new List<Funcion>();
             this.nodos = new List<NodoCQL>();
             this.mensajes = new List<String>();
             this.errores = new List<clsToken>();

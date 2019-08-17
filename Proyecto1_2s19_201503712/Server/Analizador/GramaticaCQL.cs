@@ -420,10 +420,10 @@ namespace Server.Analizador
             INSTRUCCION.Rule = arroba + id + OPERADOR + igual + E
                         | res_log + l_parent + E + r_parent
                         | LISTA_IDS_ARROBA + igual + E
-                        //| id + igual + E ===> se incluye en REFERENCIAS
+                        //========== ver aquí ambiguedad entre referencias y reasignacion
                         | REFERENCIAS + igual + E
-                        | res_return + LISTA_E
                         | REASIGNACION
+                        | res_return + LISTA_E
                         | CORTE
                         | REFERENCIAS;
 

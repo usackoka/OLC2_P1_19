@@ -83,7 +83,9 @@
     <Compile Include="AST\Entorno.cs" />
     <Compile Include="AST\ExpresionesCQL\Binaria.cs" />
     <Compile Include="AST\ExpresionesCQL\Expresion.cs" />
+    <Compile Include="AST\ExpresionesCQL\LlamadaFuncion.cs" />
     <Compile Include="AST\ExpresionesCQL\Primitivo.cs" />
+    <Compile Include="AST\ExpresionesCQL\Referencia.cs" />
     <Compile Include="AST\ExpresionesCQL\Ternaria.cs" />
     <Compile Include="AST\ExpresionesCQL\Unario.cs" />
     <Compile Include="AST\ExpresionesCQL\Variable.cs" />
@@ -94,6 +96,7 @@
     <Compile Include="AST\SentenciasCQL\Default.cs" />
     <Compile Include="AST\SentenciasCQL\Else.cs" />
     <Compile Include="AST\SentenciasCQL\ElseIf.cs" />
+    <Compile Include="AST\SentenciasCQL\Funcion.cs" />
     <Compile Include="AST\SentenciasCQL\If.cs" />
     <Compile Include="AST\SentenciasCQL\Print.cs" />
     <Compile Include="AST\SentenciasCQL\Reasignacion.cs" />

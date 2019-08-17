@@ -24,7 +24,14 @@ namespace Server.Analizador
                 List<NodoCQL> lista = new List<NodoCQL>();
                 foreach (ParseTreeNode nodo in raiz.ChildNodes)
                 {
-                    lista.Add((NodoCQL)recorrido(nodo));
+                    NodoCQL nod = (NodoCQL)recorrido(nodo);
+                    if (nod is Funcion)
+                    {
+                        ast.funciones.Add((Funcion)nod);
+                    }
+                    else {
+                        lista.Add(nod);
+                    }
                 }
                 return lista;
             }
@@ -48,6 +55,51 @@ namespace Server.Analizador
                 }
                 else {
                     return new KeyValuePair<String, Expresion>(getLexema(raiz, 1), null);
+                }
+            }
+            else if (CompararNombre(raiz, "FUNCION")) {
+                //TIPO + id + l_parent + LISTA_PARAMETROS + r_parent + l_llave + BLOCK + r_llave;
+                return new Funcion(recorrido(raiz.ChildNodes[0]), getLexema(raiz, 1), (List<KeyValuePair<String, Object>>)recorrido(raiz.ChildNodes[3]),
+                    (List<NodoCQL>)recorrido(raiz.ChildNodes[6]), getFila(raiz, 1), getColumna(raiz, 1));
+            }
+            else if (CompararNombre(raiz, "LLAMADA_FUNCION")) {
+                /*id + l_parent + LISTA_E + r_parent
+                | res_call + id + l_parent + LISTA_E + r_parent;*/
+                if (raiz.ChildNodes.Count == 4)
+                {
+                    return new LlamadaFuncion(getLexema(raiz, 0), (List<Expresion>)recorrido(raiz.ChildNodes[2]),
+                        LlamadaFuncion.TIPO_LLAMADA.LLAMADA, getFila(raiz, 0), getColumna(raiz, 0));
+                }
+                else {
+                    return new LlamadaFuncion(getLexema(raiz, 1), (List<Expresion>)recorrido(raiz.ChildNodes[3]),
+                        LlamadaFuncion.TIPO_LLAMADA.CALL, getFila(raiz, 0), getColumna(raiz, 0));
+                }
+            }
+            else if (CompararNombre(raiz, "LISTA_PARAMETROS")) {
+                List<KeyValuePair<String, Object>> lista = new List<KeyValuePair<string, object>>();
+                foreach (ParseTreeNode nodo in raiz.ChildNodes) {
+                    lista.Add((KeyValuePair<string, object>)recorrido(nodo));
+                }
+                return lista;
+            }
+            else if (CompararNombre(raiz, "UNPARAMETRO")) {
+                //TIPO + arroba + id;
+                return new KeyValuePair<String, Object>(getLexema(raiz, 2), recorrido(raiz.ChildNodes[0]));
+            }
+            else if (CompararNombre(raiz, "REFERENCIAS")) {
+                List<Object> lista = new List<object>();
+                foreach (ParseTreeNode nodo in raiz.ChildNodes) {
+                    lista.Add(recorrido(nodo));
+                }
+                return new Referencia(lista);
+            } else if (CompararNombre(raiz,"REFERENCIA")) {
+                //id | arroba + id | LLAMADA_FUNCION | ACCESO_ARR
+                if (raiz.ChildNodes[0].ToString().Equals("LLAMADA_FUNCION") || raiz.ChildNodes[0].ToString().Equals("ACCESO_ARR"))
+                {
+                    return recorrido(raiz.ChildNodes[0]);
+                }
+                else {
+                    return getLexema(raiz,raiz.ChildNodes.Count-1);
                 }
             }
             else if (CompararNombre(raiz, "TIPO")) {
@@ -102,7 +154,7 @@ namespace Server.Analizador
                     return new Print((Expresion)recorrido(raiz.ChildNodes[2]), getFila(raiz, 1), getColumna(raiz, 1));
                 }
                 else if (raiz.ChildNodes.Count == 2) {
-                    return new Return((Expresion)recorrido(raiz.ChildNodes[1]), getFila(raiz, 0), getColumna(raiz, 0));
+                    return new Return((List<Expresion>)recorrido(raiz.ChildNodes[1]), getFila(raiz, 0), getColumna(raiz, 0));
                 }
                 else if (raiz.ChildNodes.Count == 1) {
                     return recorrido(raiz.ChildNodes[0]);
@@ -119,7 +171,7 @@ namespace Server.Analizador
                 //arroba + id + igual + E;
                 int fila = getFila(raiz, 0);
                 int columna = getColumna(raiz, 0);
-                return new Reasignacion(getLexema(raiz, 1),(Expresion)recorrido(raiz.ChildNodes[3]),fila,columna);
+                return new Reasignacion(getLexema(raiz, 1), (Expresion)recorrido(raiz.ChildNodes[3]), fila, columna);
             }
             else if (CompararNombre(raiz, "E")) {
                 if (raiz.ChildNodes.Count == 3)

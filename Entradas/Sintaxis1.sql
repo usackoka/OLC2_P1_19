@@ -164,11 +164,39 @@ int @nn1 = 40;
 @nn1 = @nn1 - 1;
 log(@nn1);
 if(@nn1!=30){
-	log("Se imprime esto");
+	log("Se imprime esto con valor: "+@nn1);
 }
 
+int @nn1 = 40;
 while(@nn1!=30){
 	log("valor @nn1= "+@nn1);
 	@nn1 = @nn1 - 1;
 }
 
+int @entero = 3+4+3;
+switch(@entero){
+	case 1:
+	    log("Aqui no 1");
+		break;
+	case 2:
+	    log("Aqui no 2");
+		break;
+	case 10:
+		log("Aquí si");
+	case 11:
+		log("Aquí no");
+	default:
+		log("Aquí no 3");
+		break;
+}
+
+log(factorial(5));
+
+Int factorial(int @n){       
+	if (@n == 0) {             
+		return 1;       
+	} 
+	else {
+		return @n * factorial(n - 1);      
+	} 
+} 

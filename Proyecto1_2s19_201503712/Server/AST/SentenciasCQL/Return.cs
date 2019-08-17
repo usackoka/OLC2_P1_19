@@ -8,16 +8,25 @@ namespace Server.AST.SentenciasCQL
 {
     public class Return : Sentencia
     {
-        Expresion expresion;
-        public Return(Expresion expresion, int fila, int columna) {
-            this.expresion = expresion;
+        List<Expresion> expresiones;
+        public Return(List<Expresion> expresiones, int fila, int columna) {
+            this.expresiones = expresiones;
             this.fila = fila;
             this.columna = columna;
         }
 
         public override object Ejecutar(AST_CQL arbol)
         {
-            return this.expresion.getValor(arbol);
+            if (expresiones.Count == 0) {
+                return null;
+            }
+            else if (expresiones.Count == 1)
+            {
+                return this.expresiones[0].getValor(arbol);
+            }
+            else {//para los procedures//pendiente
+                return null; 
+            }
         }
     }
 }

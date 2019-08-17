@@ -27,7 +27,7 @@ namespace Server.AST.SentenciasCQL
         {
             bool ejecutarDef = true;
 
-            Object matchValue = match.getTipo(arbol);
+            Object matchValue = match.getValor(arbol);
             foreach (Case caso in cases) {
                 caso.matchSource = matchValue;
                 Object val = caso.Ejecutar(arbol);
@@ -41,9 +41,7 @@ namespace Server.AST.SentenciasCQL
                     {
                         return null;
                     }
-                    else {
-                        return val;
-                    }
+                    return val;
                 }
                 //con un caso que se cumpla, ya no se ejecuta el default
                 if (caso.ejecutado)

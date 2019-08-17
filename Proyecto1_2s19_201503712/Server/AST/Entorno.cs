@@ -35,7 +35,7 @@ namespace Server.AST
                 }
                 else
                 {
-                    return this.padre.getValorVariable(id, arbol, fila, columna);
+                    return this.padre.getTipoVariable(id, arbol, fila, columna);
                 }
             }
         }
