@@ -26,7 +26,9 @@ namespace Server.AST.SentenciasCQL
 
         public override object Ejecutar(AST_CQL arbol)
         {
-            arbol.entorno = new Entorno(arbol.entorno);
+            //arbol.entorno = new Entorno(arbol.entorno);
+            Entorno temp = arbol.entorno;
+            arbol.entorno = new Entorno(arbol.entorno.padre);
 
             crearParametros(arbol);
 
@@ -37,7 +39,8 @@ namespace Server.AST.SentenciasCQL
                     Object val = ((Sentencia)nodo).Ejecutar(arbol);
                     if (val != null)
                     {
-                        arbol.entorno = arbol.entorno.padre;
+                        //arbol.entorno = arbol.entorno.padre;
+                        arbol.entorno = temp;
                         return val;
                     }
                 }
@@ -46,7 +49,8 @@ namespace Server.AST.SentenciasCQL
                     ((Expresion)nodo).getValor(arbol);
                 }
             }
-            arbol.entorno = arbol.entorno.padre;
+            //arbol.entorno = arbol.entorno.padre;
+            arbol.entorno = temp;
 
             return null;
         }
