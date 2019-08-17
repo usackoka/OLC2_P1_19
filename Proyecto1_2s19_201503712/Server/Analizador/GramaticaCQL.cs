@@ -269,6 +269,8 @@ namespace Server.Analizador
             var WHILE = new NonTerminal("WHILE");
             var SWITCH = new NonTerminal("SWITCH");
             var TRY = new NonTerminal("TRY");
+            var REASIGNACION = new NonTerminal("REASIGNACION");
+            var CORTE = new NonTerminal("CORTE");
             #endregion
 
             #region Gramatica
@@ -416,15 +418,19 @@ namespace Server.Analizador
             //===================================
 
             INSTRUCCION.Rule = arroba + id + OPERADOR + igual + E
-                        | arroba + id + igual + E
                         | res_log + l_parent + E + r_parent
                         | LISTA_IDS_ARROBA + igual + E
                         //| id + igual + E ===> se incluye en REFERENCIAS
                         | REFERENCIAS + igual + E
                         | res_return + LISTA_E
-                        | res_break
-                        | res_continue
+                        | REASIGNACION
+                        | CORTE
                         | REFERENCIAS;
+
+            CORTE.Rule = res_break
+                        | res_continue;
+
+            REASIGNACION.Rule = arroba + id + igual + E;
 
             OPERADOR.Rule = mas | menos | modular | por | div;
 

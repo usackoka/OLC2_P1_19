@@ -6,11 +6,11 @@ using System.Web;
 
 namespace Server.AST.SentenciasCQL
 {
-    public class Else : Sentencia
+    public class Default : Sentencia
     {
         List<NodoCQL> instrucciones;
 
-        public Else(List<NodoCQL> instrucciones, int fila, int columna) {
+        public Default(List<NodoCQL> instrucciones, int fila, int columna) {
             this.instrucciones = instrucciones;
             this.fila = fila;
             this.columna = columna;

@@ -148,3 +148,27 @@ if(@b1){
 }else{
 	log("está mal campeon :c");
 }
+
+
+double @d1 = 4.0;
+
+if(@d1==0.0){
+	log("Aquí no");
+}else if(@d1==4.1){
+	log("aqui tampoco");
+}else{
+	log("aqui si");
+}
+
+int @nn1 = 40;
+@nn1 = @nn1 - 1;
+log(@nn1);
+if(@nn1!=30){
+	log("Se imprime esto");
+}
+
+while(@nn1!=30){
+	log("valor @nn1= "+@nn1);
+	@nn1 = @nn1 - 1;
+}
+

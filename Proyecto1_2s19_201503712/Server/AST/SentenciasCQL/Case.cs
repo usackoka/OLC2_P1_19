@@ -6,26 +6,27 @@ using System.Web;
 
 namespace Server.AST.SentenciasCQL
 {
-    public class ElseIf : Sentencia
+    public class Case : Sentencia
     {
-        Expresion condicion;
+        Expresion match;
         List<NodoCQL> instrucciones;
-        public Boolean ejecutado { get; set; }
+        public Object matchSource { get; set; }
+        public bool ejecutado { get; set; }
 
-        public ElseIf(Expresion condicion, List<NodoCQL> instrucciones, int fila, int columna) {
-            this.condicion = condicion;
+        public Case(Expresion match, List<NodoCQL> instrucciones, int fila, int columna) {
+            this.match = match;
             this.instrucciones = instrucciones;
             this.fila = fila;
             this.columna = columna;
             this.ejecutado = false;
+            this.matchSource = null;
         }
 
         public override object Ejecutar(AST_CQL arbol)
         {
-            if (Convert.ToBoolean(condicion.getValor(arbol)))
-            {
+            if (match.getValor(arbol).Equals(matchSource)) {
+                ejecutado = true;
                 arbol.entorno = new Entorno(arbol.entorno);
-                this.ejecutado = true;
                 foreach (NodoCQL nodo in this.instrucciones)
                 {
                     if (nodo is Sentencia)

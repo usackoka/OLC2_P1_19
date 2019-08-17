@@ -32,7 +32,12 @@ namespace Server.AST.SentenciasCQL
                 {
                     if (nodo is Sentencia)
                     {
-                        ((Sentencia)nodo).Ejecutar(arbol);
+                        Object val = ((Sentencia)nodo).Ejecutar(arbol);
+                        if (val != null)
+                        {
+                            arbol.entorno = arbol.entorno.padre;
+                            return val;
+                        }
                     }
                     else
                     {
@@ -45,7 +50,9 @@ namespace Server.AST.SentenciasCQL
             //si no se cumple el if, preguntar por los if-else
             else {
                 foreach (ElseIf elseif in elseifs) {
-                    elseif.Ejecutar(arbol);
+                    Object val = elseif.Ejecutar(arbol);
+                    if (val != null)
+                        return val;
                     if (elseif.ejecutado) {
                         break;
                     }

@@ -76,5 +76,30 @@ namespace Server.AST
                 }
             }
         }
+
+        public void reasignarVariable(String id, Object valor, Object tipo, AST_CQL arbol, int fila, int columna) {
+            if (this.tablaSimbolos.ContainsKey(id))
+            {
+                Variable var = (Variable)this.tablaSimbolos[id];
+                if (var.getTipo(arbol).Equals(tipo))
+                {
+                    var.setValor(valor);
+                }
+                else {
+                    arbol.addError(id,"No se puede castear implicitamente de "+tipo+" a "+var.getTipo(arbol),fila,columna);
+                }
+            }
+            else
+            {
+                if (this.padre == null)
+                {
+                    arbol.addError(id, "No se encontró la variable: " + id + " en ningún ambito", fila, columna);
+                }
+                else
+                {
+                    this.padre.reasignarVariable(id,valor,tipo,arbol,fila,columna);
+                }
+            }
+        }
     }
 }

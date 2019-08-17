@@ -24,5 +24,9 @@ namespace Server.AST.ExpresionesCQL
         {
             return valor;
         }
+
+        public void setValor(Object valor) {
+            this.valor = valor;
+        }
     }
 }

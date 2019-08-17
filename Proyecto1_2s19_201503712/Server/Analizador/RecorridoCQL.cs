@@ -101,10 +101,25 @@ namespace Server.Analizador
                 {
                     return new Print((Expresion)recorrido(raiz.ChildNodes[2]), getFila(raiz, 1), getColumna(raiz, 1));
                 }
+                else if (raiz.ChildNodes.Count == 2) {
+                    return new Return((Expresion)recorrido(raiz.ChildNodes[1]), getFila(raiz, 0), getColumna(raiz, 0));
+                }
+                else if (raiz.ChildNodes.Count == 1) {
+                    return recorrido(raiz.ChildNodes[0]);
+                }
                 else {
                     ast.addError("", "RecorridoCQL no soportado: " + raiz.ChildNodes.Count, 0, 0);
                     return "NULL";
                 }
+            }
+            else if (CompararNombre(raiz, "CORTE")) {
+                return new Corte(getLexema(raiz, 0), getFila(raiz, 0), getColumna(raiz, 0));
+            }
+            else if (CompararNombre(raiz, "REASIGNACION")) {
+                //arroba + id + igual + E;
+                int fila = getFila(raiz, 0);
+                int columna = getColumna(raiz, 0);
+                return new Reasignacion(getLexema(raiz, 1),(Expresion)recorrido(raiz.ChildNodes[3]),fila,columna);
             }
             else if (CompararNombre(raiz, "E")) {
                 if (raiz.ChildNodes.Count == 3)
@@ -150,8 +165,42 @@ namespace Server.Analizador
                 return new ElseIf((Expresion)recorrido(raiz.ChildNodes[2]), (List<NodoCQL>)recorrido(raiz.ChildNodes[5]),
                     getFila(raiz, 0), getColumna(raiz, 0));
             }
-            else if (CompararNombre(raiz,"ELSE")) {
+            else if (CompararNombre(raiz, "ELSE")) {
                 return new Else((List<NodoCQL>)recorrido(raiz.ChildNodes[2]), getFila(raiz, 0), getColumna(raiz, 0));
+            }
+            else if (CompararNombre(raiz, "WHILE")) {
+                if (raiz.ChildNodes.Count > 8)
+                {
+                    return new While((Expresion)recorrido(raiz.ChildNodes[6]), (List<NodoCQL>)recorrido(raiz.ChildNodes[2]),
+                        While.TIPO_WHILE.WHILE, getFila(raiz, 0), getColumna(raiz, 0));
+                }
+                else {
+
+                    return new While((Expresion)recorrido(raiz.ChildNodes[2]), (List<NodoCQL>)recorrido(raiz.ChildNodes[5]),
+                        While.TIPO_WHILE.WHILE, getFila(raiz, 0), getColumna(raiz, 0));
+                }
+            }
+            else if (CompararNombre(raiz, "SWITCH")) {
+                return new Switch((Expresion)recorrido(raiz.ChildNodes[2]), (List<Case>)recorrido(raiz.ChildNodes[5]),
+                    recorrido(raiz.ChildNodes[6]), getFila(raiz, 0), getColumna(raiz, 0));
+            }
+            else if (CompararNombre(raiz, "LISTA_CASOS")) {
+                List<Case> lista = new List<Case>();
+                foreach (ParseTreeNode nodo in raiz.ChildNodes) {
+                    lista.Add((Case)recorrido(nodo));
+                }
+                return lista;
+            }
+            else if (CompararNombre(raiz, "CASO_DEF")) {
+                if (raiz.ChildNodes.Count != 0)
+                {
+                    return new Default((List<NodoCQL>)recorrido(raiz.ChildNodes[2]), getFila(raiz, 0), getColumna(raiz, 0));
+                }
+                return null;
+            }
+            else if (CompararNombre(raiz, "CASO")) {
+                return new Case((Expresion)recorrido(raiz.ChildNodes[1]), (List<NodoCQL>)recorrido(raiz.ChildNodes[3]),
+                    getFila(raiz, 0), getColumna(raiz, 0));
             }
             else if (CompararNombre(raiz, "PRIMITIVO"))
             {
