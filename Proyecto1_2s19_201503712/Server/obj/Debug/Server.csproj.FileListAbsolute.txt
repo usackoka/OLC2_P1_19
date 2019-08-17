@@ -54,3 +54,5 @@ C:\Users\Koka\Desktop\OLC2_P1_19\Proyecto1_2s19_201503712\Server\obj\Debug\Serve
 C:\Users\Koka\Desktop\OLC2_P1_19\Proyecto1_2s19_201503712\Server\obj\Debug\Server.csproj.CopyComplete
 C:\Users\Koka\Desktop\OLC2_P1_19\Proyecto1_2s19_201503712\Server\obj\Debug\Server.dll
 C:\Users\Koka\Desktop\OLC2_P1_19\Proyecto1_2s19_201503712\Server\obj\Debug\Server.pdb
+C:\Users\Koka\Desktop\OLC2_P1_19\Proyecto1_2s19_201503712\Server\obj\Debug\Server.Properties.Resources.resources
+C:\Users\Koka\Desktop\OLC2_P1_19\Proyecto1_2s19_201503712\Server\obj\Debug\Server.csproj.GenerateResource.cache

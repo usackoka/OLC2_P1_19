@@ -198,6 +198,20 @@ Int prueba(){
 	return @var>4?"Si es mayor":"No es mayor";
 }
 
+log(1+3*4+1);
+
+log(recursiva(4));
+
+int recursiva(int @valor){
+	if(@valor!=1){
+		return recursiva(@valor-1);
+	}else{
+		return @valor;
+	}
+}
+
+
+log(factorial(5));
 Int factorial(int @n){       
 	if (@n == 0) {             
 		return 1;       
@@ -205,4 +219,18 @@ Int factorial(int @n){
 	else {
 		return @n * factorial(n - 1);      
 	} 
-} 
+}
+
+log(ackerman(3,4));
+
+int ackerman(int @m, int @n){
+	if(@m==0){
+		return @n+1;
+	}
+	if(@m>0 && @n==0){
+		return ackerman(@m-1,1);
+	}
+	if(@m>0 && @n>0){
+		return ackerman(@m-1,ackerman(@m,@n-1));
+	}
+}

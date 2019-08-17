@@ -1,8 +1,6 @@
 ﻿using Server.AST.ExpresionesCQL;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace Server.AST.SentenciasCQL
 {
@@ -13,7 +11,8 @@ namespace Server.AST.SentenciasCQL
         List<ElseIf> elseifs;
         Else else_;
 
-        public If(Expresion condicion, List<NodoCQL> instrucciones, List<ElseIf> elseifs, Else else_, int fila, int columna) {
+        public If(Expresion condicion, List<NodoCQL> instrucciones, List<ElseIf> elseifs, Else else_, int fila, int columna)
+        {
             this.condicion = condicion;
             this.instrucciones = instrucciones;
             this.elseifs = elseifs;
@@ -48,17 +47,26 @@ namespace Server.AST.SentenciasCQL
                 arbol.entorno = arbol.entorno.padre;
             }
             //si no se cumple el if, preguntar por los if-else
-            else {
-                foreach (ElseIf elseif in elseifs) {
+            else
+            {
+                foreach (ElseIf elseif in elseifs)
+                {
                     Object val = elseif.Ejecutar(arbol);
                     if (val != null)
                         return val;
-                    if (elseif.ejecutado) {
-                        break;
+
+                    if (elseif.ejecutado)
+                    {
+                        return null;
                     }
                 }
-                if(else_!=null)
-                    else_.Ejecutar(arbol);
+
+                if (else_ != null)
+                {
+                    Object val = else_.Ejecutar(arbol);
+                    if (val != null)
+                        return val;
+                }
             }
 
             return null;
