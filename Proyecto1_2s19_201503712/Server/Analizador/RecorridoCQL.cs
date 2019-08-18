@@ -1,9 +1,11 @@
 ﻿using Irony.Parsing;
 using Server.AST;
+using Server.AST.ColeccionesCQL;
 using Server.AST.ExpresionesCQL;
 using Server.AST.SentenciasCQL;
 using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace Server.Analizador
 {
@@ -173,6 +175,25 @@ namespace Server.Analizador
             //else if (CompararNombre(raiz,"COLLECION")) {
 
             //}
+            else if (CompararNombre(raiz,"INSTANCIA")) {
+                /*res_new + id
+                | res_new + res_list + menor_que + TIPO + mayor_que
+                | res_new + res_set + menor_que + TIPO + mayor_que
+                | res_new + res_map + menor_que + TIPO + coma + TIPO + mayor_que;*/
+                if (raiz.ChildNodes.Count == 5)
+                {
+                    if (ContainsString(getLexema(raiz, 1), "list"))
+                    {
+                        return new ListCQL(recorrido(raiz.ChildNodes[3]), getFila(raiz, 0), getColumna(raiz, 0));
+                    }
+                    else {
+                        return new SetCQL(recorrido(raiz.ChildNodes[3]), getFila(raiz, 0), getColumna(raiz, 0));
+                    }
+                }
+                else {
+                    return null;
+                }
+            }
             else if (CompararNombre(raiz, "ACTUALIZACION2")) {
                 return recorrido(raiz.ChildNodes[0]);
             }
@@ -344,6 +365,11 @@ namespace Server.Analizador
         int getColumna(ParseTreeNode nodo, int num)
         {
             return nodo.ChildNodes[num].Token.Location.Column;
+        }
+
+        Boolean ContainsString(String match, String search)
+        {
+            return Regex.IsMatch(search, Regex.Escape(match), RegexOptions.IgnoreCase);
         }
     }
 }

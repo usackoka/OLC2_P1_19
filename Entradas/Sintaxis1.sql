@@ -261,4 +261,24 @@ for(@i=0; @i<10; @i+=2){
 	log("for2 valor i: "+@i);
 }
 
+[+QUERY]
+[+DATA]
+	List @var = new List<String>;
+	@var.insert("Hola");
+	@var.insert(" ");
+	@var.insert("Albita tkm");
+	@var.insert(" ");
+	@var.insert(":3");
+
+	String @salida = "";
+	for(int @i = 0; @i<@var.size(); @i++){
+		@salida += @var.get(@i);
+	}
+
+		log(@salida);	
+[-DATA]
+[-QUERY]
+
+////MANDAR EX <====== BUSCAR ESO LUEGO PARA VER DONDE IMPLEMENTAR LOS EXCEPTIONS
+
 //EDITBIN.EXE /STACK:40000000 

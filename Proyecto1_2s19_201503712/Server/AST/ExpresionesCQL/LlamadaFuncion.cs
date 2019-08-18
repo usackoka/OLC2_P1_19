@@ -8,8 +8,8 @@ namespace Server.AST.ExpresionesCQL
 {
     public class LlamadaFuncion : Expresion
     {
-        String idLlamada;
-        List<Expresion> expresiones;
+        public String idLlamada;
+        public List<Expresion> expresiones;
         TIPO_LLAMADA tipoLlamada;
 
         public LlamadaFuncion(String idLlamada, List<Expresion> expresiones, TIPO_LLAMADA tipoLlamada,
@@ -91,7 +91,7 @@ namespace Server.AST.ExpresionesCQL
             return false;
         }
 
-        String getFirma(AST_CQL arbol) {
+        public String getFirma(AST_CQL arbol) {
             String firma = "";
             foreach (Expresion kvp in expresiones)
             {

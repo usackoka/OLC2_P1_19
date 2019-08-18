@@ -536,7 +536,9 @@ namespace Server.Analizador
             TERMINO.Rule = PRIMITIVO | E_PARENT | NATIVAS | COLECCION | REFERENCIAS | CASTEOS | INSTANCIA;
 
             INSTANCIA.Rule = res_new + id
-                | res_new + res_list + menor_que + TIPO + mayor_que;
+                | res_new + res_list + menor_que + TIPO + mayor_que
+                | res_new + res_set + menor_que + TIPO + mayor_que
+                | res_new + res_map + menor_que + TIPO + coma + TIPO + mayor_que;
 
             CASTEOS.Rule = l_parent + TIPO + r_parent + E;
 
@@ -572,6 +574,7 @@ namespace Server.Analizador
             LISTA_E.Rule = MakeStarRule(LISTA_E, coma, E);
 
             LLAMADA_FUNCION.Rule = id + l_parent + LISTA_E + r_parent
+                | res_insert + l_parent + LISTA_E + r_parent
                 | res_call + id + l_parent + LISTA_E + r_parent;
             //LLAMADA_FUNCION.NodeCaptionTemplate = "Llamada #{0}(...)";
 

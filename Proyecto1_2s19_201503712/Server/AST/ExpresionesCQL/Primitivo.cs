@@ -90,6 +90,9 @@ namespace Server.AST.ExpresionesCQL
                 case TIPO_DATO.TIME:
                     return DateTime.Now;
                 case TIPO_DATO.NULL:
+                case TIPO_DATO.LIST:
+                case TIPO_DATO.SET:
+                case TIPO_DATO.MAP:
                     return TIPO_DATO.NULL;
                 default:
                     arbol.addError(tipoDato.ToString(),"No hay defecto para el tipo de dato: "+tipoDato,0,0);

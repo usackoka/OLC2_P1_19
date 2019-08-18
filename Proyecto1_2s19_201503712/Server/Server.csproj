@@ -82,6 +82,8 @@
     <Compile Include="Analizador\GramaticaCQL.cs" />
     <Compile Include="Analizador\RecorridoCQL.cs" />
     <Compile Include="AST\AST_CQL.cs" />
+    <Compile Include="AST\ColeccionesCQL\ListCQL.cs" />
+    <Compile Include="AST\ColeccionesCQL\SetCQL.cs" />
     <Compile Include="AST\Entorno.cs" />
     <Compile Include="AST\ExpresionesCQL\Binaria.cs" />
     <Compile Include="AST\ExpresionesCQL\Expresion.cs" />
@@ -139,9 +141,7 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="AST\ColeccionesCQL\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
