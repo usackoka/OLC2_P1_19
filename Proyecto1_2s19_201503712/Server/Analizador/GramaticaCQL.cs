@@ -271,6 +271,9 @@ namespace Server.Analizador
             var TRY = new NonTerminal("TRY");
             var REASIGNACION = new NonTerminal("REASIGNACION");
             var CORTE = new NonTerminal("CORTE");
+            var ACTUALIZAR = new NonTerminal("ACTUALIZAR");
+            var ACTUALIZACION = new NonTerminal("ACTUALIZACION");
+            var ACTUALIZACION2 = new NonTerminal("ACTUALIZACION2");
             #endregion
 
             #region Gramatica
@@ -417,13 +420,13 @@ namespace Server.Analizador
                 | arroba + id;
             //===================================
 
-            INSTRUCCION.Rule = arroba + id + OPERADOR + igual + E
-                        | res_log + l_parent + E + r_parent
+            INSTRUCCION.Rule = res_log + l_parent + E + r_parent
                         | LISTA_IDS_ARROBA + igual + E
                         //========== ver aquí ambiguedad entre referencias y reasignacion
                         | REFERENCIAS + igual + E
-                        | REASIGNACION
                         | res_return + LISTA_E
+                        | REASIGNACION
+                        | ACTUALIZACION2
                         | CORTE
                         | REFERENCIAS;
 
@@ -455,7 +458,18 @@ namespace Server.Analizador
             IF.Rule = res_if + l_parent + E + r_parent + l_llave + BLOCK + r_llave + ELSEIFS + ELSE
                             | res_if + l_parent + E + r_parent + l_llave + BLOCK + r_llave + ELSEIFS;
 
-            FOR.Rule = res_for + l_parent + r_parent + l_llave + BLOCK + r_llave;
+            FOR.Rule = res_for + l_parent + FUENTE_FOR + puntocoma + E + puntocoma + ACTUALIZACION2 + r_parent + l_llave + BLOCK + r_llave;
+
+            FUENTE_FOR.Rule = DECLARACION
+                            | REASIGNACION;
+
+            ACTUALIZAR.Rule = arroba + id + OPERADOR + igual + E;
+
+            ACTUALIZACION2.Rule = ACTUALIZACION
+                | ACTUALIZAR;
+
+            ACTUALIZACION.Rule = arroba + id + mas + mas
+                | arroba + id + menos + menos;
 
             WHILE.Rule = res_while + l_parent + E + r_parent + l_llave + BLOCK + r_llave
                 | res_do + l_llave + BLOCK + r_llave + res_while + l_parent + E + r_parent + puntocoma;
@@ -493,11 +507,6 @@ namespace Server.Analizador
                 | res_TableAlreadyExists
                 | res_TableDontExists;
 
-            /*
-            FUENTE_FOR.Rule = res_range + l_parent + LISTA_E + r_parent
-                            | id;
-            */
-
             ELSEIFS.Rule = MakeStarRule(ELSEIFS, ELSEIF);
 
             ELSEIF.Rule = res_elseif + l_parent + E + r_parent + l_llave + BLOCK + r_llave;
@@ -526,7 +535,8 @@ namespace Server.Analizador
 
             TERMINO.Rule = PRIMITIVO | E_PARENT | NATIVAS | COLECCION | REFERENCIAS | CASTEOS | INSTANCIA;
 
-            INSTANCIA.Rule = res_new + id;
+            INSTANCIA.Rule = res_new + id
+                | res_new + res_list + menor_que + TIPO + mayor_que;
 
             CASTEOS.Rule = l_parent + TIPO + r_parent + E;
 
@@ -545,8 +555,7 @@ namespace Server.Analizador
             CORCHETES.Rule = l_corchete + E + r_corchete;
 
             //TUPLAS, LISTAS, CONJUNTOS, DICCIONARIOS // PAG 66
-            COLECCION.Rule = l_parent + LISTA_E + r_parent | l_corchete + LISTA_E + r_corchete 
-                | l_llave + LISTA_E + r_llave | l_llave + KEY_VALUE_LIST + r_llave;
+            COLECCION.Rule = l_corchete + LISTA_E + r_corchete;// | l_parent + LISTA_E + r_parent | l_llave + LISTA_E + r_llave | l_llave + KEY_VALUE_LIST + r_llave;
 
             KEY_VALUE_LIST.Rule = MakePlusRule(KEY_VALUE_LIST, coma, KEY_VALUE);
 

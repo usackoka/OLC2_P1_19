@@ -15,6 +15,7 @@ namespace Server.AST
         public List<clsToken> errores { get; set; }
         public Entorno entorno { get; set; }
         public List<Funcion> funciones { get; set; }
+        public Boolean finalizado { get; set; }
 
         public AST_CQL() {
             this.funciones = new List<Funcion>();
@@ -22,6 +23,7 @@ namespace Server.AST
             this.mensajes = new List<String>();
             this.errores = new List<clsToken>();
             this.entorno = new Entorno(null);
+            this.finalizado = false;
         }
 
         public void Ejecutar() {
@@ -34,6 +36,7 @@ namespace Server.AST
                     ((Sentencia)nodo).Ejecutar(this);
                 }
             }
+            this.finalizado = true;
         }
 
         public String getLUP() {

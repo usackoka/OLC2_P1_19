@@ -92,14 +92,14 @@ namespace Server.Analizador
                     lista.Add(recorrido(nodo));
                 }
                 return new Referencia(lista);
-            } else if (CompararNombre(raiz,"REFERENCIA")) {
+            } else if (CompararNombre(raiz, "REFERENCIA")) {
                 //id | arroba + id | LLAMADA_FUNCION | ACCESO_ARR
                 if (raiz.ChildNodes[0].ToString().Equals("LLAMADA_FUNCION") || raiz.ChildNodes[0].ToString().Equals("ACCESO_ARR"))
                 {
                     return recorrido(raiz.ChildNodes[0]);
                 }
                 else {
-                    return getLexema(raiz,raiz.ChildNodes.Count-1);
+                    return getLexema(raiz, raiz.ChildNodes.Count - 1);
                 }
             }
             else if (CompararNombre(raiz, "TIPO")) {
@@ -163,6 +163,36 @@ namespace Server.Analizador
                     ast.addError("", "RecorridoCQL no soportado: " + raiz.ChildNodes.Count, 0, 0);
                     return "NULL";
                 }
+            }
+            else if (CompararNombre(raiz, "FOR")) {
+                //res_for + l_parent + FUENTE_FOR + coma + E + coma + ACTUALIZACION2 + r_parent + l_llave + BLOCK + r_llave;
+                return new For((Sentencia)recorrido(raiz.ChildNodes[2]), (Expresion)recorrido(raiz.ChildNodes[4]),
+                    (Sentencia)recorrido(raiz.ChildNodes[6]), (List<NodoCQL>)recorrido(raiz.ChildNodes[9]),
+                    getFila(raiz, 0), getColumna(raiz, 0));
+            }
+            //else if (CompararNombre(raiz,"COLLECION")) {
+
+            //}
+            else if (CompararNombre(raiz, "ACTUALIZACION2")) {
+                return recorrido(raiz.ChildNodes[0]);
+            }
+            else if (CompararNombre(raiz, "ACTUALIZACION")) {
+                /*arroba + id + mas + mas
+                | arroba + id + menos + menos;*/
+                String operador = "-";
+                if (getLexema(raiz, 2).Equals("+")) {
+                    operador = "+";
+                }
+                return new Actualizar(getLexema(raiz, 1), operador, new Primitivo("1 (numero)", 0, 0)
+                    , getFila(raiz, 0), getColumna(raiz, 0));
+            }
+            else if (CompararNombre(raiz, "FUENTE_FOR")) {
+                return recorrido(raiz.ChildNodes[0]);
+            }
+            else if (CompararNombre(raiz, "ACTUALIZAR")) {
+                //arroba + id + OPERADOR + igual + E;
+                return new Actualizar(getLexema(raiz, 1), getLexema(raiz.ChildNodes[2], 0), (Expresion)recorrido(raiz.ChildNodes[4]),
+                    getFila(raiz, 0), getColumna(raiz, 0));
             }
             else if (CompararNombre(raiz, "CORTE")) {
                 return new Corte(getLexema(raiz, 0), getFila(raiz, 0), getColumna(raiz, 0));

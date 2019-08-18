@@ -221,7 +221,7 @@ Int factorial(int @n){
 	} 
 }
 
-log(ackerman(3,4));
+log(ackerman(3,6));
 
 int ackerman(int @m, int @n){
 	if(@m==0){
@@ -234,3 +234,31 @@ int ackerman(int @m, int @n){
 		return ackerman(@m-1,ackerman(@m,@n-1));
 	}
 }
+
+pruebaEntornos();
+
+int pruebaEntornos(){
+	int @n1 = 4;
+	log("Variable declarada @n1: "+@n1);
+	pruebaEntornos2();
+}
+
+int pruebaEntornos2(){
+	int @n2 = 5;
+	log("Esto no debería dar error: "+@n2);
+	if(true){
+		log("Esto tampoco debería dar error: "+@n2);
+	}
+	log("Esto debería dar error: "+@n1);
+}
+
+for(int @i = 0; @i<10; @i++){
+	log("for1 valor i: "+@i);
+}
+
+int @i;
+for(@i=0; @i<10; @i+=2){
+	log("for2 valor i: "+@i);
+}
+
+//EDITBIN.EXE /STACK:40000000 

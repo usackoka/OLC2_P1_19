@@ -21,6 +21,7 @@ namespace Proyecto1_2s19_201503712.Formularios
         protected void Unnamed_Click(object sender, EventArgs e)
         {
             localhost.RutasSoapClient servidor = new localhost.RutasSoapClient();
+            
             String res = servidor.AnalizarPruebaCQL(hdCadena.Value);
             //Response.Write("<script>alert('" + res + "')</script>");
             //Response.Write("<textarea>"+res+"</textarea>");

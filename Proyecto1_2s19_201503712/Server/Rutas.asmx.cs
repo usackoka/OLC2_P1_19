@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Services;
 using System.Web.Script.Serialization;
+using System.Threading;
 
 namespace Server
 {
@@ -19,6 +20,8 @@ namespace Server
     // [System.Web.Script.Services.ScriptService]
     public class Rutas : System.Web.Services.WebService
     {
+        
+
         [WebMethod]
         public string HelloWorld()
         {
@@ -34,7 +37,15 @@ namespace Server
                 {
                     //Graficar.ConstruirArbol(parserCQL.padre.Root, "AST_CQL", "");
                     RecorridoCQL recorrido = new RecorridoCQL(parserCQL.padre.Root);
-                    recorrido.ast.Ejecutar();
+
+                    ThreadStart threadDelegate = new ThreadStart(recorrido.ast.Ejecutar);
+
+                    Thread T = new Thread(threadDelegate, 1000000000);
+                    T.Start();
+
+                    while (!recorrido.ast.finalizado) {
+                        Console.WriteLine("Esperando..............");
+                    }
                     return recorrido.ast.getLUP();
                 }
                 return "\n[+ERROR]\nPadre Null\n[-ERROR]\n";
