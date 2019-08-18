@@ -83,6 +83,7 @@
     <Compile Include="Analizador\RecorridoCQL.cs" />
     <Compile Include="AST\AST_CQL.cs" />
     <Compile Include="AST\ColeccionesCQL\ListCQL.cs" />
+    <Compile Include="AST\ColeccionesCQL\MapCQL.cs" />
     <Compile Include="AST\ColeccionesCQL\SetCQL.cs" />
     <Compile Include="AST\Entorno.cs" />
     <Compile Include="AST\ExpresionesCQL\Binaria.cs" />

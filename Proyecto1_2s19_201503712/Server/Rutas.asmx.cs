@@ -35,7 +35,7 @@ namespace Server
             {
                 if (parserCQL.padre.Root != null)
                 {
-                    Graficar.ConstruirArbol(parserCQL.padre.Root, "AST_CQL", "");
+                    //Graficar.ConstruirArbol(parserCQL.padre.Root, "AST_CQL", "");
                     RecorridoCQL recorrido = new RecorridoCQL(parserCQL.padre.Root);
 
                     ThreadStart threadDelegate = new ThreadStart(recorrido.ast.Ejecutar);

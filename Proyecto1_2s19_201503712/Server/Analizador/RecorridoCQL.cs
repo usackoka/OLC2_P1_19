@@ -190,6 +190,9 @@ namespace Server.Analizador
                         return new SetCQL(recorrido(raiz.ChildNodes[3]), getFila(raiz, 0), getColumna(raiz, 0));
                     }
                 }
+                else if (raiz.ChildNodes.Count == 7) {
+                    return new MapCQL(recorrido(raiz.ChildNodes[3]),recorrido(raiz.ChildNodes[5]), getFila(raiz, 0), getColumna(raiz, 0));
+                }
                 else {
                     return null;
                 }

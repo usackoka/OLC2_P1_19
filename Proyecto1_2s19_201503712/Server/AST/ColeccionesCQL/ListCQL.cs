@@ -35,12 +35,29 @@ namespace Server.AST.ColeccionesCQL
             {
                 return tipoDato;
             }
+            else if (id.ToLower().Equals("set"))
+            {
+                return null;
+            }
+            else if (id.ToLower().Equals("contains"))
+            {
+                return Primitivo.TIPO_DATO.BOOLEAN;
+            }
+            else if (id.ToLower().Equals("clear"))
+            {
+                return null;
+            }
+            else if (id.ToLower().Equals("remove"))
+            {
+                return null;
+            }
             else if (id.ToLower().Equals("size"))
             {
                 return Primitivo.TIPO_DATO.INT;
             }
-            else {
-                return Primitivo.TIPO_DATO.NULL;
+            else
+            {
+                return null;
             }
         }
 
@@ -50,16 +67,32 @@ namespace Server.AST.ColeccionesCQL
         }
 
         public Object getMetodo(AST_CQL arbol, String idLlamada) {
-            if (ContainsString(idLlamada, "insert"))
+            if (idLlamada.ToLower().Equals("insert"))
             {
                 return insert(arbol);
             }
-            else if (ContainsString(idLlamada, "get"))
+            else if (idLlamada.ToLower().Equals("get"))
             {
                 return get(arbol);
             }
-            else if (ContainsString(idLlamada,"size")) {
+            else if (idLlamada.ToLower().Equals("size")) {
                 return size(arbol);
+            }
+            else if (idLlamada.ToLower().Equals("set"))
+            {
+                return set(arbol);
+            }
+            else if (idLlamada.ToLower().Equals("contains"))
+            {
+                return contains(arbol);
+            }
+            else if (idLlamada.ToLower().Equals("clear"))
+            {
+                return clear(arbol);
+            }
+            else if (idLlamada.ToLower().Equals("remove"))
+            {
+                return remove(arbol);
             }
             else {
                 arbol.addError("List", "(" + idLlamada + ") no posee el metódo buscado", fila, columna);
@@ -90,6 +123,52 @@ namespace Server.AST.ColeccionesCQL
             return this.valores.Count;
         }
 
+        Object contains(AST_CQL arbol) {
+            if (this.expresiones.Count != 1)
+            {
+                arbol.addError("List", "(contains) debe tener exclusivamente 1 parámetro", fila, columna);
+                return false;
+            }
+
+            return this.valores.Contains(this.expresiones[0].getValor(arbol));
+        }
+
+        Object clear(AST_CQL arbol) {
+            if (this.expresiones.Count != 0)
+            {
+                arbol.addError("List", "(clear) debe tener exclusivamente 0 parámetros", fila, columna);
+                return 0;
+            }
+
+            this.valores.Clear();
+            return null;
+        }
+
+        Object remove(AST_CQL arbol) {
+            int index = 0;
+            if (this.expresiones.Count != 1)
+            {
+                arbol.addError("List", "(remove) debe tener exclusivamente 1 parámetro", fila, columna);
+                return Primitivo.TIPO_DATO.NULL;
+            }
+            else
+            {
+                Object indexO = this.expresiones[0].getValor(arbol);
+                if (indexO is Int32)
+                {
+                    index = Convert.ToInt32(indexO);
+                }
+                else
+                {
+                    arbol.addError("List", "(remove) el parámetro debe ser de valor entero", fila, columna);
+                    return Primitivo.TIPO_DATO.NULL;
+                }
+            }
+
+            this.valores.RemoveAt(index);
+            return null;
+        }
+
         Object get(AST_CQL arbol) {
 
             int index = 0;
@@ -111,6 +190,30 @@ namespace Server.AST.ColeccionesCQL
 
             //MANDAR EX si se pasa del límite
             return this.valores[index];
+        }
+
+        Object set(AST_CQL arbol) {
+            int index = 0;
+            if (this.expresiones.Count != 2)
+            {
+                arbol.addError("List", "(set) debe tener exclusivamente 2 parámetros", fila, columna);
+            }
+            else
+            {
+                Object indexO = this.expresiones[0].getValor(arbol);
+                if (indexO is Int32)
+                {
+                    index = Convert.ToInt32(indexO);
+                }
+                else
+                {
+                    arbol.addError("List", "(set) el parámetro debe ser de valor entero", fila, columna);
+                }
+            }
+
+            this.valores[index] = this.expresiones[1].getValor(arbol);
+
+            return null;
         }
 
         Boolean ContainsString(String match, String search)

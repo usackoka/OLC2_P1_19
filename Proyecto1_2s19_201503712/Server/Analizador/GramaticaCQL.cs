@@ -575,6 +575,7 @@ namespace Server.Analizador
 
             LLAMADA_FUNCION.Rule = id + l_parent + LISTA_E + r_parent
                 | res_insert + l_parent + LISTA_E + r_parent
+                | res_set + l_parent + LISTA_E + r_parent
                 | res_call + id + l_parent + LISTA_E + r_parent;
             //LLAMADA_FUNCION.NodeCaptionTemplate = "Llamada #{0}(...)";
 

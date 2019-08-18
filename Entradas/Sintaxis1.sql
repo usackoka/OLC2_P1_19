@@ -221,7 +221,7 @@ Int factorial(int @n){
 	} 
 }
 
-log(ackerman(3,6));
+log(ackerman(3,4));
 
 int ackerman(int @m, int @n){
 	if(@m==0){
@@ -235,6 +235,7 @@ int ackerman(int @m, int @n){
 	}
 }
 
+//================================== prueba entornos =========================================
 pruebaEntornos();
 
 int pruebaEntornos(){
@@ -252,6 +253,8 @@ int pruebaEntornos2(){
 	log("Esto debería dar error: "+@n1);
 }
 
+//==================================== FOR ===============================================
+
 for(int @i = 0; @i<10; @i++){
 	log("for1 valor i: "+@i);
 }
@@ -261,23 +264,68 @@ for(@i=0; @i<10; @i+=2){
 	log("for2 valor i: "+@i);
 }
 
-[+QUERY]
-[+DATA]
-	List @var = new List<String>;
-	@var.insert("Hola");
-	@var.insert(" ");
-	@var.insert("Albita tkm");
-	@var.insert(" ");
-	@var.insert(":3");
 
-	String @salida = "";
-	for(int @i = 0; @i<@var.size(); @i++){
-		@salida += @var.get(@i);
-	}
+//===================================================Metodos LIST ==============================================
+List @var = new List<String>;
+@var.insert("Hola");
+@var.insert(" ");
+@var.insert("Putos");
+@var.insert(" ");
+@var.insert(":3");
+@var.insert(":O");
 
-		log(@salida);	
-[-DATA]
-[-QUERY]
+@var.remove(5);
+
+if(@var.contains(":O")){
+	log("Está malo chico :c");
+}else{
+	log("Todo bien, todo correcto");
+}
+
+@var.clear();
+@var.insert("Hola");
+@var.insert(" ");
+@var.insert("Putos");
+@var.insert(" ");
+@var.insert(":3");
+@var.set(4,":v");
+
+String @salida = "";
+for(int @i = 0; @i<@var.size(); @i++){
+	@salida += @var.get(@i);
+}
+
+if(@salida != "Hola Putos :v"){
+	log("Está malo chico :c");
+}else{
+	log("Todo bien, todo correcto");
+}
+
+//========================= Metodos set ===============================
+Set @var = new Set<String>;
+@var.insert("durazno");
+@var.insert("mango");
+@var.insert("melocoton");
+@var.insert("higo");
+@var.insert("limon");
+
+//@var.remove(5);
+
+String @salida = "";
+for(int @i = 0; @i<@var.size(); @i++){
+	@salida += @var.get(@i);
+}
+
+log(@salida); //debería mostrar los elementos ordenados
+
+@var.insert("limon"); //debería mostrar un error
+@var.insert("uva");
+for(int @i = 0; @i<@var.size(); @i++){
+	@salida += @var.get(@i);
+}
+
+log(@salida); //debería mostrar los elementos ordenados
+
 
 ////MANDAR EX <====== BUSCAR ESO LUEGO PARA VER DONDE IMPLEMENTAR LOS EXCEPTIONS
 
