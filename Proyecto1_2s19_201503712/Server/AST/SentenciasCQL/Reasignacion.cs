@@ -1,4 +1,5 @@
-﻿using Server.AST.ExpresionesCQL;
+﻿using Server.AST.ColeccionesCQL;
+using Server.AST.ExpresionesCQL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +21,9 @@ namespace Server.AST.SentenciasCQL
 
         public override object Ejecutar(AST_CQL arbol)
         {
+            if (expresion is ValorColeccion) {
+                ((ValorColeccion)expresion).tipoDato = (new Primitivo(id + " (Identifier)", fila, columna).getTipo(arbol));
+            }
             arbol.entorno.reasignarVariable(id,expresion.getValor(arbol),expresion.getTipo(arbol),arbol,fila,columna);
             return null;
         }

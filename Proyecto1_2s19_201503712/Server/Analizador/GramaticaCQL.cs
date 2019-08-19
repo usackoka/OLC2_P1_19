@@ -70,7 +70,6 @@ namespace Server.Analizador
             res_create = ToTerm("Create"),
             res_table = ToTerm("Table"),
             res_type = ToTerm("type"),
-            res_user_type = ToTerm("User_Type"),
             res_new = ToTerm("new"),
             res_alter = ToTerm("alter"),
             res_add = ToTerm("add"),
@@ -274,6 +273,8 @@ namespace Server.Analizador
             var ACTUALIZAR = new NonTerminal("ACTUALIZAR");
             var ACTUALIZACION = new NonTerminal("ACTUALIZACION");
             var ACTUALIZACION2 = new NonTerminal("ACTUALIZACION2");
+            var DATE_NOW = new NonTerminal("DATE_NOW");
+            var THROW = new NonTerminal("THROW");
             #endregion
 
             #region Gramatica
@@ -542,9 +543,13 @@ namespace Server.Analizador
 
             CASTEOS.Rule = l_parent + TIPO + r_parent + E;
 
-            NATIVAS.Rule = res_today + l_parent + r_parent
-                | res_now + l_parent + r_parent
-                | res_throw + res_new + EXCEPTION;
+            NATIVAS.Rule = DATE_NOW
+                | THROW;
+
+            DATE_NOW.Rule = res_today + l_parent + r_parent
+                | res_now + l_parent + r_parent;
+
+            THROW.Rule = res_throw + res_new + EXCEPTION;
 
             REFERENCIA.Rule = id | arroba + id | LLAMADA_FUNCION | ACCESO_ARR;
 
@@ -557,7 +562,8 @@ namespace Server.Analizador
             CORCHETES.Rule = l_corchete + E + r_corchete;
 
             //TUPLAS, LISTAS, CONJUNTOS, DICCIONARIOS // PAG 66
-            COLECCION.Rule = l_corchete + LISTA_E + r_corchete;// | l_parent + LISTA_E + r_parent | l_llave + LISTA_E + r_llave | l_llave + KEY_VALUE_LIST + r_llave;
+            COLECCION.Rule = l_corchete + LISTA_E + r_corchete
+                | l_corchete + KEY_VALUE_LIST + r_corchete;// | l_parent + LISTA_E + r_parent | l_llave + LISTA_E + r_llave | l_llave + KEY_VALUE_LIST + r_llave;
 
             KEY_VALUE_LIST.Rule = MakePlusRule(KEY_VALUE_LIST, coma, KEY_VALUE);
 

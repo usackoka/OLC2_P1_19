@@ -1,4 +1,5 @@
-﻿using Server.AST.ExpresionesCQL;
+﻿using Server.AST.ColeccionesCQL;
+using Server.AST.ExpresionesCQL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,9 +24,14 @@ namespace Server.AST.SentenciasCQL
             foreach (KeyValuePair<String, Expresion> kvp in kv) {
                 Object valor = Primitivo.getDefecto(tipoDato, arbol);
                 if (kvp.Value!=null) {
+                    if (kvp.Value is ValorColeccion)
+                    {
+                        ((ValorColeccion)kvp.Value).tipoDato = tipoDato;
+                    }
                     valor = kvp.Value.getValor(arbol);
                     //falta verificar que el tipo a asignar sea igual que el tipo de la variable
                 }
+
                 arbol.entorno.addVariable(kvp.Key, new Variable(valor, tipoDato));
             }
 

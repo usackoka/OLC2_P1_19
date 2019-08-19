@@ -25,7 +25,11 @@ namespace Server.AST.SentenciasCQL
                 return this.expresiones[0].getValor(arbol);
             }
             else {//para los procedures//pendiente
-                return null; 
+                List<Object> retornos = new List<object>();
+                foreach (Expresion expresion in this.expresiones) {
+                    retornos.Add(expresion.getValor(arbol));
+                }
+                return retornos; 
             }
         }
     }

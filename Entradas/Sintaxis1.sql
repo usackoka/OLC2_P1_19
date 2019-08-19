@@ -302,26 +302,28 @@ if(@salida != "Hola Putos :v"){
 }
 
 //========================= Metodos set ===============================
-Set @var = new Set<String>;
-@var.insert("durazno");
-@var.insert("mango");
-@var.insert("melocoton");
-@var.insert("higo");
-@var.insert("limon");
+Set @varSet = new Set<String>;
+@varSet.insert("durazno");
+@varSet.insert("mango");
+@varSet.insert("melocoton");
+@varSet.insert("higo");
+@varSet.insert("limon");
 
-//@var.remove(5);
+//@varSet.remove(5);
 
 String @salida = "";
-for(int @i = 0; @i<@var.size(); @i++){
-	@salida += @var.get(@i);
+for(int @i = 0; @i<@varSet.size(); @i++){
+	@salida += @varSet.get(@i)+" ";
 }
 
 log(@salida); //debería mostrar los elementos ordenados
 
-@var.insert("limon"); //debería mostrar un error
-@var.insert("uva");
-for(int @i = 0; @i<@var.size(); @i++){
-	@salida += @var.get(@i);
+@varSet.insert("limon"); //debería mostrar un error
+@varSet.insert("uva");
+@varSet.insert("sandia");
+@salida = "";
+for(int @i = 0; @i<@varSet.size(); @i++){
+	@salida += @varSet.get(@i)+" ";
 }
 
 log(@salida); //debería mostrar los elementos ordenados

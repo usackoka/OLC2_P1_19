@@ -1,1 +1,0 @@
-Entrada cql :sad

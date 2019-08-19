@@ -28,7 +28,14 @@ namespace Server.AST.SentenciasCQL
         {
             //arbol.entorno = new Entorno(arbol.entorno);
             Entorno temp = arbol.entorno;
-            arbol.entorno = new Entorno(arbol.entorno.padre);
+
+            //para cuando hago una llamada global que no se pierda el padre
+            if (arbol.entorno.padre != null) {
+                arbol.entorno = new Entorno(arbol.entorno.padre);
+            }
+            else {
+                arbol.entorno = new Entorno(arbol.entorno);
+            }
 
             crearParametros(arbol);
 

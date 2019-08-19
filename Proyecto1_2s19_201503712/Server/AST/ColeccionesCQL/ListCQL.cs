@@ -9,9 +9,9 @@ namespace Server.AST.ColeccionesCQL
 {
     public class ListCQL:Expresion
     {
-        Object tipoDato;
+        public Object tipoDato { get; set; }
         public List<Expresion> expresiones { get; set; }
-        public List<Object> valores;
+        public List<Object> valores { get; set; }
 
         public ListCQL(Object tipoDato, int fila, int columna) {
             this.tipoDato = tipoDato;

@@ -11,7 +11,7 @@ namespace Server.AST.ColeccionesCQL
     public class SetCQL : Expresion
     {
         Object tipoDato;
-        List<Object> valores;
+        public List<Object> valores { get; set; }
         public List<Expresion> expresiones { get; set; }
 
         public SetCQL(Object tipoDato, int fila, int columna)

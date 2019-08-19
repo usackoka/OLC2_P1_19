@@ -13,12 +13,12 @@ namespace Server.AST.ColeccionesCQL
         Object tipoClave;
         Object tipoValor;
         public List<Expresion> expresiones { get; set; }
-        List<Object> valores;
+        public Hashtable valores { get; set; }
 
-        public MapCQL(Object tipoClave, Object tipoValor, List<Expresion> expresiones, int fila, int columna) {
+        public MapCQL(Object tipoClave, Object tipoValor, int fila, int columna) {
 
-            this.valores = new List<object>();
-            this.expresiones = expresiones;
+            this.valores = new Hashtable();
+            this.expresiones = new List<Expresion>();
             this.fila = fila;
             this.columna = columna;
             this.tipoValor = tipoValor;
@@ -103,7 +103,7 @@ namespace Server.AST.ColeccionesCQL
             }
             else
             {
-                arbol.addError("List", "(" + idLlamada + ") no posee el metódo buscado", fila, columna);
+                arbol.addError("Map", "(" + idLlamada + ") no posee el metódo buscado", fila, columna);
                 return Primitivo.TIPO_DATO.NULL;
             }
         }
@@ -111,20 +111,21 @@ namespace Server.AST.ColeccionesCQL
         Object insert(AST_CQL arbol)
         {
 
-            if (this.expresiones.Count != 1)
+            if (this.expresiones.Count != 2)
             {
-                arbol.addError("List", "(insert) debe tener exclusivamente 1 parámetro", fila, columna);
-                return null;
-            }
-            Object valor = expresiones[0].getValor(arbol);
-            if (this.valores.Contains(valor))
-            {
-                arbol.addError("List", "(insert) ya contiene este valor: " + valor, fila, columna);
+                arbol.addError("Map", "(insert) debe tener exclusivamente 2 parámetros", fila, columna);
                 return null;
             }
 
-            this.valores.Add(valor);
-            this.valores.Sort();
+            Object valor = expresiones[1].getValor(arbol);
+            Object clave = expresiones[0].getValor(arbol);
+            if (this.valores.ContainsKey(clave))
+            {
+                arbol.addError("Map", "(insert) ya contiene esta clave: " + clave, fila, columna);
+                return null;
+            }
+
+            this.valores.Add(clave,valor);
             return null;
         }
 
@@ -133,7 +134,7 @@ namespace Server.AST.ColeccionesCQL
 
             if (this.expresiones.Count != 0)
             {
-                arbol.addError("List", "(size) debe tener exclusivamente 0 parámetros", fila, columna);
+                arbol.addError("Map", "(size) debe tener exclusivamente 0 parámetros", fila, columna);
                 return 0;
             }
 
@@ -144,18 +145,18 @@ namespace Server.AST.ColeccionesCQL
         {
             if (this.expresiones.Count != 1)
             {
-                arbol.addError("List", "(contains) debe tener exclusivamente 1 parámetro", fila, columna);
+                arbol.addError("Map", "(contains) debe tener exclusivamente 1 parámetro", fila, columna);
                 return false;
             }
 
-            return this.valores.Contains(this.expresiones[0].getValor(arbol));
+            return this.valores.ContainsKey(this.expresiones[0].getValor(arbol));
         }
 
         Object clear(AST_CQL arbol)
         {
             if (this.expresiones.Count != 0)
             {
-                arbol.addError("List", "(clear) debe tener exclusivamente 0 parámetros", fila, columna);
+                arbol.addError("Map", "(clear) debe tener exclusivamente 0 parámetros", fila, columna);
                 return 0;
             }
 
@@ -165,78 +166,36 @@ namespace Server.AST.ColeccionesCQL
 
         Object remove(AST_CQL arbol)
         {
-            int index = 0;
             if (this.expresiones.Count != 1)
             {
-                arbol.addError("List", "(remove) debe tener exclusivamente 1 parámetro", fila, columna);
+                arbol.addError("Map", "(remove) debe tener exclusivamente 1 parámetro", fila, columna);
                 return Primitivo.TIPO_DATO.NULL;
             }
-            else
-            {
-                Object indexO = this.expresiones[0].getValor(arbol);
-                if (indexO is Int32)
-                {
-                    index = Convert.ToInt32(indexO);
-                }
-                else
-                {
-                    arbol.addError("List", "(remove) el parámetro debe ser de valor entero", fila, columna);
-                    return Primitivo.TIPO_DATO.NULL;
-                }
-            }
 
-            this.valores.RemoveAt(index);
+            this.valores.Remove(this.expresiones[0].getValor(arbol));
             return null;
         }
 
         Object get(AST_CQL arbol)
         {
-
-            int index = 0;
             if (this.expresiones.Count != 1)
             {
-                arbol.addError("List", "(get) debe tener exclusivamente 1 parámetro", fila, columna);
+                arbol.addError("Map", "(get) debe tener exclusivamente 1 parámetro", fila, columna);
                 return Primitivo.TIPO_DATO.NULL;
-            }
-            else
-            {
-                Object indexO = this.expresiones[0].getValor(arbol);
-                if (indexO is Int32)
-                {
-                    index = Convert.ToInt32(indexO);
-                }
-                else
-                {
-                    arbol.addError("List", "(get) el parámetro debe ser de valor entero", fila, columna);
-                    return Primitivo.TIPO_DATO.NULL;
-                }
             }
 
             //MANDAR EX si se pasa del límite
-            return this.valores[index];
+            return this.valores[this.expresiones[0].getValor(arbol)];
         }
 
         Object set(AST_CQL arbol)
         {
-            int index = 0;
             if (this.expresiones.Count != 2)
             {
-                arbol.addError("List", "(set) debe tener exclusivamente 2 parámetros", fila, columna);
-            }
-            else
-            {
-                Object indexO = this.expresiones[0].getValor(arbol);
-                if (indexO is Int32)
-                {
-                    index = Convert.ToInt32(indexO);
-                }
-                else
-                {
-                    arbol.addError("List", "(set) el parámetro debe ser de valor entero", fila, columna);
-                }
+                arbol.addError("Map", "(set) debe tener exclusivamente 2 parámetros", fila, columna);
             }
 
-            this.valores[index] = this.expresiones[1].getValor(arbol);
+            this.valores[this.expresiones[0].getValor(arbol)] = this.expresiones[1].getValor(arbol);
 
             return null;
         }

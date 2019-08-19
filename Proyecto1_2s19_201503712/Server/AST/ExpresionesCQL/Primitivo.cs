@@ -123,6 +123,8 @@ namespace Server.AST.ExpresionesCQL
                 case TIPO_DATO.BOOLEAN:
                 case TIPO_DATO.DOUBLE:
                 case TIPO_DATO.INT:
+                case TIPO_DATO.DATE:
+                case TIPO_DATO.TIME:
                 case TIPO_DATO.STRING:
                     return this.value;
                 case TIPO_DATO.ID:

@@ -47,25 +47,27 @@ namespace Server.AST.ExpresionesCQL
             Object valorRetorno = Primitivo.TIPO_DATO.NULL;
 
             foreach (Object obj in referencias) {
-                //============== saco el tipo
-                Object tipo = Primitivo.TIPO_DATO.NULL;
                 if (obj is String)
                 {
-                    tipo = (new Primitivo(obj + " (Identifier)", fila, columna)).getTipo(arbol);
-                    //================ verifico el tipo
-                    if (tipo.Equals(Primitivo.TIPO_DATO.LIST))
-                    {
-                        valorRetorno = (ListCQL)(new Primitivo(obj + " (Identifier)", fila, columna)).getValor(arbol);
-                    }
-                    else if (tipo.Equals(Primitivo.TIPO_DATO.SET))
-                    {
-                        valorRetorno = (SetCQL)(new Primitivo(obj + " (Identifier)", fila, columna)).getValor(arbol);
-                    }
-                } else if (obj is LlamadaFuncion) {
+                    valorRetorno = (new Primitivo(obj + " (Identifier)", fila, columna)).getValor(arbol);
+                }
+                else if (obj is LlamadaFuncion)
+                {
+                    LlamadaFuncion llf = (LlamadaFuncion)obj;
                     //verifico el valor de retono
-                    if (valorRetorno is ListCQL) {
+                    if (valorRetorno is String) {
+                        ClaseString cs = new ClaseString();
+                        cs.expresiones = llf.expresiones;
+                        valorRetorno = cs.getMetodoString(llf.idLlamada, valorRetorno.ToString(), arbol);
+                    }
+                    else if (valorRetorno is DateTime)
+                    {
+                        ClaseDateTime cs = new ClaseDateTime();
+                        cs.expresiones = llf.expresiones;
+                        valorRetorno = cs.getMetodoDateTime(llf.idLlamada, (DateTime)valorRetorno, arbol);
+                    }
+                    else if (valorRetorno is ListCQL) {
                         ListCQL list = (ListCQL)valorRetorno;
-                        LlamadaFuncion llf = (LlamadaFuncion)obj;
                         //verifico el nombre del método para aplicarlo
                         list.expresiones = llf.expresiones;
                         valorRetorno = list.getMetodo(arbol, llf.idLlamada);
@@ -73,7 +75,13 @@ namespace Server.AST.ExpresionesCQL
                     else if (valorRetorno is SetCQL)
                     {
                         SetCQL list = (SetCQL)valorRetorno;
-                        LlamadaFuncion llf = (LlamadaFuncion)obj;
+                        //verifico el nombre del método para aplicarlo
+                        list.expresiones = llf.expresiones;
+                        valorRetorno = list.getMetodo(arbol, llf.idLlamada);
+                    }
+                    else if (valorRetorno is MapCQL)
+                    {
+                        MapCQL list = (MapCQL)valorRetorno;
                         //verifico el nombre del método para aplicarlo
                         list.expresiones = llf.expresiones;
                         valorRetorno = list.getMetodo(arbol, llf.idLlamada);
@@ -91,34 +99,38 @@ namespace Server.AST.ExpresionesCQL
             foreach (Object obj in referencias)
             {
                 //============== saco el tipo
-                Object tipo = Primitivo.TIPO_DATO.NULL;
                 if (obj is String)
                 {
-                    tipo = (new Primitivo(obj + " (Identifier)", fila, columna)).getTipo(arbol);
-                    //================ verifico el tipo
-                    if (tipo.Equals(Primitivo.TIPO_DATO.LIST))
-                    {
-                        valorRetorno = (ListCQL)(new Primitivo(obj + " (Identifier)", fila, columna)).getValor(arbol);
-                        tipoRetorno = Primitivo.TIPO_DATO.LIST;
-                    } else if (tipo.Equals(Primitivo.TIPO_DATO.SET)) {
-                        valorRetorno = (SetCQL)(new Primitivo(obj + " (Identifier)", fila, columna)).getValor(arbol);
-                        tipoRetorno = Primitivo.TIPO_DATO.SET;
-                    }
+                    tipoRetorno = (new Primitivo(obj + " (Identifier)", fila, columna)).getTipo(arbol);
+                    valorRetorno = (new Primitivo(obj + " (Identifier)", fila, columna)).getValor(arbol);
                 }
                 else if (obj is LlamadaFuncion)
                 {
+                    LlamadaFuncion llf = (LlamadaFuncion)obj;
                     //verifico el valor de retono
-                    if (valorRetorno is ListCQL)
+                    if (valorRetorno is String)
+                    {
+                        ClaseString cs = new ClaseString();
+                        cs.expresiones = llf.expresiones;
+                        valorRetorno = cs.getMetodoString(llf.idLlamada, valorRetorno.ToString(), arbol);
+                        tipoRetorno = cs.getTipoMetodo(llf.idLlamada, arbol);
+                    }
+                    else if (valorRetorno is ListCQL)
                     {
                         ListCQL list = (ListCQL)valorRetorno;
-                        LlamadaFuncion llf = (LlamadaFuncion)obj;
                         //verifico el nombre del método para aplicarlo
                         list.expresiones = llf.expresiones;
                         valorRetorno = list.getMetodo(arbol, llf.idLlamada);
                         tipoRetorno = list.getTipoMetodo(llf.idLlamada);
                     } else if (valorRetorno is SetCQL) {
                         SetCQL list = (SetCQL)valorRetorno;
-                        LlamadaFuncion llf = (LlamadaFuncion)obj;
+                        //verifico el nombre del método para aplicarlo
+                        list.expresiones = llf.expresiones;
+                        valorRetorno = list.getMetodo(arbol, llf.idLlamada);
+                        tipoRetorno = list.getTipoMetodo(llf.idLlamada);
+                    } else if (valorRetorno is MapCQL)
+                    {
+                        MapCQL list = (MapCQL)valorRetorno;
                         //verifico el nombre del método para aplicarlo
                         list.expresiones = llf.expresiones;
                         valorRetorno = list.getMetodo(arbol, llf.idLlamada);
