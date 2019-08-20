@@ -86,6 +86,7 @@
     <Compile Include="AST\ColeccionesCQL\MapCQL.cs" />
     <Compile Include="AST\ColeccionesCQL\SetCQL.cs" />
     <Compile Include="AST\ColeccionesCQL\ValorColeccion.cs" />
+    <Compile Include="AST\DBMS\Atributo.cs" />
     <Compile Include="AST\DBMS\Procedure.cs" />
     <Compile Include="AST\CQL\CreateUserType.cs" />
     <Compile Include="AST\DBMS\DataBase.cs" />
@@ -97,6 +98,7 @@
     <Compile Include="AST\ExpresionesCQL\ClaseDateTime.cs" />
     <Compile Include="AST\ExpresionesCQL\ClaseString.cs" />
     <Compile Include="AST\ExpresionesCQL\Expresion.cs" />
+    <Compile Include="AST\ExpresionesCQL\InstanciaUserType.cs" />
     <Compile Include="AST\ExpresionesCQL\LlamadaFuncion.cs" />
     <Compile Include="AST\ExpresionesCQL\Primitivo.cs" />
     <Compile Include="AST\ExpresionesCQL\Referencia.cs" />
@@ -107,6 +109,7 @@
     <Compile Include="AST\NodoCQL.cs" />
     <Compile Include="AST\SentenciasCQL\Actualizar.cs" />
     <Compile Include="AST\SentenciasCQL\Case.cs" />
+    <Compile Include="AST\SentenciasCQL\Catch.cs" />
     <Compile Include="AST\SentenciasCQL\Corte.cs" />
     <Compile Include="AST\SentenciasCQL\Declaracion.cs" />
     <Compile Include="AST\SentenciasCQL\Default.cs" />

@@ -1,4 +1,5 @@
 ﻿using Server.AST.ColeccionesCQL;
+using Server.AST.DBMS;
 using Server.AST.SentenciasCQL;
 using System;
 using System.Collections.Generic;
@@ -11,9 +12,11 @@ namespace Server.AST.ExpresionesCQL
     public class Referencia : Expresion
     {
         List<Object> referencias;
+        Expresion valor;
 
-        public Referencia(List<Object> referencias) {
+        public Referencia(List<Object> referencias, Expresion valor) {
             this.referencias = referencias;
+            this.valor = valor;
         }
 
         public override object getTipo(AST_CQL arbol)
@@ -39,17 +42,53 @@ namespace Server.AST.ExpresionesCQL
                 }
             }
 
-            return getValorRecursivo(arbol);
+            //================== si es un set valor 
+            if (this.valor != null) {
+                setValorRecursivo(arbol);
+                return null;
+            }
+
+            //=================== valor a retornar
+            Object valorRetorno = getValorRecursivo(arbol);
+            if (valorRetorno is Atributo) {
+                return ((Atributo)valorRetorno).valor;
+            }
+            return valorRetorno;
+        }
+
+        void setValorRecursivo(AST_CQL arbol) {
+            Object ret =  getValorRecursivo(arbol);
+
+            if (ret is Atributo) {
+                ((Atributo)ret).setValor(valor.getValor(arbol),valor.getTipo(arbol),arbol);
+            }
         }
 
         Object getValorRecursivo(AST_CQL arbol) {
 
-            Object valorRetorno = Primitivo.TIPO_DATO.NULL;
+            Object valorRetorno = null;
 
-            foreach (Object obj in referencias) {
+            for (int i = 0; i<referencias.Count; i++) {
+                Object obj = referencias[i];
                 if (obj is String)
                 {
-                    valorRetorno = (new Primitivo(obj + " (Identifier)", fila, columna)).getValor(arbol);
+                    if (valorRetorno != null)
+                    {
+                        if (valorRetorno is UserType) {
+                            if (i != referencias.Count - 1)
+                            {
+                                valorRetorno = ((UserType)valorRetorno).getAtributo(obj.ToString().ToLower(), arbol).valor;
+                            }
+                            //si es última iteración
+                            else
+                            {
+                                valorRetorno = ((UserType)valorRetorno).getAtributo(obj.ToString().ToLower(), arbol);
+                            }
+                        }
+                    }
+                    else {
+                        valorRetorno = (new Primitivo(obj + " (Identifier)", fila, columna)).getValor(arbol);
+                    }
                 }
                 else if (obj is LlamadaFuncion)
                 {

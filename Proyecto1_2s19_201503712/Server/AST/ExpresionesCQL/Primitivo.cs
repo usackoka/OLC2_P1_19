@@ -50,7 +50,7 @@ namespace Server.AST.ExpresionesCQL
             }
             else if (this.value.ToString().Contains(" (Identifier)"))
             {
-                this.value = this.value.ToString().Replace(" (Identifier)", ""); ;
+                this.value = this.value.ToString().Replace(" (Identifier)", "").ToLower();
                 this.tipoDato = TIPO_DATO.ID;
             }
             else if (this.value.ToString().Contains(" (cadena)"))
@@ -93,6 +93,7 @@ namespace Server.AST.ExpresionesCQL
                 case TIPO_DATO.LIST:
                 case TIPO_DATO.SET:
                 case TIPO_DATO.MAP:
+                case TIPO_DATO.STRUCT:
                     return TIPO_DATO.NULL;
                 default:
                     arbol.addError(tipoDato.ToString(),"No hay defecto para el tipo de dato: "+tipoDato,0,0);

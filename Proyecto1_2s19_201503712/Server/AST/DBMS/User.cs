@@ -9,14 +9,11 @@ namespace Server.AST.DBMS
     {
         String id;
         String contraseña;
-        List<String> grants;
 
         public User(String id, String contraseña) {
             this.id = id;
             this.contraseña = contraseña;
-            this.grants = new List<string>();
         }
-
-
+        
     }
 }

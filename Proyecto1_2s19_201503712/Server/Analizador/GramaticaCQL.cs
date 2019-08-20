@@ -285,7 +285,6 @@ namespace Server.Analizador
                         | PROCEDURE
                         | BATCH
                         | TYPES + puntocoma
-                        | FUN_AGR + puntocoma
                         | DECLARACION + puntocoma
                         | INSTRUCCION + puntocoma
                         | DML + puntocoma
@@ -422,7 +421,7 @@ namespace Server.Analizador
             //===================================
 
             INSTRUCCION.Rule = res_log + l_parent + E + r_parent
-                        | LISTA_IDS_ARROBA + igual + E
+                        //| LISTA_IDS_ARROBA + igual + E
                         //========== ver aquí ambiguedad entre referencias y reasignacion
                         | REFERENCIAS + igual + E
                         | res_return + LISTA_E
@@ -534,7 +533,7 @@ namespace Server.Analizador
                 | E + res_in + E
                 | E + interrogacion + E + dospuntos + E;
 
-            TERMINO.Rule = PRIMITIVO | E_PARENT | NATIVAS | COLECCION | REFERENCIAS | CASTEOS | INSTANCIA;
+            TERMINO.Rule = PRIMITIVO | E_PARENT | NATIVAS | COLECCION | REFERENCIAS | CASTEOS | INSTANCIA | FUN_AGR;
 
             INSTANCIA.Rule = res_new + id
                 | res_new + res_list + menor_que + TIPO + mayor_que
@@ -551,7 +550,7 @@ namespace Server.Analizador
 
             THROW.Rule = res_throw + res_new + EXCEPTION;
 
-            REFERENCIA.Rule = id | arroba + id | LLAMADA_FUNCION | ACCESO_ARR;
+            REFERENCIA.Rule = arroba + id | id | LLAMADA_FUNCION | ACCESO_ARR;
 
             REFERENCIAS.Rule = MakePlusRule(REFERENCIAS, punto, REFERENCIA);
 
@@ -563,7 +562,8 @@ namespace Server.Analizador
 
             //TUPLAS, LISTAS, CONJUNTOS, DICCIONARIOS // PAG 66
             COLECCION.Rule = l_corchete + LISTA_E + r_corchete
-                | l_corchete + KEY_VALUE_LIST + r_corchete;// | l_parent + LISTA_E + r_parent | l_llave + LISTA_E + r_llave | l_llave + KEY_VALUE_LIST + r_llave;
+                | l_corchete + KEY_VALUE_LIST + r_corchete
+                | l_llave + LISTA_E + r_llave;
 
             KEY_VALUE_LIST.Rule = MakePlusRule(KEY_VALUE_LIST, coma, KEY_VALUE);
 

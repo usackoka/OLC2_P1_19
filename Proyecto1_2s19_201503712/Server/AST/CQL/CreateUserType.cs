@@ -9,9 +9,9 @@ namespace Server.AST.CQL
 {
     public class CreateUserType : Sentencia
     {
-        String id;
-        Boolean IfNotExists;
-        List<KeyValuePair<String, Object>> atributos;
+        public String id;
+        public Boolean IfNotExists;
+        public List<KeyValuePair<String, Object>> atributos;
 
         public CreateUserType(Boolean IfNotExists, String id, List<KeyValuePair<String,Object>> atributos,
             int fila, int columna) {
@@ -24,7 +24,7 @@ namespace Server.AST.CQL
 
         public override object Ejecutar(AST_CQL arbol)
         {
-            throw new NotImplementedException();
+            return arbol.dbms.createUserType(this);
         }
     }
 }

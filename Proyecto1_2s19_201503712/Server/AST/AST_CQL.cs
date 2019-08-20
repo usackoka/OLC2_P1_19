@@ -1,4 +1,6 @@
 ﻿using Server.Analizador;
+using Server.AST.CQL;
+using Server.AST.DBMS;
 using Server.AST.ExpresionesCQL;
 using Server.AST.SentenciasCQL;
 using System;
@@ -16,6 +18,7 @@ namespace Server.AST
         public Entorno entorno { get; set; }
         public List<Funcion> funciones { get; set; }
         public Boolean finalizado { get; set; }
+        public Management dbms { get; set; }
 
         public AST_CQL() {
             this.funciones = new List<Funcion>();
@@ -23,6 +26,7 @@ namespace Server.AST
             this.mensajes = new List<String>();
             this.errores = new List<clsToken>();
             this.entorno = new Entorno(null);
+            this.dbms = new Management();
             this.finalizado = false;
         }
 
@@ -52,6 +56,9 @@ namespace Server.AST
             //======== errores ========
             foreach (clsToken error in errores) {
                 respuesta += "\n[+ERROR]\n";
+                respuesta += "\n[+LEXEMA]\n";
+                respuesta += error.lexema;
+                respuesta += "\n[-LEXEMA]\n";
                 respuesta += "\n[+LINE]\n";
                 respuesta += error.fila;
                 respuesta += "\n[-LINE]\n";

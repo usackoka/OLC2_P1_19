@@ -1,4 +1,6 @@
-﻿using Server.AST.ExpresionesCQL;
+﻿using Server.AST.DBMS;
+using Server.AST.ExpresionesCQL;
+using Server.AST.SentenciasCQL;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -27,6 +29,16 @@ namespace Server.AST.ColeccionesCQL
 
         public override object getValor(AST_CQL arbol)
         {
+            if (tipoDato is String) {
+                UserType modeloUt = arbol.dbms.getUserType(tipoDato.ToString());
+                if (modeloUt == null)
+                {
+                    arbol.addError("TypeDontExists", "No se encontró el UserType: " + tipoDato.ToString(), fila, columna);
+                    return Catch.EXCEPTION.TypeDontExists;
+                }
+                return new UserType(modeloUt,expresiones,arbol);
+            }
+
             if (tipoDato.Equals(Primitivo.TIPO_DATO.LIST))
             {
                 List<Object> listReturn = new List<object>();

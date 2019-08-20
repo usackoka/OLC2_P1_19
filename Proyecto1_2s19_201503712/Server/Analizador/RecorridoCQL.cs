@@ -69,8 +69,8 @@ namespace Server.Analizador
                 // id + TIPO;
                 return new KeyValuePair<String, Object>(getLexema(raiz, 0), recorrido(raiz.ChildNodes[1]));
             }
-            else if (CompararNombre(raiz,"INE")) {
-                return raiz.ChildNodes.Count != 0 ? true:false;
+            else if (CompararNombre(raiz, "INE")) {
+                return raiz.ChildNodes.Count != 0 ? true : false;
             }
             else if (CompararNombre(raiz, "TYPES")) {
                 /*res_create + res_type + INE + id + l_parent + LISTA_CQLTIPOS + r_parent
@@ -145,7 +145,7 @@ namespace Server.Analizador
                 foreach (ParseTreeNode nodo in raiz.ChildNodes) {
                     lista.Add(recorrido(nodo));
                 }
-                return new Referencia(lista);
+                return new Referencia(lista, null);
             } else if (CompararNombre(raiz, "REFERENCIA")) {
                 //id | arroba + id | LLAMADA_FUNCION | ACCESO_ARR
                 if (raiz.ChildNodes[0].ToString().Equals("LLAMADA_FUNCION") || raiz.ChildNodes[0].ToString().Equals("ACCESO_ARR"))
@@ -199,13 +199,31 @@ namespace Server.Analizador
                     return Primitivo.TIPO_DATO.COUNTER;
                 }
                 else {
-                    return Primitivo.TIPO_DATO.STRUCT;
+                    return tipo;
                 }
             }
             else if (CompararNombre(raiz, "INSTRUCCION")) {
+                /*
+                 INSTRUCCION.Rule = res_log + l_parent + E + r_parent
+                        | LISTA_IDS_ARROBA + igual + E
+                        //========== ver aquí ambiguedad entre referencias y reasignacion
+                        | REFERENCIAS + igual + E
+                        | res_return + LISTA_E
+                        | REASIGNACION
+                        | ACTUALIZACION2
+                        | CORTE
+                        | REFERENCIAS;*/
                 if (raiz.ChildNodes.Count == 4)
                 {
                     return new Print((Expresion)recorrido(raiz.ChildNodes[2]), getFila(raiz, 1), getColumna(raiz, 1));
+                }
+                else if (raiz.ChildNodes.Count == 3) {
+                    List<Object> lista = new List<object>();
+                    foreach (ParseTreeNode nodo in raiz.ChildNodes[0].ChildNodes)
+                    {
+                        lista.Add(recorrido(nodo));
+                    }
+                    return new Referencia(lista, (Expresion)recorrido(raiz.ChildNodes[2]));
                 }
                 else if (raiz.ChildNodes.Count == 2) {
                     return new Return((List<Expresion>)recorrido(raiz.ChildNodes[1]), getFila(raiz, 0), getColumna(raiz, 0));
@@ -236,7 +254,10 @@ namespace Server.Analizador
                 | res_new + res_list + menor_que + TIPO + mayor_que
                 | res_new + res_set + menor_que + TIPO + mayor_que
                 | res_new + res_map + menor_que + TIPO + coma + TIPO + mayor_que;*/
-                if (raiz.ChildNodes.Count == 5)
+                if (raiz.ChildNodes.Count == 2) {
+                    return new InstanciaUserType(getLexema(raiz,1), getFila(raiz, 0), getColumna(raiz, 0));
+                }
+                else if (raiz.ChildNodes.Count == 5)
                 {
                     if (ContainsString(getLexema(raiz, 1), "list"))
                     {

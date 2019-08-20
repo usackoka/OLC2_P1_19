@@ -101,6 +101,24 @@ if(@var==1){
 	log('hola3');
 }
 
+boolean @b1 = true;
+if(@b1){
+	log("if super básico");
+}else{
+	log("está mal campeon :c");
+}
+
+
+double @d1 = 4.0;
+
+if(@d1==0.0){
+	log("Aquí no");
+}else if(@d1==4.1){
+	log("aqui tampoco");
+}else{
+	log("aqui si");
+}
+
 switch(@variable){
 	case 1:
 		LOG("hola mundo");
@@ -142,23 +160,7 @@ int @n1,@n2=3,@n4;
 log("Esto debería dar 3: "+@n1+@n2);
 log("Esto debería dar 0: "+@n1+@n4);
 
-boolean @b1 = true;
-if(@b1){
-	log("if super básico");
-}else{
-	log("está mal campeon :c");
-}
 
-
-double @d1 = 4.0;
-
-if(@d1==0.0){
-	log("Aquí no");
-}else if(@d1==4.1){
-	log("aqui tampoco");
-}else{
-	log("aqui si");
-}
 
 int @nn1 = 40;
 @nn1 = @nn1 - 1;
@@ -221,7 +223,7 @@ Int factorial(int @n){
 	} 
 }
 
-log(ackerman(3,4));
+log(ackerman(3,6));
 
 int ackerman(int @m, int @n){
 	if(@m==0){
@@ -264,71 +266,8 @@ for(@i=0; @i<10; @i+=2){
 	log("for2 valor i: "+@i);
 }
 
-
-//===================================================Metodos LIST ==============================================
-List @var = new List<String>;
-@var.insert("Hola");
-@var.insert(" ");
-@var.insert("Putos");
-@var.insert(" ");
-@var.insert(":3");
-@var.insert(":O");
-
-@var.remove(5);
-
-if(@var.contains(":O")){
-	log("Está malo chico :c");
-}else{
-	log("Todo bien, todo correcto");
-}
-
-@var.clear();
-@var.insert("Hola");
-@var.insert(" ");
-@var.insert("Putos");
-@var.insert(" ");
-@var.insert(":3");
-@var.set(4,":v");
-
-String @salida = "";
-for(int @i = 0; @i<@var.size(); @i++){
-	@salida += @var.get(@i);
-}
-
-if(@salida != "Hola Putos :v"){
-	log("Está malo chico :c");
-}else{
-	log("Todo bien, todo correcto");
-}
-
-//========================= Metodos set ===============================
-Set @varSet = new Set<String>;
-@varSet.insert("durazno");
-@varSet.insert("mango");
-@varSet.insert("melocoton");
-@varSet.insert("higo");
-@varSet.insert("limon");
-
-//@varSet.remove(5);
-
-String @salida = "";
-for(int @i = 0; @i<@varSet.size(); @i++){
-	@salida += @varSet.get(@i)+" ";
-}
-
-log(@salida); //debería mostrar los elementos ordenados
-
-@varSet.insert("limon"); //debería mostrar un error
-@varSet.insert("uva");
-@varSet.insert("sandia");
-@salida = "";
-for(int @i = 0; @i<@varSet.size(); @i++){
-	@salida += @varSet.get(@i)+" ";
-}
-
-log(@salida); //debería mostrar los elementos ordenados
-
-
 ////MANDAR EX <====== BUSCAR ESO LUEGO PARA VER DONDE IMPLEMENTAR LOS EXCEPTIONS
+////VALIDAR TIPO <======== BUSCAR PARA DONDE VALIDAR LOS TIPOS
+//Página 82 las exceptions
 
 //EDITBIN.EXE /STACK:40000000 
