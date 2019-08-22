@@ -72,23 +72,138 @@ namespace Server.Analizador
             else if (CompararNombre(raiz, "INE")) {
                 return raiz.ChildNodes.Count != 0 ? true : false;
             }
+            else if (CompararNombre(raiz, "IE"))
+            {
+                return raiz.ChildNodes.Count != 0 ? true : false;
+            }
             else if (CompararNombre(raiz, "TYPES")) {
-                /*res_create + res_type + INE + id + l_parent + LISTA_CQLTIPOS + r_parent
-                | res_alter + res_type + id + res_add + l_parent + LISTA_CQLTIPOS + r_parent
-                | res_alter + res_type + id + res_delete + l_parent + LISTA_IDS + r_parent
-                | res_delete + res_type + id;*/
+                /*res_create + res_type + INE + id + l_parent + LISTA_CQLTIPOS + r_parent*/
+                return new CreateUserType(Convert.ToBoolean(recorrido(raiz.ChildNodes[2])), getLexema(raiz, 3),
+                        (List<KeyValuePair<String, Object>>)recorrido(raiz.ChildNodes[5]), getFila(raiz, 0), getColumna(raiz, 0));
+            }
+            else if (CompararNombre(raiz, "KEY_VALUE")) {
+                //E dospuntos E
+                return new KeyValuePair<Expresion, Expresion>((Expresion)recorrido(raiz.ChildNodes[0]), (Expresion)recorrido(raiz.ChildNodes[2]));
+            }
+            else if (CompararNombre(raiz, "LISTA_COLDEF")) {
+                List<ColumnCQL> lista = new List<ColumnCQL>();
+                foreach (ParseTreeNode nodo in raiz.ChildNodes) {
+                    lista.Add((ColumnCQL)recorrido(nodo));
+                }
+                return lista;
+            }
+            else if (CompararNombre(raiz, "LISTA_IDS")) {
+                List<String> lista = new List<string>();
+                for (int i = 0; i < raiz.ChildNodes.Count; i++) {
+                    lista.Add(getLexema(raiz, i));
+                }
+                return lista;
+            }
+            else if (CompararNombre(raiz, "COLDEF")) {
+                /*id + TIPO + res_primary + res_key
+                | id + TIPO
+                | res_primary + res_key + l_parent + LISTA_IDS + r_parent;*/
+                if (raiz.ChildNodes.Count == 5) {
+                    return new ColumnCQL((List<String>)recorrido(raiz.ChildNodes[3]),
+                        getFila(raiz, 0), getColumna(raiz, 0));
+                } else if (raiz.ChildNodes.Count == 2) {
+                    return new ColumnCQL(getLexema(raiz, 0), recorrido(raiz.ChildNodes[1]), false,
+                        getFila(raiz, 0), getColumna(raiz, 0));
+                } else {
+                    return new ColumnCQL(getLexema(raiz, 0), recorrido(raiz.ChildNodes[1]), true,
+                        getFila(raiz, 0), getColumna(raiz, 0));
+                }
+            }
+            else if (CompararNombre(raiz, "DCL")) {
+                /*res_create + res_user + id + res_with + res_password + E
+                | res_grant + id + res_on + id
+                | res_revoke + id + res_on + id;*/
                 if (ContainsString(getLexema(raiz, 0), "create"))
                 {
-                    return new CreateUserType(Convert.ToBoolean(recorrido(raiz.ChildNodes[2])), getLexema(raiz, 3),
-                        (List<KeyValuePair<String, Object>>)recorrido(raiz.ChildNodes[5]), getFila(raiz, 0), getColumna(raiz, 0));
+                    return new CreateUser(getLexema(raiz, 2), (Expresion)recorrido(raiz.ChildNodes[5]),
+                        getFila(raiz, 0), getColumna(raiz, 0));
+                }
+                else if (ContainsString(getLexema(raiz, 0), "grant"))
+                {
+                    return new Grant(getLexema(raiz, 1), getLexema(raiz, 3), getFila(raiz, 0), getColumna(raiz, 0));
+                }
+                else {
+                    return new Revoke(getLexema(raiz, 1), getLexema(raiz, 3), getFila(raiz, 0), getColumna(raiz, 0));
+                }
+            }
+            else if (CompararNombre(raiz, "DDL")) {
+                /*res_create + res_table + INE + id + l_parent + LISTA_COLDEF + r_parent
+                | res_alter + res_table + id + res_add + LISTA_CQLTIPOS
+                | res_alter + res_table + id + res_drop + LISTA_IDS
+                | res_create + res_database + INE + id
+                | res_drop + res_table + IE + id
+                | res_truncate + res_table + id
+                | res_drop + res_database + id
+                | res_use + id;*/
+                if (ContainsString(getLexema(raiz, 0), "create") && ContainsString(getLexema(raiz, 1), "database"))
+                {
+                    return new CreateDataBase(Convert.ToBoolean(recorrido(raiz.ChildNodes[2])), getLexema(raiz, 3),
+                        getFila(raiz, 0), getColumna(raiz, 0));
+                }
+                else if (ContainsString(getLexema(raiz, 0), "drop") && ContainsString(getLexema(raiz, 1), "database"))
+                {
+                    return new DropDataBase(getLexema(raiz, 2), getFila(raiz, 0), getColumna(raiz, 0));
+                }
+                else if (ContainsString(getLexema(raiz, 0), "drop") && ContainsString(getLexema(raiz, 1), "table")) {
+                    return new DropTable(Convert.ToBoolean(recorrido(raiz.ChildNodes[2])), getLexema(raiz, 3),
+                        getFila(raiz, 0), getColumna(raiz, 0));
+                }
+                else if (ContainsString(getLexema(raiz, 0), "create") && ContainsString(getLexema(raiz, 1), "table"))
+                {
+                    return new CreateTable(Convert.ToBoolean(recorrido(raiz.ChildNodes[2])), getLexema(raiz, 3),
+                        (List<ColumnCQL>)recorrido(raiz.ChildNodes[5]), getFila(raiz, 0), getColumna(raiz, 0));
+                }
+                else if (ContainsString(getLexema(raiz, 0), "truncate") && ContainsString(getLexema(raiz, 1), "table")) {
+                    return new TruncateTable(getLexema(raiz, 2), getFila(raiz, 0), getColumna(raiz, 0));
+                }
+                else if (ContainsString(getLexema(raiz, 0), "use"))
+                {
+                    return new UseDataBase(getLexema(raiz, 1), getFila(raiz, 0), getColumna(raiz, 0));
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            else if (CompararNombre(raiz,"SELECT")) {
+
+            }
+            else if (CompararNombre(raiz, "DML")) {
+                /*res_insert + res_into + id + res_values + l_parent + LISTA_E + r_parent
+                | res_insert + res_into + id + l_parent + LISTA_IDS_ARROBA + r_parent + res_values + l_parent + LISTA_E + r_parent
+                | res_update + id + res_set + LISTA_ASIG_CQL + WHERE_Q
+                | res_delete + res_from + id + WHERE_Q;*/
+                if (ContainsString(getLexema(raiz, 0), "insert"))
+                {
+                    if (raiz.ChildNodes.Count == 10)
+                    {
+                        return new Insert(getLexema(raiz, 2), (List<String>)recorrido(raiz.ChildNodes[4]),
+                            (List<Expresion>)recorrido(raiz.ChildNodes[8]), getFila(raiz, 0), getColumna(raiz, 0));
+                    }
+                    else
+                    {
+                        return new Insert(getLexema(raiz, 2), (List<Expresion>)recorrido(raiz.ChildNodes[5]),
+                            getFila(raiz, 0), getColumna(raiz, 0));
+                    }
                 }
                 else {
                     return null;
                 }
             }
-            else if (CompararNombre(raiz, "KEY_VALUE")) {
-                //E dospuntos E
-                return new KeyValuePair<Expresion, Expresion>((Expresion)recorrido(raiz.ChildNodes[0]), (Expresion)recorrido(raiz.ChildNodes[2]));
+            else if (CompararNombre(raiz, "ID_ARROBA")) {
+                return getLexema(raiz, 1);
+            }
+            else if (CompararNombre(raiz, "LISTA_IDS_ARROBA")) {
+                List<String> lista = new List<string>();
+                foreach (ParseTreeNode nodo in raiz.ChildNodes) {
+                    lista.Add(recorrido(nodo).ToString());
+                }
+                return lista;
             }
             else if (CompararNombre(raiz, "DECLARACION_E")) {
                 if (raiz.ChildNodes.Count == 4)
@@ -205,7 +320,6 @@ namespace Server.Analizador
             else if (CompararNombre(raiz, "INSTRUCCION")) {
                 /*
                  INSTRUCCION.Rule = res_log + l_parent + E + r_parent
-                        | LISTA_IDS_ARROBA + igual + E
                         //========== ver aquí ambiguedad entre referencias y reasignacion
                         | REFERENCIAS + igual + E
                         | res_return + LISTA_E
@@ -255,7 +369,7 @@ namespace Server.Analizador
                 | res_new + res_set + menor_que + TIPO + mayor_que
                 | res_new + res_map + menor_que + TIPO + coma + TIPO + mayor_que;*/
                 if (raiz.ChildNodes.Count == 2) {
-                    return new InstanciaUserType(getLexema(raiz,1), getFila(raiz, 0), getColumna(raiz, 0));
+                    return new InstanciaUserType(getLexema(raiz, 1), getFila(raiz, 0), getColumna(raiz, 0));
                 }
                 else if (raiz.ChildNodes.Count == 5)
                 {

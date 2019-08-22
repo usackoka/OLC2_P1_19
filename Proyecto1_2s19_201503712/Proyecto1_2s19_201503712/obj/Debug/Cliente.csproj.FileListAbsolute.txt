@@ -53,3 +53,4 @@ C:\Users\Koka\Desktop\OLC2_P1_19\Proyecto1_2s19_201503712\Proyecto1_2s19_2015037
 C:\Users\Koka\Desktop\OLC2_P1_19\Proyecto1_2s19_201503712\Proyecto1_2s19_201503712\obj\Debug\Cliente.csproj.CopyComplete
 C:\Users\Koka\Desktop\OLC2_P1_19\Proyecto1_2s19_201503712\Proyecto1_2s19_201503712\obj\Debug\Proyecto1_2s19_201503712.dll
 C:\Users\Koka\Desktop\OLC2_P1_19\Proyecto1_2s19_201503712\Proyecto1_2s19_201503712\obj\Debug\Proyecto1_2s19_201503712.pdb
+C:\Users\Koka\Desktop\OLC2_P1_19\Proyecto1_2s19_201503712\Proyecto1_2s19_201503712\obj\Debug\Cliente.csprojAssemblyReference.cache

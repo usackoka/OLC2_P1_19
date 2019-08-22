@@ -41,7 +41,6 @@ namespace Server.AST.DBMS
 
         void iniciarValores(AST_CQL arbol, List<Expresion> expresiones)
         {
-
             if (this.atributos.Count != expresiones.Count) {
                 arbol.addError(id+" UserType","No se enviaron la misma cantidad de parámetros con cantidad de atributos que hay",0,0);
                 return;
@@ -75,6 +74,10 @@ namespace Server.AST.DBMS
             }
             arbol.addError("UserType, getAtributo", "No existe el atributo: " + id + " en " + this.id, 0, 0);
             return null;
+        }
+
+        public void addAtributos(List<KeyValuePair<String,Object>> atributos) {
+            this.atributos.AddRange(atributos);
         }
 
     }

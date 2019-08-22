@@ -9,12 +9,13 @@ namespace Server.AST.DBMS
     {
         public String id;
         public List<UserType> userTypes;
-        public List<String> usersGrant;
+        public List<TableCQL> tables;
 
         public DataBase(String id) {
             this.id = id;
             this.userTypes = new List<UserType>();
-            this.usersGrant = new List<string>();
+            this.tables = new List<TableCQL>();
         }
+        
     }
 }

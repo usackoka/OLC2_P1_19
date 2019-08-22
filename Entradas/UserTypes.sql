@@ -7,6 +7,7 @@ CREATE TYPE Persona(
 Create type Mascota(
 	nombre STRING,
 	raza STRING,
+	familia STRING,
 	fecha_nacimiento DATE
 );
 
@@ -16,10 +17,17 @@ Persona @pipol = new Persona;
 @pipol.pet.nombre = "Coco";
 @pipol.pet.raza = "Frensh & Cocker";
 @pipol.pet.fecha_nacimiento = '2011-06-03';
+@pipol.pet.familia = "Mancilla";
+
+
+Persona @kokoa = new Persona;
+@kokoa.pet = new Mascota;
+@kokoa.pet.nombre = "Fito";
 
 log(@pipol.pet.nombre);
+log(@kokoa.pet.nombre);
 
-
+//===================== SEGUNDA INSTANCIA ================================
 Persona @pipol2 = new Persona
 @pipol2 = {new Mascota,"Albita",22};
 @pipol2.pet.nombre = "Panqueque";

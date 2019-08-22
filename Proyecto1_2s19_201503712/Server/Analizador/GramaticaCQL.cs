@@ -275,6 +275,7 @@ namespace Server.Analizador
             var ACTUALIZACION2 = new NonTerminal("ACTUALIZACION2");
             var DATE_NOW = new NonTerminal("DATE_NOW");
             var THROW = new NonTerminal("THROW");
+            var ID_ARROBA = new NonTerminal("ID_ARROBA");
             #endregion
 
             #region Gramatica
@@ -316,14 +317,14 @@ namespace Server.Analizador
                 | res_avg;
 
             //===================== DDL ==========================================
-            DDL.Rule = res_create + res_database + INE + id
-                | res_create + res_table + INE + id + l_parent + LISTA_COLDEF + r_parent
+            DDL.Rule = res_create + res_table + INE + id + l_parent + LISTA_COLDEF + r_parent
                 | res_alter + res_table + id + res_add + LISTA_CQLTIPOS
                 | res_alter + res_table + id + res_drop + LISTA_IDS
+                | res_create + res_database + INE + id
                 | res_drop + res_table + IE + id
                 | res_truncate + res_table + id
-                | res_use + id
-                | res_drop + res_database + id;
+                | res_drop + res_database + id
+                | res_use + id;
 
             //================== DML =============================================
             LISTA_DML.Rule = MakeStarRule(LISTA_DML, DML);
@@ -378,10 +379,7 @@ namespace Server.Analizador
                 | res_rollback;
 
             //=================== TYPES =====================================
-            TYPES.Rule = res_create + res_type + INE + id + l_parent + LISTA_CQLTIPOS + r_parent
-                | res_alter + res_type + id + res_add + l_parent + LISTA_CQLTIPOS + r_parent
-                | res_alter + res_type + id + res_delete + l_parent + LISTA_IDS + r_parent
-                | res_delete + res_type + id;
+            TYPES.Rule = res_create + res_type + INE + id + l_parent + LISTA_CQLTIPOS + r_parent;
 
             INE.Rule = res_if + res_not + res_exists
                 | Empty;
@@ -406,7 +404,9 @@ namespace Server.Analizador
             UNPARAMETRO.Rule = TIPO + arroba + id;
 
             //============ LISTA IDS CON ARROBA
-            LISTA_IDS_ARROBA.Rule = MakeStarRule(LISTA_IDS_ARROBA, coma, arroba + id);
+            LISTA_IDS_ARROBA.Rule = MakeStarRule(LISTA_IDS_ARROBA, coma, ID_ARROBA);
+
+            ID_ARROBA.Rule = arroba + id;
 
             //============ LISTA IDS
             LISTA_IDS.Rule = MakeStarRule(LISTA_IDS, coma, id);
@@ -550,15 +550,17 @@ namespace Server.Analizador
 
             THROW.Rule = res_throw + res_new + EXCEPTION;
 
-            REFERENCIA.Rule = arroba + id | id | LLAMADA_FUNCION | ACCESO_ARR;
+            REFERENCIA.Rule = arroba + id | id | LLAMADA_FUNCION; // | ACCESO_ARR;
 
             REFERENCIAS.Rule = MakePlusRule(REFERENCIAS, punto, REFERENCIA);
 
+            /*
             ACCESO_ARR.Rule = id + LISTA_CORCHETES;
 
             LISTA_CORCHETES.Rule = MakePlusRule(LISTA_CORCHETES, CORCHETES);
 
             CORCHETES.Rule = l_corchete + E + r_corchete;
+            */
 
             //TUPLAS, LISTAS, CONJUNTOS, DICCIONARIOS // PAG 66
             COLECCION.Rule = l_corchete + LISTA_E + r_corchete
