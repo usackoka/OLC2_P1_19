@@ -8,7 +8,7 @@ namespace Server.AST.DBMS
     public class TableCQL
     {
         public String id;
-        List<ColumnCQL> data;
+        public List<ColumnCQL> data;
 
         public TableCQL(String id, List<ColumnCQL> columnDefinitions)
         {
@@ -41,12 +41,14 @@ namespace Server.AST.DBMS
                 Boolean existe = false;
                 foreach (String idColumna in columnNames)
                 {
+                    existe = false;
                     foreach (ColumnCQL columna in data)
                     {
                         //encuentra la columna
                         if (columna.id.Equals(idColumna))
                         {
-                            continue;
+                            existe = true;
+                            break;
                         }
                     }
                     if (!existe)
@@ -57,10 +59,10 @@ namespace Server.AST.DBMS
                 }
 
                 int indexValor = 0;
+                int indiceTupla = 0;
                 //hasta este punto ya pregunté por la cantidad de parámetros y y si existen los nombres
                 foreach (String idColumna in columnNames)
                 {
-                    int indiceTupla = 0;
                     foreach (ColumnCQL columna in data)
                     {
                         //encuentra la columna
@@ -70,12 +72,14 @@ namespace Server.AST.DBMS
                             indiceTupla = columna.valores.Count;
                         }
                     }
+                }
 
-                    //lleno los campos que quedaron vacíos
-                    foreach (ColumnCQL columna in data) {
-                        if (columna.valores.Count < indiceTupla) {
-                            columna.valores.Add(Primitivo.TIPO_DATO.NULL);
-                        }
+                //lleno los campos que quedaron vacíos
+                foreach (ColumnCQL columna in data)
+                {
+                    if (columna.valores.Count < indiceTupla)
+                    {
+                        columna.valores.Add(Primitivo.TIPO_DATO.NULL);
                     }
                 }
             }

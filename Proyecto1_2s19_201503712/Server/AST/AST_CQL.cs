@@ -14,7 +14,7 @@ namespace Server.AST
     {
         public List<NodoCQL> nodos { get; set; }
         public List<String> mensajes { get; set; }
-        public List<String> res_consultas { get; set; }
+        public List<List<ColumnCQL>> res_consultas { get; set; }
         public List<clsToken> errores { get; set; }
         public Entorno entorno { get; set; }
         public List<Funcion> funciones { get; set; }
@@ -25,7 +25,7 @@ namespace Server.AST
             this.funciones = new List<Funcion>();
             this.nodos = new List<NodoCQL>();
             this.mensajes = new List<String>();
-            this.res_consultas = new List<string>();
+            this.res_consultas = new List<List<ColumnCQL>>();
             this.errores = new List<clsToken>();
             this.entorno = new Entorno(null);
             this.dbms = new Management();
@@ -56,9 +56,9 @@ namespace Server.AST
             }
 
             //==== data selects ====
-            foreach (String msm in res_consultas) {
+            foreach (List<ColumnCQL> consulta in res_consultas) {
                 respuesta += "\n[+DATA]\n";
-                respuesta += msm;
+                respuesta += getTablaSelect(consulta);
                 respuesta += "\n[-DATA]\n";
             }
 
@@ -84,6 +84,31 @@ namespace Server.AST
             }
 
             return respuesta;
+        }
+
+        private String getTablaSelect(List<ColumnCQL> data) {
+            String res = "<table border=\"2\" style=\"margin: 0 auto;\">\n";
+
+            //nombre de las columnas
+            foreach (ColumnCQL column in data) {
+
+                res += "<td>"+column.id+"</td>\n";
+            }
+
+            int index = data.Count != 0 ? data[0].valores.Count : 0;
+            for (int i = 0; i < index; i++)
+            {
+                //filas
+
+                res += "    <tr>\n";
+                foreach (ColumnCQL column in data)
+                {
+                    res += "        <td>" + column.valores[i] + "</td>\n";
+                }
+                res += "    </tr>\n";
+            }
+            res += "</table>\n";
+            return res;
         }
 
         public void addError(String lexema, String descripcion, int fila, int columna) {

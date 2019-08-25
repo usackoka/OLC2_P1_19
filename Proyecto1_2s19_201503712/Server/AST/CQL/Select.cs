@@ -1,4 +1,5 @@
 ﻿using Server.AST.ExpresionesCQL;
+using Server.AST.SentenciasCQL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +7,7 @@ using System.Web;
 
 namespace Server.AST.CQL
 {
-    public class Select : Expresion
+    public class Select : Sentencia
     {
         Select_Type selectType;
         String idTabla;
@@ -25,19 +26,25 @@ namespace Server.AST.CQL
             this.columna = columna;
         }
 
-        public override object getTipo(AST_CQL arbol)
-        {
-            return null;
-        }
-
-        public override object getValor(AST_CQL arbol)
+        public override object Ejecutar(AST_CQL arbol)
         {
             List<ColumnCQL> resultado = new List<ColumnCQL>();
 
             //Select de todo primero
-            resultado = selectType.getResult(this.idTabla,arbol);
+            Object o = selectType.getResult(this.idTabla, this.where ,arbol);
+            if (o is List<ColumnCQL>)
+            {
+                resultado = (List<ColumnCQL>)o;
+            }
+            else {
+                return o;
+            }
+
+            //agrego la lista a los print de tables
+            arbol.res_consultas.Add(resultado);
 
             return resultado;
         }
+        
     }
 }

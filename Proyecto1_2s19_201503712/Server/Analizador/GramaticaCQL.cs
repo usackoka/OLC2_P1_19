@@ -565,8 +565,7 @@ namespace Server.Analizador
 
             CORCHETES.Rule = l_corchete + E + r_corchete;
             */
-
-            //TUPLAS, LISTAS, CONJUNTOS, DICCIONARIOS // PAG 66
+            
             COLECCION.Rule = l_corchete + LISTA_E + r_corchete //instancia de list
                 | l_corchete + KEY_VALUE_LIST + r_corchete //instancia de map
                 | l_llave + LISTA_E + r_llave //instancia de set

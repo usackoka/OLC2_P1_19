@@ -35,7 +35,7 @@ namespace Server.AST.DBMS
         ////////////////////////////////////////////////////////////////////////////////////////////////////
         public Object insertInto(Insert insert, AST_CQL arbol) {
             TableCQL table = getTable(insert.idTabla);
-            if (table!=null) {
+            if (table==null) {
                 return Catch.EXCEPTION.TableDontExists;
             }
 

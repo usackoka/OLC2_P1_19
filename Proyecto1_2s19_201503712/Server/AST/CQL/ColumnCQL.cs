@@ -20,7 +20,7 @@ namespace Server.AST.CQL
             this.fila = fila;
             this.columna = columna;
             this.primaryKeys = null;
-            this.valores = null;
+            this.valores = new List<object>();
         }
 
         public List<String> primaryKeys;

@@ -32,89 +32,113 @@ namespace Server.Analizador
                     {
                         ast.funciones.Add((Funcion)nod);
                     }
-                    else {
+                    else
+                    {
                         lista.Add(nod);
                     }
                 }
                 return lista;
             }
-            else if (CompararNombre(raiz, "GLOBAL")) {
+            else if (CompararNombre(raiz, "GLOBAL"))
+            {
                 return recorrido(raiz.ChildNodes[0]);
             }
-            else if (CompararNombre(raiz, "DECLARACION")) {
+            else if (CompararNombre(raiz, "DECLARACION"))
+            {
                 return new Declaracion(recorrido(raiz.ChildNodes[0]), (List<KeyValuePair<String, Expresion>>)recorrido(raiz.ChildNodes[1]), getFila(raiz.ChildNodes[0], 0), getColumna(raiz.ChildNodes[0], 0));
             }
-            else if (CompararNombre(raiz, "LISTA_DECLARACION_E")) {
+            else if (CompararNombre(raiz, "LISTA_DECLARACION_E"))
+            {
                 List<KeyValuePair<String, Expresion>> lista = new List<KeyValuePair<String, Expresion>>();
-                foreach (ParseTreeNode nodo in raiz.ChildNodes) {
+                foreach (ParseTreeNode nodo in raiz.ChildNodes)
+                {
                     lista.Add((KeyValuePair<String, Expresion>)recorrido(nodo));
                 }
                 return lista;
             }
-            else if (CompararNombre(raiz, "KEY_VALUE_LIST")) {
+            else if (CompararNombre(raiz, "KEY_VALUE_LIST"))
+            {
                 List<KeyValuePair<Expresion, Expresion>> lista = new List<KeyValuePair<Expresion, Expresion>>();
-                foreach (ParseTreeNode nodo in raiz.ChildNodes) {
+                foreach (ParseTreeNode nodo in raiz.ChildNodes)
+                {
                     lista.Add((KeyValuePair<Expresion, Expresion>)recorrido(nodo));
                 }
                 return lista;
             }
-            else if (CompararNombre(raiz, "LISTA_CQLTIPOS")) {
+            else if (CompararNombre(raiz, "LISTA_CQLTIPOS"))
+            {
                 List<KeyValuePair<String, Object>> list = new List<KeyValuePair<string, object>>();
-                foreach (ParseTreeNode nodo in raiz.ChildNodes) {
+                foreach (ParseTreeNode nodo in raiz.ChildNodes)
+                {
                     list.Add((KeyValuePair<String, Object>)recorrido(nodo));
                 }
                 return list;
             }
-            else if (CompararNombre(raiz, "CQLTIPO")) {
+            else if (CompararNombre(raiz, "CQLTIPO"))
+            {
                 // id + TIPO;
                 return new KeyValuePair<String, Object>(getLexema(raiz, 0), recorrido(raiz.ChildNodes[1]));
             }
-            else if (CompararNombre(raiz, "INE")) {
+            else if (CompararNombre(raiz, "INE"))
+            {
                 return raiz.ChildNodes.Count != 0 ? true : false;
             }
             else if (CompararNombre(raiz, "IE"))
             {
                 return raiz.ChildNodes.Count != 0 ? true : false;
             }
-            else if (CompararNombre(raiz, "TYPES")) {
+            else if (CompararNombre(raiz, "TYPES"))
+            {
                 /*res_create + res_type + INE + id + l_parent + LISTA_CQLTIPOS + r_parent*/
                 return new CreateUserType(Convert.ToBoolean(recorrido(raiz.ChildNodes[2])), getLexema(raiz, 3),
                         (List<KeyValuePair<String, Object>>)recorrido(raiz.ChildNodes[5]), getFila(raiz, 0), getColumna(raiz, 0));
             }
-            else if (CompararNombre(raiz, "KEY_VALUE")) {
+            else if (CompararNombre(raiz, "KEY_VALUE"))
+            {
                 //E dospuntos E
                 return new KeyValuePair<Expresion, Expresion>((Expresion)recorrido(raiz.ChildNodes[0]), (Expresion)recorrido(raiz.ChildNodes[2]));
             }
-            else if (CompararNombre(raiz, "LISTA_COLDEF")) {
+            else if (CompararNombre(raiz, "LISTA_COLDEF"))
+            {
                 List<ColumnCQL> lista = new List<ColumnCQL>();
-                foreach (ParseTreeNode nodo in raiz.ChildNodes) {
+                foreach (ParseTreeNode nodo in raiz.ChildNodes)
+                {
                     lista.Add((ColumnCQL)recorrido(nodo));
                 }
                 return lista;
             }
-            else if (CompararNombre(raiz, "LISTA_IDS")) {
+            else if (CompararNombre(raiz, "LISTA_IDS"))
+            {
                 List<String> lista = new List<string>();
-                for (int i = 0; i < raiz.ChildNodes.Count; i++) {
+                for (int i = 0; i < raiz.ChildNodes.Count; i++)
+                {
                     lista.Add(getLexema(raiz, i));
                 }
                 return lista;
             }
-            else if (CompararNombre(raiz, "COLDEF")) {
+            else if (CompararNombre(raiz, "COLDEF"))
+            {
                 /*id + TIPO + res_primary + res_key
                 | id + TIPO
                 | res_primary + res_key + l_parent + LISTA_IDS + r_parent;*/
-                if (raiz.ChildNodes.Count == 5) {
+                if (raiz.ChildNodes.Count == 5)
+                {
                     return new ColumnCQL((List<String>)recorrido(raiz.ChildNodes[3]),
                         getFila(raiz, 0), getColumna(raiz, 0));
-                } else if (raiz.ChildNodes.Count == 2) {
+                }
+                else if (raiz.ChildNodes.Count == 2)
+                {
                     return new ColumnCQL(getLexema(raiz, 0), recorrido(raiz.ChildNodes[1]), false,
                         getFila(raiz, 0), getColumna(raiz, 0));
-                } else {
+                }
+                else
+                {
                     return new ColumnCQL(getLexema(raiz, 0), recorrido(raiz.ChildNodes[1]), true,
                         getFila(raiz, 0), getColumna(raiz, 0));
                 }
             }
-            else if (CompararNombre(raiz, "DCL")) {
+            else if (CompararNombre(raiz, "DCL"))
+            {
                 /*res_create + res_user + id + res_with + res_password + E
                 | res_grant + id + res_on + id
                 | res_revoke + id + res_on + id;*/
@@ -127,11 +151,13 @@ namespace Server.Analizador
                 {
                     return new Grant(getLexema(raiz, 1), getLexema(raiz, 3), getFila(raiz, 0), getColumna(raiz, 0));
                 }
-                else {
+                else
+                {
                     return new Revoke(getLexema(raiz, 1), getLexema(raiz, 3), getFila(raiz, 0), getColumna(raiz, 0));
                 }
             }
-            else if (CompararNombre(raiz, "DDL")) {
+            else if (CompararNombre(raiz, "DDL"))
+            {
                 /*res_create + res_table + INE + id + l_parent + LISTA_COLDEF + r_parent
                 | res_alter + res_table + id + res_add + LISTA_CQLTIPOS
                 | res_alter + res_table + id + res_drop + LISTA_IDS
@@ -149,7 +175,8 @@ namespace Server.Analizador
                 {
                     return new DropDataBase(getLexema(raiz, 2), getFila(raiz, 0), getColumna(raiz, 0));
                 }
-                else if (ContainsString(getLexema(raiz, 0), "drop") && ContainsString(getLexema(raiz, 1), "table")) {
+                else if (ContainsString(getLexema(raiz, 0), "drop") && ContainsString(getLexema(raiz, 1), "table"))
+                {
                     return new DropTable(Convert.ToBoolean(recorrido(raiz.ChildNodes[2])), getLexema(raiz, 3),
                         getFila(raiz, 0), getColumna(raiz, 0));
                 }
@@ -158,7 +185,8 @@ namespace Server.Analizador
                     return new CreateTable(Convert.ToBoolean(recorrido(raiz.ChildNodes[2])), getLexema(raiz, 3),
                         (List<ColumnCQL>)recorrido(raiz.ChildNodes[5]), getFila(raiz, 0), getColumna(raiz, 0));
                 }
-                else if (ContainsString(getLexema(raiz, 0), "truncate") && ContainsString(getLexema(raiz, 1), "table")) {
+                else if (ContainsString(getLexema(raiz, 0), "truncate") && ContainsString(getLexema(raiz, 1), "table"))
+                {
                     return new TruncateTable(getLexema(raiz, 2), getFila(raiz, 0), getColumna(raiz, 0));
                 }
                 else if (ContainsString(getLexema(raiz, 0), "use"))
@@ -170,29 +198,29 @@ namespace Server.Analizador
                     return null;
                 }
             }
-            else if (CompararNombre(raiz, "SELECT")) {
+            else if (CompararNombre(raiz, "SELECT"))
+            {
                 //res_select + SELECT_TYPE + res_from + id + WHERE_Q + ORDERBY_Q + LIMIT_Q;
                 return new Select((Select_Type)recorrido(raiz.ChildNodes[1]), getLexema(raiz, 3), (Where)recorrido(raiz.ChildNodes[4]),
                     (OrderBy)recorrido(raiz.ChildNodes[5]), (Expresion)recorrido(raiz.ChildNodes[6]),
                     getFila(raiz, 0), getColumna(raiz, 0));
             }
-            else if (CompararNombre(raiz, "SELECT_TYPE")) {
+            else if (CompararNombre(raiz, "SELECT_TYPE"))
+            {
                 /*l_parent + por + r_parent
                 | LISTA_E
-                | por ;*/
-                if (getLexema(raiz, 0).Equals("("))
+                | por;*/
+                if (CompararNombre(raiz.ChildNodes[0], "LISTA_E"))
                 {
-                    return new Select_Type();
-                }
-                else if (getLexema(raiz, 0).Equals("*"))
-                {
-                    return new Select_Type();
-                }
-                else {
                     return new Select_Type((List<Expresion>)recorrido(raiz.ChildNodes[0]));
                 }
+                else
+                {
+                    return new Select_Type();
+                }
             }
-            else if (CompararNombre(raiz, "ORDERBY_Q")) {
+            else if (CompararNombre(raiz, "ORDERBY_Q"))
+            {
                 if (raiz.ChildNodes.Count == 0)
                 {
                     return null;
@@ -202,13 +230,16 @@ namespace Server.Analizador
                     return (OrderBy)recorrido(raiz.ChildNodes[0]);
                 }
             }
-            else if (CompararNombre(raiz, "ORDERBY")) {
+            else if (CompararNombre(raiz, "ORDERBY"))
+            {
                 //res_order + res_by + LISTA_ORDER
                 return new OrderBy((List<Order>)recorrido(raiz.ChildNodes[2]));
             }
-            else if (CompararNombre(raiz, "LISTA_ORDER")) {
+            else if (CompararNombre(raiz, "LISTA_ORDER"))
+            {
                 List<Order> list = new List<Order>();
-                foreach (ParseTreeNode nodo in raiz.ChildNodes) {
+                foreach (ParseTreeNode nodo in raiz.ChildNodes)
+                {
                     list.Add((Order)recorrido(nodo));
                 }
                 return list;
@@ -224,11 +255,13 @@ namespace Server.Analizador
                     return recorrido(raiz.ChildNodes[0]);
                 }
             }
-            else if (CompararNombre(raiz,"LIMIT")) {
+            else if (CompararNombre(raiz, "LIMIT"))
+            {
                 //res_limit + E;
                 return (Expresion)recorrido(raiz.ChildNodes[1]);
             }
-            else if (CompararNombre(raiz, "ORDER")) {
+            else if (CompararNombre(raiz, "ORDER"))
+            {
                 /* id
                 | id + res_desc
                 | id + res_asc;*/
@@ -240,24 +273,29 @@ namespace Server.Analizador
                 {
                     return new Order(getLexema(raiz, 0), Order.ORDER.ASC);
                 }
-                else {
+                else
+                {
                     return new Order(getLexema(raiz, 0), Order.ORDER.ASC);
                 }
             }
-            else if (CompararNombre(raiz, "WHERE_Q")) {
+            else if (CompararNombre(raiz, "WHERE_Q"))
+            {
                 if (raiz.ChildNodes.Count == 0)
                 {
                     return null;
                 }
-                else {
+                else
+                {
                     return (Where)recorrido(raiz.ChildNodes[0]);
                 }
             }
-            else if (CompararNombre(raiz, "WHERE")) {
+            else if (CompararNombre(raiz, "WHERE"))
+            {
                 //res_where + E;
                 return new Where((Expresion)recorrido(raiz.ChildNodes[1]));
             }
-            else if (CompararNombre(raiz, "DML")) {
+            else if (CompararNombre(raiz, "DML"))
+            {
                 /*res_insert + res_into + id + res_values + l_parent + LISTA_E + r_parent
                 | res_insert + res_into + id + l_parent + LISTA_IDS_ARROBA + r_parent + res_values + l_parent + LISTA_E + r_parent
                 | res_update + id + res_set + LISTA_ASIG_CQL + WHERE_Q
@@ -275,47 +313,58 @@ namespace Server.Analizador
                             getFila(raiz, 0), getColumna(raiz, 0));
                     }
                 }
-                else {
+                else
+                {
                     return null;
                 }
             }
-            else if (CompararNombre(raiz, "ID_ARROBA")) {
+            else if (CompararNombre(raiz, "ID_ARROBA"))
+            {
                 return getLexema(raiz, 1);
             }
-            else if (CompararNombre(raiz, "LISTA_IDS_ARROBA")) {
+            else if (CompararNombre(raiz, "LISTA_IDS_ARROBA"))
+            {
                 List<String> lista = new List<string>();
-                foreach (ParseTreeNode nodo in raiz.ChildNodes) {
+                foreach (ParseTreeNode nodo in raiz.ChildNodes)
+                {
                     lista.Add(recorrido(nodo).ToString());
                 }
                 return lista;
             }
-            else if (CompararNombre(raiz, "DECLARACION_E")) {
+            else if (CompararNombre(raiz, "DECLARACION_E"))
+            {
                 if (raiz.ChildNodes.Count == 4)
                 {
                     return new KeyValuePair<String, Expresion>(getLexema(raiz, 1), (Expresion)recorrido(raiz.ChildNodes[3]));
                 }
-                else {
+                else
+                {
                     return new KeyValuePair<String, Expresion>(getLexema(raiz, 1), null);
                 }
             }
-            else if (CompararNombre(raiz, "FUNCION")) {
+            else if (CompararNombre(raiz, "FUNCION"))
+            {
                 //TIPO + id + l_parent + LISTA_PARAMETROS + r_parent + l_llave + BLOCK + r_llave;
                 return new Funcion(recorrido(raiz.ChildNodes[0]), getLexema(raiz, 1), (List<KeyValuePair<String, Object>>)recorrido(raiz.ChildNodes[3]),
                     (List<NodoCQL>)recorrido(raiz.ChildNodes[6]), getFila(raiz, 1), getColumna(raiz, 1));
             }
-            else if (CompararNombre(raiz, "NATIVAS")) {
+            else if (CompararNombre(raiz, "NATIVAS"))
+            {
                 return recorrido(raiz.ChildNodes[0]);
             }
-            else if (CompararNombre(raiz, "DATE_NOW")) {
+            else if (CompararNombre(raiz, "DATE_NOW"))
+            {
                 if (getLexema(raiz, 0).ToLower().Contains("today"))
                 {
                     return new TodayNow(Primitivo.TIPO_DATO.DATE, getFila(raiz, 1), getColumna(raiz, 1));
                 }
-                else {
+                else
+                {
                     return new TodayNow(Primitivo.TIPO_DATO.TIME, getFila(raiz, 1), getColumna(raiz, 1));
                 }
             }
-            else if (CompararNombre(raiz, "LLAMADA_FUNCION")) {
+            else if (CompararNombre(raiz, "LLAMADA_FUNCION"))
+            {
                 /*id + l_parent + LISTA_E + r_parent
                 | res_call + id + l_parent + LISTA_E + r_parent;*/
                 if (raiz.ChildNodes.Count == 4)
@@ -323,39 +372,49 @@ namespace Server.Analizador
                     return new LlamadaFuncion(getLexema(raiz, 0), (List<Expresion>)recorrido(raiz.ChildNodes[2]),
                         LlamadaFuncion.TIPO_LLAMADA.LLAMADA, getFila(raiz, 0), getColumna(raiz, 0));
                 }
-                else {
+                else
+                {
                     return new LlamadaFuncion(getLexema(raiz, 1), (List<Expresion>)recorrido(raiz.ChildNodes[3]),
                         LlamadaFuncion.TIPO_LLAMADA.CALL, getFila(raiz, 0), getColumna(raiz, 0));
                 }
             }
-            else if (CompararNombre(raiz, "LISTA_PARAMETROS")) {
+            else if (CompararNombre(raiz, "LISTA_PARAMETROS"))
+            {
                 List<KeyValuePair<String, Object>> lista = new List<KeyValuePair<string, object>>();
-                foreach (ParseTreeNode nodo in raiz.ChildNodes) {
+                foreach (ParseTreeNode nodo in raiz.ChildNodes)
+                {
                     lista.Add((KeyValuePair<string, object>)recorrido(nodo));
                 }
                 return lista;
             }
-            else if (CompararNombre(raiz, "UNPARAMETRO")) {
+            else if (CompararNombre(raiz, "UNPARAMETRO"))
+            {
                 //TIPO + arroba + id;
                 return new KeyValuePair<String, Object>(getLexema(raiz, 2), recorrido(raiz.ChildNodes[0]));
             }
-            else if (CompararNombre(raiz, "REFERENCIAS")) {
+            else if (CompararNombre(raiz, "REFERENCIAS"))
+            {
                 List<Object> lista = new List<object>();
-                foreach (ParseTreeNode nodo in raiz.ChildNodes) {
+                foreach (ParseTreeNode nodo in raiz.ChildNodes)
+                {
                     lista.Add(recorrido(nodo));
                 }
                 return new Referencia(lista, null);
-            } else if (CompararNombre(raiz, "REFERENCIA")) {
+            }
+            else if (CompararNombre(raiz, "REFERENCIA"))
+            {
                 //id | arroba + id | LLAMADA_FUNCION | ACCESO_ARR
                 if (raiz.ChildNodes[0].ToString().Equals("LLAMADA_FUNCION") || raiz.ChildNodes[0].ToString().Equals("ACCESO_ARR"))
                 {
                     return recorrido(raiz.ChildNodes[0]);
                 }
-                else {
+                else
+                {
                     return getLexema(raiz, raiz.ChildNodes.Count - 1);
                 }
             }
-            else if (CompararNombre(raiz, "TIPO")) {
+            else if (CompararNombre(raiz, "TIPO"))
+            {
                 String tipo = getLexema(raiz, 0);
                 if (tipo.Equals("string", System.StringComparison.InvariantCultureIgnoreCase))
                 {
@@ -397,11 +456,13 @@ namespace Server.Analizador
                 {
                     return Primitivo.TIPO_DATO.COUNTER;
                 }
-                else {
+                else
+                {
                     return tipo;
                 }
             }
-            else if (CompararNombre(raiz, "INSTRUCCION")) {
+            else if (CompararNombre(raiz, "INSTRUCCION"))
+            {
                 /*
                  INSTRUCCION.Rule = res_log + l_parent + E + r_parent
                         //========== ver aquí ambiguedad entre referencias y reasignacion
@@ -415,7 +476,8 @@ namespace Server.Analizador
                 {
                     return new Print((Expresion)recorrido(raiz.ChildNodes[2]), getFila(raiz, 1), getColumna(raiz, 1));
                 }
-                else if (raiz.ChildNodes.Count == 3) {
+                else if (raiz.ChildNodes.Count == 3)
+                {
                     List<Object> lista = new List<object>();
                     foreach (ParseTreeNode nodo in raiz.ChildNodes[0].ChildNodes)
                     {
@@ -423,29 +485,35 @@ namespace Server.Analizador
                     }
                     return new Referencia(lista, (Expresion)recorrido(raiz.ChildNodes[2]));
                 }
-                else if (raiz.ChildNodes.Count == 2) {
+                else if (raiz.ChildNodes.Count == 2)
+                {
                     return new Return((List<Expresion>)recorrido(raiz.ChildNodes[1]), getFila(raiz, 0), getColumna(raiz, 0));
                 }
-                else if (raiz.ChildNodes.Count == 1) {
+                else if (raiz.ChildNodes.Count == 1)
+                {
                     return recorrido(raiz.ChildNodes[0]);
                 }
-                else {
+                else
+                {
                     ast.addError("", "RecorridoCQL no soportado: " + raiz.ChildNodes.Count, 0, 0);
                     return "NULL";
                 }
             }
-            else if (CompararNombre(raiz, "FOR")) {
+            else if (CompararNombre(raiz, "FOR"))
+            {
                 //res_for + l_parent + FUENTE_FOR + coma + E + coma + ACTUALIZACION2 + r_parent + l_llave + BLOCK + r_llave;
                 return new For((Sentencia)recorrido(raiz.ChildNodes[2]), (Expresion)recorrido(raiz.ChildNodes[4]),
                     (Sentencia)recorrido(raiz.ChildNodes[6]), (List<NodoCQL>)recorrido(raiz.ChildNodes[9]),
                     getFila(raiz, 0), getColumna(raiz, 0));
             }
-            else if (CompararNombre(raiz, "COLECCION")) {
+            else if (CompararNombre(raiz, "COLECCION"))
+            {
                 /*l_corchete + LISTA_E + r_corchete
                 | l_corchete + KEY_VALUE_LIST + r_corchete
                 | l_llave + LISTA_E + r_llave
                 | l_llave + LISTA_E + r_llave + res_as + id;*/
-                if (CompararNombre(raiz.ChildNodes[1], "KEY_VALUE_LIST")) {
+                if (CompararNombre(raiz.ChildNodes[1], "KEY_VALUE_LIST"))
+                {
                     return new ValorColeccion((List<KeyValuePair<Expresion, Expresion>>)recorrido(raiz.ChildNodes[1]),
                         getFila(raiz, 0), getColumna(raiz, 0));
                 }
@@ -454,18 +522,21 @@ namespace Server.Analizador
                 {
                     tip = getLexema(raiz, 4);
                 }
-                else {
+                else
+                {
                     tip = getLexema(raiz, 0);
                 }
                 return new ValorColeccion(tip, (List<Expresion>)recorrido(raiz.ChildNodes[1]),
                     getFila(raiz, 0), getColumna(raiz, 0));
             }
-            else if (CompararNombre(raiz, "INSTANCIA")) {
+            else if (CompararNombre(raiz, "INSTANCIA"))
+            {
                 /*res_new + id
                 | res_new + res_list + menor_que + TIPO + mayor_que
                 | res_new + res_set + menor_que + TIPO + mayor_que
                 | res_new + res_map + menor_que + TIPO + coma + TIPO + mayor_que;*/
-                if (raiz.ChildNodes.Count == 2) {
+                if (raiz.ChildNodes.Count == 2)
+                {
                     return new InstanciaUserType(getLexema(raiz, 1), getFila(raiz, 0), getColumna(raiz, 0));
                 }
                 else if (raiz.ChildNodes.Count == 5)
@@ -474,49 +545,60 @@ namespace Server.Analizador
                     {
                         return new ListCQL(recorrido(raiz.ChildNodes[3]), getFila(raiz, 0), getColumna(raiz, 0));
                     }
-                    else {
+                    else
+                    {
                         return new SetCQL(recorrido(raiz.ChildNodes[3]), getFila(raiz, 0), getColumna(raiz, 0));
                     }
                 }
-                else if (raiz.ChildNodes.Count == 7) {
+                else if (raiz.ChildNodes.Count == 7)
+                {
                     //res_new + res_map + menor_que + TIPO + coma + TIPO + mayor_que
                     return new MapCQL(recorrido(raiz.ChildNodes[3]), recorrido(raiz.ChildNodes[5]), getFila(raiz, 0), getColumna(raiz, 0));
                 }
-                else {
+                else
+                {
                     return null;
                 }
             }
-            else if (CompararNombre(raiz, "ACTUALIZACION2")) {
+            else if (CompararNombre(raiz, "ACTUALIZACION2"))
+            {
                 return recorrido(raiz.ChildNodes[0]);
             }
-            else if (CompararNombre(raiz, "ACTUALIZACION")) {
+            else if (CompararNombre(raiz, "ACTUALIZACION"))
+            {
                 /*arroba + id + mas + mas
                 | arroba + id + menos + menos;*/
                 String operador = "-";
-                if (getLexema(raiz, 2).Equals("+")) {
+                if (getLexema(raiz, 2).Equals("+"))
+                {
                     operador = "+";
                 }
                 return new Actualizar(getLexema(raiz, 1), operador, new Primitivo("1 (numero)", 0, 0)
                     , getFila(raiz, 0), getColumna(raiz, 0));
             }
-            else if (CompararNombre(raiz, "FUENTE_FOR")) {
+            else if (CompararNombre(raiz, "FUENTE_FOR"))
+            {
                 return recorrido(raiz.ChildNodes[0]);
             }
-            else if (CompararNombre(raiz, "ACTUALIZAR")) {
+            else if (CompararNombre(raiz, "ACTUALIZAR"))
+            {
                 //arroba + id + OPERADOR + igual + E;
                 return new Actualizar(getLexema(raiz, 1), getLexema(raiz.ChildNodes[2], 0), (Expresion)recorrido(raiz.ChildNodes[4]),
                     getFila(raiz, 0), getColumna(raiz, 0));
             }
-            else if (CompararNombre(raiz, "CORTE")) {
+            else if (CompararNombre(raiz, "CORTE"))
+            {
                 return new Corte(getLexema(raiz, 0), getFila(raiz, 0), getColumna(raiz, 0));
             }
-            else if (CompararNombre(raiz, "REASIGNACION")) {
+            else if (CompararNombre(raiz, "REASIGNACION"))
+            {
                 //arroba + id + igual + E;
                 int fila = getFila(raiz, 0);
                 int columna = getColumna(raiz, 0);
                 return new Reasignacion(getLexema(raiz, 1), (Expresion)recorrido(raiz.ChildNodes[3]), fila, columna);
             }
-            else if (CompararNombre(raiz, "E")) {
+            else if (CompararNombre(raiz, "E"))
+            {
                 if (raiz.ChildNodes.Count == 3)
                 {
                     return new Binaria((Expresion)recorrido(raiz.ChildNodes[0]), getLexema(raiz, 1),
@@ -527,7 +609,8 @@ namespace Server.Analizador
                     return new Ternaria((Expresion)recorrido(raiz.ChildNodes[0]), (Expresion)recorrido(raiz.ChildNodes[2]),
                         (Expresion)recorrido(raiz.ChildNodes[4]), getFila(raiz, 1), getColumna(raiz, 1));
                 }
-                else {
+                else
+                {
                     return recorrido(raiz.ChildNodes[0]);
                 }
             }
@@ -535,75 +618,95 @@ namespace Server.Analizador
             {
                 return recorrido(raiz.ChildNodes[0]);
             }
-            else if (CompararNombre(raiz, "SENTENCIA")) {
+            else if (CompararNombre(raiz, "SENTENCIA"))
+            {
                 return recorrido(raiz.ChildNodes[0]);
             }
-            else if (CompararNombre(raiz, "IF")) {
+            else if (CompararNombre(raiz, "IF"))
+            {
                 /*res_if + l_parent + E + r_parent + l_llave + BLOCK + r_llave + ELSEIFS + ELSE
                             | res_if + l_parent + E + r_parent + l_llave + BLOCK + r_llave + ELSEIFS;*/
                 Else else_ = null;
-                if (raiz.ChildNodes.Count == 9) {
+                if (raiz.ChildNodes.Count == 9)
+                {
                     else_ = (Else)recorrido(raiz.ChildNodes[8]);
                 }
                 return new If((Expresion)recorrido(raiz.ChildNodes[2]), (List<NodoCQL>)recorrido(raiz.ChildNodes[5]),
                     (List<ElseIf>)recorrido(raiz.ChildNodes[7]), else_,
                      getFila(raiz, 0), getColumna(raiz, 0));
             }
-            else if (CompararNombre(raiz, "ELSEIFS")) {
+            else if (CompararNombre(raiz, "ELSEIFS"))
+            {
                 List<ElseIf> lista = new List<ElseIf>();
-                foreach (ParseTreeNode nodo in raiz.ChildNodes) {
+                foreach (ParseTreeNode nodo in raiz.ChildNodes)
+                {
                     lista.Add((ElseIf)recorrido(nodo));
                 }
                 return lista;
             }
-            else if (CompararNombre(raiz, "ELSEIF")) {
+            else if (CompararNombre(raiz, "ELSEIF"))
+            {
                 return new ElseIf((Expresion)recorrido(raiz.ChildNodes[2]), (List<NodoCQL>)recorrido(raiz.ChildNodes[5]),
                     getFila(raiz, 0), getColumna(raiz, 0));
             }
-            else if (CompararNombre(raiz, "ELSE")) {
+            else if (CompararNombre(raiz, "ELSE"))
+            {
                 return new Else((List<NodoCQL>)recorrido(raiz.ChildNodes[2]), getFila(raiz, 0), getColumna(raiz, 0));
             }
-            else if (CompararNombre(raiz, "WHILE")) {
+            else if (CompararNombre(raiz, "WHILE"))
+            {
                 if (raiz.ChildNodes.Count > 8)
                 {
                     return new While((Expresion)recorrido(raiz.ChildNodes[6]), (List<NodoCQL>)recorrido(raiz.ChildNodes[2]),
                         While.TIPO_WHILE.WHILE, getFila(raiz, 0), getColumna(raiz, 0));
                 }
-                else {
+                else
+                {
 
                     return new While((Expresion)recorrido(raiz.ChildNodes[2]), (List<NodoCQL>)recorrido(raiz.ChildNodes[5]),
                         While.TIPO_WHILE.WHILE, getFila(raiz, 0), getColumna(raiz, 0));
                 }
             }
-            else if (CompararNombre(raiz, "SWITCH")) {
+            else if (CompararNombre(raiz, "SWITCH"))
+            {
                 return new Switch((Expresion)recorrido(raiz.ChildNodes[2]), (List<Case>)recorrido(raiz.ChildNodes[5]),
                     recorrido(raiz.ChildNodes[6]), getFila(raiz, 0), getColumna(raiz, 0));
             }
-            else if (CompararNombre(raiz, "LISTA_CASOS")) {
+            else if (CompararNombre(raiz, "LISTA_CASOS"))
+            {
                 List<Case> lista = new List<Case>();
-                foreach (ParseTreeNode nodo in raiz.ChildNodes) {
+                foreach (ParseTreeNode nodo in raiz.ChildNodes)
+                {
                     lista.Add((Case)recorrido(nodo));
                 }
                 return lista;
             }
-            else if (CompararNombre(raiz, "CASO_DEF")) {
+            else if (CompararNombre(raiz, "CASO_DEF"))
+            {
                 if (raiz.ChildNodes.Count != 0)
                 {
                     return new Default((List<NodoCQL>)recorrido(raiz.ChildNodes[2]), getFila(raiz, 0), getColumna(raiz, 0));
                 }
                 return null;
             }
-            else if (CompararNombre(raiz, "CASO")) {
+            else if (CompararNombre(raiz, "CASO"))
+            {
                 return new Case((Expresion)recorrido(raiz.ChildNodes[1]), (List<NodoCQL>)recorrido(raiz.ChildNodes[3]),
                     getFila(raiz, 0), getColumna(raiz, 0));
             }
             else if (CompararNombre(raiz, "PRIMITIVO"))
             {
-                String valor = raiz.ChildNodes[0].ToString();
-                if (raiz.ChildNodes.Count == 2) {
+                String valor = "";
+                if (raiz.ChildNodes.Count == 2)
+                {
                     valor = raiz.ChildNodes[1].ToString();
-                    if (valor.ToString().Contains("Identifier")) {
-                        valor = "dbms_"+valor;
+                }
+                else
+                {
+                    valor = raiz.ChildNodes[0].ToString();
+                    if (valor.ToString().Contains("Identifier"))
+                    {
+                        valor = "$" + valor;
                     }
                 }
                 return new Primitivo(valor, getFila(raiz, 0), getColumna(raiz, 0));
@@ -636,7 +739,8 @@ namespace Server.Analizador
                 }
                 return lista;
             }
-            else {
+            else
+            {
                 ast.addError("", "RecorridoCQL no soportado: " + raiz.ToString(), 0, 0);
                 return "NULL";
             }

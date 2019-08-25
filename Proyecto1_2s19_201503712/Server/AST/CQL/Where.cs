@@ -21,7 +21,7 @@ namespace Server.AST.CQL
 
         public override object getValor(AST_CQL arbol)
         {
-            return null;
+            return condicion.getValor(arbol);
         }
     }
 }
