@@ -94,15 +94,24 @@ log(@varMap2.get(1).get(0));
 
 //==================== LIST MODO2 =================================
 List @varListM2 = new List<String>;
-@salida = "";
+String @salida = "";
 @varListM2 = ["val1","val2","val3","val4"];
 for(int @i = 0; @i<@varListM2.size(); @i++){
 	@salida += @varListM2.get(@i)+" ";
 }
 log("salida: "+@salida);
 
+//==================== SET MODO2 =================================
+Set @varSetM2 = new Set<String>;
+String @salida = "";
+@varSetM2 = {"val1","val2","val3","val4"};
+for(int @i = 0; @i<@varSetM2.size(); @i++){
+	@salida += @varSetM2.get(@i)+" ";
+}
+log("salida: "+@salida);
+
 //=================== MAP MODO2 ==================================
-Map @varMapM2 = new Map<int,String>;
+MAP @varMapM2 = new Map<int,String>;
 @varMapM2 = [0:"valor 0",1:"valor 1",2:"valor 2"];
 for(int @i = 0; @i<@varMapM2.size(); @i++){
 	log(@varMapM2.get(@i));

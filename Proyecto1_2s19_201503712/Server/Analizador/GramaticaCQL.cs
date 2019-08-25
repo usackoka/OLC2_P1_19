@@ -121,6 +121,7 @@ namespace Server.Analizador
 
             //FCL
             res_else = ToTerm("else"),
+            res_as = ToTerm("as"),
             res_switch = ToTerm("switch"),
             res_case = ToTerm("case"),
             res_default = ToTerm("default"),
@@ -179,7 +180,7 @@ namespace Server.Analizador
                         "TypeDontExists", "TypeAlreadyExists", "TableDontExists", "CounterTypeException","UserAlreadyExists",
                         "UserDontExists","ValuesException","ColumnException","BatchException","IndexOutException","NullPointerException",
                         "NumberReturnsException","FunctionAlreadyExists","ProcedureAlreadyExists","ObjectAlreadyExists",
-                        "int", "double", "string", "boolean", "date", "time",
+                        "int", "double", "string", "boolean", "date", "time","as",
                         "Create", "type", "res_User_Type", "new", "alter", "add", "delete",
                         "database", "if", "not", "exists", "use", "drop", "counter", "primary", "key", "update", "map", "set", "list", "truncate",
                         "commit", "rollback", "null","table","user","order","by","limit","asc","desc",
@@ -255,8 +256,8 @@ namespace Server.Analizador
             var INSTANCIA = new NonTerminal("INSTANCIA");
             var PROCEDURE = new NonTerminal("PROCEDURE");
             var EXCEPTION = new NonTerminal("EXCEPTION");
-            var LISTA_SELECT = new NonTerminal("LISTA_SELECT");
-            var SEL = new NonTerminal("SEL");
+            //var LISTA_SELECT = new NonTerminal("LISTA_SELECT");
+            //var SEL = new NonTerminal("SEL");
             var LISTA_CASOS = new NonTerminal("LISTA_CASOS");
             var CASOS = new NonTerminal("CASOS");
             var CASO_DEF = new NonTerminal("CASO_DEF");
@@ -330,19 +331,22 @@ namespace Server.Analizador
             LISTA_DML.Rule = MakeStarRule(LISTA_DML, DML);
 
             DML.Rule = res_insert + res_into + id + res_values + l_parent + LISTA_E + r_parent
-                | res_insert + res_into + id + l_parent + LISTA_IDS_ARROBA + r_parent + res_values + l_parent + LISTA_E + r_parent
+                | res_insert + res_into + id + l_parent + LISTA_IDS + r_parent + res_values + l_parent + LISTA_E + r_parent
                 | res_update + id + res_set + LISTA_ASIG_CQL + WHERE_Q
                 | res_delete + res_from + id + WHERE_Q;
 
             SELECT.Rule = res_select + SELECT_TYPE + res_from + id + WHERE_Q + ORDERBY_Q + LIMIT_Q;
 
-            SELECT_TYPE.Rule = LISTA_SELECT
-                | l_parent + por + r_parent;
+            SELECT_TYPE.Rule = l_parent + por + r_parent
+                | LISTA_E
+                | por ;
 
+            /*
             LISTA_SELECT.Rule = MakePlusRule(LISTA_SELECT, coma, SEL);
 
             SEL.Rule = id + punto + id
                 | id;
+            */
 
             LIMIT_Q.Rule = LIMIT
                 | Empty;
@@ -563,9 +567,10 @@ namespace Server.Analizador
             */
 
             //TUPLAS, LISTAS, CONJUNTOS, DICCIONARIOS // PAG 66
-            COLECCION.Rule = l_corchete + LISTA_E + r_corchete
-                | l_corchete + KEY_VALUE_LIST + r_corchete
-                | l_llave + LISTA_E + r_llave;
+            COLECCION.Rule = l_corchete + LISTA_E + r_corchete //instancia de list
+                | l_corchete + KEY_VALUE_LIST + r_corchete //instancia de map
+                | l_llave + LISTA_E + r_llave //instancia de set
+                | l_llave + LISTA_E + r_llave + res_as + id; //instancia de type
 
             KEY_VALUE_LIST.Rule = MakePlusRule(KEY_VALUE_LIST, coma, KEY_VALUE);
 

@@ -13,9 +13,10 @@ namespace Server.AST.ColeccionesCQL
     {
         List<Expresion> expresiones;
         List<KeyValuePair<Expresion, Expresion>> kvpList;
-        public Object tipoDato { get; set; }
+        String tipo;
 
-        public ValorColeccion(List<Expresion> expresiones ,int fila, int columna) {
+        public ValorColeccion(String tipo, List<Expresion> expresiones ,int fila, int columna) {
+            this.tipo = tipo;
             this.expresiones = expresiones;
             this.fila = fila;
             this.columna = columna;
@@ -25,62 +26,62 @@ namespace Server.AST.ColeccionesCQL
             this.kvpList = kvpList;
             this.fila = fila;
             this.columna = columna;
+            this.tipo = null;
         }
 
         public override object getValor(AST_CQL arbol)
         {
-            if (tipoDato is String) {
-                UserType modeloUt = arbol.dbms.getUserType(tipoDato.ToString());
-                if (modeloUt == null)
-                {
-                    arbol.addError("TypeDontExists", "No se encontró el UserType: " + tipoDato.ToString(), fila, columna);
-                    return Catch.EXCEPTION.TypeDontExists;
-                }
-                return new UserType(modeloUt,expresiones,arbol);
-            }
-
-            if (tipoDato.Equals(Primitivo.TIPO_DATO.LIST))
-            {
-                List<Object> listReturn = new List<object>();
-                foreach (Expresion exp in expresiones)
-                {
-                    listReturn.Add(exp.getValor(arbol));
-                }
-                ListCQL list = new ListCQL(expresiones[0].getTipo(arbol), fila, columna);
-                list.valores = listReturn;
-                return list;
-            }
-            else if (tipoDato.Equals(Primitivo.TIPO_DATO.SET))
-            {
-                List<Object> listReturn = new List<object>();
-                foreach (Expresion exp in expresiones)
-                {
-                    listReturn.Add(exp.getValor(arbol));
-                }
-                SetCQL list = new SetCQL(expresiones[0].getTipo(arbol), fila, columna);
-                list.valores = listReturn;
-                return list;
-            }
-            else if (tipoDato.Equals(Primitivo.TIPO_DATO.MAP))
-            {
-                Hashtable listReturn = new Hashtable();
-                foreach (KeyValuePair<Expresion, Expresion> kvp in kvpList)
-                {
-                    listReturn.Add(kvp.Key.getValor(arbol), kvp.Value.getValor(arbol));
-                }
-                MapCQL list = new MapCQL(kvpList[0].Key.getTipo(arbol), kvpList[0].Value.getTipo(arbol), fila, columna);
-                list.valores = listReturn;
-                return list;
-            }
-            else {
-                arbol.addError("(ValorColeccion, getValor)","No soportado tipo: "+tipoDato,fila,columna);
-                return Primitivo.TIPO_DATO.NULL;
+            switch (tipo) {
+                case "[":
+                    List<Object> listReturn = new List<object>();
+                    foreach (Expresion exp in expresiones)
+                    {
+                        listReturn.Add(exp.getValor(arbol));
+                    }
+                    ListCQL list = new ListCQL(expresiones[0].getTipo(arbol), fila, columna);
+                    list.valores = listReturn;
+                    return list;
+                case "{":
+                    List<Object> listReturn2 = new List<object>();
+                    foreach (Expresion exp in expresiones)
+                    {
+                        listReturn2.Add(exp.getValor(arbol));
+                    }
+                    SetCQL list2 = new SetCQL(expresiones[0].getTipo(arbol), fila, columna);
+                    list2.valores = listReturn2;
+                    return list2;
+                case null:
+                    Hashtable listReturn3 = new Hashtable();
+                    foreach (KeyValuePair<Expresion, Expresion> kvp in kvpList)
+                    {
+                        listReturn3.Add(kvp.Key.getValor(arbol), kvp.Value.getValor(arbol));
+                    }
+                    MapCQL list3 = new MapCQL(kvpList[0].Key.getTipo(arbol), kvpList[0].Value.getTipo(arbol), fila, columna);
+                    list3.valores = listReturn3;
+                    return list3;
+                default:
+                    UserType modeloUt = arbol.dbms.getUserType(tipo.ToString());
+                    if (modeloUt == null)
+                    {
+                        arbol.addError("TypeDontExists", "No se encontró el UserType: " + tipo.ToString(), fila, columna);
+                        return Catch.EXCEPTION.TypeDontExists;
+                    }
+                    return new UserType(modeloUt, expresiones, arbol);
             }
         }
 
         public override object getTipo(AST_CQL arbol)
         {
-            return tipoDato;
+            switch (this.tipo) {
+                case "[":
+                    return Primitivo.TIPO_DATO.LIST;
+                case "{":
+                    return Primitivo.TIPO_DATO.SET;
+                case null:
+                    return Primitivo.TIPO_DATO.MAP;
+                default:
+                    return this.tipo;
+            }
         }
     }
 }

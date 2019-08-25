@@ -170,8 +170,92 @@ namespace Server.Analizador
                     return null;
                 }
             }
-            else if (CompararNombre(raiz,"SELECT")) {
-
+            else if (CompararNombre(raiz, "SELECT")) {
+                //res_select + SELECT_TYPE + res_from + id + WHERE_Q + ORDERBY_Q + LIMIT_Q;
+                return new Select((Select_Type)recorrido(raiz.ChildNodes[1]), getLexema(raiz, 3), (Where)recorrido(raiz.ChildNodes[4]),
+                    (OrderBy)recorrido(raiz.ChildNodes[5]), (Expresion)recorrido(raiz.ChildNodes[6]),
+                    getFila(raiz, 0), getColumna(raiz, 0));
+            }
+            else if (CompararNombre(raiz, "SELECT_TYPE")) {
+                /*l_parent + por + r_parent
+                | LISTA_E
+                | por ;*/
+                if (getLexema(raiz, 0).Equals("("))
+                {
+                    return new Select_Type();
+                }
+                else if (getLexema(raiz, 0).Equals("*"))
+                {
+                    return new Select_Type();
+                }
+                else {
+                    return new Select_Type((List<Expresion>)recorrido(raiz.ChildNodes[0]));
+                }
+            }
+            else if (CompararNombre(raiz, "ORDERBY_Q")) {
+                if (raiz.ChildNodes.Count == 0)
+                {
+                    return null;
+                }
+                else
+                {
+                    return (OrderBy)recorrido(raiz.ChildNodes[0]);
+                }
+            }
+            else if (CompararNombre(raiz, "ORDERBY")) {
+                //res_order + res_by + LISTA_ORDER
+                return new OrderBy((List<Order>)recorrido(raiz.ChildNodes[2]));
+            }
+            else if (CompararNombre(raiz, "LISTA_ORDER")) {
+                List<Order> list = new List<Order>();
+                foreach (ParseTreeNode nodo in raiz.ChildNodes) {
+                    list.Add((Order)recorrido(nodo));
+                }
+                return list;
+            }
+            else if (CompararNombre(raiz, "LIMIT_Q"))
+            {
+                if (raiz.ChildNodes.Count == 0)
+                {
+                    return null;
+                }
+                else
+                {
+                    return recorrido(raiz.ChildNodes[0]);
+                }
+            }
+            else if (CompararNombre(raiz,"LIMIT")) {
+                //res_limit + E;
+                return (Expresion)recorrido(raiz.ChildNodes[1]);
+            }
+            else if (CompararNombre(raiz, "ORDER")) {
+                /* id
+                | id + res_desc
+                | id + res_asc;*/
+                if (raiz.ChildNodes.Count == 2 && getLexema(raiz, 1).Equals("desc"))
+                {
+                    return new Order(getLexema(raiz, 0), Order.ORDER.DESC);
+                }
+                else if (raiz.ChildNodes.Count == 2 && getLexema(raiz, 1).Equals("asc"))
+                {
+                    return new Order(getLexema(raiz, 0), Order.ORDER.ASC);
+                }
+                else {
+                    return new Order(getLexema(raiz, 0), Order.ORDER.ASC);
+                }
+            }
+            else if (CompararNombre(raiz, "WHERE_Q")) {
+                if (raiz.ChildNodes.Count == 0)
+                {
+                    return null;
+                }
+                else {
+                    return (Where)recorrido(raiz.ChildNodes[0]);
+                }
+            }
+            else if (CompararNombre(raiz, "WHERE")) {
+                //res_where + E;
+                return new Where((Expresion)recorrido(raiz.ChildNodes[1]));
             }
             else if (CompararNombre(raiz, "DML")) {
                 /*res_insert + res_into + id + res_values + l_parent + LISTA_E + r_parent
@@ -357,11 +441,24 @@ namespace Server.Analizador
                     getFila(raiz, 0), getColumna(raiz, 0));
             }
             else if (CompararNombre(raiz, "COLECCION")) {
+                /*l_corchete + LISTA_E + r_corchete
+                | l_corchete + KEY_VALUE_LIST + r_corchete
+                | l_llave + LISTA_E + r_llave
+                | l_llave + LISTA_E + r_llave + res_as + id;*/
                 if (CompararNombre(raiz.ChildNodes[1], "KEY_VALUE_LIST")) {
                     return new ValorColeccion((List<KeyValuePair<Expresion, Expresion>>)recorrido(raiz.ChildNodes[1]),
                         getFila(raiz, 0), getColumna(raiz, 0));
                 }
-                return new ValorColeccion((List<Expresion>)recorrido(raiz.ChildNodes[1]), getFila(raiz, 0), getColumna(raiz, 0));
+                String tip;
+                if (raiz.ChildNodes.Count == 5)
+                {
+                    tip = getLexema(raiz, 4);
+                }
+                else {
+                    tip = getLexema(raiz, 0);
+                }
+                return new ValorColeccion(tip, (List<Expresion>)recorrido(raiz.ChildNodes[1]),
+                    getFila(raiz, 0), getColumna(raiz, 0));
             }
             else if (CompararNombre(raiz, "INSTANCIA")) {
                 /*res_new + id
@@ -505,6 +602,9 @@ namespace Server.Analizador
                 String valor = raiz.ChildNodes[0].ToString();
                 if (raiz.ChildNodes.Count == 2) {
                     valor = raiz.ChildNodes[1].ToString();
+                    if (valor.ToString().Contains("Identifier")) {
+                        valor = "dbms_"+valor;
+                    }
                 }
                 return new Primitivo(valor, getFila(raiz, 0), getColumna(raiz, 0));
             }
@@ -549,7 +649,7 @@ namespace Server.Analizador
 
         string getLexema(ParseTreeNode nodo, int num)
         {
-            return nodo.ChildNodes[num].Token.Text;
+            return nodo.ChildNodes[num].Token.Text.ToLower();
         }
 
         int getFila(ParseTreeNode nodo, int num)

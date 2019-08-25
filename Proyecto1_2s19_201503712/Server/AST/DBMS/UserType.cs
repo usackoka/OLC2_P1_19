@@ -50,7 +50,7 @@ namespace Server.AST.DBMS
             for (int i = 0; i < atributos.Count; i++)
             {
                 KeyValuePair<String, Object> kvp = atributos[i];
-                this.valores.Add(new Atributo(kvp.Key, kvp.Value, expresiones[i]));
+                this.valores.Add(new Atributo(kvp.Key, kvp.Value, expresiones[i].getValor(arbol)));
             }
         }
 

@@ -31,12 +31,6 @@ namespace Server.AST.CQL
 
         public override object Ejecutar(AST_CQL arbol)
         {
-            if (this.columnNames != null) {
-                if (this.columnNames.Count != this.values.Count) {
-                    arbol.addError("Insert: "+idTabla,"No existe la misma cantidad de valores asignados a las columnas", fila, columna);
-                    return null;
-                }
-            }
             return arbol.dbms.insertInto(this, arbol);
         }
     }

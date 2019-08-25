@@ -51,7 +51,7 @@ namespace Server.AST.DBMS
                     }
                     if (!existe)
                     {
-                        arbol.addError("ColumnName", "No existe la columna con nombre: " + idColumna + " para el insert en tabla: " + this.id, fila, columna);
+                        arbol.addError("ColumnName", "No existe la columna con nombre: " + idColumna + " para el insert en tabla: " + this.id, 0, 0);
                         return null;
                     }
                 }
@@ -60,18 +60,33 @@ namespace Server.AST.DBMS
                 //hasta este punto ya pregunté por la cantidad de parámetros y y si existen los nombres
                 foreach (String idColumna in columnNames)
                 {
+                    int indiceTupla = 0;
                     foreach (ColumnCQL columna in data)
                     {
                         //encuentra la columna
                         if (columna.id.Equals(idColumna))
                         {
                             columna.valores.Add(values[indexValor++].getValor(arbol));
+                            indiceTupla = columna.valores.Count;
+                        }
+                    }
+
+                    //lleno los campos que quedaron vacíos
+                    foreach (ColumnCQL columna in data) {
+                        if (columna.valores.Count < indiceTupla) {
+                            columna.valores.Add(Primitivo.TIPO_DATO.NULL);
                         }
                     }
                 }
             }
             else
             {
+                if (this.data.Count != values.Count)
+                {
+                    arbol.addError("Insert: " + this.id, "No existe la misma cantidad de valores asignados a las columnas", 0, 0);
+                    return null;
+                }
+
                 int indexValor = 0;
                 foreach (ColumnCQL columna in data)
                 {

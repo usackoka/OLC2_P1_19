@@ -94,9 +94,14 @@
     <Compile Include="AST\CQL\DropTable.cs" />
     <Compile Include="AST\CQL\Grant.cs" />
     <Compile Include="AST\CQL\Insert.cs" />
+    <Compile Include="AST\CQL\Order.cs" />
+    <Compile Include="AST\CQL\OrderBy.cs" />
     <Compile Include="AST\CQL\Revoke.cs" />
+    <Compile Include="AST\CQL\Select.cs" />
+    <Compile Include="AST\CQL\Select_Type.cs" />
     <Compile Include="AST\CQL\TruncateTable.cs" />
     <Compile Include="AST\CQL\UseDataBase.cs" />
+    <Compile Include="AST\CQL\Where.cs" />
     <Compile Include="AST\DBMS\Atributo.cs" />
     <Compile Include="AST\DBMS\Procedure.cs" />
     <Compile Include="AST\CQL\CreateUserType.cs" />
