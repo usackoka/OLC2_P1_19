@@ -33,54 +33,54 @@ namespace Server.AST.DBMS
         ////////////////////////////////////////////////////////////////////////////////////////////////////
         //////////////////////////////////////// ACCIONES TABLAS
         ////////////////////////////////////////////////////////////////////////////////////////////////////
-        public Object insertInto(Insert insert, AST_CQL arbol) {
+        public Object insertInto(Insert insert, AST_CQL arbol, int fila, int columna) {
             TableCQL table = getTable(insert.idTabla);
             if (table == null) {
-                arbol.addError("TableDontExists", "Insert-Into No existe la tabla: " + insert.idTabla, 0, 0);
+                arbol.addError("TableDontExists", "Insert-Into No existe la tabla: " + insert.idTabla,fila,columna);
                 return Catch.EXCEPTION.TableDontExists;
             }
 
             return table.insertValues(insert.columnNames, insert.values, arbol);
         }
 
-        public Object updateTable(Update upd, AST_CQL arbol) {
+        public Object updateTable(Update upd, AST_CQL arbol, int fila, int columna) {
             TableCQL table = getTable(upd.idTabla);
             if (table == null)
             {
-                arbol.addError("TableDontExists", "Update No existe la tabla: " + upd.idTabla, 0, 0);
+                arbol.addError("TableDontExists", "Update No existe la tabla: " + upd.idTabla,fila,columna);
                 return Catch.EXCEPTION.TableDontExists;
             }
 
             return table.updateValues(upd.asignaciones,upd.where, arbol);
         }
 
-        public Object deleteFrom(DeleteFrom delete, AST_CQL arbol) {
+        public Object deleteFrom(DeleteFrom delete, AST_CQL arbol, int fila, int columna) {
             TableCQL table = getTable(delete.idTabla);
             if (table == null)
             {
-                arbol.addError("TableDontExists", "Delete-From No existe la tabla: " + delete.idTabla, 0, 0);
+                arbol.addError("TableDontExists", "Delete-From No existe la tabla: " + delete.idTabla,fila,columna);
                 return Catch.EXCEPTION.TableDontExists;
             }
 
             return table.deleteFrom(delete.where, arbol);
         }
 
-        public Object alterTableAdd(AlterTableAdd alter, AST_CQL arbol) {
+        public Object alterTableAdd(AlterTableAdd alter, AST_CQL arbol, int fila, int columna) {
             TableCQL table = getTable(alter.idTabla);
             if (table == null)
             {
-                arbol.addError("TableDontExists", "Alter-Table-Add - No existe la tabla: " + alter.idTabla, 0, 0);
+                arbol.addError("TableDontExists", "Alter-Table-Add - No existe la tabla: " + alter.idTabla,fila,columna);
                 return Catch.EXCEPTION.TableDontExists;
             }
 
             return table.Add(alter.atributos);
         }
 
-        public Object alterTableDrop(AlterTableDrop alter, AST_CQL arbol) {
+        public Object alterTableDrop(AlterTableDrop alter, AST_CQL arbol, int fila, int columna) {
             TableCQL table = getTable(alter.idTabla);
             if (table == null)
             {
-                arbol.addError("TableDontExists", "Alter-Table-Drop - No existe la tabla: " + alter.idTabla, 0, 0);
+                arbol.addError("TableDontExists", "Alter-Table-Drop - No existe la tabla: " + alter.idTabla,fila,columna);
                 return Catch.EXCEPTION.TableDontExists;
             }
 
@@ -90,7 +90,7 @@ namespace Server.AST.DBMS
         ////////////////////////////////////////////////////////////////////////////////////////////////////
         //////////////////////////////////////// TABLAS
         ////////////////////////////////////////////////////////////////////////////////////////////////////
-        public Object createTable(CreateTable ct, AST_CQL arbol) {
+        public Object createTable(CreateTable ct, AST_CQL arbol, int fila, int columna) {
             if (getTable(ct.id) != null) {
                 if (ct.IfNotExists)
                 {
@@ -98,7 +98,7 @@ namespace Server.AST.DBMS
                 }
                 else
                 {
-                    arbol.addError("EXCEPTION.TableAlreadyExists", "Ya existe la tabla: " + ct.id, 0, 0);
+                    arbol.addError("EXCEPTION.TableAlreadyExists", "Ya existe la tabla: " + ct.id,fila,columna);
                     return Catch.EXCEPTION.TableAlreadyExists;
                 }
             }
@@ -107,11 +107,11 @@ namespace Server.AST.DBMS
             return null;
         }
 
-        public Object truncateTable(String id, AST_CQL arbol) {
+        public Object truncateTable(String id, AST_CQL arbol, int fila, int columna) {
             TableCQL tb = getTable(id);
             if (tb == null)
             {
-                arbol.addError("EXCEPTION.TableDontExists", "No existe la tabla: " + id, 0, 0);
+                arbol.addError("EXCEPTION.TableDontExists", "No existe la tabla: " + id,fila,columna);
                 return Catch.EXCEPTION.TableDontExists;
             }
 
@@ -119,7 +119,7 @@ namespace Server.AST.DBMS
             return null;
         }
 
-        public Object dropTable(DropTable dt, AST_CQL arbol) {
+        public Object dropTable(DropTable dt, AST_CQL arbol, int fila, int columna) {
             TableCQL tb = getTable(dt.id);
             if (tb == null) {
                 if (dt.IfExists)
@@ -127,7 +127,7 @@ namespace Server.AST.DBMS
                     return null;
                 }
                 else {
-                    arbol.addError("EXCEPTION.TableDontExists","No existe la tabla: "+dt.id,0,0);
+                    arbol.addError("EXCEPTION.TableDontExists","No existe la tabla: "+dt.id,fila,columna);
                     return Catch.EXCEPTION.TableDontExists;
                 }
             }
@@ -150,10 +150,10 @@ namespace Server.AST.DBMS
         ////////////////////////////////////////////////////////////////////////////////////////////////////
         //////////////////////////////////////// USUARIOS
         ////////////////////////////////////////////////////////////////////////////////////////////////////
-        public Object createUser(String id, String contraseña, AST_CQL arbol) {
+        public Object createUser(String id, String contraseña, AST_CQL arbol, int fila, int columna) {
             if (getUser(id)!=null)
             {
-                arbol.addError("EXCEPTION.UserAlreadyExists", "El user: " + id + " Ya existe ", 0, 0);
+                arbol.addError("EXCEPTION.UserAlreadyExists", "El user: " + id + " Ya existe ",fila,columna);
                 return Catch.EXCEPTION.UserAlreadyExists;
             }
 
@@ -161,23 +161,23 @@ namespace Server.AST.DBMS
             return null;
         }
 
-        public Object revokeUser(String idUser, String idBd, AST_CQL arbol) {
+        public Object revokeUser(String idUser, String idBd, AST_CQL arbol, int fila, int columna) {
             if (!usuarioActivo.basesGrant.Contains(idBd))
             {
-                arbol.addError("EXCEPTION.UseBDException", "El user: " + idUser + " No contiene permisos para utilizar la base de datos: " + idBd, 0, 0);
+                arbol.addError("EXCEPTION.UseBDException", "El user: " + idUser + " No contiene permisos para utilizar la base de datos: " + idBd,fila,columna);
                 return Catch.EXCEPTION.UseBDException;
             }
 
             User user = getUser(idUser);
             if (user == null)
             {
-                arbol.addError("EXCEPTION.UserDontExists", "El user: " + idUser + " No existe ", 0, 0);
+                arbol.addError("EXCEPTION.UserDontExists", "El user: " + idUser + " No existe ",fila,columna);
                 return Catch.EXCEPTION.UserDontExists;
             }
 
             if (getDataBase(idBd) == null)
             {
-                arbol.addError("EXCEPTION.BDDontExists", "La base de datos: " + idBd + " No existe ", 0, 0);
+                arbol.addError("EXCEPTION.BDDontExists", "La base de datos: " + idBd + " No existe ",fila,columna);
                 return Catch.EXCEPTION.BDDontExists;
             }
 
@@ -185,22 +185,22 @@ namespace Server.AST.DBMS
             return null;
         }
 
-        public Object grantUser(String idUser, String idBd, AST_CQL arbol) {
+        public Object grantUser(String idUser, String idBd, AST_CQL arbol, int fila, int columna) {
 
             if (!usuarioActivo.basesGrant.Contains(idBd)) {
-                arbol.addError("EXCEPTION.UseBDException", "El user: "+idUser+" No contiene permisos para utilizar la base de datos: " + idBd, 0, 0);
+                arbol.addError("EXCEPTION.UseBDException", "El user: "+idUser+" No contiene permisos para utilizar la base de datos: " + idBd,fila,columna);
                 return Catch.EXCEPTION.UseBDException;
             }
 
             User user = getUser(idUser);
             if (user==null) {
-                arbol.addError("EXCEPTION.UserDontExists", "El user: " + idUser + " No existe ", 0, 0);
+                arbol.addError("EXCEPTION.UserDontExists", "El user: " + idUser + " No existe ",fila,columna);
                 return Catch.EXCEPTION.UserDontExists;
             }
 
             if (getDataBase(idBd)==null)
             {
-                arbol.addError("EXCEPTION.BDDontExists", "La base de datos: " + idBd + " No existe ", 0, 0);
+                arbol.addError("EXCEPTION.BDDontExists", "La base de datos: " + idBd + " No existe ",fila,columna);
                 return Catch.EXCEPTION.BDDontExists;
             }
 
@@ -220,7 +220,7 @@ namespace Server.AST.DBMS
         ////////////////////////////////////////////////////////////////////////////////////////////////////
         //////////////////////////////////////// BASE DE DATOS
         ////////////////////////////////////////////////////////////////////////////////////////////////////
-        public Object createDataBase(CreateDataBase createDataBase, AST_CQL arbol) {
+        public Object createDataBase(CreateDataBase createDataBase, AST_CQL arbol, int fila, int columna) {
             //pregunto si existe
             if (getDataBase(createDataBase.id) != null)
             {
@@ -230,20 +230,21 @@ namespace Server.AST.DBMS
                 }
                 else
                 {
-                    arbol.addError("EXCEPTION.BDAlreadyExists", "Ya existe la base de datos: " + createDataBase.id, 0, 0);
+                    arbol.addError("EXCEPTION.BDAlreadyExists", "Ya existe la base de datos: " + createDataBase.id,fila,columna);
                     return Catch.EXCEPTION.BDAlreadyExists;
                 }
             }
-
-            bases.Add(new DataBase(createDataBase.id));
+            DataBase db = new DataBase(createDataBase.id);
+            this.usuarioActivo.basesGrant.Add(db.id);
+            bases.Add(db);
             return null;
         }
 
-        public Object dropDataBase(DropDataBase db, AST_CQL arbol) {
+        public Object dropDataBase(DropDataBase db, AST_CQL arbol, int fila, int columna) {
             DataBase dbEliminar = getDataBase(db.id);
             if (dbEliminar == null)
             {
-                arbol.addError("EXCEPTION.BDDontExists", "No existe la base de datos: " + db.id, 0, 0);
+                arbol.addError("EXCEPTION.BDDontExists", "No existe la base de datos: " + db.id,fila,columna);
                 return Catch.EXCEPTION.BDDontExists;
             }
 
@@ -251,16 +252,16 @@ namespace Server.AST.DBMS
             return null;
         }
 
-        public Object useDataBase(String id, AST_CQL arbol) {
+        public Object useDataBase(String id, AST_CQL arbol, int fila, int columna) {
             DataBase db = getDataBase(id);
             if (db==null) {
-                arbol.addError("EXCEPTION.BDDontExists","No existe la base de datos: "+id,0,0);
+                arbol.addError("EXCEPTION.BDDontExists","No existe la base de datos: "+id,fila,columna);
                 return Catch.EXCEPTION.BDDontExists;
             }
 
             if (!usuarioActivo.basesGrant.Contains(id))
             {
-                arbol.addError("EXCEPTION.UseBDException", "No posee permisos para utilizar la base de datos: " + id, 0, 0);
+                arbol.addError("EXCEPTION.UseBDException", "No posee permisos para utilizar la base de datos: " + id,fila,columna);
                 return Catch.EXCEPTION.UseBDException;
             }
 
@@ -283,7 +284,7 @@ namespace Server.AST.DBMS
         ////////////////////////////////////////////////////////////////////////////////////////////////////
         //////////////////////////////////////// CREATE TYPES 
         ////////////////////////////////////////////////////////////////////////////////////////////////////
-        public Object createUserType(CreateUserType createUserType, AST_CQL arbol)
+        public Object createUserType(CreateUserType createUserType, AST_CQL arbol, int fila, int columna)
         {
             //pregunto si existe
             if (getUserType(createUserType.id)!=null) {
@@ -292,7 +293,7 @@ namespace Server.AST.DBMS
                 }
                 else
                 {
-                    arbol.addError("EXCEPTION.TypeAlreadyExists", "Ya existe el userType: " + createUserType.id, 0, 0);
+                    arbol.addError("EXCEPTION.TypeAlreadyExists", "Ya existe el userType: " + createUserType.id,fila,columna);
                     return Catch.EXCEPTION.TypeAlreadyExists;
                 }
             }

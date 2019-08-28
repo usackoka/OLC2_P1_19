@@ -20,7 +20,7 @@ namespace Server.AST.CQL
 
         public override object Ejecutar(AST_CQL arbol)
         {
-            return arbol.dbms.deleteFrom(this,arbol);
+            return arbol.dbms.deleteFrom(this,arbol, fila, columna);
         }
     }
 }

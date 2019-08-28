@@ -19,7 +19,7 @@ namespace Server.AST.CQL
 
         public override object Ejecutar(AST_CQL arbol)
         {
-            return arbol.dbms.revokeUser(idUser, idBd,arbol);
+            return arbol.dbms.revokeUser(idUser, idBd,arbol, fila, columna);
         }
     }
 }

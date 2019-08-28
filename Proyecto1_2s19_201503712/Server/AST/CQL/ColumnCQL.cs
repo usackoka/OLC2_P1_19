@@ -9,6 +9,7 @@ namespace Server.AST.CQL
     {
         int fila, columna;
         public List<Object> valores;
+        public int counter;
 
         public String id;
         public Object tipoDato;
@@ -19,6 +20,7 @@ namespace Server.AST.CQL
             this.primaryKey = primaryKey;
             this.fila = fila;
             this.columna = columna;
+            this.counter = 0;
             this.primaryKeys = null;
             this.valores = new List<object>();
         }
@@ -27,6 +29,7 @@ namespace Server.AST.CQL
         public ColumnCQL(List<String> primaryKeys, int fila, int columna) {
             this.primaryKeys = primaryKeys;
             this.fila = fila;
+            this.counter = 0;
             this.columna = columna;
         }
 

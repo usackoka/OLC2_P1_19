@@ -17,6 +17,7 @@ Date calcularFechaNacimiento(int @edad){
 
 CREATE TABLE IF NOT EXISTS Estudiante(
 	carnet int PRIMARY KEY,
+	contador COUNTER,
 	nombres STRING, 
 	apellidos STRING,
 	fecha_nacimiento DATE,

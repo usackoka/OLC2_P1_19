@@ -24,7 +24,7 @@ namespace Server.AST.CQL
 
         public override object Ejecutar(AST_CQL arbol)
         {
-            return arbol.dbms.createUserType(this,arbol);
+            return arbol.dbms.createUserType(this,arbol, fila, columna);
         }
     }
 }

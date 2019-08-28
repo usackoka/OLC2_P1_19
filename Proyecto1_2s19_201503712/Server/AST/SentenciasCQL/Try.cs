@@ -31,6 +31,7 @@ namespace Server.AST.SentenciasCQL
                         arbol.entorno = arbol.entorno.padre;
 
                         if (val is Catch.EXCEPTION) {
+                            catchh.excCapturada = (Catch.EXCEPTION)val;
                             return catchh.Ejecutar(arbol);
                         }
                         return val;

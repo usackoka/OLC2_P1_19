@@ -18,7 +18,7 @@ namespace Server.AST.CQL
 
         public override object Ejecutar(AST_CQL arbol)
         {
-            return arbol.dbms.useDataBase(this.id, arbol);
+            return arbol.dbms.useDataBase(this.id, arbol, fila, columna);
         }
     }
 }

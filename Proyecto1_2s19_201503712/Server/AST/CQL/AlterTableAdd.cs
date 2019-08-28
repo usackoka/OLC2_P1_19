@@ -1,4 +1,5 @@
-﻿using Server.AST.SentenciasCQL;
+﻿using Server.AST.ExpresionesCQL;
+using Server.AST.SentenciasCQL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +21,15 @@ namespace Server.AST.CQL
 
         public override object Ejecutar(AST_CQL arbol)
         {
-            return arbol.dbms.alterTableAdd(this, arbol);
+            //pregunto si alguno es de tipo counter
+            foreach (ColumnCQL column in this.atributos) {
+                if (column.tipoDato.Equals(Primitivo.TIPO_DATO.COUNTER)) {
+                    arbol.addError("EXCEPTION.ValuesException","No se puede hacer un alter add de un tipo COUNTER",fila, columna);
+                    return Catch.EXCEPTION.ValuesException;
+                }
+            }
+
+            return arbol.dbms.alterTableAdd(this, arbol, fila,columna);
         }
     }
 }
