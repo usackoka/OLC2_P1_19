@@ -21,7 +21,7 @@ namespace Server.AST.CQL
 
         public override object Ejecutar(AST_CQL arbol)
         {
-            return arbol.dbms.createUser(this.id, contraseña.getValor(arbol).ToString());
+            return arbol.dbms.createUser(this.id, contraseña.getValor(arbol).ToString(),arbol);
         }
     }
 }

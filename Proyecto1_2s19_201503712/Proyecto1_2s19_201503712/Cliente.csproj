@@ -640,16 +640,104 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+    <Content Include="Formularios\css\index_style.css" />
+    <Content Include="Formularios\css\style.css" />
+    <Content Include="Formularios\Plantilla\css\animate.css" />
+    <Content Include="Formularios\Plantilla\css\animate.min.css" />
+    <Content Include="Formularios\Plantilla\css\bootstrap.min.css" />
+    <Content Include="Formularios\Plantilla\css\colors.css" />
+    <Content Include="Formularios\Plantilla\css\custom.css" />
+    <Content Include="Formularios\Plantilla\css\flaticon.css" />
+    <Content Include="Formularios\Plantilla\css\font-awesome.min.css" />
+    <Content Include="Formularios\Plantilla\css\loading.css" />
+    <Content Include="Formularios\Plantilla\css\owl.carousel.css" />
+    <Content Include="Formularios\Plantilla\css\prettyPhoto.css" />
+    <Content Include="Formularios\Plantilla\css\responsive.css" />
+    <Content Include="Formularios\Plantilla\css\versions.css" />
+    <Content Include="Formularios\Plantilla\fonts\Flaticon.svg" />
+    <Content Include="Formularios\Plantilla\fonts\fontawesome-webfont.svg" />
+    <Content Include="Formularios\Plantilla\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Formularios\Plantilla\images\ajax-loader.gif" />
+    <Content Include="Formularios\Plantilla\images\bg.png" />
+    <Content Include="Formularios\Plantilla\images\loaders\loader-barber.gif" />
+    <Content Include="Formularios\Plantilla\images\logo2.ico" />
+    <Content Include="Formularios\Plantilla\images\logo2.png" />
+    <Content Include="Formularios\Plantilla\images\logos\logo2.jpg" />
+    <Content Include="Formularios\Plantilla\images\logos\logo2.png" />
+    <Content Include="Formularios\Plantilla\images\prettyPhoto\dark_rounded\btnNext.png" />
+    <Content Include="Formularios\Plantilla\images\prettyPhoto\dark_rounded\btnPrevious.png" />
+    <Content Include="Formularios\Plantilla\images\prettyPhoto\dark_rounded\contentPattern.png" />
+    <Content Include="Formularios\Plantilla\images\prettyPhoto\dark_rounded\default_thumbnail.gif" />
+    <Content Include="Formularios\Plantilla\images\prettyPhoto\dark_rounded\loader.gif" />
+    <Content Include="Formularios\Plantilla\images\prettyPhoto\dark_rounded\sprite.png" />
+    <Content Include="Formularios\Plantilla\images\prettyPhoto\dark_square\btnNext.png" />
+    <Content Include="Formularios\Plantilla\images\prettyPhoto\dark_square\btnPrevious.png" />
+    <Content Include="Formularios\Plantilla\images\prettyPhoto\dark_square\contentPattern.png" />
+    <Content Include="Formularios\Plantilla\images\prettyPhoto\dark_square\default_thumbnail.gif" />
+    <Content Include="Formularios\Plantilla\images\prettyPhoto\dark_square\loader.gif" />
+    <Content Include="Formularios\Plantilla\images\prettyPhoto\dark_square\sprite.png" />
+    <Content Include="Formularios\Plantilla\images\prettyPhoto\default\default_thumb.png" />
+    <Content Include="Formularios\Plantilla\images\prettyPhoto\default\loader.gif" />
+    <Content Include="Formularios\Plantilla\images\prettyPhoto\default\sprite.png" />
+    <Content Include="Formularios\Plantilla\images\prettyPhoto\default\sprite_next.png" />
+    <Content Include="Formularios\Plantilla\images\prettyPhoto\default\sprite_prev.png" />
+    <Content Include="Formularios\Plantilla\images\prettyPhoto\default\sprite_x.png" />
+    <Content Include="Formularios\Plantilla\images\prettyPhoto\default\sprite_y.png" />
+    <Content Include="Formularios\Plantilla\images\prettyPhoto\facebook\btnNext.png" />
+    <Content Include="Formularios\Plantilla\images\prettyPhoto\facebook\btnPrevious.png" />
+    <Content Include="Formularios\Plantilla\images\prettyPhoto\facebook\contentPatternBottom.png" />
+    <Content Include="Formularios\Plantilla\images\prettyPhoto\facebook\contentPatternLeft.png" />
+    <Content Include="Formularios\Plantilla\images\prettyPhoto\facebook\contentPatternRight.png" />
+    <Content Include="Formularios\Plantilla\images\prettyPhoto\facebook\contentPatternTop.png" />
+    <Content Include="Formularios\Plantilla\images\prettyPhoto\facebook\default_thumbnail.gif" />
+    <Content Include="Formularios\Plantilla\images\prettyPhoto\facebook\loader.gif" />
+    <Content Include="Formularios\Plantilla\images\prettyPhoto\facebook\sprite.png" />
+    <Content Include="Formularios\Plantilla\images\prettyPhoto\light_rounded\btnNext.png" />
+    <Content Include="Formularios\Plantilla\images\prettyPhoto\light_rounded\btnPrevious.png" />
+    <Content Include="Formularios\Plantilla\images\prettyPhoto\light_rounded\default_thumbnail.gif" />
+    <Content Include="Formularios\Plantilla\images\prettyPhoto\light_rounded\loader.gif" />
+    <Content Include="Formularios\Plantilla\images\prettyPhoto\light_rounded\sprite.png" />
+    <Content Include="Formularios\Plantilla\images\prettyPhoto\light_square\btnNext.png" />
+    <Content Include="Formularios\Plantilla\images\prettyPhoto\light_square\btnPrevious.png" />
+    <Content Include="Formularios\Plantilla\images\prettyPhoto\light_square\default_thumbnail.gif" />
+    <Content Include="Formularios\Plantilla\images\prettyPhoto\light_square\loader.gif" />
+    <Content Include="Formularios\Plantilla\images\prettyPhoto\light_square\sprite.png" />
+    <Content Include="Formularios\Plantilla\js\all.js" />
+    <Content Include="Formularios\Plantilla\js\animate.js" />
+    <Content Include="Formularios\Plantilla\js\custom.js" />
+    <Content Include="Formularios\Plantilla\js\hoverdir.js" />
+    <Content Include="Formularios\Plantilla\js\jquery.prettyPhoto.js" />
+    <Content Include="Formularios\Plantilla\js\jquery.vide.js" />
+    <Content Include="Formularios\Plantilla\js\map.js" />
+    <Content Include="Formularios\Plantilla\js\modernizer.js" />
+    <Content Include="Formularios\Plantilla\js\owl.carousel.js" />
+    <Content Include="Formularios\Plantilla\js\portfolio.js" />
+    <Content Include="Formularios\Plantilla\js\responsive-tabs.js" />
+    <Content Include="Formularios\Plantilla\js\retina.js" />
+    <Content Include="Formularios\Plantilla\js\scroll.js" />
+    <Content Include="Formularios\Plantilla\uploads\barber_slider.jpg" />
+    <Content Include="Formularios\Principal.aspx" />
     <Content Include="Js\FileManager.js" />
     <Content Include="Formularios\pagEditor.aspx" />
     <Content Include="Jison\Analizador.js" />
     <Content Include="Formularios\pagBlockly.aspx" />
-    <Content Include="Jison\Parser.js" />
     <Content Include="codeMirror\bin\authors.sh" />
     <Content Include="codeMirror\bin\lint" />
     <Content Include="codeMirror\bin\release" />
     <Content Include="codeMirror\bin\source-highlight" />
     <None Include="Connected Services\localhost\Rutas.wsdl" />
+    <Content Include="Formularios\Plantilla\fonts\Flaticon.eot" />
+    <Content Include="Formularios\Plantilla\fonts\Flaticon.ttf" />
+    <Content Include="Formularios\Plantilla\fonts\Flaticon.woff" />
+    <Content Include="Formularios\Plantilla\fonts\fontawesome-webfont.eot" />
+    <Content Include="Formularios\Plantilla\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Formularios\Plantilla\fonts\fontawesome-webfont.woff" />
+    <Content Include="Formularios\Plantilla\fonts\fontawesome-webfont.woff2" />
+    <Content Include="Formularios\Plantilla\fonts\FontAwesome.otf" />
+    <Content Include="Formularios\Plantilla\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Formularios\Plantilla\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Formularios\Plantilla\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Formularios\Plantilla\fonts\glyphicons-halflings-regular.woff2" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -675,6 +763,13 @@
     </Compile>
     <Compile Include="Formularios\pagEditor.aspx.designer.cs">
       <DependentUpon>pagEditor.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Formularios\Principal.aspx.cs">
+      <DependentUpon>Principal.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Formularios\Principal.aspx.designer.cs">
+      <DependentUpon>Principal.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">

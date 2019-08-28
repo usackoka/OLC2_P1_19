@@ -24,11 +24,14 @@ namespace Server.AST.SentenciasCQL
 
         public override object Ejecutar(AST_CQL arbol)
         {
+            //entorno para la variable iteradora
             arbol.entorno = new Entorno(arbol.entorno);
-
             //variable iteradora
             fuente_for.Ejecutar(arbol);
+
             while (Convert.ToBoolean(condicion.getValor(arbol))) {
+                //nuevo entorno de la iteracion
+                arbol.entorno = new Entorno(arbol.entorno);
                 foreach (NodoCQL nodo in this.instrucciones)
                 {
                     if (nodo is Sentencia)
@@ -45,10 +48,12 @@ namespace Server.AST.SentenciasCQL
                         ((Expresion)nodo).getValor(arbol);
                     }
                 }
+                //regreso al entorno de la variable iteradora
+                arbol.entorno = arbol.entorno.padre;
                 //actualizacion de la variable iteradora
                 actualizacion.Ejecutar(arbol);
             }
-
+            //salgo del entorno de la variable iteradora
             arbol.entorno = arbol.entorno.padre;
             return null;
         }

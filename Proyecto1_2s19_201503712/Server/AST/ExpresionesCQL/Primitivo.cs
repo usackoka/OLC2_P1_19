@@ -94,6 +94,7 @@ namespace Server.AST.ExpresionesCQL
                 case TIPO_DATO.SET:
                 case TIPO_DATO.MAP:
                 case TIPO_DATO.STRUCT:
+                case TIPO_DATO.CURSOR:
                     return TIPO_DATO.NULL;
                 default:
                     arbol.addError(tipoDato.ToString(),"No hay defecto para el tipo de dato: "+tipoDato,0,0);
@@ -102,7 +103,7 @@ namespace Server.AST.ExpresionesCQL
         }
 
         public enum TIPO_DATO {
-            INT, BOOLEAN, DOUBLE, STRING, DATE, TIME, NULL, ID, LIST, SET, MAP, COUNTER, STRUCT
+            INT, BOOLEAN, DOUBLE, STRING, DATE, TIME, NULL, ID, LIST, SET, MAP, COUNTER, STRUCT, CURSOR
         }
 
         public override object getTipo(AST_CQL arbol)

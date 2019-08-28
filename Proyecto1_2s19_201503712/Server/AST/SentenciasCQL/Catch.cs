@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Server.AST.ExpresionesCQL;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -10,6 +11,7 @@ namespace Server.AST.SentenciasCQL
         String idEx;
         EXCEPTION exception;
         List<NodoCQL> instrucciones;
+        public EXCEPTION excCapturada;
 
         public Catch(String idEx,EXCEPTION exception ,List<NodoCQL> instrucciones, int fila, int columna) {
             this.idEx = idEx;
@@ -21,7 +23,36 @@ namespace Server.AST.SentenciasCQL
 
         public override object Ejecutar(AST_CQL arbol)
         {
-            throw new NotImplementedException();
+
+            if (!excCapturada.Equals(exception)) {
+                arbol.addError("Catch-"+exception,"Se capturó una excepción: "+excCapturada+" y se esperaba: "+exception, fila, columna);
+                return null;
+            }
+
+            arbol.entorno = new Entorno(arbol.entorno);
+
+            //creo la variable excep
+            arbol.entorno.addVariable(idEx,new Variable(getMensaje(),Primitivo.TIPO_DATO.STRING));
+
+            foreach (NodoCQL nodo in this.instrucciones)
+            {
+                if (nodo is Sentencia)
+                {
+                    Object val = ((Sentencia)nodo).Ejecutar(arbol);
+                    if (val != null)
+                    {
+                        arbol.entorno = arbol.entorno.padre;
+                        return val;
+                    }
+                }
+                else
+                {
+                    ((Expresion)nodo).getValor(arbol);
+                }
+            }
+            arbol.entorno = arbol.entorno.padre;
+
+            return null;
         }
 
         public enum EXCEPTION {
@@ -50,7 +81,7 @@ namespace Server.AST.SentenciasCQL
         public String getMensaje() {
             if (EXCEPTION.ArithmeticException == this.exception)
             {
-                return "";
+                return "Operación aritmética inválida";
             }
             else if (EXCEPTION.CounterTypeException == this.exception)
             {

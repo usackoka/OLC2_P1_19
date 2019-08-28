@@ -85,7 +85,7 @@ namespace Server.Analizador
             res_counter = ToTerm("counter"),
             res_primary = ToTerm("primary"),
             res_key = ToTerm("key"),
-            res_update = ToTerm("UPDATE"),
+            res_update = ToTerm("update"),
             res_map = ToTerm("map"),
             res_set = ToTerm("set"),
             res_list = ToTerm("list"),
@@ -277,6 +277,7 @@ namespace Server.Analizador
             var DATE_NOW = new NonTerminal("DATE_NOW");
             var THROW = new NonTerminal("THROW");
             var ID_ARROBA = new NonTerminal("ID_ARROBA");
+            var DML2 = new NonTerminal("DML2");
             #endregion
 
             #region Gramatica
@@ -285,7 +286,7 @@ namespace Server.Analizador
             GLOBAL.Rule = SENTENCIA
                         | FUNCION
                         | PROCEDURE
-                        | BATCH
+                        | BATCH + puntocoma
                         | TYPES + puntocoma
                         | DECLARACION + puntocoma
                         | INSTRUCCION + puntocoma
@@ -319,7 +320,7 @@ namespace Server.Analizador
 
             //===================== DDL ==========================================
             DDL.Rule = res_create + res_table + INE + id + l_parent + LISTA_COLDEF + r_parent
-                | res_alter + res_table + id + res_add + LISTA_CQLTIPOS
+                | res_alter + res_table + id + res_add + LISTA_COLDEF
                 | res_alter + res_table + id + res_drop + LISTA_IDS
                 | res_create + res_database + INE + id
                 | res_drop + res_table + IE + id
@@ -328,7 +329,9 @@ namespace Server.Analizador
                 | res_use + id;
 
             //================== DML =============================================
-            LISTA_DML.Rule = MakeStarRule(LISTA_DML, DML);
+            LISTA_DML.Rule = MakePlusRule(LISTA_DML, DML2);
+
+            DML2.Rule = DML + puntocoma;
 
             DML.Rule = res_insert + res_into + id + res_values + l_parent + LISTA_E + r_parent
                 | res_insert + res_into + id + l_parent + LISTA_IDS + r_parent + res_values + l_parent + LISTA_E + r_parent
@@ -391,7 +394,7 @@ namespace Server.Analizador
             IE.Rule = res_if + res_exists
                 | Empty;
 
-            LISTA_COLDEF.Rule = MakeStarRule(LISTA_COLDEF, coma, COLDEF);
+            LISTA_COLDEF.Rule = MakePlusRule(LISTA_COLDEF, coma, COLDEF);
 
             COLDEF.Rule = id + TIPO + res_primary + res_key
                 | id + TIPO
@@ -462,7 +465,8 @@ namespace Server.Analizador
             IF.Rule = res_if + l_parent + E + r_parent + l_llave + BLOCK + r_llave + ELSEIFS + ELSE
                             | res_if + l_parent + E + r_parent + l_llave + BLOCK + r_llave + ELSEIFS;
 
-            FOR.Rule = res_for + l_parent + FUENTE_FOR + puntocoma + E + puntocoma + ACTUALIZACION2 + r_parent + l_llave + BLOCK + r_llave;
+            FOR.Rule = res_for + l_parent + FUENTE_FOR + puntocoma + E + puntocoma + ACTUALIZACION2 + r_parent + l_llave + BLOCK + r_llave
+                | res_for + res_each + l_parent + LISTA_PARAMETROS + r_parent + res_in + arroba + id + l_llave + BLOCK + r_llave;
 
             FUENTE_FOR.Rule = DECLARACION
                             | REASIGNACION;
@@ -601,7 +605,7 @@ namespace Server.Analizador
             RegisterOperators(3, Associativity.Left, and);
             RegisterOperators(4, Associativity.Left, xor);
             RegisterOperators(5, Associativity.Left, igual_igual, not_igual);
-            RegisterOperators(6, Associativity.Left, mayor_que, menor_que);
+            RegisterOperators(6, Associativity.Left, mayor_que, menor_que, mayor_igual, menor_igual);
             RegisterOperators(7, Associativity.Left, mas, menos);
             RegisterOperators(8, Associativity.Left, por, div);
             RegisterOperators(9, Associativity.Right, pot, modular);

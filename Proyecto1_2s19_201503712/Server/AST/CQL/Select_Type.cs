@@ -51,12 +51,12 @@ namespace Server.AST.CQL
             {
                 for (int i = 0; i < tabla.data.Count; i++)
                 {
-                    data.Add(new ColumnCQL("Columna " + (i + 1), tabla.data[i].tipoDato, false, 0, 0));
+                    data.Add(new ColumnCQL(tabla.data[i].id, tabla.data[i].tipoDato, false, 0, 0));
                 }
             }
 
             //=========================== LLENAR LA TABLA DE RESULTADOS ===============================
-            int indiceFor = tabla.data[0].valores.Count; //Número de tuplas
+            int indiceFor = tabla.data.Count!=0?tabla.data[0].valores.Count:0; //Número de tuplas
             //hago el for de columnas
             for (int i = 0; i < indiceFor; i++)
             {

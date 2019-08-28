@@ -18,7 +18,7 @@ namespace Server.AST.CQL
 
         public override object Ejecutar(AST_CQL arbol)
         {
-            return arbol.dbms.dropDataBase(this);
+            return arbol.dbms.dropDataBase(this,arbol);
         }
     }
 }

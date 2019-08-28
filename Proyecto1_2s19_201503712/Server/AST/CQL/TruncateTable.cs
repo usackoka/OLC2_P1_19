@@ -17,7 +17,7 @@ namespace Server.AST.CQL
 
         public override object Ejecutar(AST_CQL arbol)
         {
-            return arbol.dbms.truncateTable(this.id);
+            return arbol.dbms.truncateTable(this.id,arbol);
         }
     }
 }

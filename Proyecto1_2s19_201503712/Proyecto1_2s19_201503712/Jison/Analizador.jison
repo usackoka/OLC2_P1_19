@@ -1,71 +1,114 @@
-﻿/**
- * Ejemplo mi primer proyecto con Jison utilizando Nodejs en Ubuntu
- */
-
-/* Definición Léxica */
-%lex
-
+﻿%lex
 %options case-insensitive
-
+%locations
 %%
+\s+                   /* skip whitespace */
 
-"Evaluar"           return 'REVALUAR';
-";"                 return 'PTCOMA';
-"("                 return 'PARIZQ';
-")"                 return 'PARDER';
-"["                 return 'CORIZQ';
-"]"                 return 'CORDER';
-
-"+"                 return 'MAS';
-"-"                 return 'MENOS';
-"*"                 return 'POR';
-"/"                 return 'DIVIDIDO';
-
-/* Espacios en blanco */
-[ \r\t]+            {}
-\n                  {}
-
-[0-9]+("."[0-9]+)?\b    return 'DECIMAL';
-[0-9]+\b                return 'ENTERO';
 
 <<EOF>>                 return 'EOF';
+//.                       { console.error('Este es un error léxico: ' + yytext + ', en la linea: ' + yylloc.first_line + ', en la columna: ' + yylloc.first_column); }
 
-.                       { console.error('Este es un error léxico: ' + yytext + ', en la linea: ' + yylloc.first_line + ', en la columna: ' + yylloc.first_column); }
+("[+DATA]")(.|\t|\r|\n)+("[-DATA]") 					return "res_data";
+("[+MESSAGE]")(.|\t|\r|\n)+("[-MESSAGE]") 				return "res_message";
+("[+ERROR]")						 					return "res_errorAbre";
+("[-ERROR]")											return "res_errorCierra";
+("[+DESC]")(.|\t|\r|\n)+("[-DESC]")						return "res_descripcion";
+("[+LEXEMA]")(.|\t|\r|\n)+("[-LEXEMA]")					return "res_lexema";
+("[+LINE]")(.|\t|\r|\n)+("[-LINE]")						return "res_fila";
+("[+COLUMN]")(.|\t|\r|\n)+("[-COLUMN]")					return "res_columna";
+("[+TYPE]")(.|\t|\r|\n)+("[-TYPE]")						return "res_tipo";
 /lex
 
-/* Asociación de operadores y precedencia */
+%define parse.error verbose
+%option bison-locations
+%{
+    function TokenError(){
+    	this.lexema = "";
+    	this.descripcion = "";
+    	this.fila = "";
+    	this.columna = "";
+    	this.tipo = "";
+    }
 
-%left 'MAS' 'MENOS'
-%left 'POR' 'DIVIDIDO'
-%left UMENOS
+    function AST_LUP(){
+	    this.errores = new Array();
+	    this.mensajes = new Array();
+	    this.data = new Array();
+    }
 
-%start ini
+    var ast = new AST_LUP();
+%}
+
+
+%start S
 
 %% /* Definición de la gramática */
 
-ini
-	: instrucciones EOF
-;
+S : LIST_BLOCK EOF{
+	return ast;
+};
 
-instrucciones
-	: instruccion instrucciones
-	| instruccion
-	| error { console.error('Este es un error sintáctico: ' + yytext + ', en la linea: ' + this._$.first_line + ', en la columna: ' + this._$.first_column); }
-;
+LIST_BLOCK : LIST_BLOCK BLOCK
+	| BLOCK;
 
-instruccion
-	: REVALUAR CORIZQ expresion CORDER PTCOMA {
-		console.log('El valor de la expresión es: ' + $3);
+BLOCK : res_message {
+		ast.mensajes.push($1);
 	}
-;
+	| res_errorAbre ERROR res_errorCierra {
+		ast.errores.push($2);
+	}
+	| res_data {
+		ast.data.push($1);
+};
 
-expresion
-	: MENOS expresion %prec UMENOS  { $$ = $2 *-1; }
-	| expresion MAS expresion       { $$ = $1 + $3; }
-	| expresion MENOS expresion     { $$ = $1 - $3; }
-	| expresion POR expresion       { $$ = $1 * $3; }
-	| expresion DIVIDIDO expresion  { $$ = $1 / $3; }
-	| ENTERO                        { $$ = Number($1); }
-	| DECIMAL                       { $$ = Number($1); }
-	| PARIZQ expresion PARDER       { $$ = $2; }
-;
+ERROR : ERROR res_fila{
+		var e = $1;
+		e.fila = $2;
+		$$ = e;
+	}
+	| ERROR res_columna{
+		var e = $1;
+		e.columna = $2;
+		$$ = e;
+	}
+	| ERROR res_lexema
+	{
+		var e = $1;
+		e.lexema = $2;
+		$$ = e;
+	}
+	| ERROR res_tipo{
+		var e = $1;
+		e.tipo = $2;
+		$$ = e;
+	}
+	| ERROR res_descripcion{
+		var e = $1;
+		e.descripcion = $2;
+		$$ = e;
+	}
+	| res_fila{
+		var e = new TokenError();
+		e.fila = $1;
+		$$ = e;
+	}
+	| res_columna{
+		var e = new TokenError();
+		e.columna = $1;
+		$$ = e;
+	}
+	| res_lexema{
+		var e = new TokenError();
+		e.lexema = $1;
+		$$ = e;
+	}
+	| res_tipo{
+		var e = new TokenError();
+		e.tipo = $1;
+		$$ = e;
+	}
+	| res_descripcion{
+		var e = new TokenError();
+		e.descripcion = $1;
+		$$ = e;
+	};

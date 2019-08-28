@@ -97,8 +97,7 @@ namespace Server.AST.ExpresionesCQL
                 case "+":
                     if (tipIzq.Equals(Primitivo.TIPO_DATO.STRING) || tipDer.Equals(Primitivo.TIPO_DATO.STRING))
                     {
-                        return izquierda.getValor(arbol) + "" + 
-                            derecha.getValor(arbol);
+                        return izquierda.getValor(arbol) + "" + derecha.getValor(arbol);
                     }
                     else if (tipIzq.Equals(Primitivo.TIPO_DATO.DOUBLE) || tipDer.Equals(Primitivo.TIPO_DATO.DOUBLE))
                     {

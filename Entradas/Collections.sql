@@ -2,7 +2,7 @@
 List @varList = new List<String>;
 @varList.insert("Hola");
 @varList.insert(" ");
-@varList.insert("Putos");
+@varList.insert("amigos");
 @varList.insert(" ");
 @varList.insert(":3");
 @varList.insert(":O");
@@ -94,7 +94,7 @@ log(@varMap2.get(1).get(0));
 
 //==================== LIST MODO2 =================================
 List @varListM2 = new List<String>;
-String @salida = "";
+@salida = "";
 @varListM2 = ["val1","val2","val3","val4"];
 for(int @i = 0; @i<@varListM2.size(); @i++){
 	@salida += @varListM2.get(@i)+" ";
@@ -103,7 +103,7 @@ log("salida: "+@salida);
 
 //==================== SET MODO2 =================================
 Set @varSetM2 = new Set<String>;
-String @salida = "";
+@salida = "";
 @varSetM2 = {"val1","val2","val3","val4"};
 for(int @i = 0; @i<@varSetM2.size(); @i++){
 	@salida += @varSetM2.get(@i)+" ";

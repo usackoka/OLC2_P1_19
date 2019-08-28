@@ -1,4 +1,5 @@
 ﻿using Server.AST.ExpresionesCQL;
+using Server.AST.SentenciasCQL;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -210,7 +211,7 @@ namespace Server.AST.ColeccionesCQL
             }
 
             //MANDAR EX si se pasa del límite
-            return this.valores[index];
+            return this.valores.Count > index ? this.valores[index] : Catch.EXCEPTION.IndexOutException;
         }
 
         Object set(AST_CQL arbol)
@@ -233,9 +234,15 @@ namespace Server.AST.ColeccionesCQL
                 }
             }
 
-            this.valores[index] = this.expresiones[1].getValor(arbol);
-
-            return null;
+            if (this.valores.Count > index)
+            {
+                this.valores[index] = this.expresiones[1].getValor(arbol);
+                return null;
+            }
+            else
+            {
+                return Catch.EXCEPTION.IndexOutException;
+            }
         }
 
         Boolean ContainsString(String match, String search)

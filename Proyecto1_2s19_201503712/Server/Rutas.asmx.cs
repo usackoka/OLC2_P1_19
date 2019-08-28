@@ -35,7 +35,7 @@ namespace Server
             {
                 if (parserCQL.padre.Root != null)
                 {
-                    Graficar.ConstruirArbol(parserCQL.padre.Root, "AST_CQL", "");
+                    //Graficar.ConstruirArbol(parserCQL.padre.Root, "AST_CQL", "");
                     RecorridoCQL recorrido = new RecorridoCQL(parserCQL.padre.Root);
 
                     ThreadStart threadDelegate = new ThreadStart(recorrido.ast.Ejecutar);
@@ -48,7 +48,11 @@ namespace Server
                     }
                     return recorrido.ast.getLUP();
                 }
-                return "\n[+ERROR]\nPadre Null\n[-ERROR]\n";
+                return "[+ERROR]\n" +
+                    "[+DESC]\n" +
+                    "Padre Null\n"+
+                    "[-DESC]\n" +
+                    "[-ERROR]\n";
             }
             else
             {

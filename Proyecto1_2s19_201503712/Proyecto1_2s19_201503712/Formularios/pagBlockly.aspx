@@ -9,6 +9,7 @@
     <script src="../BlockLy/blockly_compressed.js"></script>
     <script src="../BlockLy/blocks_compressed.js"></script>
     <script src="../BlockLy/javascript_compressed.js"></script>
+    <script src="../BlockLy/Where.js"></script>
     <script src="../BlockLy/es.js"></script>
 </head>
 <body>
@@ -19,6 +20,7 @@
         <xml id="toolbox" style="display: none">
             <category name ="Sentencias">
                 <block type="controls_if"></block>
+                <block type="where"></block>
             </category>
             <category name="Otros">
                 <block type="controls_repeat_ext"></block>

@@ -20,7 +20,7 @@ namespace Server.AST.CQL
 
         public override object Ejecutar(AST_CQL arbol)
         {
-            return arbol.dbms.grantUser(idUser, idBd);
+            return arbol.dbms.grantUser(idUser, idBd,arbol);
         }
     }
 }
