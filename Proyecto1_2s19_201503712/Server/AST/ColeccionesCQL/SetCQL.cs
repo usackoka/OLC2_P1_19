@@ -1,4 +1,5 @@
 ﻿using Server.AST.ExpresionesCQL;
+using Server.AST.ExpresionesCQL.Tipos;
 using Server.AST.SentenciasCQL;
 using System;
 using System.Collections;
@@ -26,7 +27,7 @@ namespace Server.AST.ColeccionesCQL
 
         public override object getTipo(AST_CQL arbol)
         {
-            return Primitivo.TIPO_DATO.SET;
+            return new TipoSet(this.tipoDato);
         }
 
         public override object getValor(AST_CQL arbol)
@@ -183,8 +184,16 @@ namespace Server.AST.ColeccionesCQL
                 }
             }
 
-            this.valores.RemoveAt(index);
-            return null;
+            if (this.valores.Count > index)
+            {
+                this.valores.RemoveAt(index);
+                return null;
+            }
+            else
+            {
+                arbol.addError("EXCEPTION.IndexOutException", "(Remove, SET) index: " + index + " size: " + this.valores.Count, fila, columna);
+                return Catch.EXCEPTION.IndexOutException;
+            }
         }
 
         Object get(AST_CQL arbol)
@@ -211,7 +220,13 @@ namespace Server.AST.ColeccionesCQL
             }
 
             //MANDAR EX si se pasa del límite
-            return this.valores.Count > index ? this.valores[index] : Catch.EXCEPTION.IndexOutException;
+            if (this.valores.Count > index) {
+                return this.valores[index];
+            }
+            else {
+                arbol.addError("EXCEPTION.IndexOutException", "(Get, Set) index: " + index + " size: " + this.valores.Count, fila, columna);
+                return Catch.EXCEPTION.IndexOutException;
+            }
         }
 
         Object set(AST_CQL arbol)
@@ -241,6 +256,7 @@ namespace Server.AST.ColeccionesCQL
             }
             else
             {
+                arbol.addError("EXCEPTION.IndexOutException", "(Set, Set) index: " + index + " size: " + this.valores.Count, fila, columna);
                 return Catch.EXCEPTION.IndexOutException;
             }
         }

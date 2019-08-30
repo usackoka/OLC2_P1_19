@@ -37,7 +37,7 @@ namespace Server.AST.ExpresionesCQL
                         return DateTime.Parse(expresion.getValor(arbol).ToString());
                     }
                     catch (Exception ex) {
-                        arbol.addError("Casteo-DATETIME","No se puede castear el: "+expresion.getValor(arbol).ToString()+" a DateTime", fila, columna);
+                        arbol.addError("Casteo-DATETIME","No se puede castear el: "+expresion.getValor(arbol).ToString()+" a DateTime, "+ex, fila, columna);
                         return Catch.EXCEPTION.NullPointerException;
                     }
                 case Primitivo.TIPO_DATO.DOUBLE:

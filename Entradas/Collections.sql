@@ -9,6 +9,11 @@ List @varList = new List<String>;
 
 @varList.remove(5);
 
+String @salida = "";
+for(int @i = 0; @i<@varList.size(); @i++){
+	@salida += @varList.get(@i);
+}
+
 if(@varList.contains(":O")){
 	log("Está malo chico :c");
 }else{
@@ -23,7 +28,7 @@ if(@varList.contains(":O")){
 @varList.insert(":3");
 @varList.set(4,":v");
 
-String @salida = "";
+@salida = "";
 for(int @i = 0; @i<@varList.size(); @i++){
 	@salida += @varList.get(@i);
 }

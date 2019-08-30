@@ -278,6 +278,7 @@ namespace Server.Analizador
             var THROW = new NonTerminal("THROW");
             var ID_ARROBA = new NonTerminal("ID_ARROBA");
             var DML2 = new NonTerminal("DML2");
+            var REASIGNACION2 = new NonTerminal("REASIGNACION2");
             #endregion
 
             #region Gramatica
@@ -374,7 +375,18 @@ namespace Server.Analizador
 
             LISTA_ASIG_CQL.Rule = MakePlusRule(LISTA_ASIG_CQL,coma,ASIG_CQL);
 
-            ASIG_CQL.Rule = id + igual + E;
+            ASIG_CQL.Rule = id + igual + E
+                | id + l_corchete + E + r_corchete + igual + E;
+        
+
+            /*
+            ACCESO_ARR.Rule = id + LISTA_CORCHETES;
+
+            LISTA_CORCHETES.Rule = MakePlusRule(LISTA_CORCHETES, CORCHETES);
+
+            CORCHETES.Rule = l_corchete + E + r_corchete;
+            */
+            
 
             //=================== DCL =============================================
             DCL.Rule = res_create + res_user + id + res_with + res_password + E
@@ -428,11 +440,11 @@ namespace Server.Analizador
             //===================================
 
             INSTRUCCION.Rule = res_log + l_parent + E + r_parent
-                        //| LISTA_IDS_ARROBA + igual + E
                         //========== ver aquí ambiguedad entre referencias y reasignacion
                         | REFERENCIAS + igual + E
                         | res_return + LISTA_E
                         | REASIGNACION
+                        | REASIGNACION2
                         | ACTUALIZACION2
                         | CORTE
                         | REFERENCIAS;
@@ -441,6 +453,8 @@ namespace Server.Analizador
                         | res_continue;
 
             REASIGNACION.Rule = arroba + id + igual + E;
+
+            REASIGNACION2.Rule = LISTA_IDS_ARROBA + igual + E;
 
             OPERADOR.Rule = mas | menos | modular | por | div;
 
@@ -454,7 +468,10 @@ namespace Server.Analizador
                 | res_list
                 | id
                 | res_date
-                | res_time;
+                | res_time
+                | res_list + menor_que + TIPO + mayor_que
+                | res_set + menor_que + TIPO + mayor_que
+                | res_map + menor_que + TIPO + coma + TIPO + mayor_que;
 
             SENTENCIA.Rule = IF
                             | FOR
@@ -561,14 +578,6 @@ namespace Server.Analizador
             REFERENCIA.Rule = arroba + id | id | LLAMADA_FUNCION; // | ACCESO_ARR;
 
             REFERENCIAS.Rule = MakePlusRule(REFERENCIAS, punto, REFERENCIA);
-
-            /*
-            ACCESO_ARR.Rule = id + LISTA_CORCHETES;
-
-            LISTA_CORCHETES.Rule = MakePlusRule(LISTA_CORCHETES, CORCHETES);
-
-            CORCHETES.Rule = l_corchete + E + r_corchete;
-            */
             
             COLECCION.Rule = l_corchete + LISTA_E + r_corchete //instancia de list
                 | l_corchete + KEY_VALUE_LIST + r_corchete //instancia de map

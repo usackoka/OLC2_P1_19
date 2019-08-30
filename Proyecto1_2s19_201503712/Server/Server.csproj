@@ -91,6 +91,7 @@
     <Compile Include="AST\CQL\AsignacionColumna.cs" />
     <Compile Include="AST\CQL\ColumnCQL.cs" />
     <Compile Include="AST\CQL\CreateDataBase.cs" />
+    <Compile Include="AST\CQL\CreateProcedure.cs" />
     <Compile Include="AST\CQL\CreateTable.cs" />
     <Compile Include="AST\CQL\CreateUser.cs" />
     <Compile Include="AST\CQL\DeleteFrom.cs" />
@@ -128,6 +129,9 @@
     <Compile Include="AST\ExpresionesCQL\Referencia.cs" />
     <Compile Include="AST\ExpresionesCQL\Ternaria.cs" />
     <Compile Include="AST\ExpresionesCQL\Throw.cs" />
+    <Compile Include="AST\ExpresionesCQL\Tipos\TipoList.cs" />
+    <Compile Include="AST\ExpresionesCQL\Tipos\TipoMAP.cs" />
+    <Compile Include="AST\ExpresionesCQL\Tipos\TipoSet.cs" />
     <Compile Include="AST\ExpresionesCQL\TodayNow.cs" />
     <Compile Include="AST\ExpresionesCQL\Unario.cs" />
     <Compile Include="AST\ExpresionesCQL\Variable.cs" />

@@ -30,6 +30,32 @@ namespace Server.AST.DBMS
             usuarioActivo = user;
         }
 
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////
+        //////////////////////////////////////// PROCEDURES
+        ////////////////////////////////////////////////////////////////////////////////////////////////////
+        public Object createProcedure(CreateProcedure cp, AST_CQL arbol, int fila, int columna) {
+            if (getProcedure(cp.id, cp.getFirma()) != null)
+            {
+                arbol.addError("ProcedureAlreadyExists", "Ya existe el procedure con nombre: " + cp.id, fila, columna);
+                return Catch.EXCEPTION.ProcedureAlreadyExists;
+            }
+
+            system.procedures.Add(new Procedure(cp));
+            return null;
+        }
+
+        public Procedure getProcedure(String id, String firma)
+        {
+            foreach (Procedure ut in system.procedures)
+            {
+                if (ut.id.Equals(id) && ut.getFirma().Equals(firma))
+                {
+                    return ut;
+                }
+            }
+            return null;
+        }
         ////////////////////////////////////////////////////////////////////////////////////////////////////
         //////////////////////////////////////// ACCIONES TABLAS
         ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -40,7 +66,7 @@ namespace Server.AST.DBMS
                 return Catch.EXCEPTION.TableDontExists;
             }
 
-            return table.insertValues(insert.columnNames, insert.values, arbol);
+            return table.insertValues(insert.columnNames, insert.values, arbol, fila, columna);
         }
 
         public Object updateTable(Update upd, AST_CQL arbol, int fila, int columna) {
@@ -51,7 +77,7 @@ namespace Server.AST.DBMS
                 return Catch.EXCEPTION.TableDontExists;
             }
 
-            return table.updateValues(upd.asignaciones,upd.where, arbol);
+            return table.updateValues(upd.asignaciones,upd.where, arbol, fila, columna);
         }
 
         public Object deleteFrom(DeleteFrom delete, AST_CQL arbol, int fila, int columna) {
@@ -62,7 +88,7 @@ namespace Server.AST.DBMS
                 return Catch.EXCEPTION.TableDontExists;
             }
 
-            return table.deleteFrom(delete.where, arbol);
+            return table.deleteFrom(delete.where, arbol, fila, columna);
         }
 
         public Object alterTableAdd(AlterTableAdd alter, AST_CQL arbol, int fila, int columna) {
@@ -84,7 +110,7 @@ namespace Server.AST.DBMS
                 return Catch.EXCEPTION.TableDontExists;
             }
 
-            return table.Drop(alter.atributos);
+            return table.Drop(alter.atributos, arbol, fila, columna);
         }
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////

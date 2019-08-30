@@ -25,6 +25,32 @@ namespace Server.AST.CQL
             this.columna = columna;
         }
 
+        public Procedure(CreateProcedure cp) {
+            this.id = cp.id;
+            this.parametros = cp.parametros;
+            this.retornos = cp.retornos;
+            this.instrucciones = cp.instrucciones;
+            this.fila = cp.fila;
+            this.columna = cp.columna;
+        }
+
+        public List<Object> getTipo(AST_CQL arbol) {
+            List<Object> tipos = new List<object>();
+            foreach (KeyValuePair<String,Object> kvp in this.retornos) {
+                tipos.Add(kvp.Value);
+            }
+            return tipos;
+        }
+
+        public String getFirma() {
+            String firma = "";
+            foreach (KeyValuePair<String,Object> kvp in parametros)
+            {
+                firma += "_" + kvp.Value;
+            }
+            return firma;
+        }
+
         public override object Ejecutar(AST_CQL arbol)
         {
             //arbol.entorno = new Entorno(arbol.entorno);
@@ -80,14 +106,5 @@ namespace Server.AST.CQL
             }
         }
 
-        public String getFirma()
-        {
-            String firma = "";
-            foreach (KeyValuePair<String, object> kvp in this.parametros)
-            {
-                firma += "_" + kvp.Value;
-            }
-            return firma;
-        }
     }
 }

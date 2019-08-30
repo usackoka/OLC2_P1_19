@@ -34,13 +34,17 @@ namespace Server.AST.DBMS
             }
         }
 
-        public Object Drop(List<String> atributos) {
+        public Object Drop(List<String> atributos, AST_CQL arbol, int fila, int columna) {
             List<ColumnCQL> columnasEliminar = new List<ColumnCQL>();
 
             foreach (String idColumna in atributos)
             {
                 foreach (ColumnCQL column in data) {
                     if (column.id.Equals(idColumna)) {
+                        if (column.primaryKey) {
+                            arbol.addError("EXCEPTION.ColumnException: " + column.id,"No se puede eliminar una columna PrimaryKey",fila,columna);
+                            return Catch.EXCEPTION.ColumnException;
+                        }
                         columnasEliminar.Add(column);
                     }
                 }
@@ -69,7 +73,7 @@ namespace Server.AST.DBMS
             return null;
         }
 
-        public Object updateValues(List<AsignacionColumna> asignaciones, Where where, AST_CQL arbol) {
+        public Object updateValues(List<AsignacionColumna> asignaciones, Where where, AST_CQL arbol, int fila, int col) {
             //creo un entorno para estas nuevas variables que llevarán el control del select
             arbol.entorno = new Entorno(arbol.entorno);
 
@@ -88,7 +92,7 @@ namespace Server.AST.DBMS
                 //doy valores a las variables de las columnas
                 foreach (ColumnCQL column in data)
                 {
-                    arbol.entorno.reasignarVariable("$" + column.id, column.valores[i], column.tipoDato, arbol, 0, 0);
+                    arbol.entorno.reasignarVariable("$" + column.id, column.valores[i], column.tipoDato, arbol,fila,col);
                 }
 
                 //creo una tupla resultado si se cumple el where
@@ -112,7 +116,7 @@ namespace Server.AST.DBMS
             return null;
         }
 
-        public Object deleteFrom(Where where, AST_CQL arbol) {
+        public Object deleteFrom(Where where, AST_CQL arbol, int fila, int col) {
             if (where == null)
             {
                 restartTable();
@@ -138,7 +142,7 @@ namespace Server.AST.DBMS
                     //doy valores a las variables de las columnas
                     foreach (ColumnCQL column in data)
                     {
-                        arbol.entorno.reasignarVariable("$" + column.id, column.valores[i], column.tipoDato, arbol, 0, 0);
+                        arbol.entorno.reasignarVariable("$" + column.id, column.valores[i], column.tipoDato, arbol,fila,col);
                     }
 
                     //creo una tupla resultado si se cumple el where
@@ -162,7 +166,7 @@ namespace Server.AST.DBMS
             return null;
         }
 
-        public Object insertValues(List<String> columnNames, List<Expresion> values, AST_CQL arbol)
+        public Object insertValues(List<String> columnNames, List<Expresion> values, AST_CQL arbol, int fila, int col)
         {
             if (columnNames != null)
             {
@@ -176,13 +180,18 @@ namespace Server.AST.DBMS
                         //encuentra la columna
                         if (columna.id.Equals(idColumna))
                         {
+                            if (columna.tipoDato.Equals(Primitivo.TIPO_DATO.COUNTER))
+                            {
+                                arbol.addError("EXCEPTION.CounterTypeException: " + this.id, "No puede asignar valor a la columna: "+columna.id+" ya que es de tipo Counter",fila,col);
+                                return Catch.EXCEPTION.CounterTypeException;
+                            }
                             existe = true;
                             break;
                         }
                     }
                     if (!existe)
                     {
-                        arbol.addError("ColumnName", "No existe la columna con nombre: " + idColumna + " para el insert en tabla: " + this.id, 0, 0);
+                        arbol.addError("EXCEPTION.ColumnException", "No existe la columna con nombre: " + idColumna + " para el insert en tabla: " + this.id,fila,col);
                         return Catch.EXCEPTION.ColumnException;
                     }
                 }
@@ -199,6 +208,7 @@ namespace Server.AST.DBMS
                         {
                             columna.valores.Add(values[indexValor++].getValor(arbol));
                             indiceTupla = columna.valores.Count;
+                            break;
                         }
                     }
                 }
@@ -208,15 +218,27 @@ namespace Server.AST.DBMS
                 {
                     if (columna.valores.Count < indiceTupla)
                     {
-                        columna.valores.Add(Primitivo.TIPO_DATO.NULL);
+                        if (columna.tipoDato.Equals(Primitivo.TIPO_DATO.COUNTER))
+                        {
+                            columna.valores.Add(columna.counter++);
+                        }
+                        else
+                        {
+                            columna.valores.Add(Primitivo.TIPO_DATO.NULL);
+                        }
                     }
                 }
             }
             else
             {
+                if (contieneColumnaCounter()) {
+                    arbol.addError("EXCEPTION.CounterTypeException: " + this.id, "La tabla contiene una columna de tipo Counter, debe usar la insercion especial",fila,col);
+                    return Catch.EXCEPTION.CounterTypeException;
+                }
+
                 if (this.data.Count != values.Count)
                 {
-                    arbol.addError("Insert: " + this.id, "No existe la misma cantidad de valores asignados a las columnas", 0, 0);
+                    arbol.addError("EXCEPTION.ValuesException: " + this.id, "No existe la misma cantidad de valores asignados a las columnas",fila,col);
                     return Catch.EXCEPTION.ValuesException;
                 }
 
@@ -228,6 +250,15 @@ namespace Server.AST.DBMS
             }
 
             return null;
+        }
+
+        bool contieneColumnaCounter() {
+            foreach (ColumnCQL column in data) {
+                if (!column.tipoDato.Equals(Primitivo.TIPO_DATO.COUNTER)) {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }

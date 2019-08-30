@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Server.AST.ExpresionesCQL.Tipos;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -73,11 +74,14 @@ namespace Server.AST.ExpresionesCQL
         }
 
         public static Object getDefecto(Object tipoDato, AST_CQL arbol) {
-            if (tipoDato is String) {
+
+            if (tipoDato is String || tipoDato is TipoMAP || tipoDato is TipoList || tipoDato is TipoSet) {
                 return TIPO_DATO.NULL;
             }
+
             switch (tipoDato) {
                 case TIPO_DATO.INT:
+                case TIPO_DATO.COUNTER:
                     return 0;
                 case TIPO_DATO.BOOLEAN:
                     return false;
@@ -90,9 +94,6 @@ namespace Server.AST.ExpresionesCQL
                 case TIPO_DATO.TIME:
                     return DateTime.Now;
                 case TIPO_DATO.NULL:
-                case TIPO_DATO.LIST:
-                case TIPO_DATO.SET:
-                case TIPO_DATO.MAP:
                 case TIPO_DATO.STRUCT:
                 case TIPO_DATO.CURSOR:
                     return TIPO_DATO.NULL;
@@ -103,7 +104,7 @@ namespace Server.AST.ExpresionesCQL
         }
 
         public enum TIPO_DATO {
-            INT, BOOLEAN, DOUBLE, STRING, DATE, TIME, NULL, ID, LIST, SET, MAP, COUNTER, STRUCT, CURSOR
+            INT, BOOLEAN, DOUBLE, STRING, DATE, TIME, NULL, ID, COUNTER, STRUCT, CURSOR
         }
 
         public override object getTipo(AST_CQL arbol)
@@ -133,7 +134,7 @@ namespace Server.AST.ExpresionesCQL
                     return arbol.entorno.getValorVariable(this.value.ToString(),arbol,fila,columna);
                 default:
                     arbol.addError("","(Primitivo) no soportado tipo: "+this.tipoDato,fila,columna);
-                    return "not supported yet";
+                    return this.value;
             }
         }
 

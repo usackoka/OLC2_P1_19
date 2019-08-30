@@ -1,4 +1,5 @@
 ﻿using Server.AST.ExpresionesCQL;
+using Server.AST.ExpresionesCQL.Tipos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -81,12 +82,23 @@ namespace Server.AST
             if (this.tablaSimbolos.ContainsKey(id))
             {
                 Variable var = (Variable)this.tablaSimbolos[id];
-                if (var.getTipo(arbol).Equals(tipo))
+                if (var.getTipo(arbol) is TipoMAP && tipo is TipoMAP) {
+                    var.setValor(valor);
+                }
+                else if (var.getTipo(arbol) is TipoList && tipo is TipoList)
+                {
+                    var.setValor(valor);
+                }
+                else if (var.getTipo(arbol) is TipoSet && tipo is TipoSet)
+                {
+                    var.setValor(valor);
+                }
+                else if (var.getTipo(arbol).Equals(tipo))
                 {
                     var.setValor(valor);
                 }
                 else {
-                    arbol.addError(id,"No se puede castear implicitamente de "+tipo+" a "+var.getTipo(arbol),fila,columna);
+                    arbol.addError(id, "No se puede castear implicitamente de " + tipo + " a " + var.getTipo(arbol), fila, columna);
                 }
             }
             else

@@ -10,9 +10,16 @@ namespace Server.AST.CQL
     {
         public String idColumna;
         public Expresion expresion;
-
         public AsignacionColumna(String idColumna, Expresion expresion) {
             this.idColumna = idColumna;
+            this.expresion = expresion;
+            this.acceso = null;
+        }
+
+        public Expresion acceso;
+        public AsignacionColumna(String idColumna, Expresion acceso, Expresion expresion) {
+            this.idColumna = idColumna;
+            this.acceso = acceso;
             this.expresion = expresion;
         }
     }

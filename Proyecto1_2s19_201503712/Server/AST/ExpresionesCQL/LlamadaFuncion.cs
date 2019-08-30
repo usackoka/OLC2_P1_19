@@ -1,4 +1,5 @@
-﻿using Server.AST.SentenciasCQL;
+﻿using Server.AST.CQL;
+using Server.AST.SentenciasCQL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,6 +28,20 @@ namespace Server.AST.ExpresionesCQL
 
         public override object getTipo(AST_CQL arbol)
         {
+            if (tipoLlamada.Equals(TIPO_LLAMADA.CALL)) {
+                Procedure procedure = arbol.dbms.getProcedure(this.idLlamada, getFirma(arbol));
+                if (procedure != null)
+                {  
+                    return procedure.getTipo(arbol);
+                }
+                else
+                {
+                    //retorno el nullpointer de no encontrada la función
+                    arbol.addError("EXCEPTION.NullPointerException", "No existe el procedure: " + this.idLlamada + " con firma: " + getFirma(arbol), fila, columna);
+                    return Catch.EXCEPTION.NullPointerException;
+                }
+            }
+
             foreach (Funcion funcion in arbol.funciones)
             {
                 if (funcion.id.Equals(idLlamada) && getFirma(arbol).Equals(funcion.getFirma()))
@@ -71,11 +86,32 @@ namespace Server.AST.ExpresionesCQL
                 else
                 {
                     //retorno el nullpointer de no encontrada la función
-                    return Primitivo.TIPO_DATO.NULL;
+                    arbol.addError("EXCEPTION.NullPointerException","No existe la función: "+this.idLlamada+" con firma: "+getFirma(arbol),fila,columna);
+                    return Catch.EXCEPTION.NullPointerException;
                 }
             }
             //======================================== CALL PROCEDURE ============================
             else {
+                //pregunto si existe el procedure
+                Procedure procedure = arbol.dbms.getProcedure(this.idLlamada, getFirma(arbol));
+                if (procedure != null)
+                {  //obtengo los parámetros
+                    List<Object> valores = new List<object>();
+                    foreach (Expresion expresion in expresiones)
+                    {
+                        valores.Add(expresion.getValor(arbol));
+                    }
+
+                    //paso los valores que tendrán los parámetros
+                    procedure.valoresParametros = valores;
+                    return procedure.Ejecutar(arbol);
+                }
+                else
+                {
+                    //retorno el nullpointer de no encontrada la función
+                    arbol.addError("EXCEPTION.NullPointerException", "No existe la función: " + this.idLlamada + " con firma: " + getFirma(arbol), fila, columna);
+                    return Catch.EXCEPTION.NullPointerException;
+                }
             }
 
             return null;

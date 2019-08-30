@@ -18,7 +18,7 @@ namespace Server.AST.SentenciasCQL
         public override object Ejecutar(AST_CQL arbol)
         {
             if (expresiones.Count == 0) {
-                return null;
+                return  Primitivo.TIPO_DATO.NULL;
             }
             else if (expresiones.Count == 1)
             {

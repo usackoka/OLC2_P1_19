@@ -1,5 +1,6 @@
 ﻿using Server.AST.DBMS;
 using Server.AST.ExpresionesCQL;
+using Server.AST.ExpresionesCQL.Tipos;
 using Server.AST.SentenciasCQL;
 using System;
 using System.Collections;
@@ -74,11 +75,11 @@ namespace Server.AST.ColeccionesCQL
         {
             switch (this.tipo) {
                 case "[":
-                    return Primitivo.TIPO_DATO.LIST;
+                    return new TipoList(expresiones[0].getTipo(arbol));
                 case "{":
-                    return Primitivo.TIPO_DATO.SET;
+                    return new TipoSet(expresiones[0].getTipo(arbol));
                 case null:
-                    return Primitivo.TIPO_DATO.MAP;
+                    return new TipoMAP(kvpList[0].Key.getTipo(arbol), kvpList[0].Value.getTipo(arbol));
                 default:
                     return this.tipo;
             }

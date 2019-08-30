@@ -1,4 +1,6 @@
 ﻿using Server.AST.ExpresionesCQL;
+using Server.AST.ExpresionesCQL.Tipos;
+using Server.AST.SentenciasCQL;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -27,7 +29,7 @@ namespace Server.AST.ColeccionesCQL
 
         public override object getTipo(AST_CQL arbol)
         {
-            return Primitivo.TIPO_DATO.MAP;
+            return new TipoMAP(this.tipoClave,this.tipoValor);
         }
 
         public override object getValor(AST_CQL arbol)
@@ -172,8 +174,17 @@ namespace Server.AST.ColeccionesCQL
                 return Primitivo.TIPO_DATO.NULL;
             }
 
-            this.valores.Remove(this.expresiones[0].getValor(arbol));
-            return null;
+            Object key = this.expresiones[0].getValor(arbol);
+            if (this.valores.ContainsKey(key))
+            {
+                this.valores.Remove(key);
+                return null;
+            }
+            else
+            {
+                arbol.addError("EXCEPTION.IndexOutException", "(REMOVE, MAP), no contiene la clave: " + key, fila, columna);
+                return Catch.EXCEPTION.IndexOutException;
+            }
         }
 
         Object get(AST_CQL arbol)
@@ -185,7 +196,18 @@ namespace Server.AST.ColeccionesCQL
             }
 
             //MANDAR EX si se pasa del límite
-            return this.valores[this.expresiones[0].getValor(arbol)];
+
+            Object key = this.expresiones[0].getValor(arbol);
+            if (this.valores.ContainsKey(key))
+            {
+                return this.valores[key];
+            }
+            else
+            {
+                arbol.addError("EXCEPTION.IndexOutException", "(GET, MAP), no contiene la clave: "+key, fila, columna);
+                return Catch.EXCEPTION.IndexOutException;
+            }
+            
         }
 
         Object set(AST_CQL arbol)
@@ -195,7 +217,16 @@ namespace Server.AST.ColeccionesCQL
                 arbol.addError("Map", "(set) debe tener exclusivamente 2 parámetros", fila, columna);
             }
 
-            this.valores[this.expresiones[0].getValor(arbol)] = this.expresiones[1].getValor(arbol);
+            Object key = this.expresiones[0].getValor(arbol);
+            if (this.valores.ContainsKey(key))
+            {
+                this.valores[key] = this.expresiones[1].getValor(arbol);
+            }
+            else
+            {
+                arbol.addError("EXCEPTION.IndexOutException", "(SET, MAP), no contiene la clave: " + key, fila, columna);
+                return Catch.EXCEPTION.IndexOutException;
+            }
 
             return null;
         }
@@ -203,6 +234,16 @@ namespace Server.AST.ColeccionesCQL
         Boolean ContainsString(String match, String search)
         {
             return Regex.IsMatch(search, Regex.Escape(match), RegexOptions.IgnoreCase);
+        }
+
+        public override string ToString()
+        {
+            String retorno = "";
+            foreach (DictionaryEntry pair in this.valores) {
+                retorno +="{"+ pair.Key + ":" + pair.Value+"},\n";
+            }
+            retorno.Remove(retorno.Length-1,1);
+            return retorno;
         }
     }
 }

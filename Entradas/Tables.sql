@@ -105,5 +105,11 @@ try{
 	log(@ex);
 }
 
-SELECT * FROM Estudiante;
 //SELECT @nombres+nombres,@carnet+carnet FROM Estudiante WHERE carnet > 201500000 && carnet < 201600000; 
+
+ALTER TABLE Estudiante ADD 
+	notas_cursos MAP<String,int>;
+
+UPDATE Estudiante SET notas_cursos = ["compi2":0,"social":100];
+SELECT * FROM Estudiante;
+

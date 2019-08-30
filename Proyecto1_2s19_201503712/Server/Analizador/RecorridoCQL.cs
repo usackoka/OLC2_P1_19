@@ -3,6 +3,7 @@ using Server.AST;
 using Server.AST.ColeccionesCQL;
 using Server.AST.CQL;
 using Server.AST.ExpresionesCQL;
+using Server.AST.ExpresionesCQL.Tipos;
 using Server.AST.SentenciasCQL;
 using System;
 using System.Collections.Generic;
@@ -139,7 +140,7 @@ namespace Server.Analizador
             else if (CompararNombre(raiz, "TCL")) {
                 /*res_commit
                 | res_rollback;*/
-                String tipo = getLexema(raiz,0);
+                String tipo = getLexema(raiz, 0);
                 if (tipo.Equals("commit", System.StringComparison.InvariantCultureIgnoreCase))
                 {
                     return new Commit(getFila(raiz, 0), getColumna(raiz, 0));
@@ -322,6 +323,13 @@ namespace Server.Analizador
                     return new Cursor(getLexema(raiz, 2), null,
                         Cursor.TIPO_CURSOR.CLOSE, getFila(raiz, 0), getColumna(raiz, 0));
                 }
+            }
+            else if (CompararNombre(raiz, "PROCEDURE")) {
+                //res_procedure + id + l_parent + LISTA_PARAMETROS + r_parent + coma +
+                //l_parent + LISTA_PARAMETROS + r_parent + l_llave + BLOCK + r_llave;
+                return new CreateProcedure(getLexema(raiz, 1), (List<KeyValuePair<String, Object>>)recorrido(raiz.ChildNodes[3]),
+                    (List<KeyValuePair<String, Object>>)recorrido(raiz.ChildNodes[7]), (List<NodoCQL>)recorrido(raiz.ChildNodes[10]),
+                    getFila(raiz, 0), getColumna(raiz, 0));
             }
             else if (CompararNombre(raiz, "CASTEOS"))
             {
@@ -557,8 +565,16 @@ namespace Server.Analizador
             }
             else if (CompararNombre(raiz, "ASIG_CQL"))
             {
-                // id + igual + E;
-                return new AsignacionColumna(getLexema(raiz, 0), (Expresion)recorrido(raiz.ChildNodes[2]));
+                /* id + igual + E
+                | id + l_corchete + E + r_corchete + igual + E*/
+                if (raiz.ChildNodes.Count == 6)
+                {
+                    return AsignacionColumna(getLexema(raiz,0),(Expresion)recorrido(raiz.ChildNodes[2]), (Expresion)recorrido(raiz.ChildNodes[5]));
+                }
+                else
+                {
+                    return new AsignacionColumna(getLexema(raiz, 0), (Expresion)recorrido(raiz.ChildNodes[2]));
+                }
             }
             else if (CompararNombre(raiz, "ID_ARROBA"))
             {
@@ -684,15 +700,26 @@ namespace Server.Analizador
                 }
                 else if (tipo.Equals("list", System.StringComparison.InvariantCultureIgnoreCase))
                 {
-                    return Primitivo.TIPO_DATO.LIST;
+                    if (raiz.ChildNodes.Count > 1)
+                    {
+                        return new TipoList(recorrido(raiz.ChildNodes[2]));
+                    }
+                    return new TipoList();
                 }
                 else if (tipo.Equals("set", System.StringComparison.InvariantCultureIgnoreCase))
                 {
-                    return Primitivo.TIPO_DATO.SET;
+                    if (raiz.ChildNodes.Count > 1) {
+                        return new TipoSet(recorrido(raiz.ChildNodes[2]));
+                    }
+                    return new TipoSet();
                 }
                 else if (tipo.Equals("map", System.StringComparison.InvariantCultureIgnoreCase))
                 {
-                    return Primitivo.TIPO_DATO.MAP;
+                    if (raiz.ChildNodes.Count > 1) {
+                        //res_map + menor_que + TIPO + coma + TIPO + mayor_que;
+                        return new TipoMAP(recorrido(raiz.ChildNodes[2]), recorrido(raiz.ChildNodes[4]));
+                    }
+                    return new TipoMAP();
                 }
                 else if (tipo.Equals("counter", System.StringComparison.InvariantCultureIgnoreCase))
                 {
@@ -847,6 +874,11 @@ namespace Server.Analizador
                 int fila = getFila(raiz, 0);
                 int columna = getColumna(raiz, 0);
                 return new Reasignacion(getLexema(raiz, 1), (Expresion)recorrido(raiz.ChildNodes[3]), fila, columna);
+            }
+            else if (CompararNombre(raiz, "REASIGNACION2")) {
+                // LISTA_IDS_ARROBA + igual + E;
+                return new Reasignacion((List<String>)recorrido(raiz.ChildNodes[0]), (Expresion)recorrido(raiz.ChildNodes[2]),
+                    getFila(raiz, 1), getColumna(raiz, 1));
             }
             else if (CompararNombre(raiz, "E"))
             {

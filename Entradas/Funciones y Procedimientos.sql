@@ -7,7 +7,7 @@ Procedure Ejemplo_Procedure(int @n, int @p), (int @retorno1, int @ret2){
 	} 
 } 
 
-Procedure Ejemplo_Procedure(int @n, String @mensaje),(int @ret1, int @ret2){
+Procedure Ejemplo_Procedure(int @n, String @mensaje),(int @ret1, String @ret2){
 	if (@n == 0) {
 		return 1, "";
 	}

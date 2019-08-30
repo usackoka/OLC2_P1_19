@@ -45,6 +45,8 @@ namespace Server.AST.ExpresionesCQL
                 return o;
             }
 
+            arbol.res_consultas.RemoveAt(arbol.res_consultas.Count-1);
+
             switch (this.tipoAgr)
             {
                 case TIPO_AGR.COUNT:
