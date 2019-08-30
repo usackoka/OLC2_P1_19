@@ -25,6 +25,17 @@ namespace Server.AST.ColeccionesCQL
             this.valores = new List<object>();
         }
 
+        public override string ToString()
+        {
+            String retorno = "{";
+            foreach (Object obj in this.valores) {
+                retorno += obj + ",";
+            }
+            retorno.Remove(retorno.Length-1,1);
+            retorno += "}";
+            return retorno;
+        }
+
         public override object getTipo(AST_CQL arbol)
         {
             return new TipoSet(this.tipoDato);
@@ -33,6 +44,25 @@ namespace Server.AST.ColeccionesCQL
         public override object getValor(AST_CQL arbol)
         {
             return this;
+        }
+
+        public void addRange(SetCQL set, AST_CQL arbol) {
+            foreach (Object obj in set.valores) {
+                if (this.valores.Contains(obj))
+                {
+                    arbol.addError("SET", "El set ya contiene el valor: " + obj, fila, columna);
+                }
+                else {
+                    this.valores.Add(obj);
+                }
+            }
+            this.valores.Sort();
+        }
+
+        public void removeRange(SetCQL set) {
+            foreach (Object obj in set.valores) {
+                this.valores.Remove(obj);
+            }
         }
 
         public object getTipoMetodo(String id)
@@ -108,7 +138,7 @@ namespace Server.AST.ColeccionesCQL
             }
         }
 
-        Object insert(AST_CQL arbol)
+        public Object insert(AST_CQL arbol)
         {
 
             if (this.expresiones.Count != 1)
@@ -162,7 +192,7 @@ namespace Server.AST.ColeccionesCQL
             return null;
         }
 
-        Object remove(AST_CQL arbol)
+        public Object remove(AST_CQL arbol)
         {
             int index = 0;
             if (this.expresiones.Count != 1)
@@ -229,7 +259,7 @@ namespace Server.AST.ColeccionesCQL
             }
         }
 
-        Object set(AST_CQL arbol)
+        public Object set(AST_CQL arbol)
         {
             int index = 0;
             if (this.expresiones.Count != 2)

@@ -569,7 +569,7 @@ namespace Server.Analizador
                 | id + l_corchete + E + r_corchete + igual + E*/
                 if (raiz.ChildNodes.Count == 6)
                 {
-                    return AsignacionColumna(getLexema(raiz,0),(Expresion)recorrido(raiz.ChildNodes[2]), (Expresion)recorrido(raiz.ChildNodes[5]));
+                    return new AsignacionColumna(getLexema(raiz,0),(Expresion)recorrido(raiz.ChildNodes[2]), (Expresion)recorrido(raiz.ChildNodes[5]));
                 }
                 else
                 {
@@ -788,6 +788,7 @@ namespace Server.Analizador
             {
                 /*l_corchete + LISTA_E + r_corchete
                 | l_corchete + KEY_VALUE_LIST + r_corchete
+                | l_llave + KEY_VALUE_LIST + r_llave //instancia de map
                 | l_llave + LISTA_E + r_llave
                 | l_llave + LISTA_E + r_llave + res_as + id;*/
                 if (CompararNombre(raiz.ChildNodes[1], "KEY_VALUE_LIST"))

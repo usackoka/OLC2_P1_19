@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Server.AST.ColeccionesCQL;
+using Server.AST.ExpresionesCQL.Tipos;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -37,6 +39,14 @@ namespace Server.AST.ExpresionesCQL
                     {
                         return Primitivo.TIPO_DATO.INT;
                     }
+                    else if (izq is TipoMAP && der is TipoMAP)
+                    {
+                        return new TipoMAP(((TipoMAP)izq).tipoClave, ((TipoMAP)izq).tipoValor);
+                    }
+                    else if (izq is TipoSet && der is TipoSet)
+                    {
+                        return new TipoSet(((TipoSet)izq).tipo);
+                    }
                     else {
                         arbol.addError("","(Binaria, getTipo, Suma) No soportado: "+izq+" y "+der,fila,columna);
                         return Primitivo.TIPO_DATO.NULL;
@@ -52,6 +62,14 @@ namespace Server.AST.ExpresionesCQL
                     else if (izq.Equals(Primitivo.TIPO_DATO.INT) && der.Equals(Primitivo.TIPO_DATO.INT))
                     {
                         return Primitivo.TIPO_DATO.INT;
+                    }
+                    else if (izq is TipoMAP && der is TipoSet)
+                    {
+                        return new TipoMAP(((TipoMAP)izq).tipoClave, ((TipoMAP)izq).tipoValor);
+                    }
+                    else if (izq is TipoSet && der is TipoSet)
+                    {
+                        return new TipoSet(((TipoSet)izq).tipo);
                     }
                     else
                     {
@@ -107,9 +125,25 @@ namespace Server.AST.ExpresionesCQL
                     {
                         return Convert.ToInt32(izquierda.getValor(arbol)) + Convert.ToInt32(derecha.getValor(arbol));
                     }
+                    else if (tipIzq is TipoMAP && tipDer is TipoMAP) {
+                        MapCQL mapIzq = (MapCQL)izquierda.getValor(arbol);
+                        mapIzq.addRange((MapCQL)derecha.getValor(arbol));
+                        return mapIzq;
+                    }
+                    else if (tipIzq is TipoSet && tipDer is TipoSet) {
+                        SetCQL setIzq = (SetCQL)izquierda.getValor(arbol);
+                        setIzq.addRange((SetCQL)derecha.getValor(arbol), arbol);
+                        return setIzq;
+                    }
+                    else if (tipIzq is TipoList && tipDer is TipoList)
+                    {
+                        ListCQL listIzq = (ListCQL)izquierda.getValor(arbol);
+                        listIzq.addRange((ListCQL)derecha.getValor(arbol),arbol);
+                        return listIzq;
+                    }
                     else
                     {
-                        arbol.addError("","(Binaria, getValor, Suma) No soportado: " + tipIzq + " y " +tipDer,fila,columna);
+                        arbol.addError("", "(Binaria, getValor, Suma) No soportado: " + tipIzq + " y " + tipDer, fila, columna);
                         return -1;
                     }
                 case "-":
@@ -121,9 +155,26 @@ namespace Server.AST.ExpresionesCQL
                     {
                         return Convert.ToInt32(izquierda.getValor(arbol)) - Convert.ToInt32(derecha.getValor(arbol));
                     }
+                    else if (tipIzq is TipoSet && tipDer is TipoSet) {
+                        SetCQL setIzq = (SetCQL)izquierda.getValor(arbol);
+                        setIzq.removeRange((SetCQL)derecha.getValor(arbol));
+                        return setIzq;
+                    }
+                    else if (tipIzq is TipoMAP && tipDer is TipoSet)
+                    {
+                        MapCQL mapIzq = (MapCQL)izquierda.getValor(arbol);
+                        mapIzq.removeRange((SetCQL)derecha.getValor(arbol));
+                        return mapIzq;
+                    }
+                    else if (tipIzq is TipoList && tipDer is TipoList)
+                    {
+                        ListCQL listIzq = (ListCQL)izquierda.getValor(arbol);
+                        listIzq.removeRange((ListCQL)derecha.getValor(arbol));
+                        return listIzq;
+                    }
                     else
                     {
-                        arbol.addError("","(Binaria, getValor, Resta) No soportado: " + tipIzq + " y " +tipDer,fila,columna);
+                        arbol.addError("", "(Binaria, getValor, Resta) No soportado: " + tipIzq + " y " + tipDer, fila, columna);
                         return -1;
                     }
                 case "*":

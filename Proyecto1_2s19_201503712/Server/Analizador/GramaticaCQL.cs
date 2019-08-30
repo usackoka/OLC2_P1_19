@@ -581,6 +581,7 @@ namespace Server.Analizador
             
             COLECCION.Rule = l_corchete + LISTA_E + r_corchete //instancia de list
                 | l_corchete + KEY_VALUE_LIST + r_corchete //instancia de map
+                | l_llave + KEY_VALUE_LIST + r_llave //instancia de map
                 | l_llave + LISTA_E + r_llave //instancia de set
                 | l_llave + LISTA_E + r_llave + res_as + id; //instancia de type
 

@@ -37,6 +37,20 @@ namespace Server.AST.ColeccionesCQL
             return this;
         }
 
+        public void addRange(MapCQL map) {
+            foreach (DictionaryEntry pair in map.valores) {
+                this.valores.Add(pair.Key,pair.Value);
+            }
+        }
+
+        public void removeRange(SetCQL map) {
+            foreach (Object obj in map.valores) {
+                if (this.valores.ContainsKey(obj)) {
+                    this.valores.Remove(obj);
+                }
+            }
+        }
+
         public object getTipoMetodo(String id)
         {
             if (id.ToLower().Equals("insert"))
@@ -110,7 +124,7 @@ namespace Server.AST.ColeccionesCQL
             }
         }
 
-        Object insert(AST_CQL arbol)
+        public Object insert(AST_CQL arbol)
         {
 
             if (this.expresiones.Count != 2)
@@ -210,7 +224,7 @@ namespace Server.AST.ColeccionesCQL
             
         }
 
-        Object set(AST_CQL arbol)
+        public Object set(AST_CQL arbol)
         {
             if (this.expresiones.Count != 2)
             {

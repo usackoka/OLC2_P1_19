@@ -1,5 +1,7 @@
-﻿using Server.AST.CQL;
+﻿using Server.AST.ColeccionesCQL;
+using Server.AST.CQL;
 using Server.AST.ExpresionesCQL;
+using Server.AST.ExpresionesCQL.Tipos;
 using Server.AST.SentenciasCQL;
 using System;
 using System.Collections.Generic;
@@ -102,8 +104,40 @@ namespace Server.AST.DBMS
                     {
                         foreach (AsignacionColumna asc in asignaciones) {
                             if (asc.idColumna.Equals(column.id)) {
-                                column.valores[i] = asc.expresion.getValor(arbol);
-                                break;
+                                //pregunto si es un acceso
+                                if (asc.acceso != null) {
+                                    if (column.tipoDato is TipoMAP)
+                                    {
+                                        ((MapCQL)column.valores[i]).expresiones = new List<Expresion>();
+                                        ((MapCQL)column.valores[i]).expresiones.Add(asc.acceso);
+                                        ((MapCQL)column.valores[i]).expresiones.Add(asc.expresion);
+                                        ((MapCQL)column.valores[i]).set(arbol);
+                                    }
+                                    else if (column.tipoDato is TipoSet) {
+                                        ((SetCQL)column.valores[i]).expresiones = new List<Expresion>();
+                                        ((SetCQL)column.valores[i]).expresiones.Add(asc.acceso);
+                                        ((SetCQL)column.valores[i]).expresiones.Add(asc.expresion);
+                                        ((SetCQL)column.valores[i]).set(arbol);
+                                    }
+                                    else if (column.tipoDato is TipoList)
+                                    {
+                                        ((ListCQL)column.valores[i]).expresiones = new List<Expresion>();
+                                        ((ListCQL)column.valores[i]).expresiones.Add(asc.acceso);
+                                        ((ListCQL)column.valores[i]).expresiones.Add(asc.expresion);
+                                        ((ListCQL)column.valores[i]).set(arbol);
+                                    }
+                                    else {
+                                        arbol.addError("EXCEPTION.ValuesException", "La columna: " + asc.idColumna + " no es de tipo map para hacer un acceso", fila, col);
+                                        arbol.entorno = arbol.entorno.padre;
+                                        return Catch.EXCEPTION.ValuesException;
+                                    }
+                                    break;
+                                }
+                                else
+                                {
+                                    column.valores[i] = asc.expresion.getValor(arbol);
+                                    break;
+                                }
                             }
                         }
                     }

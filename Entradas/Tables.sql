@@ -15,12 +15,20 @@ Date calcularFechaNacimiento(int @edad){
 	return (Date)@fecha;
 }
 
+CREATE TYPE Mascota(
+	nombre STRING,
+	raza STRING,
+	edad INT
+);
+
 CREATE TABLE IF NOT EXISTS Estudiante(
 	carnet int PRIMARY KEY,
 	contador COUNTER,
+	comidas_favoritas SET<String>,
 	nombres STRING, 
 	apellidos STRING,
 	fecha_nacimiento DATE,
+	pet MASCOTA,
 	hora_nacimiento TIME	
 );
 
@@ -110,6 +118,26 @@ try{
 ALTER TABLE Estudiante ADD 
 	notas_cursos MAP<String,int>;
 
-UPDATE Estudiante SET notas_cursos = ["compi2":0,"social":100];
+UPDATE Estudiante SET notas_cursos = ["compi2":0,"social":45,"filo 5":50];
+UPDATE Estudiante set notas_cursos["compi2"] = 61;
+UPDATE Estudiante SET notas_cursos = notas_cursos + {"logica":35,"Quimica 9":15,"mate1":99,"mate2":90,"biologia avanzada2":10};
+UPDATE Estudiante SET notas_cursos = notas_cursos - {"Quimica 9","biologia avanzada2"};
+//DELETE notas_cursos["filo 5"] FROM Estudiante;
+
+UPDATE Estudiante SET comidas_favoritas = {"shucos de la U","AAAA-se va a eliminar esto luego"};
+UPDATE Estudiante SET comidas_favoritas = comidas_favoritas + {"pollo en crema","kakik","pizza","taco-bell","flor de izote"} WHERE carnet == 201503712;
+UPDATE Estudiante SET comidas_favoritas = comidas_favoritas - {"flor de izote"};
+
+ALTER TABLE Estudiante ADD 
+	numeros_favoritos LIST<INT>;
+
+UPDATE Estudiante SET numeros_favoritos = [0];
+UPDATE Estudiante SET numeros_favoritos = numeros_favoritos + [7,9], numeros_favoritos = numeros_favoritos - [0] 
+	WHERE carnet == 201503712;
+
+UPDATE Estudiante SET comidas_favoritas[0] = {"Aguacate"};
+
+//DELETE comidas_favoritas[0] FROM Estudiante;
+
 SELECT * FROM Estudiante;
 
