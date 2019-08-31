@@ -1,4 +1,5 @@
-﻿using Server.AST.SentenciasCQL;
+﻿using Server.AST.ExpresionesCQL;
+using Server.AST.SentenciasCQL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,8 +11,10 @@ namespace Server.AST.CQL
     {
         public String idTabla;
         public Where where;
+        public AccesoArreglo acceso;
 
-        public DeleteFrom(String idTabla, Where where, int fila, int columna) {
+        public DeleteFrom(AccesoArreglo acceso, String idTabla, Where where, int fila, int columna) {
+            this.acceso = acceso;
             this.idTabla = idTabla;
             this.where = where;
             this.fila = fila;

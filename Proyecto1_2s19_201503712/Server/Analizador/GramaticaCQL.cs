@@ -279,6 +279,7 @@ namespace Server.Analizador
             var ID_ARROBA = new NonTerminal("ID_ARROBA");
             var DML2 = new NonTerminal("DML2");
             var REASIGNACION2 = new NonTerminal("REASIGNACION2");
+            var ACCESO_ARR_Q = new NonTerminal("ACCESO_ARR_Q");
             #endregion
 
             #region Gramatica
@@ -337,7 +338,7 @@ namespace Server.Analizador
             DML.Rule = res_insert + res_into + id + res_values + l_parent + LISTA_E + r_parent
                 | res_insert + res_into + id + l_parent + LISTA_IDS + r_parent + res_values + l_parent + LISTA_E + r_parent
                 | res_update + id + res_set + LISTA_ASIG_CQL + WHERE_Q
-                | res_delete + res_from + id + WHERE_Q;
+                | res_delete + ACCESO_ARR_Q + res_from + id + WHERE_Q;
 
             SELECT.Rule = res_select + SELECT_TYPE + res_from + id + WHERE_Q + ORDERBY_Q + LIMIT_Q;
 
@@ -376,8 +377,12 @@ namespace Server.Analizador
             LISTA_ASIG_CQL.Rule = MakePlusRule(LISTA_ASIG_CQL,coma,ASIG_CQL);
 
             ASIG_CQL.Rule = id + igual + E
-                | id + l_corchete + E + r_corchete + igual + E;
-        
+                | ACCESO_ARR + igual + E
+                | REFERENCIAS + igual + E;
+
+            ACCESO_ARR.Rule = id + l_corchete + E + r_corchete;
+
+            ACCESO_ARR_Q.Rule = ACCESO_ARR | Empty;
 
             /*
             ACCESO_ARR.Rule = id + LISTA_CORCHETES;
@@ -386,7 +391,7 @@ namespace Server.Analizador
 
             CORCHETES.Rule = l_corchete + E + r_corchete;
             */
-            
+
 
             //=================== DCL =============================================
             DCL.Rule = res_create + res_user + id + res_with + res_password + E

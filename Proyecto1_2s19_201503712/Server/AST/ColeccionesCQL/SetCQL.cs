@@ -282,6 +282,7 @@ namespace Server.AST.ColeccionesCQL
             if (this.valores.Count > index)
             {
                 this.valores[index] = this.expresiones[1].getValor(arbol);
+                this.valores.Sort();
                 return null;
             }
             else

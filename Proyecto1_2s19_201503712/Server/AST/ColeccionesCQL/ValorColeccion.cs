@@ -46,8 +46,17 @@ namespace Server.AST.ColeccionesCQL
                     List<Object> listReturn2 = new List<object>();
                     foreach (Expresion exp in expresiones)
                     {
-                        listReturn2.Add(exp.getValor(arbol));
+                        Object valor = exp.getValor(arbol);
+                        if (listReturn2.Contains(valor))
+                        {
+                            arbol.addError("SET","El set ya contiene el valor: "+valor,fila,columna);
+                        }
+                        else
+                        {
+                            listReturn2.Add(valor);
+                        }
                     }
+                    listReturn2.Sort();
                     SetCQL list2 = new SetCQL(expresiones[0].getTipo(arbol), fila, columna);
                     list2.valores = listReturn2;
                     return list2;

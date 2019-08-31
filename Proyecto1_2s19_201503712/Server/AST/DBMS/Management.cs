@@ -88,7 +88,7 @@ namespace Server.AST.DBMS
                 return Catch.EXCEPTION.TableDontExists;
             }
 
-            return table.deleteFrom(delete.where, arbol, fila, columna);
+            return table.deleteFrom(delete.acceso,delete.where, arbol, fila, columna);
         }
 
         public Object alterTableAdd(AlterTableAdd alter, AST_CQL arbol, int fila, int columna) {

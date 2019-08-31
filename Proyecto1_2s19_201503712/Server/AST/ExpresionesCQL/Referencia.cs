@@ -11,8 +11,8 @@ namespace Server.AST.ExpresionesCQL
 {
     public class Referencia : Expresion
     {
-        List<Object> referencias;
-        Expresion valor;
+        public List<Object> referencias;
+        public Expresion valor;
 
         public Referencia(List<Object> referencias, Expresion valor) {
             this.referencias = referencias;

@@ -180,7 +180,7 @@ namespace Server.AST.ColeccionesCQL
             return null;
         }
 
-        Object remove(AST_CQL arbol)
+        public Object remove(AST_CQL arbol)
         {
             if (this.expresiones.Count != 1)
             {

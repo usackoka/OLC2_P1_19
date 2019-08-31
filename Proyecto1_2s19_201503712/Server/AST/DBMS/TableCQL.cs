@@ -1,7 +1,6 @@
 ﻿using Server.AST.ColeccionesCQL;
 using Server.AST.CQL;
 using Server.AST.ExpresionesCQL;
-using Server.AST.ExpresionesCQL.Tipos;
 using Server.AST.SentenciasCQL;
 using System;
 using System.Collections.Generic;
@@ -36,15 +35,19 @@ namespace Server.AST.DBMS
             }
         }
 
-        public Object Drop(List<String> atributos, AST_CQL arbol, int fila, int columna) {
+        public Object Drop(List<String> atributos, AST_CQL arbol, int fila, int columna)
+        {
             List<ColumnCQL> columnasEliminar = new List<ColumnCQL>();
 
             foreach (String idColumna in atributos)
             {
-                foreach (ColumnCQL column in data) {
-                    if (column.id.Equals(idColumna)) {
-                        if (column.primaryKey) {
-                            arbol.addError("EXCEPTION.ColumnException: " + column.id,"No se puede eliminar una columna PrimaryKey",fila,columna);
+                foreach (ColumnCQL column in data)
+                {
+                    if (column.id.Equals(idColumna))
+                    {
+                        if (column.primaryKey)
+                        {
+                            arbol.addError("EXCEPTION.ColumnException: " + column.id, "No se puede eliminar una columna PrimaryKey", fila, columna);
                             return Catch.EXCEPTION.ColumnException;
                         }
                         columnasEliminar.Add(column);
@@ -52,18 +55,21 @@ namespace Server.AST.DBMS
                 }
             }
 
-            foreach (ColumnCQL column in columnasEliminar) {
+            foreach (ColumnCQL column in columnasEliminar)
+            {
                 data.Remove(column);
             }
 
             return null;
         }
 
-        public Object Add(List<ColumnCQL> atributos) {
+        public Object Add(List<ColumnCQL> atributos)
+        {
 
             int indiceTupla = this.data.Count != 0 ? this.data[0].valores.Count : 0;
 
-            foreach (ColumnCQL kvp in atributos) {
+            foreach (ColumnCQL kvp in atributos)
+            {
                 //la lleno de valores nulos para las tuplas que ya estén ingresadas
                 for (int i = 0; i < indiceTupla; i++)
                 {
@@ -75,7 +81,8 @@ namespace Server.AST.DBMS
             return null;
         }
 
-        public Object updateValues(List<AsignacionColumna> asignaciones, Where where, AST_CQL arbol, int fila, int col) {
+        public Object updateValues(List<AsignacionColumna> asignaciones, Where where, AST_CQL arbol, int fila, int col)
+        {
             //creo un entorno para estas nuevas variables que llevarán el control del select
             arbol.entorno = new Entorno(arbol.entorno);
 
@@ -88,13 +95,13 @@ namespace Server.AST.DBMS
 
             //=========================== LLENAR LA TABLA DE RESULTADOS ===============================
             int indiceFor = data.Count != 0 ? data[0].valores.Count : 0; //Número de tuplas
-            
+
             for (int i = 0; i < indiceFor; i++)
             {
                 //doy valores a las variables de las columnas
                 foreach (ColumnCQL column in data)
                 {
-                    arbol.entorno.reasignarVariable("$" + column.id, column.valores[i], column.tipoDato, arbol,fila,col);
+                    arbol.entorno.reasignarVariable("$" + column.id, column.valores[i], column.tipoDato, arbol, fila, col);
                 }
 
                 //creo una tupla resultado si se cumple el where
@@ -102,36 +109,43 @@ namespace Server.AST.DBMS
                 {
                     foreach (ColumnCQL column in data)
                     {
-                        foreach (AsignacionColumna asc in asignaciones) {
-                            if (asc.idColumna.Equals(column.id)) {
-                                //pregunto si es un acceso
-                                if (asc.acceso != null) {
-                                    if (column.tipoDato is TipoMAP)
-                                    {
-                                        ((MapCQL)column.valores[i]).expresiones = new List<Expresion>();
-                                        ((MapCQL)column.valores[i]).expresiones.Add(asc.acceso);
-                                        ((MapCQL)column.valores[i]).expresiones.Add(asc.expresion);
-                                        ((MapCQL)column.valores[i]).set(arbol);
-                                    }
-                                    else if (column.tipoDato is TipoSet) {
-                                        ((SetCQL)column.valores[i]).expresiones = new List<Expresion>();
-                                        ((SetCQL)column.valores[i]).expresiones.Add(asc.acceso);
-                                        ((SetCQL)column.valores[i]).expresiones.Add(asc.expresion);
-                                        ((SetCQL)column.valores[i]).set(arbol);
-                                    }
-                                    else if (column.tipoDato is TipoList)
+                        foreach (AsignacionColumna asc in asignaciones)
+                        {
+                            if (asc.idColumna.Equals(column.id))
+                            {
+                                if (asc.acceso != null)
+                                {
+                                    if (column.valores[i] is ListCQL)
                                     {
                                         ((ListCQL)column.valores[i]).expresiones = new List<Expresion>();
-                                        ((ListCQL)column.valores[i]).expresiones.Add(asc.acceso);
+                                        ((ListCQL)column.valores[i]).expresiones.Add(asc.acceso.expresion);
                                         ((ListCQL)column.valores[i]).expresiones.Add(asc.expresion);
                                         ((ListCQL)column.valores[i]).set(arbol);
                                     }
-                                    else {
-                                        arbol.addError("EXCEPTION.ValuesException", "La columna: " + asc.idColumna + " no es de tipo map para hacer un acceso", fila, col);
-                                        arbol.entorno = arbol.entorno.padre;
-                                        return Catch.EXCEPTION.ValuesException;
+                                    else if (column.valores[i] is SetCQL)
+                                    {
+                                        ((SetCQL)column.valores[i]).expresiones = new List<Expresion>();
+                                        ((SetCQL)column.valores[i]).expresiones.Add(asc.acceso.expresion);
+                                        ((SetCQL)column.valores[i]).expresiones.Add(asc.expresion);
+                                        ((SetCQL)column.valores[i]).set(arbol);
                                     }
-                                    break;
+                                    else if (column.valores[i] is MapCQL)
+                                    {
+                                        ((MapCQL)column.valores[i]).expresiones = new List<Expresion>();
+                                        ((MapCQL)column.valores[i]).expresiones.Add(asc.acceso.expresion);
+                                        ((MapCQL)column.valores[i]).expresiones.Add(asc.expresion);
+                                        ((MapCQL)column.valores[i]).set(arbol);
+                                    }
+                                    else
+                                    {
+                                        arbol.entorno = arbol.entorno.padre;
+                                        arbol.addError("EXCEPTION.NullPointerException", "No se puede hacer un acceso a una columna de tipo: " + column.tipoDato, fila, col);
+                                        return Catch.EXCEPTION.NullPointerException;
+                                    }
+                                }
+                                else if (asc.referencia != null) {
+                                    asc.referencia.valor = asc.expresion;
+                                    asc.referencia.getValor(arbol);
                                 }
                                 else
                                 {
@@ -150,13 +164,15 @@ namespace Server.AST.DBMS
             return null;
         }
 
-        public Object deleteFrom(Where where, AST_CQL arbol, int fila, int col) {
-            if (where == null)
+        public Object deleteFrom(AccesoArreglo acceso, Where where, AST_CQL arbol, int fila, int col)
+        {
+            if (where == null && acceso == null)
             {
                 restartTable();
             }
             //================== hago el mismo for de los select para ver que eliminar
-            else {
+            else
+            {
                 //creo un entorno para estas nuevas variables que llevarán el control del select
                 arbol.entorno = new Entorno(arbol.entorno);
 
@@ -176,19 +192,58 @@ namespace Server.AST.DBMS
                     //doy valores a las variables de las columnas
                     foreach (ColumnCQL column in data)
                     {
-                        arbol.entorno.reasignarVariable("$" + column.id, column.valores[i], column.tipoDato, arbol,fila,col);
+                        arbol.entorno.reasignarVariable("$" + column.id, column.valores[i], column.tipoDato, arbol, fila, col);
                     }
 
                     //creo una tupla resultado si se cumple el where
                     if (where == null || Convert.ToBoolean(where.getValor(arbol)))
                     {
-                        indicesDelete.Add(i-indicesDelete.Count);
+                        foreach (ColumnCQL column in data)
+                        {
+                            if (acceso != null)
+                            {
+                                if (acceso.id.Equals(column.id))
+                                {
+                                    if (column.valores[i] is ListCQL)
+                                    {
+                                        ((ListCQL)column.valores[i]).expresiones = new List<Expresion>();
+                                        ((ListCQL)column.valores[i]).expresiones.Add(acceso.expresion);
+                                        ((ListCQL)column.valores[i]).remove(arbol);
+                                    }
+                                    else if (column.valores[i] is SetCQL)
+                                    {
+                                        ((SetCQL)column.valores[i]).expresiones = new List<Expresion>();
+                                        ((SetCQL)column.valores[i]).expresiones.Add(acceso.expresion);
+                                        ((SetCQL)column.valores[i]).remove(arbol);
+                                    }
+                                    else if (column.valores[i] is MapCQL)
+                                    {
+                                        ((MapCQL)column.valores[i]).expresiones = new List<Expresion>();
+                                        ((MapCQL)column.valores[i]).expresiones.Add(acceso.expresion);
+                                        ((MapCQL)column.valores[i]).remove(arbol);
+                                    }
+                                    else
+                                    {
+                                        arbol.entorno = arbol.entorno.padre;
+                                        arbol.addError("EXCEPTION.NullPointerException", "No se puede hacer un acceso a una columna de tipo: " + column.tipoDato, fila, col);
+                                        return Catch.EXCEPTION.NullPointerException;
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                indicesDelete.Add(i - indicesDelete.Count);
+                                break;
+                            }
+                        }
                     }
                 }
 
                 //elimino
-                foreach (int index in indicesDelete) {
-                    foreach (ColumnCQL column in data) {
+                foreach (int index in indicesDelete)
+                {
+                    foreach (ColumnCQL column in data)
+                    {
                         column.valores.RemoveAt(index);
                     }
                 }
@@ -216,7 +271,7 @@ namespace Server.AST.DBMS
                         {
                             if (columna.tipoDato.Equals(Primitivo.TIPO_DATO.COUNTER))
                             {
-                                arbol.addError("EXCEPTION.CounterTypeException: " + this.id, "No puede asignar valor a la columna: "+columna.id+" ya que es de tipo Counter",fila,col);
+                                arbol.addError("EXCEPTION.CounterTypeException: " + this.id, "No puede asignar valor a la columna: " + columna.id + " ya que es de tipo Counter", fila, col);
                                 return Catch.EXCEPTION.CounterTypeException;
                             }
                             existe = true;
@@ -225,7 +280,7 @@ namespace Server.AST.DBMS
                     }
                     if (!existe)
                     {
-                        arbol.addError("EXCEPTION.ColumnException", "No existe la columna con nombre: " + idColumna + " para el insert en tabla: " + this.id,fila,col);
+                        arbol.addError("EXCEPTION.ColumnException", "No existe la columna con nombre: " + idColumna + " para el insert en tabla: " + this.id, fila, col);
                         return Catch.EXCEPTION.ColumnException;
                     }
                 }
@@ -265,14 +320,15 @@ namespace Server.AST.DBMS
             }
             else
             {
-                if (contieneColumnaCounter()) {
-                    arbol.addError("EXCEPTION.CounterTypeException: " + this.id, "La tabla contiene una columna de tipo Counter, debe usar la insercion especial",fila,col);
+                if (contieneColumnaCounter())
+                {
+                    arbol.addError("EXCEPTION.CounterTypeException: " + this.id, "La tabla contiene una columna de tipo Counter, debe usar la insercion especial", fila, col);
                     return Catch.EXCEPTION.CounterTypeException;
                 }
 
                 if (this.data.Count != values.Count)
                 {
-                    arbol.addError("EXCEPTION.ValuesException: " + this.id, "No existe la misma cantidad de valores asignados a las columnas",fila,col);
+                    arbol.addError("EXCEPTION.ValuesException: " + this.id, "No existe la misma cantidad de valores asignados a las columnas", fila, col);
                     return Catch.EXCEPTION.ValuesException;
                 }
 
@@ -286,9 +342,12 @@ namespace Server.AST.DBMS
             return null;
         }
 
-        bool contieneColumnaCounter() {
-            foreach (ColumnCQL column in data) {
-                if (!column.tipoDato.Equals(Primitivo.TIPO_DATO.COUNTER)) {
+        bool contieneColumnaCounter()
+        {
+            foreach (ColumnCQL column in data)
+            {
+                if (!column.tipoDato.Equals(Primitivo.TIPO_DATO.COUNTER))
+                {
                     return true;
                 }
             }
