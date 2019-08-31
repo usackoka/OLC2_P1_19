@@ -39,6 +39,58 @@ namespace Server.AST.DBMS
             iniciarValores(arbol, expresiones);
         }
 
+        public override string ToString()
+        {
+            String trad = "";
+            trad += "   <\n";
+            trad += "   \"CQL_TYPE\"=\""+this.id+"\",\n";
+            trad += "   \"NAME\"=\"" + this.id + "\",\n";
+            trad += "   \"ATTRS\"=[" + getAtributos() + "]\n";
+            trad += "   >\n";
+            return trad;
+        }
+
+        string getAtributos() {
+            String trad = "";
+            foreach (KeyValuePair<String,Object> kvp in this.atributos) {
+                trad += "\n       <";
+                trad += "\"NAME\"=\""+kvp.Key+"\",\n";
+                trad += "\"TYPE\"=\"" + kvp.Value + "\"";
+                trad += "\n" + "        >,";
+            }
+            trad = trad.TrimEnd(',');
+            return trad;
+        }
+
+        public string getData() {
+            String trad = "";
+            trad += "       <\n";
+            foreach (Atributo atr in this.valores) {
+                String valor = "";
+                if (atr.valor is String)
+                {
+                    valor += "\"" + atr.valor + "\",";
+                }
+                else if (atr.valor is DateTime)
+                {
+                    valor += "'" + atr.valor + "',";
+                }
+                else if (atr.valor is UserType)
+                {
+                    valor += ((UserType)atr.valor).getData();
+                }
+                else
+                {
+                    valor += atr.valor + ",";
+                }
+
+                trad += "\""+atr.id+"\"="+ valor;
+            }
+            trad = trad.TrimEnd(',');
+            trad += "       >\n";
+            return trad;
+        }
+
         void iniciarValores(AST_CQL arbol, List<Expresion> expresiones)
         {
             if (this.atributos.Count != expresiones.Count) {

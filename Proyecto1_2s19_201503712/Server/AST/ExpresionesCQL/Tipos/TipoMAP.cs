@@ -17,5 +17,10 @@ namespace Server.AST.ExpresionesCQL.Tipos
             this.tipoClave = tipoClave;
             this.tipoValor = tipoValor;
         }
+
+        public override string ToString()
+        {
+            return "\"MAP<" + this.tipoClave + "," + this.tipoValor+ ">\"";
+        }
     }
 }

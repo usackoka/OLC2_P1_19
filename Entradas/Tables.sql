@@ -141,6 +141,7 @@ UPDATE Estudiante SET pet.raza = "Electrico";
 
 DELETE comidas_favoritas[0] FROM Estudiante;
 
-//SELECT * FROM Estudiante;
+SELECT * FROM Estudiante;
 SELECT nombres,pet.raza FROM Estudiante;
 
+commit;

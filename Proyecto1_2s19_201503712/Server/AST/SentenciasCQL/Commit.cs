@@ -14,6 +14,7 @@ namespace Server.AST.SentenciasCQL
 
         public override object Ejecutar(AST_CQL arbol)
         {
+            arbol.dbms.createChisons("");
             return null;
         }
     }

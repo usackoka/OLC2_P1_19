@@ -1,4 +1,5 @@
-﻿using Server.AST.ExpresionesCQL;
+﻿using Server.AST.DBMS;
+using Server.AST.ExpresionesCQL;
 using Server.AST.ExpresionesCQL.Tipos;
 using Server.AST.SentenciasCQL;
 using System;
@@ -25,6 +26,52 @@ namespace Server.AST.ColeccionesCQL
             this.columna = columna;
             this.tipoValor = tipoValor;
             this.tipoClave = tipoClave;
+        }
+
+        public override string ToString()
+        {
+            String trad = "[";
+            foreach (DictionaryEntry pair in this.valores)
+            {
+                //clave
+                if (pair.Key is String)
+                {
+                    trad += "\"" + pair.Key + "\"=";
+                }
+                else if (pair.Key is DateTime)
+                {
+                    trad += "'" + pair.Key + "'=";
+                }
+                else if (pair.Key is UserType)
+                {
+                    trad += ((UserType)pair.Key).getData();
+                }
+                else
+                {
+                    trad += pair.Key + "=";
+                }
+
+                //valor
+                if (pair.Value is String)
+                {
+                    trad += "\"" + pair.Value + "\",";
+                }
+                else if (pair.Value is DateTime)
+                {
+                    trad += "'" + pair.Value + "',";
+                }
+                else if (pair.Value is UserType)
+                {
+                    trad += ((UserType)pair.Value).getData();
+                }
+                else
+                {
+                    trad += pair.Value + ",";
+                }
+            }
+            trad = trad.TrimEnd(',');
+            trad += "]";
+            return trad;
         }
 
         public override object getTipo(AST_CQL arbol)
@@ -250,14 +297,6 @@ namespace Server.AST.ColeccionesCQL
             return Regex.IsMatch(search, Regex.Escape(match), RegexOptions.IgnoreCase);
         }
 
-        public override string ToString()
-        {
-            String retorno = "";
-            foreach (DictionaryEntry pair in this.valores) {
-                retorno +="{"+ pair.Key + ":" + pair.Value+"},\n";
-            }
-            retorno.Remove(retorno.Length-1,1);
-            return retorno;
-        }
+        
     }
 }

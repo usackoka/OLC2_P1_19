@@ -19,6 +19,47 @@ namespace Server.AST.DBMS
             iniciarData(columnDefinitions);
         }
 
+        public override string ToString()
+        {
+            String trad = "";
+
+            trad += "   <\n";
+            trad += "   \"CQL_TYPE\" = \"TABLE\",\n";
+            trad += "   \"NAME\" = \""+this.id+"\",\n";
+            trad += "   \"COLUMNS\" = ["+getColumnas()+"],\n";
+            trad += "   \"DATA\" = [" + getData() + "]\n";
+            trad += "   >\n";
+
+            return trad;
+        }
+
+        public string getColumnas() {
+            String trad = "";
+            foreach (ColumnCQL column in this.data) {
+                trad += "\n"+column + ",";
+            }
+            trad = trad.TrimEnd(',');
+            return trad;
+        }
+
+        public string getData() {
+            String trad = "";
+            int index = this.data.Count > 0 ? this.data[0].valores.Count : 0; //index de tuplas
+
+            for (int i = 0; i < index; i++)
+            {
+                trad += "\n       <";
+                foreach (ColumnCQL column in this.data)
+                {
+                    trad += "\n"+column.getData(i) + ",";
+                }
+                trad = trad.TrimEnd(',');
+                trad += "\n"+"       >,";
+            }
+            trad = trad.TrimEnd(',');
+            return trad;
+        }
+
         void iniciarData(List<ColumnCQL> columns)
         {
             foreach (ColumnCQL column in columns)

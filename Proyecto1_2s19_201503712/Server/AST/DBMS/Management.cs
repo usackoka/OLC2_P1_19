@@ -32,6 +32,31 @@ namespace Server.AST.DBMS
 
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////
+        //////////////////////////////////////// CHISON
+        ////////////////////////////////////////////////////////////////////////////////////////////////////
+        public void createChisons(String ruta) {
+
+            //============ creo el archivo chison principal
+            if (ruta.Equals(""))
+                ruta = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+
+            try
+            {
+                System.IO.File.Delete(ruta + "\\principal.chison");
+            }
+            catch (System.IO.IOException e)
+            {
+                Console.WriteLine(e.Message);
+                return;
+            }
+            System.IO.StreamWriter f = new System.IO.StreamWriter(ruta + "\\principal.chison");
+
+            f.Write(this.system);
+
+            f.Close();
+        }
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////
         //////////////////////////////////////// PROCEDURES
         ////////////////////////////////////////////////////////////////////////////////////////////////////
         public Object createProcedure(CreateProcedure cp, AST_CQL arbol, int fila, int columna) {

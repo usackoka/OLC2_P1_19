@@ -1,4 +1,5 @@
-﻿using Server.AST.ExpresionesCQL;
+﻿using Server.AST.DBMS;
+using Server.AST.ExpresionesCQL;
 using Server.AST.ExpresionesCQL.Tipos;
 using Server.AST.SentenciasCQL;
 using System;
@@ -41,14 +42,29 @@ namespace Server.AST.ColeccionesCQL
 
         public override string ToString()
         {
-            String retorno = "{";
+            String trad = "[";
             foreach (Object obj in this.valores)
             {
-                retorno += obj + ",";
+                if (obj is String)
+                {
+                    trad += "\"" + obj + "\",";
+                }
+                else if (obj is DateTime)
+                {
+                    trad += "'" + obj + "',";
+                }
+                else if (obj is UserType)
+                {
+                    trad += ((UserType)obj).getData();
+                }
+                else
+                {
+                    trad += obj+",";
+                }
             }
-            retorno.Remove(retorno.Length - 1, 1);
-            retorno += "}";
-            return retorno;
+            trad = trad.TrimEnd(',');
+            trad += "]";
+            return trad;
         }
 
         public override object getTipo(AST_CQL arbol)

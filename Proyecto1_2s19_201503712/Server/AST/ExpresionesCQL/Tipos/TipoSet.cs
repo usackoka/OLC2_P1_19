@@ -15,5 +15,10 @@ namespace Server.AST.ExpresionesCQL.Tipos
         public TipoSet(Object tipo) {
             this.tipo = tipo;
         }
+
+        public override string ToString()
+        {
+            return "\"LIST<" + this.tipo + ">\"";
+        }
     }
 }

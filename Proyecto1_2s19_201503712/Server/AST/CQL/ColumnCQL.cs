@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Server.AST.DBMS;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -42,6 +43,37 @@ namespace Server.AST.CQL
             this.columna = copia.columna;
             this.primaryKeys = copia.primaryKeys;
             this.valores = copia.valores;
+        }
+
+        public string getData(int i) {
+            String trad = "";
+            if (this.valores[i] is String)
+            {
+                trad += "       \"" + this.id + "\"=\"" + this.valores[i] + "\"";
+            }
+            else if (this.valores[i] is UserType) {
+                trad += "       \"" + this.id + "\"="+((UserType)this.valores[i]).getData();
+            }
+            else if (this.valores[i] is DateTime)
+            {
+                trad += "       \"" + this.id + "\"='" + this.valores[i] + "'";
+            }
+            else
+            {
+                trad += "       \"" + this.id + "\"=" + this.valores[i];
+            }
+            return trad;
+        }
+
+        public override string ToString()
+        {
+            String trad = "";
+            trad += "       <\n";
+            trad += "       \"NAME\"=\""+this.id+"\",\n";
+            trad += "       \"TYPE\"=\""+this.tipoDato+"\",\n";
+            trad += "       \"PK\"="+(this.primaryKey?"TRUE":"FALSE")+"\n";
+            trad += "       >";
+            return trad;
         }
     }
 }
