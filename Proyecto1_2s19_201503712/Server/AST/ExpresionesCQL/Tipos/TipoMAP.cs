@@ -20,7 +20,7 @@ namespace Server.AST.ExpresionesCQL.Tipos
 
         public override string ToString()
         {
-            return "\"MAP<" + this.tipoClave + "," + this.tipoValor+ ">\"";
+            return "MAP<" + this.tipoClave + "," + this.tipoValor+ ">";
         }
     }
 }

@@ -87,12 +87,11 @@ namespace Server.AST.ExpresionesCQL
                     return false;
                 case TIPO_DATO.DOUBLE:
                     return 0.0;
-                case TIPO_DATO.STRING:
-                    return "";
                 case TIPO_DATO.DATE:
                     return DateTime.Now;
                 case TIPO_DATO.TIME:
                     return DateTime.Now;
+                case TIPO_DATO.STRING:
                 case TIPO_DATO.NULL:
                 case TIPO_DATO.STRUCT:
                 case TIPO_DATO.CURSOR:

@@ -56,7 +56,15 @@ namespace Server.AST.ColeccionesCQL
                             listReturn2.Add(valor);
                         }
                     }
-                    listReturn2.Sort();
+                    try
+                    {
+
+                        listReturn2.Sort();
+                    }
+                    catch (Exception)
+                    {
+                        arbol.addError("SET, SORT", "No se pueden ordenar los elementos ya que no todos son del mismo tipo", fila, columna);
+                    }
                     SetCQL list2 = new SetCQL(expresiones[0].getTipo(arbol), fila, columna);
                     list2.valores = listReturn2;
                     return list2;

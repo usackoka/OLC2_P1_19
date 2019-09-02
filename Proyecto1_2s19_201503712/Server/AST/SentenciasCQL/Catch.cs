@@ -24,7 +24,7 @@ namespace Server.AST.SentenciasCQL
         public override object Ejecutar(AST_CQL arbol)
         {
 
-            if (!excCapturada.Equals(exception)) {
+            if (!excCapturada.Equals(exception) && !excCapturada.Equals(EXCEPTION.Exception)) {
                 arbol.addError("Catch-"+exception,"Se capturó una excepción: "+excCapturada+" y se esperaba: "+exception, fila, columna);
                 return null;
             }
@@ -32,7 +32,7 @@ namespace Server.AST.SentenciasCQL
             arbol.entorno = new Entorno(arbol.entorno);
 
             //creo la variable excep
-            arbol.entorno.addVariable(idEx,new Variable(getMensaje(),Primitivo.TIPO_DATO.STRING));
+            arbol.entorno.addVariable(idEx,new Variable(getMensaje(),Primitivo.TIPO_DATO.STRING),arbol,fila,columna);
 
             foreach (NodoCQL nodo in this.instrucciones)
             {
@@ -75,92 +75,96 @@ namespace Server.AST.SentenciasCQL
             BDDontExists,
             UseBDException,
             TableAlreadyExists,
-            TableDontExists
+            TableDontExists,
+            Exception
         }
 
         public String getMensaje() {
             if (EXCEPTION.ArithmeticException == this.exception)
             {
-                return this.exception+" - "+ "Operación aritmética inválida";
+                return this.exception + " - " + "Operación aritmética inválida";
             }
             else if (EXCEPTION.CounterTypeException == this.exception)
             {
-                return this.exception+" - "+ "No se puede actualizar una columna de tipo counter";
+                return this.exception + " - " + "No se puede actualizar una columna de tipo counter";
             }
             else if (EXCEPTION.UserAlreadyExists == this.exception)
             {
-                return this.exception+" - "+ "El userType que se intenta crear ya existe";
+                return this.exception + " - " + "El userType que se intenta crear ya existe";
             }
             else if (EXCEPTION.UserDontExists == this.exception)
             {
-                return this.exception+" - "+ "El userType al que hace referencia no existe";
+                return this.exception + " - " + "El userType al que hace referencia no existe";
             }
             else if (EXCEPTION.ValuesException == this.exception)
             {
-                return this.exception+" - "+ "Los valores no coinciden o bien no hay suficientes valores";
+                return this.exception + " - " + "Los valores no coinciden o bien no hay suficientes valores";
             }
             else if (EXCEPTION.ColumnException == this.exception)
             {
-                return this.exception+" - "+ "No existe la columna referente a la tabla";
+                return this.exception + " - " + "No existe la columna referente a la tabla";
             }
             else if (EXCEPTION.BatchException == this.exception)
             {
-                return this.exception+" - "+ "No se pudo ejecutar todo el batch";
+                return this.exception + " - " + "No se pudo ejecutar todo el batch";
             }
             else if (EXCEPTION.IndexOutException == this.exception)
             {
-                return this.exception+" - "+ "El indice está fuera del intervalo de la coleccion";
+                return this.exception + " - " + "El indice está fuera del intervalo de la coleccion";
             }
             else if (EXCEPTION.NullPointerException == this.exception)
             {
-                return this.exception+" - "+ "NullPointer - Se accedió o se obtuvo un valor NULL";
+                return this.exception + " - " + "NullPointer - Se accedió o se obtuvo un valor NULL";
             }
             else if (EXCEPTION.NumberReturnsException == this.exception)
             {
-                return this.exception+" - "+ "La cantidad de variables declaradas en retorno no coincide con la cantidad de retornos";
+                return this.exception + " - " + "La cantidad de variables declaradas en retorno no coincide con la cantidad de retornos";
             }
             else if (EXCEPTION.FunctionAlreadyExists == this.exception)
             {
-                return this.exception+" - "+ "La función declarada ya existe";
+                return this.exception + " - " + "La función declarada ya existe";
             }
             else if (EXCEPTION.ProcedureAlreadyExists == this.exception)
             {
-                return this.exception+" - "+ "El procedimiento declarado ya existe";
+                return this.exception + " - " + "El procedimiento declarado ya existe";
             }
             else if (EXCEPTION.ObjectAlreadyExists == this.exception)
             {
-                return this.exception+" - "+ "Ya existe el objeto instanciado";
+                return this.exception + " - " + "Ya existe el objeto instanciado";
             }
             else if (EXCEPTION.TypeAlreadyExists == this.exception)
             {
-                return this.exception+" - "+ "El userType ya existe";
+                return this.exception + " - " + "El userType ya existe";
             }
             else if (EXCEPTION.TypeDontExists == this.exception)
             {
-                return this.exception+" - "+ "El userType no existe";
+                return this.exception + " - " + "El userType no existe";
             }
             else if (EXCEPTION.BDAlreadyExists == this.exception)
             {
-                return this.exception+" - "+ "La base de datos ya existe";
+                return this.exception + " - " + "La base de datos ya existe";
             }
             else if (EXCEPTION.BDDontExists == this.exception)
             {
-                return this.exception+" - "+ "La base de datos no Existe";
+                return this.exception + " - " + "La base de datos no Existe";
             }
             else if (EXCEPTION.UseBDException == this.exception)
             {
-                return this.exception+" - "+ "No se poseen los permisos para utilizar la base de datos";
+                return this.exception + " - " + "No se poseen los permisos para utilizar la base de datos";
             }
             else if (EXCEPTION.TableAlreadyExists == this.exception)
             {
-                return this.exception+" - "+ "La tabla ya existe";
+                return this.exception + " - " + "La tabla ya existe";
             }
             else if (EXCEPTION.TableDontExists == this.exception)
             {
-                return this.exception+" - "+ "La tabla no existe";
+                return this.exception + " - " + "La tabla no existe";
+            }
+            else if (EXCEPTION.Exception == this.exception) {
+                return this.exception + " - " + "Exception Captured";
             }
             else {
-                return this.exception+" - "+ "No hay mensaje personalizado para esta exception";
+                return this.exception + " - " + "No hay mensaje personalizado para esta exception";
             }
         }
     }

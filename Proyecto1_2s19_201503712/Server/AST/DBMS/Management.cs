@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
+using Server.Analizador;
+using Server.Analizador.Chison;
 using Server.AST.CQL;
 using Server.AST.SentenciasCQL;
+using Server.Otros;
 
 namespace Server.AST.DBMS
 {
@@ -14,7 +18,7 @@ namespace Server.AST.DBMS
         List<User> users;
         List<DataBase> bases;
 
-        public Management() {
+        public Management(AST_CQL arbol) {
             this.bases = new List<DataBase>();
             this.users = new List<User>();
             this.usuarioActivo = null;
@@ -25,15 +29,60 @@ namespace Server.AST.DBMS
 
             //base de datos (defecto)
             system = new DataBase("virtual");
+            this.bases.Add(system);
 
             //para mientras que no hay login
             usuarioActivo = user;
+            usuarioActivo.basesGrant.Add(system.id);
+
+            //analizar chison principal
+            analizarChison("",arbol);
         }
 
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////
         //////////////////////////////////////// CHISON
         ////////////////////////////////////////////////////////////////////////////////////////////////////
+        void analizarChison(String ruta, AST_CQL arbol) {
+            //============ creo el archivo chison principal
+            if (ruta.Equals(""))
+                ruta = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+
+            ruta += "\\principal.chison";
+
+            if (!File.Exists(ruta)) {
+                arbol.addError("Analizar Chison","No existe el chison principal.chison en: "+ruta,0,0);
+                return;
+            }
+
+            System.IO.StreamReader f = new System.IO.StreamReader(ruta);
+
+            String lineas = f.ReadToEnd();
+            f.Close();
+
+            Generador parserChison = new Generador();
+            if (parserChison.esCadenaValida(lineas, new GramaticaChison()))
+            {
+                if (parserChison.padre.Root != null)
+                {
+                    //Graficar.ConstruirArbol(parserChison.padre.Root, "AST_CHISON", "");
+                    //RecorridoChison recorrido = new RecorridoChison(parserChison.padre.Root, arbol);
+
+                    //ThreadStart threadDelegate = new ThreadStart(recorrido.ast.Ejecutar);
+
+                    //Thread T = new Thread(threadDelegate, 1000000000);
+                    //T.Start();
+                }
+            }
+            else
+            {
+                foreach (clsToken error in parserChison.ListaErrores)
+                {//errores
+                    arbol.errores.Add(new clsToken(error.lexema+" - Analizador Chison",error.descripcion, error.fila, error.columna, error.tipo,error.ambito));
+                }
+            }
+        }
+
         public void createChisons(String ruta) {
 
             //============ creo el archivo chison principal
@@ -47,13 +96,35 @@ namespace Server.AST.DBMS
             catch (System.IO.IOException e)
             {
                 Console.WriteLine(e.Message);
-                return;
             }
             System.IO.StreamWriter f = new System.IO.StreamWriter(ruta + "\\principal.chison");
 
-            f.Write(this.system);
+            String trad = "$<\n";
+            trad += "\"DATABASES\"=[" +getDatabases()+ "],\n";
+            trad += "\"USERS\"=["+getUsers()+"]\n";
+            trad += "\n>$";
+            f.Write(trad);
 
             f.Close();
+        }
+
+        public string getUsers() {
+            String trad = "";
+            foreach (User db in this.users)
+            {
+                trad += "\n" + db + ",";
+            }
+            trad = trad.TrimEnd(',');
+            return trad;
+        }
+
+        public string getDatabases() {
+            String trad = "";
+            foreach (DataBase db in this.bases) {
+                trad += "\n"+db+",";
+            }
+            trad = trad.TrimEnd(',');
+            return trad;
         }
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////

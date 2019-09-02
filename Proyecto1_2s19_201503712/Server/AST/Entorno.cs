@@ -17,7 +17,11 @@ namespace Server.AST
             this.tablaSimbolos = new TablaSimbolos();
         }
 
-        public void addVariable(String key, Variable value) {
+        public void addVariable(String key, Variable value, AST_CQL arbol, int fila, int columna) {
+            if (this.tablaSimbolos.ContainsKey(key)) {
+                arbol.addError("EXCEPTION","Ya existe la variable con id:"+key+" declarada en este ámbito",fila,columna);
+                return;
+            }
             this.tablaSimbolos.Add(key, value);
         }
 

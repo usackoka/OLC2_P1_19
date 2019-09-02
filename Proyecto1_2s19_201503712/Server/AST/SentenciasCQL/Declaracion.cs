@@ -27,7 +27,7 @@ namespace Server.AST.SentenciasCQL
                     valor = kvp.Value.getValor(arbol);
                     //falta verificar que el tipo a asignar sea igual que el tipo de la variable
                 }
-                arbol.entorno.addVariable(kvp.Key, new Variable(valor, tipoDato));
+                arbol.entorno.addVariable(kvp.Key, new Variable(valor, tipoDato),arbol,fila,columna);
             }
 
             return null;

@@ -53,7 +53,8 @@ namespace Server.AST.ExpresionesCQL
             if (valorRetorno is Atributo) {
                 return ((Atributo)valorRetorno).valor;
             }
-            return valorRetorno;
+
+            return valorRetorno!=null?valorRetorno:Primitivo.TIPO_DATO.NULL;
         }
 
         void setValorRecursivo(AST_CQL arbol) {

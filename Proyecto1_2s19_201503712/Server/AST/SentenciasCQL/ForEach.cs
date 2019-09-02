@@ -44,7 +44,7 @@ namespace Server.AST.SentenciasCQL
             //creo las variables iteradoras del foreach
             foreach (KeyValuePair<String, Object> kvp in parametros)
             {
-                arbol.entorno.addVariable(kvp.Key, new Variable(Primitivo.getDefecto(kvp.Value, arbol), kvp.Value));
+                arbol.entorno.addVariable(kvp.Key, new Variable(Primitivo.getDefecto(kvp.Value, arbol), kvp.Value),arbol,fila,columna);
             }
 
             //ejecuto el foreach

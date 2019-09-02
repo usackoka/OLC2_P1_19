@@ -8,11 +8,12 @@ namespace Server.AST.SentenciasCQL
 {
     public class For : Sentencia
     {
-        Sentencia fuente_for, actualizacion;
+        Sentencia fuente_for;
+        NodoCQL actualizacion;
         Expresion condicion;
         List<NodoCQL> instrucciones;
 
-        public For(Sentencia fuente_for, Expresion condicion, Sentencia actualizacion, List<NodoCQL> instrucciones,
+        public For(Sentencia fuente_for, Expresion condicion, NodoCQL actualizacion, List<NodoCQL> instrucciones,
             int fila, int columna) {
             this.fuente_for = fuente_for;
             this.condicion = condicion;
@@ -51,7 +52,13 @@ namespace Server.AST.SentenciasCQL
                 //regreso al entorno de la variable iteradora
                 arbol.entorno = arbol.entorno.padre;
                 //actualizacion de la variable iteradora
-                actualizacion.Ejecutar(arbol);
+                if (actualizacion is Sentencia)
+                {
+                    ((Sentencia)actualizacion).Ejecutar(arbol);
+                }
+                else {
+                    ((Expresion)actualizacion).getValor(arbol);
+                }
             }
             //salgo del entorno de la variable iteradora
             arbol.entorno = arbol.entorno.padre;

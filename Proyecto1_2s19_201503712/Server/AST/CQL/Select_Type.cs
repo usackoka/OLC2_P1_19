@@ -36,7 +36,7 @@ namespace Server.AST.CQL
             //creo las variables iteradoras del select
             foreach (ColumnCQL column in tabla.data) {
                 arbol.entorno.addVariable("$"+column.id,new Variable(Primitivo.getDefecto(column.tipoDato,arbol),
-                    column.tipoDato));
+                    column.tipoDato),arbol,0,0);
             }
 
             //le creo las columnas

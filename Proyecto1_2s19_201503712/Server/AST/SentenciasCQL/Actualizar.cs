@@ -6,7 +6,7 @@ using System.Web;
 
 namespace Server.AST.SentenciasCQL
 {
-    public class Actualizar : Sentencia
+    public class Actualizar : Expresion
     {
         String id,operador;
         Expresion expresion;
@@ -19,13 +19,20 @@ namespace Server.AST.SentenciasCQL
             this.columna = columna;
         }
 
-        public override object Ejecutar(AST_CQL arbol)
+        public override object getTipo(AST_CQL arbol)
         {
-            Reasignacion reasignacion = new Reasignacion(this.id, new Binaria(new Primitivo(this.id+ " (Identifier)", fila,columna), operador,
-                expresion,fila,columna),fila,columna);
+            return new Primitivo(this.id + " (Identifier)", fila, columna).getTipo(arbol);
+        }
+
+        public override object getValor(AST_CQL arbol)
+        {
+            Object valor = new Primitivo(this.id + " (Identifier)", fila, columna).getValor(arbol);
+
+            Reasignacion reasignacion = new Reasignacion(this.id, new Binaria(new Primitivo(this.id + " (Identifier)", fila, columna), operador,
+                expresion, fila, columna), fila, columna);
             reasignacion.Ejecutar(arbol);
 
-            return null;
+            return valor;
         }
     }
 }

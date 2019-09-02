@@ -24,9 +24,10 @@ namespace Server.AST.DBMS
         {
             String trad = "";
             trad += "<\n";
-            trad += "\"NAME\"=\""+this.id+"\"\n";
-            trad += "\"DATA\"= [" + getTablas() + "," +
-                "\n"+getUserTypes()+"]";
+            trad += "\"NAME\"=\""+this.id+"\",\n";
+            String dat = getTablas() + getUserTypes() + getProcedures();
+            dat = dat.TrimEnd(',');
+            trad += "\"DATA\"= [" + dat +"]";
             trad += "\n>";
             return trad;
         }
@@ -36,7 +37,16 @@ namespace Server.AST.DBMS
             foreach (UserType ut in this.userTypes) {
                 trad += ut+",";
             }
-            trad = trad.TrimEnd(',');
+            return trad;
+        }
+
+        public string getProcedures()
+        {
+            String trad = "";
+            foreach (Procedure ut in this.procedures)
+            {
+                trad += ut + ",";
+            }
             return trad;
         }
 
@@ -45,7 +55,6 @@ namespace Server.AST.DBMS
             foreach (TableCQL tabla in this.tables) {
                 trad += tabla + ",";
             }
-            trad = trad.TrimEnd(',');
             return trad;
         }
     }

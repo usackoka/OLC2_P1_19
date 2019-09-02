@@ -24,7 +24,7 @@ namespace Server.AST.DBMS
             String trad = "";
 
             trad += "   <\n";
-            trad += "   \"CQL_TYPE\" = \"TABLE\",\n";
+            trad += "   \"CQL-TYPE\" = \"TABLE\",\n";
             trad += "   \"NAME\" = \""+this.id+"\",\n";
             trad += "   \"COLUMNS\" = ["+getColumnas()+"],\n";
             trad += "   \"DATA\" = [" + getData() + "]\n";
@@ -131,7 +131,7 @@ namespace Server.AST.DBMS
             foreach (ColumnCQL column in data)
             {
                 arbol.entorno.addVariable("$" + column.id, new Variable(Primitivo.getDefecto(column.tipoDato, arbol),
-                    column.tipoDato));
+                    column.tipoDato), arbol,0,0);
             }
 
             //=========================== LLENAR LA TABLA DE RESULTADOS ===============================
@@ -191,7 +191,6 @@ namespace Server.AST.DBMS
                                 else
                                 {
                                     column.valores[i] = asc.expresion.getValor(arbol);
-                                    break;
                                 }
                             }
                         }
@@ -221,7 +220,7 @@ namespace Server.AST.DBMS
                 foreach (ColumnCQL column in data)
                 {
                     arbol.entorno.addVariable("$" + column.id, new Variable(Primitivo.getDefecto(column.tipoDato, arbol),
-                        column.tipoDato));
+                        column.tipoDato),arbol,0,0);
                 }
 
                 //=========================== LLENAR LA TABLA DE RESULTADOS ===============================
@@ -387,7 +386,7 @@ namespace Server.AST.DBMS
         {
             foreach (ColumnCQL column in data)
             {
-                if (!column.tipoDato.Equals(Primitivo.TIPO_DATO.COUNTER))
+                if (column.tipoDato.Equals(Primitivo.TIPO_DATO.COUNTER))
                 {
                     return true;
                 }

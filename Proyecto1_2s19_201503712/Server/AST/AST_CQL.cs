@@ -13,6 +13,7 @@ namespace Server.AST
     public class AST_CQL
     {
         public List<NodoCQL> nodos { get; set; }
+        public List<NodoCQL> nodosChison { get; set; }
         public List<String> mensajes { get; set; }
         public List<List<ColumnCQL>> res_consultas { get; set; }
         public List<clsToken> errores { get; set; }
@@ -28,11 +29,25 @@ namespace Server.AST
             this.res_consultas = new List<List<ColumnCQL>>();
             this.errores = new List<clsToken>();
             this.entorno = new Entorno(null);
-            this.dbms = new Management();
             this.finalizado = false;
+            this.nodosChison = new List<NodoCQL>();
+            this.dbms = new Management(this);
         }
 
         public void Ejecutar() {
+            //cargo todo lo del árbol chison
+            foreach (NodoCQL nodo in nodosChison) {
+                if (nodo is Expresion)
+                {
+                    ((Expresion)nodo).getValor(this);
+                }
+                else
+                {
+                    ((Sentencia)nodo).Ejecutar(this);
+                }
+            }
+
+            //sentencias CQL
             foreach(NodoCQL nodo in nodos) {
                 if (nodo is Expresion)
                 {

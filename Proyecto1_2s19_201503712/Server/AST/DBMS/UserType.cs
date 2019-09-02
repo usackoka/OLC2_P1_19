@@ -43,7 +43,7 @@ namespace Server.AST.DBMS
         {
             String trad = "";
             trad += "   <\n";
-            trad += "   \"CQL_TYPE\"=\""+this.id+"\",\n";
+            trad += "   \"CQL-TYPE\"=\""+this.id+"\",\n";
             trad += "   \"NAME\"=\"" + this.id + "\",\n";
             trad += "   \"ATTRS\"=[" + getAtributos() + "]\n";
             trad += "   >\n";

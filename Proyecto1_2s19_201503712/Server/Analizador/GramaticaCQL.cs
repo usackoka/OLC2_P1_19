@@ -43,6 +43,8 @@ namespace Server.Analizador
             Terminal
             mas = ToTerm("+"),
             menos = ToTerm("-"),
+            mas_mas = ToTerm("++"),
+            menos_menos = ToTerm("--"),
             por = ToTerm("*"),
             div = ToTerm("/"),
             pot = ToTerm("**"),
@@ -174,13 +176,14 @@ namespace Server.Analizador
             res_NumberReturnsException = ToTerm("NumberReturnsException"),
             res_FunctionAlreadyExists = ToTerm("FunctionAlreadyExists"),
             res_ProcedureAlreadyExists = ToTerm("ProcedureAlreadyExists"),
-            res_ObjectAlreadyExists = ToTerm("ObjectAlreadyExists");
+            res_ObjectAlreadyExists = ToTerm("ObjectAlreadyExists"),
+            res_Exception = ToTerm("Exception");
 
             MarkReservedWords("ArithmeticException", "TableAlreadyExists", "UseBDException", "BDDontExists", "BDAlreadyExists",
                         "TypeDontExists", "TypeAlreadyExists", "TableDontExists", "CounterTypeException","UserAlreadyExists",
                         "UserDontExists","ValuesException","ColumnException","BatchException","IndexOutException","NullPointerException",
                         "NumberReturnsException","FunctionAlreadyExists","ProcedureAlreadyExists","ObjectAlreadyExists",
-                        "int", "double", "string", "boolean", "date", "time","as",
+                        "int", "double", "string", "boolean", "date", "time","as","Exception",
                         "Create", "type", "res_User_Type", "new", "alter", "add", "delete",
                         "database", "if", "not", "exists", "use", "drop", "counter", "primary", "key", "update", "map", "set", "list", "truncate",
                         "commit", "rollback", "null","table","user","order","by","limit","asc","desc",
@@ -280,6 +283,7 @@ namespace Server.Analizador
             var DML2 = new NonTerminal("DML2");
             var REASIGNACION2 = new NonTerminal("REASIGNACION2");
             var ACCESO_ARR_Q = new NonTerminal("ACCESO_ARR_Q");
+            var ASIG_CURSOR = new NonTerminal("ASIG_CURSOR");
             #endregion
 
             #region Gramatica
@@ -299,9 +303,12 @@ namespace Server.Analizador
                         | CURSOR + puntocoma
                         | SELECT + puntocoma;
 
-            CURSOR.Rule = res_cursor + arroba + id + res_is + SELECT
+            CURSOR.Rule = res_cursor + arroba + id + res_is + ASIG_CURSOR
                 | res_open + arroba + id
                 | res_close + arroba + id;
+
+            ASIG_CURSOR.Rule = SELECT
+                | E;
 
             PROCEDURE.Rule = res_procedure + id + l_parent + LISTA_PARAMETROS + r_parent + coma + 
                 l_parent + LISTA_PARAMETROS + r_parent + l_llave + BLOCK + r_llave;
@@ -474,6 +481,7 @@ namespace Server.Analizador
                 | id
                 | res_date
                 | res_time
+                | res_cursor
                 | res_list + menor_que + TIPO + mayor_que
                 | res_set + menor_que + TIPO + mayor_que
                 | res_map + menor_que + TIPO + coma + TIPO + mayor_que;
@@ -498,8 +506,8 @@ namespace Server.Analizador
             ACTUALIZACION2.Rule = ACTUALIZACION
                 | ACTUALIZAR;
 
-            ACTUALIZACION.Rule = arroba + id + mas + mas
-                | arroba + id + menos + menos;
+            ACTUALIZACION.Rule = arroba + id + mas_mas
+                | arroba + id + menos_menos;
 
             WHILE.Rule = res_while + l_parent + E + r_parent + l_llave + BLOCK + r_llave
                 | res_do + l_llave + BLOCK + r_llave + res_while + l_parent + E + r_parent + puntocoma;
@@ -535,7 +543,8 @@ namespace Server.Analizador
                 | res_BDDontExists
                 | res_UseBDException
                 | res_TableAlreadyExists
-                | res_TableDontExists;
+                | res_TableDontExists
+                | res_Exception;
 
             ELSEIFS.Rule = MakeStarRule(ELSEIFS, ELSEIF);
 
@@ -563,7 +572,7 @@ namespace Server.Analizador
                 | E + res_in + E
                 | E + interrogacion + E + dospuntos + E;
 
-            TERMINO.Rule = PRIMITIVO | E_PARENT | NATIVAS | COLECCION | REFERENCIAS | CASTEOS | INSTANCIA | FUN_AGR;
+            TERMINO.Rule = PRIMITIVO | E_PARENT | NATIVAS | COLECCION | REFERENCIAS | CASTEOS | INSTANCIA | FUN_AGR | ACTUALIZACION;
 
             INSTANCIA.Rule = res_new + id
                 | res_new + res_list + menor_que + TIPO + mayor_que

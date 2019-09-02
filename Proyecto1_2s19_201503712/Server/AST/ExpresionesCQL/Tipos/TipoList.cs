@@ -18,7 +18,7 @@ namespace Server.AST.ExpresionesCQL.Tipos
 
         public override string ToString()
         {
-            return "\"SET<" + this.tipo+ ">\"";
+            return "LIST<" + this.tipo+ ">";
         }
     }
 }

@@ -115,6 +115,35 @@ try{
 
 //SELECT @nombres+nombres,@carnet+carnet FROM Estudiante WHERE carnet > 201500000 && carnet < 201600000; 
 
+Procedure Ejemplo_Procedure(int @n, int @p), (int @retorno1, int @ret2){
+	if (@n == 0) {
+		return 1, 2;
+	}
+	else {
+		return @n, @n *2;      
+	} 
+} 
+
+Procedure Ejemplo_Procedure(int @n, String @mensaje),(int @ret1, String @ret2){
+	if (@n == 0) {
+		return 1, "";
+	}
+	else {
+		return @n*2,@mensaje+" Devuelto";      
+	} 
+}
+
+Int @A,@B,@D;
+String @C;
+ 
+@A, @B = Call Ejemplo_Procedure (3,3);
+@D, @C = Call Ejemplo_Procedure (3, "Mensaje");
+
+//log(@A);
+//log(@B);
+//log(@C);
+//log(@D);
+
 ALTER TABLE Estudiante ADD 
 	notas_cursos MAP<String,int>;
 
@@ -141,7 +170,23 @@ UPDATE Estudiante SET pet.raza = "Electrico";
 
 DELETE comidas_favoritas[0] FROM Estudiante;
 
-SELECT * FROM Estudiante;
-SELECT nombres,pet.raza FROM Estudiante;
+//SELECT * FROM Estudiante;
+//SELECT nombres,pet.raza,numeros_favoritos FROM Estudiante;
+
+//int @conteo = SUM(<SELECT carnet from Estudiante>);
+//log(@conteo);
+
+Procedure getCursor(),(CURSOR @cur){
+	log("hola estoy dentro de esta mierda D:");
+	CURSOR @cc is SELECT nombres FROM Estudiante;
+	return @cc;
+}
+
+CURSOR @ccc IS CALL getCursor();
+OPEN @ccc;
+FOR EACH(String @nombres) IN @ccc{
+	log(@nombres);
+}
+CLOSE @ccc;
 
 commit;

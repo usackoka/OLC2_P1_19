@@ -30,7 +30,7 @@ namespace Server.AST.ColeccionesCQL
 
         public override string ToString()
         {
-            String trad = "[";
+            String trad = "<";
             foreach (DictionaryEntry pair in this.valores)
             {
                 //clave
@@ -70,7 +70,7 @@ namespace Server.AST.ColeccionesCQL
                 }
             }
             trad = trad.TrimEnd(',');
-            trad += "]";
+            trad += ">";
             return trad;
         }
 

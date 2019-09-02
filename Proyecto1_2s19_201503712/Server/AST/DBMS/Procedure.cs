@@ -14,14 +14,16 @@ namespace Server.AST.CQL
         List<KeyValuePair<String, Object>> retornos;
         List<KeyValuePair<String, Object>> parametros;
         public List<Object> valoresParametros { get; set; }
+        public String instruccionesString;
 
         public Procedure(String id, List<KeyValuePair<String, Object>> parametros, List<KeyValuePair<String, Object>> retornos, 
-            List<NodoCQL> instrucciones, int fila, int columna) {
+            List<NodoCQL> instrucciones, String instruccionesString, int fila, int columna) {
             this.id = id;
             this.parametros = parametros;
             this.retornos = retornos;
             this.instrucciones = instrucciones;
             this.fila = fila;
+            this.instruccionesString = instruccionesString;
             this.columna = columna;
         }
 
@@ -32,6 +34,44 @@ namespace Server.AST.CQL
             this.instrucciones = cp.instrucciones;
             this.fila = cp.fila;
             this.columna = cp.columna;
+            this.instruccionesString = cp.instruccionesString;
+        }
+
+        public override string ToString()
+        {
+            String trad = "";
+            trad += "   <\n";
+            trad += "   \"CQL-TYPE\"=\"PROCEDURE\",\n";
+            trad += "   \"NAME\"=\"" + this.id + "\",\n";
+            trad += "   \"PARAMETERS\"=[" + getAtributos() + "],\n";
+            trad += "   \"INSTR\"=\"" +this.instruccionesString + "\"\n";
+            trad += "   >\n";
+            return trad;
+        }
+
+        string getAtributos() {
+            String trad = "";
+
+            foreach (KeyValuePair<String,Object> kvp in this.parametros) {
+                trad += "\n   <";
+                trad += "   \"NAME\"=\""+kvp.Key+"\",\n";
+                trad += "   \"TYPE\"=\"" +kvp.Value + "\",\n";
+                trad += "   \"AS\"=IN\n";
+                trad += "   >,";
+            }
+            //trad = trad.TrimEnd(',');
+
+            foreach (KeyValuePair<String, Object> kvp in this.retornos)
+            {
+                trad += "\n   <";
+                trad += "   \"NAME\"=\"" + kvp.Key + "\",\n";
+                trad += "   \"TYPE\"=\"" + kvp.Value + "\",\n";
+                trad += "   \"AS\"=OUT\n";
+                trad += "   >,";
+            }
+            trad = trad.TrimEnd(',');
+
+            return trad;
         }
 
         public List<Object> getTipo(AST_CQL arbol) {
@@ -87,7 +127,6 @@ namespace Server.AST.CQL
             }
             //arbol.entorno = arbol.entorno.padre;
             arbol.entorno = temp;
-
             return null;
         }
 
@@ -102,7 +141,7 @@ namespace Server.AST.CQL
             {
                 KeyValuePair<String, Object> kvp = this.parametros[i];
                 Object value = this.valoresParametros[i];
-                arbol.entorno.addVariable(kvp.Key, new Variable(value, kvp.Value));
+                arbol.entorno.addVariable(kvp.Key, new Variable(value, kvp.Value),arbol,fila,columna);
             }
         }
 

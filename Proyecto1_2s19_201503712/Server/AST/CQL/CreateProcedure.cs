@@ -12,15 +12,17 @@ namespace Server.AST.CQL
         public List<KeyValuePair<String, Object>> parametros;
         public List<KeyValuePair<String, Object>> retornos;
         public List<NodoCQL> instrucciones;
+        public String instruccionesString;
 
         public CreateProcedure(String id, List<KeyValuePair<String,Object>> parametros, List<KeyValuePair<String,Object>> retornos,
-            List<NodoCQL> instrucciones, int fila, int columna) {
+            List<NodoCQL> instrucciones, String instruccionesString, int fila, int columna) {
             this.id = id;
             this.parametros = parametros;
             this.instrucciones = instrucciones;
             this.retornos = retornos;
             this.fila = fila;
             this.columna = columna;
+            this.instruccionesString = instruccionesString;
         }
 
         public override object Ejecutar(AST_CQL arbol)

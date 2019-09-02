@@ -16,6 +16,28 @@ namespace Server.AST.DBMS
             this.contraseña = contraseña;
             this.basesGrant = new List<string>();
         }
-        
+
+        public override string ToString()
+        {
+            String trad = "";
+            trad += "<\n";
+            trad += "\"NAME\"=\"" + this.id + "\",\n";
+            trad += "\"PASSWORD\"=\"" + this.contraseña + "\",\n";
+            trad += "\"PERMISSIONS\"= [" + getPermisos() +"]";
+            trad += "\n>";
+            return trad;
+        }
+
+        public string getPermisos(){
+            String trad = "";
+            foreach (String grant in basesGrant) {
+                trad += "\n   <";
+                trad += "\"NAME\"=\""+grant+"\"";
+                trad += "\n   >,";
+            }
+            trad = trad.TrimEnd(',');
+            return trad;
+        }
+
     }
 }

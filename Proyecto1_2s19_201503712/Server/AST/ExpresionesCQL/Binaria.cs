@@ -47,6 +47,10 @@ namespace Server.AST.ExpresionesCQL
                     {
                         return new TipoSet(((TipoSet)izq).tipo);
                     }
+                    else if (izq is TipoList && der is TipoList)
+                    {
+                        return new TipoList(((TipoList)izq).tipo);
+                    }
                     else {
                         arbol.addError("","(Binaria, getTipo, Suma) No soportado: "+izq+" y "+der,fila,columna);
                         return Primitivo.TIPO_DATO.NULL;
@@ -70,6 +74,10 @@ namespace Server.AST.ExpresionesCQL
                     else if (izq is TipoSet && der is TipoSet)
                     {
                         return new TipoSet(((TipoSet)izq).tipo);
+                    }
+                    else if (izq is TipoList && der is TipoList)
+                    {
+                        return new TipoList(((TipoList)izq).tipo);
                     }
                     else
                     {

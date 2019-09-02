@@ -70,7 +70,7 @@ namespace Server.AST.SentenciasCQL
             for (int i = 0; i<this.parametros.Count; i++) {
                 KeyValuePair<String, Object> kvp = this.parametros[i];
                 Object value = this.valoresParametros[i];
-                arbol.entorno.addVariable(kvp.Key,new Variable(value,kvp.Value));
+                arbol.entorno.addVariable(kvp.Key,new Variable(value,kvp.Value),arbol,fila,columna);
             }
         }
 
