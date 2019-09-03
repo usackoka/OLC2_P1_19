@@ -16,6 +16,7 @@ namespace Server.Analizador.Chison
             //StringLiteral caracter = new StringLiteral("caracter", "\'", StringOptions.IsChar);
             StringLiteral cadena = new StringLiteral("cadena", "\"", StringOptions.AllowsAllEscapes);
             StringLiteral cadena2 = new StringLiteral("cadena2", "\'", StringOptions.AllowsAllEscapes);
+            StringLiteral cadena3 = new StringLiteral("cadena3", "$", StringOptions.AllowsAllEscapes);
 
             //TERMINALES DE COMENTARIO
             //CommentTerminal COMENTARIO_LINEA = new CommentTerminal("COMENTARIO_LINEA", "//", "\n", "\r");
@@ -146,7 +147,7 @@ namespace Server.Analizador.Chison
                 | res_data + igual + l_corchete + LISTA_DATA_COLUMNAS1 + r_corchete
                 | res_attrs + igual + l_corchete + LISTA_ATTRS + r_corchete
                 | res_parameters + igual + l_corchete + LISTA_PARAMETERS + r_corchete
-                | res_instr + igual + cadena;
+                | res_instr + igual + cadena3;
 
             LISTA_PARAMETERS.Rule = MakeStarRule(LISTA_PARAMETERS,coma,PARAMETER);
 

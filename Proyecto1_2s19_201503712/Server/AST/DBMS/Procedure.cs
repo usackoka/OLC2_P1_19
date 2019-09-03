@@ -44,7 +44,7 @@ namespace Server.AST.CQL
             trad += "   \"CQL-TYPE\"=\"PROCEDURE\",\n";
             trad += "   \"NAME\"=\"" + this.id + "\",\n";
             trad += "   \"PARAMETERS\"=[" + getAtributos() + "],\n";
-            trad += "   \"INSTR\"=\"" +this.instruccionesString + "\"\n";
+            trad += "   \"INSTR\"= $" +this.instruccionesString + "$\n";
             trad += "   >\n";
             return trad;
         }
