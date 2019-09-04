@@ -1,4 +1,5 @@
-﻿using Server.AST.SentenciasCQL;
+﻿using Server.AST.ExpresionesCQL.Tipos;
+using Server.AST.SentenciasCQL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,21 +26,28 @@ namespace Server.AST.ExpresionesCQL
 
         public override object getValor(AST_CQL arbol)
         {
+            if (tipoDato is Date) {
+                return new Date(expresion, arbol, fila, columna);
+            } else if (tipoDato is TimeSpan) {
+                Object value = expresion.getValor(arbol);
+                String[] arr = value.ToString().Split(':');
+                if (arr.Length == 3)
+                {
+                    return new TimeSpan(Convert.ToInt32(arr[0]), Convert.ToInt32(arr[1]),
+                        Convert.ToInt32(arr[2]));
+                }
+                else
+                {
+                    arbol.addError("Time","No se puede castear de tipo: "+expresion.getTipo(arbol)+" a Time",fila,columna);
+                    return new TimeSpan();
+                }
+            }
+
             switch (tipoDato) {
                 case Primitivo.TIPO_DATO.BOOLEAN:
                     return Convert.ToBoolean(expresion.getValor(arbol));
                 case Primitivo.TIPO_DATO.STRING:
                     return expresion.getValor(arbol).ToString();
-                case Primitivo.TIPO_DATO.DATE:
-                case Primitivo.TIPO_DATO.TIME:
-                    try
-                    {
-                        return DateTime.Parse(expresion.getValor(arbol).ToString());
-                    }
-                    catch (Exception ex) {
-                        arbol.addError("Casteo-DATETIME","No se puede castear el: "+expresion.getValor(arbol).ToString()+" a DateTime, "+ex, fila, columna);
-                        return Catch.EXCEPTION.NullPointerException;
-                    }
                 case Primitivo.TIPO_DATO.DOUBLE:
                     return Convert.ToDouble(expresion.getValor(arbol));
                 case Primitivo.TIPO_DATO.INT:

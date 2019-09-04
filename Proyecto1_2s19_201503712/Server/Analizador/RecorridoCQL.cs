@@ -628,11 +628,11 @@ namespace Server.Analizador
             {
                 if (getLexema(raiz, 0).ToLower().Contains("today"))
                 {
-                    return new TodayNow(Primitivo.TIPO_DATO.DATE, getFila(raiz, 1), getColumna(raiz, 1));
+                    return new TodayNow(TodayNow.TIPO.DATE, getFila(raiz, 1), getColumna(raiz, 1));
                 }
                 else
                 {
-                    return new TodayNow(Primitivo.TIPO_DATO.TIME, getFila(raiz, 1), getColumna(raiz, 1));
+                    return new TodayNow(TodayNow.TIPO.TIME, getFila(raiz, 1), getColumna(raiz, 1));
                 }
             }
             else if (CompararNombre(raiz, "LLAMADA_FUNCION"))
@@ -717,11 +717,11 @@ namespace Server.Analizador
                 }
                 else if (tipo.Equals("date", System.StringComparison.InvariantCultureIgnoreCase))
                 {
-                    return Primitivo.TIPO_DATO.DATE;
+                    return new Date();
                 }
                 else if (tipo.Equals("time", System.StringComparison.InvariantCultureIgnoreCase))
                 {
-                    return Primitivo.TIPO_DATO.TIME;
+                    return new TimeSpan();
                 }
                 else if (tipo.Equals("list", System.StringComparison.InvariantCultureIgnoreCase))
                 {

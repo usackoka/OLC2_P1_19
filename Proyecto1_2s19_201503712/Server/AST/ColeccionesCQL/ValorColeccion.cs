@@ -63,7 +63,7 @@ namespace Server.AST.ColeccionesCQL
                     }
                     catch (Exception)
                     {
-                        arbol.addError("SET, SORT", "No se pueden ordenar los elementos ya que no todos son del mismo tipo", fila, columna);
+                        //arbol.addError("SET, SORT", "No se pueden ordenar los elementos ya que no todos son del mismo tipo", fila, columna);
                     }
                     SetCQL list2 = new SetCQL(expresiones[0].getTipo(arbol), fila, columna);
                     list2.valores = listReturn2;

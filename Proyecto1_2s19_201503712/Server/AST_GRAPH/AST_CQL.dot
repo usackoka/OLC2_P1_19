@@ -1,0 +1,22 @@
+digraph lista{ rankdir=TB;node[shape = box, style = filled, color = white]; nodo44287968[label="BLOCK ", fillcolor="LightBlue", style ="filled", shape="box"]; 
+nodo46801512[label="GLOBAL ", fillcolor="LightBlue", style ="filled", shape="box"]; 
+nodo25693276[label="INSTRUCCION ", fillcolor="LightBlue", style ="filled", shape="box"]; 
+nodo15346750[label="log (Keyword) ", fillcolor="LightBlue", style ="filled", shape="box"]; 
+"nodo25693276"-> "nodo15346750" 
+nodo19515123[label="( (Key symbol) ", fillcolor="LightBlue", style ="filled", shape="box"]; 
+"nodo25693276"-> "nodo19515123" 
+nodo5765319[label="E ", fillcolor="LightBlue", style ="filled", shape="box"]; 
+nodo58112803[label="TERMINO ", fillcolor="LightBlue", style ="filled", shape="box"]; 
+nodo64939307[label="PRIMITIVO ", fillcolor="LightBlue", style ="filled", shape="box"]; 
+nodo36587673[label="3 (numero) ", fillcolor="LightBlue", style ="filled", shape="box"]; 
+"nodo64939307"-> "nodo36587673" 
+"nodo58112803"-> "nodo64939307" 
+"nodo5765319"-> "nodo58112803" 
+"nodo25693276"-> "nodo5765319" 
+nodo35832574[label=") (Key symbol) ", fillcolor="LightBlue", style ="filled", shape="box"]; 
+"nodo25693276"-> "nodo35832574" 
+"nodo46801512"-> "nodo25693276" 
+nodo1853108[label="; (Key symbol) ", fillcolor="LightBlue", style ="filled", shape="box"]; 
+"nodo46801512"-> "nodo1853108" 
+"nodo44287968"-> "nodo46801512" 
+}

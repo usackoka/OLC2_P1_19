@@ -31,13 +31,36 @@ namespace Server.AST.CQL
             List<ColumnCQL> resultado = new List<ColumnCQL>();
 
             //Select de todo primero
-            Object o = selectType.getResult(this.idTabla, this.where ,arbol);
+            Object o = selectType.getResult(this.idTabla, this.where, arbol);
             if (o is List<ColumnCQL>)
             {
                 resultado = (List<ColumnCQL>)o;
             }
             else {
                 return o;
+            }
+
+            if (limit!=null) {
+                Object intt = limit.getValor(arbol);
+                if (intt is Int32)
+                {
+                    int corte = Convert.ToInt32(intt);
+                    foreach (ColumnCQL column in resultado) {
+                        while (true) {
+                            try
+                            {
+                                column.valores.RemoveAt(corte);
+                            }
+                            catch (Exception)
+                            {
+                                break;
+                            }
+                        }
+                    }
+                }
+                else {
+                    arbol.addError("Limit","Se esperaba un valor de tipo entero para el limite",fila,columna);
+                }
             }
 
             //agrego la lista a los print de tables

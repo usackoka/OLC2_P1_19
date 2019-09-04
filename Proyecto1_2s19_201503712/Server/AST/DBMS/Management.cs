@@ -45,10 +45,8 @@ namespace Server.AST.DBMS
         ////////////////////////////////////////////////////////////////////////////////////////////////////
         void analizarChison(String ruta, AST_CQL arbol) {
             //============ creo el archivo chison principal
-            if (ruta.Equals(""))
-                ruta = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-
-            ruta += "\\principal.chison";
+            if(ruta=="")
+                ruta = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Chisons\principal.chison");
 
             if (!File.Exists(ruta)) {
                 arbol.addError("Analizar Chison","No existe el chison principal.chison en: "+ruta,0,0);
@@ -66,12 +64,7 @@ namespace Server.AST.DBMS
                 if (parserChison.padre.Root != null)
                 {
                     //Graficar.ConstruirArbol(parserChison.padre.Root, "AST_CHISON", "");
-                    //RecorridoChison recorrido = new RecorridoChison(parserChison.padre.Root, arbol);
-
-                    //ThreadStart threadDelegate = new ThreadStart(recorrido.ast.Ejecutar);
-
-                    //Thread T = new Thread(threadDelegate, 1000000000);
-                    //T.Start();
+                    RecorridoChison recorrido = new RecorridoChison(parserChison.padre.Root, arbol);
                 }
             }
             else
@@ -87,17 +80,17 @@ namespace Server.AST.DBMS
 
             //============ creo el archivo chison principal
             if (ruta.Equals(""))
-                ruta = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+                ruta = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Chisons\principal.chison");
 
             try
             {
-                System.IO.File.Delete(ruta + "\\principal.chison");
+                System.IO.File.Delete(ruta);
             }
             catch (System.IO.IOException e)
             {
                 Console.WriteLine(e.Message);
             }
-            System.IO.StreamWriter f = new System.IO.StreamWriter(ruta + "\\principal.chison");
+            System.IO.StreamWriter f = new System.IO.StreamWriter(ruta);
 
             String trad = "$<\n";
             trad += "\"DATABASES\"=[" +getDatabases()+ "],\n";

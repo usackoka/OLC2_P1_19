@@ -36,6 +36,7 @@ namespace Server.AST
 
         public void Ejecutar() {
             //cargo todo lo del árbol chison
+            /*
             foreach (NodoCQL nodo in nodosChison) {
                 if (nodo is Expresion)
                 {
@@ -45,7 +46,7 @@ namespace Server.AST
                 {
                     ((Sentencia)nodo).Ejecutar(this);
                 }
-            }
+            }*/
 
             //sentencias CQL
             foreach(NodoCQL nodo in nodos) {

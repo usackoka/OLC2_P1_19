@@ -14,7 +14,7 @@ namespace Server.Otros
         public static void ConstruirArbol(ParseTreeNode raiz, String nombre, String ruta)
         {
             if (ruta.Equals(""))
-                ruta = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+                ruta = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"AST_GRAPH");
 
             try
             {

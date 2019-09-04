@@ -109,7 +109,7 @@ namespace Server.AST.ExpresionesCQL
                 else
                 {
                     //retorno el nullpointer de no encontrada la función
-                    arbol.addError("EXCEPTION.NullPointerException", "No existe la función: " + this.idLlamada + " con firma: " + getFirma(arbol), fila, columna);
+                    arbol.addError("EXCEPTION.NullPointerException", "No existe el procedure: " + this.idLlamada + " con firma: " + getFirma(arbol), fila, columna);
                     return Catch.EXCEPTION.NullPointerException;
                 }
             }

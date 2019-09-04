@@ -6,9 +6,9 @@ using System.Web;
 
 namespace Server.Analizador.Chison
 {
-    public class GramaticaChison : Grammar
+    public class GramaticaChison2 : Grammar
     {
-        public GramaticaChison() : base(false)
+        public GramaticaChison2() : base(false)
         {
             #region Expresiones Regulares
             var numero = new NumberLiteral("numero");
@@ -105,16 +105,27 @@ namespace Server.Analizador.Chison
             var LISTA_DATA_COLUMNAS1 = new NonTerminal("LISTA_DATA_COLUMNAS1");
             var DATA_COLUMNAS1 = new NonTerminal("DATA_COLUMNAS1");
             var IMPORT = new NonTerminal("IMPORT");
+            var INICIO_IMPORT = new NonTerminal("INICIO_IMPORT");
             #endregion
 
             #region Gramatica
-            S.Rule = dolar + menor_que + DATABASES + coma + USERS + mayor_que + dolar;
+            //S.Rule = dolar + menor_que + DATABASES + coma + USERS + mayor_que + dolar;
+
+            INICIO_IMPORT.Rule = LISTA_USER
+                | LISTA_PERMISOS
+                | LISTA_BASES
+                | LISTA_DATA_BASE
+                | LISTA_PARAMETERS
+                | LISTA_ATTRS
+                | LISTA_COLUMNAS
+                | LISTA_DATA_COLUMNAS1
+                | MAP;
 
             //============================ IMPORT =========================================
             IMPORT.Rule = dolar + l_llave + id + punto + res_chison + r_llave + dolar;
 
             //========================= USERS ==============================================
-            USERS.Rule = res_users + igual + l_corchete + LISTA_USER + r_corchete;
+            //USERS.Rule = res_users + igual + l_corchete + LISTA_USER + r_corchete;
 
             LISTA_USER.Rule = MakeStarRule(LISTA_USER, coma, USER)
                 | IMPORT;
@@ -183,8 +194,7 @@ namespace Server.Analizador.Chison
 
             CARACT_COLUMNA.Rule = res_name + igual + cadena
                 | res_type + igual + cadena
-                | res_pk + igual + res_true
-                | res_pk + igual + res_false;
+                | res_pk + igual + PRIMITIVO;
 
             LISTA_DATA_COLUMNAS1.Rule = MakeStarRule(LISTA_DATA_COLUMNAS1,coma,DATA_COLUMNAS1)
                 | IMPORT;
@@ -217,7 +227,7 @@ namespace Server.Analizador.Chison
                 | res_false
                 | res_null;
 
-            this.Root = S;
+            this.Root = INICIO_IMPORT;
             //RECUPERACION
             //BLOCK.ErrorRule = SyntaxError + puntocoma;
             //BLOCK.ErrorRule = SyntaxError + r_llave;

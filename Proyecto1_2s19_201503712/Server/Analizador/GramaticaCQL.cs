@@ -52,6 +52,8 @@ namespace Server.Analizador
             not_igual = ToTerm("!="),
             not = ToTerm("!"),
             menor_que = ToTerm("<"),
+            aumento = ToTerm(">>"),
+            decremento = ToTerm("<<"),
             mayor_que = ToTerm(">"),
             mayor_igual = ToTerm(">="),
             menor_igual = ToTerm("<="),
@@ -303,7 +305,8 @@ namespace Server.Analizador
                         | CURSOR + puntocoma
                         | SELECT + puntocoma;
 
-            CURSOR.Rule = res_cursor + arroba + id + res_is + ASIG_CURSOR
+            CURSOR.Rule = res_cursor + arroba + id + res_is + SELECT
+                | res_cursor + arroba + id + igual + E
                 | res_open + arroba + id
                 | res_close + arroba + id;
 
@@ -319,7 +322,7 @@ namespace Server.Analizador
             //=================== OTROS CQL =====================================
             BATCH.Rule = res_begin + res_bath + LISTA_DML + res_apply + res_bath;
 
-            FUN_AGR.Rule = TIPO_AGR + l_parent + menor_que + SELECT + mayor_que + r_parent;
+            FUN_AGR.Rule = TIPO_AGR + l_parent + decremento + SELECT + aumento + r_parent;
 
             TIPO_AGR.Rule = res_count
                 | res_min

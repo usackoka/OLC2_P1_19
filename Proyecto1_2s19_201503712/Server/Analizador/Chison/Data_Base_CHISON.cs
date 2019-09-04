@@ -1,6 +1,7 @@
 ﻿using Server.AST;
 using Server.AST.SentenciasCQL;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -12,14 +13,13 @@ namespace Server.Analizador.Chison
     */
     public class Data_Base_CHISON:Sentencia
     {
-        String id;
-        Object obj;
+        Hashtable valores;
         
         public Data_Base_CHISON(String id, Object obj, int fila, int columna) {
-            this.id = id;
-            this.obj = obj;
             this.fila = fila;
             this.columna = columna;
+            this.valores = new Hashtable();
+            this.valores.Add(id.ToLower(),obj);
         }
 
         public Data_Base_CHISON() {
@@ -27,31 +27,11 @@ namespace Server.Analizador.Chison
         }
 
         public void addRange(Data_Base_CHISON db) {
-        }
-
-        void Inicializar() {
-            if (this.id.Equals("name", StringComparison.InvariantCultureIgnoreCase))
-            {
-            }
-            else if (this.id.Equals("cql-type", StringComparison.InvariantCultureIgnoreCase))
-            {
-            }
-            else if (this.id.Equals("columns", StringComparison.InvariantCultureIgnoreCase))
-            {
-            }
-            else if (this.id.Equals("data", StringComparison.InvariantCultureIgnoreCase))
-            {
-            }
-            else if (this.id.Equals("attrs", StringComparison.InvariantCultureIgnoreCase))
-            {
-            }
-            else if (this.id.Equals("parameters", StringComparison.InvariantCultureIgnoreCase))
-            {
-            }
-            else {
-                //this.id.Equals("instr", StringComparison.InvariantCultureIgnoreCase)
+            foreach (DictionaryEntry kvp in db.valores) {
+                this.valores.Add(kvp.Key,kvp.Value);
             }
         }
+        
 
         public override object Ejecutar(AST_CQL arbol)
         {

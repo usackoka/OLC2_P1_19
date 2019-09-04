@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Server.AST.ExpresionesCQL.Tipos;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -7,22 +8,32 @@ namespace Server.AST.ExpresionesCQL
 {
     public class TodayNow : Expresion
     {
-        Object tipoDato;
+        TIPO tipoDato;
 
-        public TodayNow(Object tipoDato, int fila, int columna) {
+        public TodayNow(TIPO tipoDato, int fila, int columna) {
             this.tipoDato = tipoDato;
             this.fila = fila;
             this.columna = columna;
         }
 
+        public enum TIPO {
+            DATE, TIME
+        }
+
         public override object getTipo(AST_CQL arbol)
         {
-            return tipoDato;
+            if (this.tipoDato.Equals(TIPO.TIME))
+                return new TimeSpan();
+
+            return new Date();
         }
 
         public override object getValor(AST_CQL arbol)
         {
-            return DateTime.Now;
+            if (this.tipoDato.Equals(TIPO.TIME))
+                return new TimeSpan(DateTime.Now.Hour,DateTime.Now.Minute, DateTime.Now.Second);
+
+            return new Date();
         }
     }
 }

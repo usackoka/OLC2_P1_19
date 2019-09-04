@@ -10,7 +10,7 @@ namespace Server.AST.ExpresionesCQL
     public class Primitivo : Expresion
     {
         private Object value;
-        private TIPO_DATO tipoDato;
+        private Object tipoDato;
 
         public Primitivo(String value, int fila, int columna)
         {
@@ -63,12 +63,20 @@ namespace Server.AST.ExpresionesCQL
                 this.value = this.value.ToString().Replace(" (cadena)", "").Replace(" (cadena2)", "");
                 if (this.value.ToString().Contains("-") || this.value.ToString().Contains("/"))
                 {
-                    this.value = DateTime.Parse(this.value.ToString());
-                    this.tipoDato = TIPO_DATO.DATE;
+                    this.value = new Date(this.value.ToString());
+                    this.tipoDato = new Date();
                 }
                 else {
-                    this.value = DateTime.Parse(this.value.ToString());
-                    this.tipoDato = TIPO_DATO.TIME;
+                    String[] arr = this.value.ToString().Split(':');
+                    if (arr.Length == 3)
+                    {
+                        this.value = new TimeSpan(Convert.ToInt32(arr[0]), Convert.ToInt32(arr[1]),
+                            Convert.ToInt32(arr[2]));
+                    }
+                    else {
+                        this.value = new TimeSpan();
+                    }
+                    this.tipoDato = new TimeSpan();
                 }
             }
         }
@@ -77,6 +85,10 @@ namespace Server.AST.ExpresionesCQL
 
             if (tipoDato is String || tipoDato is TipoMAP || tipoDato is TipoList || tipoDato is TipoSet) {
                 return TIPO_DATO.NULL;
+            } else if (tipoDato is Date) {
+                return new Date();
+            } else if (tipoDato is TimeSpan) {
+                return new TimeSpan(DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
             }
 
             switch (tipoDato) {
@@ -87,10 +99,6 @@ namespace Server.AST.ExpresionesCQL
                     return false;
                 case TIPO_DATO.DOUBLE:
                     return 0.0;
-                case TIPO_DATO.DATE:
-                    return DateTime.Now;
-                case TIPO_DATO.TIME:
-                    return DateTime.Now;
                 case TIPO_DATO.STRING:
                 case TIPO_DATO.NULL:
                 case TIPO_DATO.STRUCT:
@@ -103,7 +111,7 @@ namespace Server.AST.ExpresionesCQL
         }
 
         public enum TIPO_DATO {
-            INT, BOOLEAN, DOUBLE, STRING, DATE, TIME, NULL, ID, COUNTER, STRUCT, CURSOR
+            INT, BOOLEAN, DOUBLE, STRING, NULL, ID, COUNTER, STRUCT, CURSOR
         }
 
         public override object getTipo(AST_CQL arbol)
@@ -119,14 +127,16 @@ namespace Server.AST.ExpresionesCQL
 
         public override object getValor(AST_CQL arbol)
         {
+            if (this.tipoDato is TimeSpan || this.tipoDato is Date) {
+                return this.value;
+            }
+
             switch (this.tipoDato)
             {
                 case TIPO_DATO.NULL:
                 case TIPO_DATO.BOOLEAN:
                 case TIPO_DATO.DOUBLE:
                 case TIPO_DATO.INT:
-                case TIPO_DATO.DATE:
-                case TIPO_DATO.TIME:
                 case TIPO_DATO.STRING:
                     return this.value;
                 case TIPO_DATO.ID:

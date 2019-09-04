@@ -77,9 +77,12 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Analizador\Chison\Columna.cs" />
     <Compile Include="Analizador\Chison\DataBaseCHISON.cs" />
     <Compile Include="Analizador\Chison\Data_Base_CHISON.cs" />
+    <Compile Include="Analizador\Chison\GramaticaChison2.cs" />
     <Compile Include="Analizador\Chison\GramaticaChison.cs" />
+    <Compile Include="Analizador\Chison\Parametro.cs" />
     <Compile Include="Analizador\Chison\RecorridoChison.cs" />
     <Compile Include="Analizador\clsToken.cs" />
     <Compile Include="Analizador\Generador.cs" />
@@ -134,6 +137,7 @@
     <Compile Include="AST\ExpresionesCQL\Referencia.cs" />
     <Compile Include="AST\ExpresionesCQL\Ternaria.cs" />
     <Compile Include="AST\ExpresionesCQL\Throw.cs" />
+    <Compile Include="AST\ExpresionesCQL\Tipos\Date.cs" />
     <Compile Include="AST\ExpresionesCQL\Tipos\TipoList.cs" />
     <Compile Include="AST\ExpresionesCQL\Tipos\TipoMAP.cs" />
     <Compile Include="AST\ExpresionesCQL\Tipos\TipoSet.cs" />

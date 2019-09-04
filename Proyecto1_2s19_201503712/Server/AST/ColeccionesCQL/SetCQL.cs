@@ -73,7 +73,14 @@ namespace Server.AST.ColeccionesCQL
                     this.valores.Add(obj);
                 }
             }
-            this.valores.Sort();
+            try
+            {
+                this.valores.Sort();
+            }
+            catch (Exception)
+            {
+                Console.Write("");
+            }
         }
 
         public void removeRange(SetCQL set) {
@@ -150,7 +157,7 @@ namespace Server.AST.ColeccionesCQL
             }
             else
             {
-                arbol.addError("List", "(" + idLlamada + ") no posee el metódo buscado", fila, columna);
+                arbol.addError("set", "(" + idLlamada + ") no posee el metódo buscado", fila, columna);
                 return Primitivo.TIPO_DATO.NULL;
             }
         }
@@ -160,17 +167,24 @@ namespace Server.AST.ColeccionesCQL
 
             if (this.expresiones.Count != 1)
             {
-                arbol.addError("List", "(insert) debe tener exclusivamente 1 parámetro", fila, columna);
+                arbol.addError("set", "(insert) debe tener exclusivamente 1 parámetro", fila, columna);
                 return null;
             }
             Object valor = expresiones[0].getValor(arbol);
             if (this.valores.Contains(valor)) {
-                arbol.addError("List", "(insert) ya contiene este valor: "+valor, fila, columna);
+                arbol.addError("set", "(insert) ya contiene este valor: "+valor, fila, columna);
                 return null;
             }
 
             this.valores.Add(valor);
-            this.valores.Sort();
+            try
+            {
+                this.valores.Sort();
+            }
+            catch (Exception)
+            {
+                Console.Write("");
+            }
             return null;
         }
 
@@ -179,7 +193,7 @@ namespace Server.AST.ColeccionesCQL
 
             if (this.expresiones.Count != 0)
             {
-                arbol.addError("List", "(size) debe tener exclusivamente 0 parámetros", fila, columna);
+                arbol.addError("set", "(size) debe tener exclusivamente 0 parámetros", fila, columna);
                 return 0;
             }
 
@@ -190,7 +204,7 @@ namespace Server.AST.ColeccionesCQL
         {
             if (this.expresiones.Count != 1)
             {
-                arbol.addError("List", "(contains) debe tener exclusivamente 1 parámetro", fila, columna);
+                arbol.addError("set", "(contains) debe tener exclusivamente 1 parámetro", fila, columna);
                 return false;
             }
 
@@ -201,7 +215,7 @@ namespace Server.AST.ColeccionesCQL
         {
             if (this.expresiones.Count != 0)
             {
-                arbol.addError("List", "(clear) debe tener exclusivamente 0 parámetros", fila, columna);
+                arbol.addError("set", "(clear) debe tener exclusivamente 0 parámetros", fila, columna);
                 return 0;
             }
 
@@ -214,7 +228,7 @@ namespace Server.AST.ColeccionesCQL
             int index = 0;
             if (this.expresiones.Count != 1)
             {
-                arbol.addError("List", "(remove) debe tener exclusivamente 1 parámetro", fila, columna);
+                arbol.addError("set", "(remove) debe tener exclusivamente 1 parámetro", fila, columna);
                 return Primitivo.TIPO_DATO.NULL;
             }
             else
@@ -226,7 +240,7 @@ namespace Server.AST.ColeccionesCQL
                 }
                 else
                 {
-                    arbol.addError("List", "(remove) el parámetro debe ser de valor entero", fila, columna);
+                    arbol.addError("set", "(remove) el parámetro debe ser de valor entero", fila, columna);
                     return Primitivo.TIPO_DATO.NULL;
                 }
             }
@@ -249,7 +263,7 @@ namespace Server.AST.ColeccionesCQL
             int index = 0;
             if (this.expresiones.Count != 1)
             {
-                arbol.addError("List", "(get) debe tener exclusivamente 1 parámetro", fila, columna);
+                arbol.addError("set", "(get) debe tener exclusivamente 1 parámetro", fila, columna);
                 return Primitivo.TIPO_DATO.NULL;
             }
             else
@@ -261,7 +275,7 @@ namespace Server.AST.ColeccionesCQL
                 }
                 else
                 {
-                    arbol.addError("List", "(get) el parámetro debe ser de valor entero", fila, columna);
+                    arbol.addError("set", "(get) el parámetro debe ser de valor entero", fila, columna);
                     return Primitivo.TIPO_DATO.NULL;
                 }
             }
@@ -281,7 +295,7 @@ namespace Server.AST.ColeccionesCQL
             int index = 0;
             if (this.expresiones.Count != 2)
             {
-                arbol.addError("List", "(set) debe tener exclusivamente 2 parámetros", fila, columna);
+                arbol.addError("set", "(set) debe tener exclusivamente 2 parámetros", fila, columna);
             }
             else
             {
@@ -292,14 +306,21 @@ namespace Server.AST.ColeccionesCQL
                 }
                 else
                 {
-                    arbol.addError("List", "(set) el parámetro debe ser de valor entero", fila, columna);
+                    arbol.addError("set", "(set) el parámetro debe ser de valor entero", fila, columna);
                 }
             }
 
             if (this.valores.Count > index)
             {
                 this.valores[index] = this.expresiones[1].getValor(arbol);
-                this.valores.Sort();
+                try
+                {
+                    this.valores.Sort();
+                }
+                catch (Exception ex)
+                {
+                    //arbol.addError("Set-"+ex.ToString(),"Error al ordenar, posiblemente los valores no son del mismo tipo",fila,columna);
+                }
                 return null;
             }
             else

@@ -1,5 +1,6 @@
 ﻿using Server.AST.ColeccionesCQL;
 using Server.AST.DBMS;
+using Server.AST.ExpresionesCQL.Tipos;
 using Server.AST.SentenciasCQL;
 using System;
 using System.Collections.Generic;
@@ -100,11 +101,17 @@ namespace Server.AST.ExpresionesCQL
                         cs.expresiones = llf.expresiones;
                         valorRetorno = cs.getMetodoString(llf.idLlamada, valorRetorno.ToString(), arbol);
                     }
-                    else if (valorRetorno is DateTime)
+                    else if (valorRetorno is Date)
                     {
                         ClaseDateTime cs = new ClaseDateTime();
                         cs.expresiones = llf.expresiones;
-                        valorRetorno = cs.getMetodoDateTime(llf.idLlamada, (DateTime)valorRetorno, arbol);
+                        valorRetorno = cs.getMetodoDateTime(llf.idLlamada, (Date)valorRetorno, arbol);
+                    }
+                    else if (valorRetorno is TimeSpan)
+                    {
+                        ClaseDateTime cs = new ClaseDateTime();
+                        cs.expresiones = llf.expresiones;
+                        valorRetorno = cs.getMetodoTime(llf.idLlamada, (TimeSpan)valorRetorno, arbol);
                     }
                     else if (valorRetorno is ListCQL) {
                         ListCQL list = (ListCQL)valorRetorno;
@@ -154,6 +161,20 @@ namespace Server.AST.ExpresionesCQL
                         cs.expresiones = llf.expresiones;
                         valorRetorno = cs.getMetodoString(llf.idLlamada, valorRetorno.ToString(), arbol);
                         tipoRetorno = cs.getTipoMetodo(llf.idLlamada, arbol);
+                    }
+                    else if (valorRetorno is Date)
+                    {
+                        ClaseDateTime cs = new ClaseDateTime();
+                        cs.expresiones = llf.expresiones;
+                        valorRetorno = cs.getMetodoDateTime(llf.idLlamada, (Date)valorRetorno, arbol);
+                        tipoRetorno = new Date();
+                    }
+                    else if (valorRetorno is TimeSpan)
+                    {
+                        ClaseDateTime cs = new ClaseDateTime();
+                        cs.expresiones = llf.expresiones;
+                        valorRetorno = cs.getMetodoTime(llf.idLlamada, (TimeSpan)valorRetorno, arbol);
+                        tipoRetorno = new TimeSpan();
                     }
                     else if (valorRetorno is ListCQL)
                     {

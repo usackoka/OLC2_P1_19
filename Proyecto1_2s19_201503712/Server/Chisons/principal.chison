@@ -1,0 +1,137 @@
+$<
+"DATABASES"=[
+<
+"NAME"="virtual",
+"DATA"= [   <
+   "CQL-TYPE" = "TABLE",
+   "NAME" = "estudiante",
+   "COLUMNS" = [${columnNames.chison}$],
+   "DATA" = [${dataColumns.chison}$]
+   >
+,   <
+   "CQL-TYPE" = "TABLE",
+   "NAME" = "libro",
+   "COLUMNS" = [
+       <
+       "NAME"="cod_libro",
+       "TYPE"="COUNTER",
+       "PK"=TRUE
+       >,
+       <
+       "NAME"="nombre",
+       "TYPE"="STRING",
+       "PK"=FALSE
+       >,
+       <
+       "NAME"="serie",
+       "TYPE"="STRING",
+       "PK"=FALSE
+       >,
+       <
+       "NAME"="folio",
+       "TYPE"="STRING",
+       "PK"=FALSE
+       >],
+   "DATA" = []
+   >
+,   <
+   "CQL-TYPE" = "TABLE",
+   "NAME" = "prestamo",
+   "COLUMNS" = [
+       <
+       "NAME"="carnet",
+       "TYPE"="INT",
+       "PK"=FALSE
+       >,
+       <
+       "NAME"="cod_libro",
+       "TYPE"="INT",
+       "PK"=FALSE
+       >,
+       <
+       "NAME"="",
+       "TYPE"="",
+       "PK"=FALSE
+       >],
+   "DATA" = []
+   >
+,   <
+   "CQL-TYPE"="mascota",
+   "NAME"="mascota",
+   "ATTRS"=[
+       <"NAME"="nombre",
+"TYPE"="STRING"
+        >,
+       <"NAME"="raza",
+"TYPE"="STRING"
+        >,
+       <"NAME"="edad",
+"TYPE"="INT"
+        >]
+   >
+,   <
+   "CQL-TYPE"="PROCEDURE",
+   "NAME"="ejemplo_procedure",
+   "PARAMETERS"=[
+   <   "NAME"="n",
+   "TYPE"="INT",
+   "AS"=IN
+   >,
+   <   "NAME"="p",
+   "TYPE"="INT",
+   "AS"=IN
+   >,
+   <   "NAME"="retorno1",
+   "TYPE"="INT",
+   "AS"=OUT
+   >,
+   <   "NAME"="ret2",
+   "TYPE"="INT",
+   "AS"=OUT
+   >],
+   "INSTR"= $if ( @ n == 0 ) { return 1 ,2 ; } else { return @ n ,@ n * 2 ; } $
+   >
+,   <
+   "CQL-TYPE"="PROCEDURE",
+   "NAME"="ejemplo_procedure",
+   "PARAMETERS"=[
+   <   "NAME"="n",
+   "TYPE"="INT",
+   "AS"=IN
+   >,
+   <   "NAME"="mensaje",
+   "TYPE"="STRING",
+   "AS"=IN
+   >,
+   <   "NAME"="ret1",
+   "TYPE"="INT",
+   "AS"=OUT
+   >,
+   <   "NAME"="ret2",
+   "TYPE"="STRING",
+   "AS"=OUT
+   >],
+   "INSTR"= $if ( @ n == 0 ) { return 1 ,\"\" ; } else { return @ n * 2 ,@ mensaje + \" Devuelto\" ; } $
+   >
+,   <
+   "CQL-TYPE"="PROCEDURE",
+   "NAME"="getcursor",
+   "PARAMETERS"=[
+   <   "NAME"="cur",
+   "TYPE"="CURSOR",
+   "AS"=OUT
+   >],
+   "INSTR"= $log ( \"hola estoy dentro de esta mierda D:\" ) ; CURSOR @ cc is SELECT nombres FROM Estudiante ; return @ cc ; $
+   >
+]
+>],
+"USERS"=[
+<
+"NAME"="admin",
+"PASSWORD"="admin",
+"PERMISSIONS"= [
+   <"NAME"="virtual"
+   >]
+>]
+
+>$

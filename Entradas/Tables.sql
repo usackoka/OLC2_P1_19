@@ -173,7 +173,7 @@ DELETE comidas_favoritas[0] FROM Estudiante;
 //SELECT * FROM Estudiante;
 //SELECT nombres,pet.raza,numeros_favoritos FROM Estudiante;
 
-//int @conteo = SUM(<SELECT carnet from Estudiante>);
+//int @conteo = SUM(<<SELECT carnet from Estudiante>>);
 //log(@conteo);
 
 Procedure getCursor(),(CURSOR @cur){
@@ -182,11 +182,15 @@ Procedure getCursor(),(CURSOR @cur){
 	return @cc;
 }
 
-CURSOR @ccc IS CALL getCursor();
+CURSOR @ccc = CALL getCursor();
 OPEN @ccc;
 FOR EACH(String @nombres) IN @ccc{
 	log(@nombres);
 }
 CLOSE @ccc;
 
-commit;
+//commit;
+
+//SELECT * FROM Estudiante LIMIT 4;
+
+log(count(<<SELECT * FROM Estudiante LIMIT 4>>));
