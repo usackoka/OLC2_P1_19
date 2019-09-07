@@ -1,4 +1,5 @@
 ﻿using Server.AST.DBMS;
+using Server.AST.ExpresionesCQL.Tipos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -54,7 +55,11 @@ namespace Server.AST.CQL
             else if (this.valores[i] is UserType) {
                 trad += "       \"" + this.id + "\"="+((UserType)this.valores[i]).getData();
             }
-            else if (this.valores[i] is DateTime)
+            else if (this.valores[i] is TimeSpan)
+            {
+                trad += "       \"" + this.id + "\"='" + this.valores[i] + "'";
+            }
+            else if (this.valores[i] is Date)
             {
                 trad += "       \"" + this.id + "\"='" + this.valores[i] + "'";
             }

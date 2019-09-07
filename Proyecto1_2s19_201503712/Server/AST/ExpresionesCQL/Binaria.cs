@@ -250,11 +250,11 @@ namespace Server.AST.ExpresionesCQL
                     {
                         return Convert.ToInt32(izquierda.getValor(arbol)) <= Convert.ToInt32(derecha.getValor(arbol));
                     }
-                    else if (tipIzq is Date && tipDer is Date)
+                    else if (tipIzq.Equals(Primitivo.TIPO_DATO.DATE) && tipDer.Equals(Primitivo.TIPO_DATO.DATE))
                     {
                         return ((Date)izquierda.getValor(arbol)).dateTime <= ((Date)derecha.getValor(arbol)).dateTime;
                     }
-                    else if (tipIzq is TimeSpan && tipDer is TimeSpan)
+                    else if (tipIzq.Equals(Primitivo.TIPO_DATO.TIME) && tipDer.Equals(Primitivo.TIPO_DATO.TIME))
                     {
                         return ((TimeSpan)izquierda.getValor(arbol)) <= ((TimeSpan)derecha.getValor(arbol));
                     }
@@ -272,11 +272,11 @@ namespace Server.AST.ExpresionesCQL
                     {
                         return Convert.ToInt32(izquierda.getValor(arbol)) >= Convert.ToInt32(derecha.getValor(arbol));
                     }
-                    else if (tipIzq is Date && tipDer is Date)
+                    else if (tipIzq.Equals(Primitivo.TIPO_DATO.DATE) && tipDer.Equals(Primitivo.TIPO_DATO.DATE))
                     {
                         return ((Date)izquierda.getValor(arbol)).dateTime >= ((Date)derecha.getValor(arbol)).dateTime;
                     }
-                    else if (tipIzq is TimeSpan && tipDer is TimeSpan)
+                    else if (tipIzq.Equals(Primitivo.TIPO_DATO.TIME) && tipDer.Equals(Primitivo.TIPO_DATO.TIME))
                     {
                         return ((Date)izquierda.getValor(arbol)).dateTime >= ((Date)derecha.getValor(arbol)).dateTime;
                     }
@@ -294,11 +294,11 @@ namespace Server.AST.ExpresionesCQL
                     {
                         return Convert.ToInt32(izquierda.getValor(arbol)) > Convert.ToInt32(derecha.getValor(arbol));
                     }
-                    else if (tipIzq is Date && tipDer is Date)
+                    else if (tipIzq.Equals(Primitivo.TIPO_DATO.DATE) && tipDer.Equals(Primitivo.TIPO_DATO.DATE))
                     {
                         return ((Date)izquierda.getValor(arbol)).dateTime > ((Date)derecha.getValor(arbol)).dateTime;
                     }
-                    else if (tipIzq is TimeSpan && tipDer is TimeSpan)
+                    else if (tipIzq.Equals(Primitivo.TIPO_DATO.TIME) && tipDer.Equals(Primitivo.TIPO_DATO.TIME))
                     {
                         return ((TimeSpan)izquierda.getValor(arbol)) > ((TimeSpan)derecha.getValor(arbol));
                     }
@@ -316,11 +316,11 @@ namespace Server.AST.ExpresionesCQL
                     {
                         return Convert.ToInt32(izquierda.getValor(arbol)) < Convert.ToInt32(derecha.getValor(arbol));
                     }
-                    else if (tipIzq is Date && tipDer is Date)
+                    else if (tipIzq.Equals(Primitivo.TIPO_DATO.DATE) && tipDer.Equals(Primitivo.TIPO_DATO.DATE))
                     {
                         return ((Date)izquierda.getValor(arbol)).dateTime < ((Date)derecha.getValor(arbol)).dateTime;
                     }
-                    else if (tipIzq is TimeSpan && tipDer is TimeSpan)
+                    else if (tipIzq.Equals(Primitivo.TIPO_DATO.TIME) && tipDer.Equals(Primitivo.TIPO_DATO.TIME))
                     {
                         return ((TimeSpan)izquierda.getValor(arbol)) < ((TimeSpan)derecha.getValor(arbol));
                     }
@@ -342,11 +342,11 @@ namespace Server.AST.ExpresionesCQL
                     {
                         return !Convert.ToInt32(izquierda.getValor(arbol)).Equals(Convert.ToInt32(derecha.getValor(arbol)));
                     }
-                    else if (tipIzq is Date && tipDer is Date)
+                    else if (tipIzq.Equals(Primitivo.TIPO_DATO.DATE) && tipDer.Equals(Primitivo.TIPO_DATO.DATE))
                     {
                         return !((Date)izquierda.getValor(arbol)).dateTime.Equals(((Date)(derecha.getValor(arbol))).dateTime);
                     }
-                    else if (tipIzq is TimeSpan && tipDer is TimeSpan)
+                    else if (tipIzq.Equals(Primitivo.TIPO_DATO.TIME) && tipDer.Equals(Primitivo.TIPO_DATO.TIME))
                     {
                         return !((TimeSpan)izquierda.getValor(arbol)).Equals((TimeSpan)derecha.getValor(arbol));
                     }
@@ -372,11 +372,11 @@ namespace Server.AST.ExpresionesCQL
                     {
                         return Convert.ToInt32(izquierda.getValor(arbol)).Equals(Convert.ToInt32(derecha.getValor(arbol)));
                     }
-                    else if (tipIzq is Date && tipDer is Date)
+                    else if (tipIzq.Equals(Primitivo.TIPO_DATO.DATE) && tipDer.Equals(Primitivo.TIPO_DATO.DATE))
                     {
                         return ((Date)izquierda.getValor(arbol)).dateTime.Equals(((Date)derecha.getValor(arbol)).dateTime);
                     }
-                    else if (tipIzq is TimeSpan && tipDer is TimeSpan)
+                    else if (tipIzq.Equals(Primitivo.TIPO_DATO.TIME) && tipDer.Equals(Primitivo.TIPO_DATO.TIME))
                     {
                         return (izquierda.getValor(arbol)).Equals((derecha.getValor(arbol)));
                     }

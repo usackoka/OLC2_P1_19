@@ -4,124 +4,70 @@ $<
 "NAME"="virtual",
 "DATA"= [   <
    "CQL-TYPE" = "TABLE",
-   "NAME" = "estudiante",
-   "COLUMNS" = [${columnNames.chison}$],
-   "DATA" = [${dataColumns.chison}$]
-   >
-,   <
-   "CQL-TYPE" = "TABLE",
-   "NAME" = "libro",
+   "NAME" = "orders",
    "COLUMNS" = [
        <
-       "NAME"="cod_libro",
-       "TYPE"="COUNTER",
+       "NAME"="ordernumber",
+       "TYPE"="INT",
        "PK"=TRUE
        >,
        <
-       "NAME"="nombre",
-       "TYPE"="STRING",
+       "NAME"="orderdate",
+       "TYPE"="DATE",
        "PK"=FALSE
        >,
        <
-       "NAME"="serie",
-       "TYPE"="STRING",
+       "NAME"="ordertime",
+       "TYPE"="TIME",
        "PK"=FALSE
        >,
        <
-       "NAME"="folio",
-       "TYPE"="STRING",
+       "NAME"="order_",
+       "TYPE"="tipo_order",
        "PK"=FALSE
-       >],
-   "DATA" = []
-   >
-,   <
-   "CQL-TYPE" = "TABLE",
-   "NAME" = "prestamo",
-   "COLUMNS" = [
+       >,
        <
-       "NAME"="carnet",
+       "NAME"="customernumber",
        "TYPE"="INT",
        "PK"=FALSE
        >,
        <
-       "NAME"="cod_libro",
-       "TYPE"="INT",
-       "PK"=FALSE
-       >,
-       <
-       "NAME"="",
-       "TYPE"="",
+       "NAME"="sequence",
+       "TYPE"="LIST<INT>",
        "PK"=FALSE
        >],
-   "DATA" = []
+   "DATA" = [
+       <
+       "ordernumber"=1,
+       "orderdate"='2019-12-13',
+       "ordertime"='12:00:00',
+       "order_"=       <
+"number"=0,"status"=NULL       >
+,
+       "customernumber"=10,
+       "sequence"=[4,6,8,0]
+       >,
+       <
+       "ordernumber"=2,
+       "orderdate"='2019-8-20',
+       "ordertime"='23:23:23',
+       "order_"=       <
+"number"=NullPointerException,"status"=NULL       >
+,
+       "customernumber"=20,
+       "sequence"=[3,5,7,9,0]
+       >]
    >
 ,   <
-   "CQL-TYPE"="mascota",
-   "NAME"="mascota",
+   "CQL-TYPE"="tipo_order",
+   "NAME"="tipo_order",
    "ATTRS"=[
-       <"NAME"="nombre",
-"TYPE"="STRING"
-        >,
-       <"NAME"="raza",
-"TYPE"="STRING"
-        >,
-       <"NAME"="edad",
+       <"NAME"="number",
 "TYPE"="INT"
+        >,
+       <"NAME"="status",
+"TYPE"="STRING"
         >]
-   >
-,   <
-   "CQL-TYPE"="PROCEDURE",
-   "NAME"="ejemplo_procedure",
-   "PARAMETERS"=[
-   <   "NAME"="n",
-   "TYPE"="INT",
-   "AS"=IN
-   >,
-   <   "NAME"="p",
-   "TYPE"="INT",
-   "AS"=IN
-   >,
-   <   "NAME"="retorno1",
-   "TYPE"="INT",
-   "AS"=OUT
-   >,
-   <   "NAME"="ret2",
-   "TYPE"="INT",
-   "AS"=OUT
-   >],
-   "INSTR"= $if ( @ n == 0 ) { return 1 ,2 ; } else { return @ n ,@ n * 2 ; } $
-   >
-,   <
-   "CQL-TYPE"="PROCEDURE",
-   "NAME"="ejemplo_procedure",
-   "PARAMETERS"=[
-   <   "NAME"="n",
-   "TYPE"="INT",
-   "AS"=IN
-   >,
-   <   "NAME"="mensaje",
-   "TYPE"="STRING",
-   "AS"=IN
-   >,
-   <   "NAME"="ret1",
-   "TYPE"="INT",
-   "AS"=OUT
-   >,
-   <   "NAME"="ret2",
-   "TYPE"="STRING",
-   "AS"=OUT
-   >],
-   "INSTR"= $if ( @ n == 0 ) { return 1 ,\"\" ; } else { return @ n * 2 ,@ mensaje + \" Devuelto\" ; } $
-   >
-,   <
-   "CQL-TYPE"="PROCEDURE",
-   "NAME"="getcursor",
-   "PARAMETERS"=[
-   <   "NAME"="cur",
-   "TYPE"="CURSOR",
-   "AS"=OUT
-   >],
-   "INSTR"= $log ( \"hola estoy dentro de esta mierda D:\" ) ; CURSOR @ cc is SELECT nombres FROM Estudiante ; return @ cc ; $
    >
 ]
 >],

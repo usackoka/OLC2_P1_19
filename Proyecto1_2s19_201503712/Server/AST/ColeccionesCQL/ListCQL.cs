@@ -49,7 +49,11 @@ namespace Server.AST.ColeccionesCQL
                 {
                     trad += "\"" + obj + "\",";
                 }
-                else if (obj is DateTime)
+                else if (obj is Date)
+                {
+                    trad += "'" + obj + "',";
+                }
+                else if (obj is TimeSpan)
                 {
                     trad += "'" + obj + "',";
                 }

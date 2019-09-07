@@ -23,9 +23,9 @@ namespace Server.AST.ExpresionesCQL
         public override object getTipo(AST_CQL arbol)
         {
             if (this.tipoDato.Equals(TIPO.TIME))
-                return new TimeSpan();
+                return Primitivo.TIPO_DATO.TIME;
 
-            return new Date();
+            return Primitivo.TIPO_DATO.DATE;
         }
 
         public override object getValor(AST_CQL arbol)

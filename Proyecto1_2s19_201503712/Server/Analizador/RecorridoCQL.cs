@@ -717,11 +717,11 @@ namespace Server.Analizador
                 }
                 else if (tipo.Equals("date", System.StringComparison.InvariantCultureIgnoreCase))
                 {
-                    return new Date();
+                    return Primitivo.TIPO_DATO.DATE;
                 }
                 else if (tipo.Equals("time", System.StringComparison.InvariantCultureIgnoreCase))
                 {
-                    return new TimeSpan();
+                    return Primitivo.TIPO_DATO.TIME;
                 }
                 else if (tipo.Equals("list", System.StringComparison.InvariantCultureIgnoreCase))
                 {

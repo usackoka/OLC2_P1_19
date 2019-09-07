@@ -1,0 +1,18 @@
+digraph lista{ rankdir=TB;node[shape = box, style = filled, color = white]; nodo51314516[label="S ", fillcolor="LightBlue", style ="filled", shape="box"]; 
+nodo54698358[label="LOGIN ", fillcolor="LightBlue", style ="filled", shape="box"]; 
+nodo62058078[label="[+login] (Key symbol) ", fillcolor="LightBlue", style ="filled", shape="box"]; 
+"nodo54698358"-> "nodo62058078" 
+nodo26036812[label="[+user] (Key symbol) ", fillcolor="LightBlue", style ="filled", shape="box"]; 
+"nodo54698358"-> "nodo26036812" 
+nodo47311893[label="Luis (id) ", fillcolor="LightBlue", style ="filled", shape="box"]; 
+"nodo54698358"-> "nodo47311893" 
+nodo27199418[label="[-user] (Key symbol) ", fillcolor="LightBlue", style ="filled", shape="box"]; 
+"nodo54698358"-> "nodo27199418" 
+nodo9912813[label="[+PASS]
+   1234  
+[-PASS] (res_pass) ", fillcolor="LightBlue", style ="filled", shape="box"]; 
+"nodo54698358"-> "nodo9912813" 
+nodo55529408[label="[-login] (Key symbol) ", fillcolor="LightBlue", style ="filled", shape="box"]; 
+"nodo54698358"-> "nodo55529408" 
+"nodo51314516"-> "nodo54698358" 
+}

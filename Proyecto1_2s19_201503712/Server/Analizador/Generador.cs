@@ -21,14 +21,9 @@ namespace Server.Analizador
         {
             LanguageData lenguaje = new LanguageData(gramatica);
             Parser p = new Parser(lenguaje);
-            try
-            {
-                arbol = p.Parse(cadenaEntrada);
-            }
-            catch (Exception)
-            {
-                Console.Write("alv");
-            }
+
+            arbol = p.Parse(cadenaEntrada);
+
             padre = arbol;
 
             Errores();

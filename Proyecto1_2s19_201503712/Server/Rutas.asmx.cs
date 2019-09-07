@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Services;
 using System.Web.Script.Serialization;
 using System.Threading;
+using Server.Analizador.LUP;
 
 namespace Server
 {
@@ -29,7 +30,50 @@ namespace Server
         }
 
         [WebMethod]
+        public string login(String cadena) {
+            return "";
+        }
+
+        [WebMethod]
         public string AnalizarPruebaCQL(String cadena) {
+
+            Generador parserLUP = new Generador();
+            if (parserLUP.esCadenaValida(cadena, new GramaticaLUP()))
+            {
+                if (parserLUP.padre.Root != null)
+                {
+                    Graficar.ConstruirArbol(parserLUP.padre.Root, "AST_LUP", "");
+                    //RecorridoCQL recorrido = new RecorridoCQL(parserLUP.padre.Root);
+                    //return recorrido.ast.getLUP();
+                    return "TRUE";
+                }
+                return "FALSE";
+            }
+            else {
+                String respuesta = "";
+                foreach (clsToken error in parserLUP.ListaErrores)
+                {
+                    respuesta += "\n[+ERROR]\n";
+                    respuesta += "\n[+LEXEMA]\n";
+                    respuesta += error.lexema;
+                    respuesta += "\n[-LEXEMA]\n";
+                    respuesta += "\n[+LINE]\n";
+                    respuesta += error.fila;
+                    respuesta += "\n[-LINE]\n";
+                    respuesta += "\n[+COLUMN]\n";
+                    respuesta += error.columna;
+                    respuesta += "\n[-COLUMN]\n";
+                    respuesta += "\n[+TYPE]\n";
+                    respuesta += error.tipo;
+                    respuesta += "\n[-TYPE]\n";
+                    respuesta += "\n[+DESC]\n";
+                    respuesta += error.descripcion;
+                    respuesta += "\n[-DESC]\n";
+                    respuesta += "\n[-ERROR]\n";
+                }
+                return respuesta;
+            }
+
             Generador parserCQL = new Generador();
             if (parserCQL.esCadenaValida(cadena, new GramaticaCQL()))
             {

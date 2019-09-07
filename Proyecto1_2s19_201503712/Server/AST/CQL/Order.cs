@@ -7,8 +7,8 @@ namespace Server.AST.CQL
 {
     public class Order
     {
-        String id;
-        ORDER tipoOrder;
+        public String id;
+        public ORDER tipoOrder;
 
         public Order(String id, ORDER tipoOrder) {
             this.id = id;

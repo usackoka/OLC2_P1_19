@@ -240,10 +240,77 @@ namespace Server.Analizador.Chison
                 | res_pk + igual + PRIMITIVO*/
                 if (CompararNombre(raiz.ChildNodes[0], "pk"))
                 {
-                    return new Columna(getLexema(raiz, 0), getLexema(raiz,2).Equals("TRUE",StringComparison.InvariantCulture)?true:false);
+                    return new Columna(getLexema(raiz, 0), getLexema(raiz, 2).Equals("TRUE", StringComparison.InvariantCulture) ? true : false);
                 }
                 else {
                     return new Columna(getLexema(raiz, 0), getLexema(raiz, 0));
+                }
+            }
+            else if (CompararNombre(raiz, "LISTA_DATA_COLUMNAS1")) {
+                if (raiz.ChildNodes.Count != 0 && CompararNombre(raiz.ChildNodes[0], "IMPORT"))
+                {
+                    //IMPORT.Rule = dolar + l_llave + id + punto + res_chison + r_llave + dolar;
+                    Object o = AnalizarImport(getLexema(raiz, 2));
+                    if (!(o is List<List<KeyValuePair<String, Object>>>))
+                    {
+                        arbol.addError("Analizar-Chison", "No se pudo leer bien el import: " + getLexema(raiz, 2),
+                            getFila(raiz, 0), getColumna(raiz, 0));
+                        return new List<List<KeyValuePair<String, Object>>>();
+                    }
+                    return o;
+                }
+                else
+                {
+                    List<List<KeyValuePair<String, Object>>> lista = new List<List<KeyValuePair<String, Object>>>();
+                    foreach (ParseTreeNode nodo in raiz.ChildNodes)
+                    {
+                        lista.Add((List<KeyValuePair<String, Object>>)recorrido(nodo));
+                    }
+                    return lista;
+                }
+            }
+            else if (CompararNombre(raiz, "DATA_COLUMNAS1")) {
+                return recorrido(raiz.ChildNodes[1]);
+            }
+            else if (CompararNombre(raiz, "LISTA_DATA_COLUMNAS")) {
+                List<KeyValuePair<String, Object>> c = new List<KeyValuePair<String, Object>>();
+                foreach (ParseTreeNode nodo in raiz.ChildNodes)
+                {
+                    c.Add((KeyValuePair<String, Object>)recorrido(nodo));
+                }
+                return c;
+            }
+            else if (CompararNombre(raiz, "DATA_COLUMNAS")) {
+                //cadena + igual + VALOR
+                return new KeyValuePair<String, Object>(getLexema(raiz, 0), recorrido(raiz.ChildNodes[2]));
+            }
+            else if (CompararNombre(raiz, "LISTA")) {
+                return recorrido(raiz.ChildNodes[1]);
+            }
+            else if (CompararNombre(raiz, "LISTA_VALORES")) {
+                List<Object> lista = new List<object>();
+                foreach (ParseTreeNode nodo in raiz.ChildNodes) {
+                    lista.Add(recorrido(nodo));
+                }
+                return lista;
+            }
+            else if (CompararNombre(raiz, "MAP")) {
+                if (raiz.ChildNodes.Count != 0 && CompararNombre(raiz.ChildNodes[0], "IMPORT"))
+                {
+                    //IMPORT.Rule = dolar + l_llave + id + punto + res_chison + r_llave + dolar;
+                    Object o = AnalizarImport(getLexema(raiz, 2));
+                    if (!(o is List<KeyValuePair<Object, Object>>))
+                    {
+                        arbol.addError("Analizar-Chison", "No se pudo leer bien el import: " + getLexema(raiz, 2),
+                            getFila(raiz, 0), getColumna(raiz, 0));
+                        return new List<KeyValuePair<Object, Object>>();
+                    }
+                    return o;
+                }
+                else
+                {
+                    //menor_que + LISTA_KEY_VALUE_PAIR + mayor_que
+                    return recorrido(raiz.ChildNodes[1]);
                 }
             }
             else if (CompararNombre(raiz, "PRIMITIVO")) {
@@ -281,6 +348,85 @@ namespace Server.Analizador.Chison
                     //cadena2
                     return null;
                 }
+            }
+            //====================================== USUARIOS =====================================
+            else if (CompararNombre(raiz, "USERS")) {
+                //res_users + igual + l_corchete + LISTA_USER + r_corchete;
+                return new UserCHISON((List<User>)recorrido(raiz.ChildNodes[3]), getFila(raiz, 0), getColumna(raiz, 0));
+            }
+            else if (CompararNombre(raiz, "LISTA_USER")) {
+                if (raiz.ChildNodes.Count != 0 && CompararNombre(raiz.ChildNodes[0], "IMPORT"))
+                {
+                    //IMPORT.Rule = dolar + l_llave + id + punto + res_chison + r_llave + dolar;
+                    Object o = AnalizarImport(getLexema(raiz, 2));
+                    if (!(o is List<User>))
+                    {
+                        arbol.addError("Analizar-Chison", "No se pudo leer bien el import: " + getLexema(raiz, 2),
+                            getFila(raiz, 0), getColumna(raiz, 0));
+                        return new List<User>();
+                    }
+                    return o;
+                }
+                else
+                {
+                    //menor_que + LISTA_KEY_VALUE_PAIR + mayor_que
+                    List<User> list = new List<User>();
+                    foreach (ParseTreeNode nodo in raiz.ChildNodes)
+                    {
+                        list.Add((User)recorrido(nodo));
+                    }
+                    return list;
+                }
+            }
+            else if (CompararNombre(raiz, "USER")) {
+                return recorrido(raiz.ChildNodes[1]);
+            }
+            else if (CompararNombre(raiz, "LISTA_DATA_USER")) {
+                User user = new User();
+                foreach (ParseTreeNode nodo in raiz.ChildNodes) {
+                    user.addRange((User)recorrido(nodo));
+                }
+                return user;
+            }
+            else if (CompararNombre(raiz, "DATA_USER")) {
+                /*res_name + igual + cadena
+                | res_password + igual + cadena
+                | res_permissions + igual + l_corchete + LISTA_PERMISOS + r_corchete;*/
+                if (raiz.ChildNodes.Count > 0)
+                {
+                    return new User(getLexema(raiz, 0), recorrido(raiz.ChildNodes[3]), getFila(raiz,0), getColumna(raiz, 0));
+                }
+                else {
+                    return new User(getLexema(raiz, 0), getLexema(raiz, 2), getFila(raiz, 0), getColumna(raiz, 0));
+                }
+            }
+            else if (CompararNombre(raiz, "LISTA_PERMISOS")) {
+                if (raiz.ChildNodes.Count != 0 && CompararNombre(raiz.ChildNodes[0], "IMPORT"))
+                {
+                    //IMPORT.Rule = dolar + l_llave + id + punto + res_chison + r_llave + dolar;
+                    Object o = AnalizarImport(getLexema(raiz, 2));
+                    if (!(o is List<String>))
+                    {
+                        arbol.addError("Analizar-Chison", "No se pudo leer bien el import: " + getLexema(raiz, 2),
+                            getFila(raiz, 0), getColumna(raiz, 0));
+                        return new List<String>();
+                    }
+                    return o;
+                }
+                else
+                {
+                    //menor_que + LISTA_KEY_VALUE_PAIR + mayor_que
+                    List<String> list = new List<String>();
+                    foreach (ParseTreeNode nodo in raiz.ChildNodes)
+                    {
+                        list.Add((String)recorrido(nodo));
+                    }
+                    return list;
+                }
+            }
+            else if (CompararNombre(raiz, "PERMISO")) {
+                // menor_que + res_name + igual + cadena + mayor_que
+                return getLexema(raiz,3);
             }
             else
             {

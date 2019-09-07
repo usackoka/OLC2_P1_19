@@ -335,6 +335,22 @@ namespace Server.AST.DBMS
         ////////////////////////////////////////////////////////////////////////////////////////////////////
         //////////////////////////////////////// BASE DE DATOS
         ////////////////////////////////////////////////////////////////////////////////////////////////////
+        ///
+        /// =============== para el que viene desde chison
+        public Object createDataBase(String id, AST_CQL arbol, int fila, int columna)
+        {
+            //pregunto si existe
+            if (getDataBase(id) != null)
+            {
+                arbol.addError("EXCEPTION.BDAlreadyExists - Chison", "Ya existe la base de datos: " + id, fila, columna);
+                return Catch.EXCEPTION.BDAlreadyExists;
+            }
+            DataBase db = new DataBase(id);
+            //this.usuarioActivo.basesGrant.Add(db.id);
+            bases.Add(db);
+            return null;
+        }
+
         public Object createDataBase(CreateDataBase createDataBase, AST_CQL arbol, int fila, int columna) {
             //pregunto si existe
             if (getDataBase(createDataBase.id) != null)

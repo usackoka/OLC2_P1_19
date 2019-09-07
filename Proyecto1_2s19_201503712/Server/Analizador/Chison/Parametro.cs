@@ -13,7 +13,7 @@ namespace Server.Analizador.Chison
 
         public Parametro(String id, String value) {
             this.valores = new Hashtable();
-            this.valores.Add(id,value);
+            this.valores.Add(id.ToLower(),value);
         }
 
         public Parametro() {

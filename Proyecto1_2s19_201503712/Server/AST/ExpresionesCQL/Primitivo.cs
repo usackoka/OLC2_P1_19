@@ -64,7 +64,7 @@ namespace Server.AST.ExpresionesCQL
                 if (this.value.ToString().Contains("-") || this.value.ToString().Contains("/"))
                 {
                     this.value = new Date(this.value.ToString());
-                    this.tipoDato = new Date();
+                    this.tipoDato = Primitivo.TIPO_DATO.DATE;
                 }
                 else {
                     String[] arr = this.value.ToString().Split(':');
@@ -76,7 +76,7 @@ namespace Server.AST.ExpresionesCQL
                     else {
                         this.value = new TimeSpan();
                     }
-                    this.tipoDato = new TimeSpan();
+                    this.tipoDato = Primitivo.TIPO_DATO.TIME;
                 }
             }
         }
@@ -85,13 +85,13 @@ namespace Server.AST.ExpresionesCQL
 
             if (tipoDato is String || tipoDato is TipoMAP || tipoDato is TipoList || tipoDato is TipoSet) {
                 return TIPO_DATO.NULL;
-            } else if (tipoDato is Date) {
-                return new Date();
-            } else if (tipoDato is TimeSpan) {
-                return new TimeSpan(DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
             }
 
             switch (tipoDato) {
+                case TIPO_DATO.TIME:
+                    return new TimeSpan(DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
+                case TIPO_DATO.DATE:
+                    return new Date();
                 case TIPO_DATO.INT:
                 case TIPO_DATO.COUNTER:
                     return 0;
@@ -111,7 +111,7 @@ namespace Server.AST.ExpresionesCQL
         }
 
         public enum TIPO_DATO {
-            INT, BOOLEAN, DOUBLE, STRING, NULL, ID, COUNTER, STRUCT, CURSOR
+            INT, BOOLEAN, DOUBLE, STRING, NULL, ID, COUNTER, STRUCT, CURSOR, TIME, DATE
         }
 
         public override object getTipo(AST_CQL arbol)
@@ -125,11 +125,49 @@ namespace Server.AST.ExpresionesCQL
             }
         }
 
+        public static Object getTipoString(String nombre, AST_CQL arbol) {
+            if (CompararNombre(nombre, "INT"))
+            {
+                return TIPO_DATO.INT;
+            }
+            else if (CompararNombre(nombre, "STRING"))
+            {
+                return TIPO_DATO.STRING;
+            }
+            else if (CompararNombre(nombre, "BOOLEAN"))
+            {
+                return TIPO_DATO.BOOLEAN;
+            }
+            else if (CompararNombre(nombre, "DOUBLE"))
+            {
+                return TIPO_DATO.DOUBLE;
+            }
+            else if (CompararNombre(nombre, "COUNTER"))
+            {
+                return TIPO_DATO.COUNTER;
+            }
+            else if (CompararNombre(nombre, "NULL"))
+            {
+                return TIPO_DATO.NULL;
+            }
+            else if (CompararNombre(nombre, "CURSOR"))
+            {
+                return TIPO_DATO.CURSOR;
+            }
+            else if (CompararNombre(nombre, "TIME")) {
+                return TIPO_DATO.TIME;
+            }
+            else if (CompararNombre(nombre,"DATE")) {
+                return TIPO_DATO.DATE;
+            }
+            else {
+                arbol.addError("Primitivo-getTipoString-Chison", "No se procesó el tipo: " + nombre, 0, 0);
+                return "not Supported";
+            }
+        }
+
         public override object getValor(AST_CQL arbol)
         {
-            if (this.tipoDato is TimeSpan || this.tipoDato is Date) {
-                return this.value;
-            }
 
             switch (this.tipoDato)
             {
@@ -138,6 +176,8 @@ namespace Server.AST.ExpresionesCQL
                 case TIPO_DATO.DOUBLE:
                 case TIPO_DATO.INT:
                 case TIPO_DATO.STRING:
+                case TIPO_DATO.DATE:
+                case TIPO_DATO.TIME:
                     return this.value;
                 case TIPO_DATO.ID:
                     return arbol.entorno.getValorVariable(this.value.ToString(),arbol,fila,columna);
@@ -149,6 +189,10 @@ namespace Server.AST.ExpresionesCQL
 
         Boolean ContainsString(String match, String search) {
             return Regex.IsMatch(search, Regex.Escape(match), RegexOptions.IgnoreCase);
+        }
+
+        static Boolean CompararNombre(String n1, String n2) {
+            return n1.Equals(n1,StringComparison.InvariantCultureIgnoreCase);
         }
     }
 }

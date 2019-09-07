@@ -40,6 +40,13 @@ namespace Server.AST.CQL
                 return o;
             }
 
+            //orderBy
+            if (orderBy != null)
+            {
+                resultado = orderBy.getResult(resultado, arbol);
+            }
+
+            //limit
             if (limit!=null) {
                 Object intt = limit.getValor(arbol);
                 if (intt is Int32)

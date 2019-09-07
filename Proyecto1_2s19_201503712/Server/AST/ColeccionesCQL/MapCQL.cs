@@ -38,7 +38,11 @@ namespace Server.AST.ColeccionesCQL
                 {
                     trad += "\"" + pair.Key + "\"=";
                 }
-                else if (pair.Key is DateTime)
+                else if (pair.Key is Date)
+                {
+                    trad += "'" + pair.Key + "'=";
+                }
+                else if (pair.Key is TimeSpan)
                 {
                     trad += "'" + pair.Key + "'=";
                 }
@@ -56,8 +60,11 @@ namespace Server.AST.ColeccionesCQL
                 {
                     trad += "\"" + pair.Value + "\",";
                 }
-                else if (pair.Value is DateTime)
+                else if (pair.Value is Date)
                 {
+                    trad += "'" + pair.Value + "',";
+                }
+                else if (pair.Value is TimeSpan) {
                     trad += "'" + pair.Value + "',";
                 }
                 else if (pair.Value is UserType)

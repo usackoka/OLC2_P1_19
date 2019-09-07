@@ -84,9 +84,12 @@
     <Compile Include="Analizador\Chison\GramaticaChison.cs" />
     <Compile Include="Analizador\Chison\Parametro.cs" />
     <Compile Include="Analizador\Chison\RecorridoChison.cs" />
+    <Compile Include="Analizador\Chison\User.cs" />
+    <Compile Include="Analizador\Chison\UserCHISON.cs" />
     <Compile Include="Analizador\clsToken.cs" />
     <Compile Include="Analizador\Generador.cs" />
     <Compile Include="Analizador\GramaticaCQL.cs" />
+    <Compile Include="Analizador\LUP\GramaticaLUP.cs" />
     <Compile Include="Analizador\RecorridoCQL.cs" />
     <Compile Include="AST\AST_CQL.cs" />
     <Compile Include="AST\ColeccionesCQL\ListCQL.cs" />
