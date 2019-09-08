@@ -9,7 +9,7 @@ String @GENRE_ELECTRONIC = "Electronic";
 String @GENRE_ROCK = "Rock";
 
 
-CREATE TYPE song {
+CREATE TYPE song (
     name String,
     trackNumber int,
     duration double,
@@ -18,7 +18,7 @@ CREATE TYPE song {
     genre String,
     album String,
     artist String
-};
+);
 
 Song @something_about_us = {
     "Something about us",
@@ -42,7 +42,7 @@ Song @taciturn = {
     "Stone Sour"
 } as Song;
 
-Song whistle_for_the_choir = {
+Song @whistle_for_the_choir = {
     "Whistle for the choir",
     1,
     3.37,
@@ -110,32 +110,39 @@ WHERE name == "Soft Rock";
 
 UPDATE playlists
 SET songs = songs + {
-        'Jubel - Original Mix', 1, 4.44, '2001-01-01', false, @GENRE_ELECTRONIC 'Jubel', 'Klingande'
+        {'Jubel - Original Mix', 1, 4.44, '2001-01-01', false, @GENRE_ELECTRONIC, 'Jubel', 'Klingande'} as Song
     };
 
 
-printSongsByYear("Soft Rock", 2013);
 
-procedure printSongsByYear(String @playlistName, int @year) {
-    Cursor @c1 is CALL getPlaylist(@playlistName);
 
-    OPEN @C1;
+procedure printSongsByYear(String @playlistName, int @year),() {
+    Cursor @c1 = getPlaylist(@playlistName);
 
-    Set @songs = @c1.songs;
+    //Cursor @c1 IS SELECT songs from playlists where name == @playlistName;
+
+    OPEN @c1;
 
     LOG( @playlistName +  " tiene las siguientes canciones del " + @year + ":");
-    for (int @i = 0; @i < @songs.size(); @i++) {
-        Song @song = @songs.gets(@1);
+    FOR EACH(Set @songs) IN @c1 {
+        
+        for (int @i = 0; @i < @songs.size(); @i++) {
+            Song @song = @songs.get(@i);
 
-        if (@song.dateReleased.getYear() == @year) {
-            LOG( @song.name + " del artista: " + @song.artist + " de su album " + @song.album);
+            if (@song.dateReleased.getYear() == @year) {
+                LOG( @song.name + " del artista: " + @song.artist + " de su album " + @song.album);
+            }
         }
     }
 
     CLOSE @c1;
 }
 
-procedure getPlaylist(String @name) (Cursor @c1) {
-    Cursor @c1 = SELECT songs from playlists where name == @name;
+call printSongsByYear("Soft Rock", 2013);
+
+int @n1 = 3;
+
+Cursor getPlaylist(String @name) {
+    Cursor @c1 IS SELECT songs from playlists where name == @name;
     return @c1;
 }

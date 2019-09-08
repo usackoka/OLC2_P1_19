@@ -194,3 +194,7 @@ CLOSE @ccc;
 //SELECT * FROM Estudiante LIMIT 4;
 
 log(count(<<SELECT * FROM Estudiante LIMIT 4>>));
+
+for(int @i; @i<5; @i+=1){
+	log("HOLA "+@i);
+}

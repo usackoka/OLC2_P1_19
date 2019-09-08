@@ -174,7 +174,8 @@
                     var ast = Analizador.parse(text);
 
                     //imprimo los mensajes en la consola
-                    for (i = 0; i < ast.mensajes.length; i++) {
+                    alert("tam: " + ast.mensajes.length);
+                    for (i in ast.mensajes) {
                         document.getElementById("txtConsola").value +=
                             (ast.mensajes[i]).toString().replace("[+MESSAGE]", "").replace("[-MESSAGE]", "") + "\n";
                     }

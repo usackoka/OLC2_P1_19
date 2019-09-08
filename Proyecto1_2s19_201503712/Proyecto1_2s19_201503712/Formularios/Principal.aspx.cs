@@ -18,11 +18,21 @@ namespace Proyecto1_2s19_201503712.Formularios
         {
             localhost.RutasSoapClient servidor = new localhost.RutasSoapClient();
 
+            String res0 = servidor.AnalizarPruebaCQL("[+LOGIN]  " +
+                                                    "[+USER]admin[-USER]" +
+                                                    "[+PASS]admin[-PASS]" +
+                                                    "[-LOGIN]");
             String res1 = servidor.getErroresChison();
-            String res = servidor.AnalizarPruebaCQL(hdCadena.Value);
+            String res = servidor.AnalizarPruebaCQL("[+QUERY] "+
+                                                    "[+USER]" +
+                                                    "   Luis" +
+                                                    "[-USER]" +
+                                                    "[+DATA]" + hdCadena.Value+
+                                                    "[-DATA]"+
+                                                    "[-QUERY]");
             //Response.Write("<script>alert('" + res + "')</script>");
             //Response.Write("<textarea>"+res+"</textarea>");
-            txtSalida.Value = res1+"\n"+res;
+            txtSalida.Value = res0+"\n"+res1+"\n"+res;
         }
     }
 }

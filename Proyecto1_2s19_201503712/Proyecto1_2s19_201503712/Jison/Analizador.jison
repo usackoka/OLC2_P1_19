@@ -9,7 +9,7 @@
 //.                       { console.error('Este es un error léxico: ' + yytext + ', en la linea: ' + yylloc.first_line + ', en la columna: ' + yylloc.first_column); }
 
 ("[+DATA]")(.|\t|\r|\n)+("[-DATA]") 					return "res_data";
-("[+MESSAGE]")(.|\t|\r|\n)+("[-MESSAGE]") 				return "res_message";
+("\[\+MESSAGE\]")(.|\s)*("\[-MESSAGE\]") 				return "res_message";
 ("[+ERROR]")						 					return "res_errorAbre";
 ("[-ERROR]")											return "res_errorCierra";
 ("[+DESC]")(.|\t|\r|\n)+("[-DESC]")						return "res_descripcion";
@@ -32,7 +32,7 @@
 
     function AST_LUP(){
 	    this.errores = new Array();
-	    this.mensajes = new Array();
+	    this.mensajes = {};
 	    this.data = new Array();
     }
 
@@ -52,7 +52,7 @@ LIST_BLOCK : LIST_BLOCK BLOCK
 	| BLOCK;
 
 BLOCK : res_message {
-		ast.mensajes.push($1);
+		ast.mensajes[ast.mensajes.length] = $1;
 	}
 	| res_errorAbre ERROR res_errorCierra {
 		ast.errores.push($2);

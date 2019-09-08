@@ -90,7 +90,7 @@ case 1:
 break;
 case 4:
 
-		ast.mensajes.push($$[$0]);
+		ast.mensajes[ast.mensajes.length] = $$[$0];
 	
 break;
 case 5:
@@ -334,7 +334,7 @@ parse: function parse(input) {
 
     function AST_LUP(){
 	    this.errores = new Array();
-	    this.mensajes = new Array();
+	    this.mensajes = {};
 	    this.data = new Array();
     }
 
@@ -691,7 +691,7 @@ case 10:return "res_tipo";
 break;
 }
 },
-rules: [/^(?:\s+)/i,/^(?:$)/i,/^(?:(\[\+DATA\])(.|\t|\r|\n)+(\[-DATA\]))/i,/^(?:(\[\+MESSAGE\])(.|\t|\r|\n)+(\[-MESSAGE\]))/i,/^(?:(\[\+ERROR\]))/i,/^(?:(\[-ERROR\]))/i,/^(?:(\[\+DESC\])(.|\t|\r|\n)+(\[-DESC\]))/i,/^(?:(\[\+LEXEMA\])(.|\t|\r|\n)+(\[-LEXEMA\]))/i,/^(?:(\[\+LINE\])(.|\t|\r|\n)+(\[-LINE\]))/i,/^(?:(\[\+COLUMN\])(.|\t|\r|\n)+(\[-COLUMN\]))/i,/^(?:(\[\+TYPE\])(.|\t|\r|\n)+(\[-TYPE\]))/i],
+rules: [/^(?:\s+)/i,/^(?:$)/i,/^(?:(\[\+DATA\])(.|\t|\r|\n)+(\[-DATA\]))/i,/^(?:\\\[\\\+MESSAGE\\\](.|\s)*\\\[-MESSAGE\\\])/i,/^(?:(\[\+ERROR\]))/i,/^(?:(\[-ERROR\]))/i,/^(?:(\[\+DESC\])(.|\t|\r|\n)+(\[-DESC\]))/i,/^(?:(\[\+LEXEMA\])(.|\t|\r|\n)+(\[-LEXEMA\]))/i,/^(?:(\[\+LINE\])(.|\t|\r|\n)+(\[-LINE\]))/i,/^(?:(\[\+COLUMN\])(.|\t|\r|\n)+(\[-COLUMN\]))/i,/^(?:(\[\+TYPE\])(.|\t|\r|\n)+(\[-TYPE\]))/i],
 conditions: {"INITIAL":{"rules":[0,1,2,3,4,5,6,7,8,9,10],"inclusive":true}}
 });
 return lexer;
