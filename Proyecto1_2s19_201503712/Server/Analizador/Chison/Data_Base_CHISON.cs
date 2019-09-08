@@ -26,7 +26,7 @@ namespace Server.Analizador.Chison
         }
 
         public Data_Base_CHISON() {
-
+            this.valores = new Hashtable();
         }
 
         public void addRange(Data_Base_CHISON db) {

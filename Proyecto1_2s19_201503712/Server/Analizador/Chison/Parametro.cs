@@ -16,7 +16,9 @@ namespace Server.Analizador.Chison
             this.valores.Add(id.ToLower(),value);
         }
 
-        public Parametro() {
+        public Parametro()
+        {
+            this.valores = new Hashtable();
         }
 
         public void addRange(Parametro p) {

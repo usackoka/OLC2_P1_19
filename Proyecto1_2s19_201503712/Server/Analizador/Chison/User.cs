@@ -13,7 +13,7 @@ namespace Server.Analizador.Chison
     {
         Hashtable valores;
         int fila, columna;
-        public User() { }
+        public User() { this.valores = new Hashtable(); }
         public User(String key, Object value, int fila, int columna) {
             this.valores = new Hashtable();
             this.valores.Add(key,value);
@@ -26,14 +26,14 @@ namespace Server.Analizador.Chison
             this.columna = user.columna;
             foreach (DictionaryEntry kvp in user.valores)
             {
-                this.valores.Add(kvp.Key, kvp.Value);
+                    this.valores.Add(kvp.Key, kvp.Value);
             }
         }
 
         public String getName(Management dbms) {
             if (this.valores.ContainsKey("name"))
             {
-                return this.valores["name"].ToString();
+                return this.valores["name"].ToString().Replace("\"","");
             }
             else {
                 dbms.addError("LoadUser-Chison","El user no contiene el atributo NAME",fila,columna);
@@ -45,7 +45,7 @@ namespace Server.Analizador.Chison
         {
             if (this.valores.ContainsKey("password"))
             {
-                return this.valores["password"].ToString();
+                return this.valores["password"].ToString().Replace("\"","");
             }
             else
             {

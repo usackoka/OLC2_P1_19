@@ -39,8 +39,8 @@ namespace Server.Analizador.Chison
             {
                 // dolar + menor_que + DATABASES + coma + USERS + mayor_que + dolar
                     nodosChison.AddRange((List<object>)recorrido(raiz.ChildNodes[2]));
-                    nodosChison.AddRange((List<object>)recorrido(raiz.ChildNodes[4]));
-                return null;
+                    nodosChison.Add((UserCHISON)recorrido(raiz.ChildNodes[4]));
+                    return null;
             }
             else if (CompararNombre(raiz, "INICIO_IMPORT")) {
                 return recorrido(raiz.ChildNodes[0]);
@@ -124,10 +124,10 @@ namespace Server.Analizador.Chison
                 | res_attrs + igual + l_corchete + LISTA_ATTRS + r_corchete
                 | res_parameters + igual + l_corchete + LISTA_PARAMETERS + r_corchete*/
                 if (raiz.ChildNodes.Count == 3) {
-                    return new Data_Base_CHISON(getLexema(raiz, 0), getLexema(raiz, 2), getFila(raiz, 0), getColumna(raiz, 0));
+                    return new Data_Base_CHISON(getLexema(raiz, 0).Replace("\"", ""), getLexema(raiz, 2), getFila(raiz, 0), getColumna(raiz, 0));
                 }
                 else {
-                    return new Data_Base_CHISON(getLexema(raiz, 0), recorrido(raiz.ChildNodes[3]), getFila(raiz, 0), getColumna(raiz, 0));
+                    return new Data_Base_CHISON(getLexema(raiz, 0).Replace("\"", ""), recorrido(raiz.ChildNodes[3]), getFila(raiz, 0), getColumna(raiz, 0));
                 }
             }
             else if (CompararNombre(raiz, "LISTA_PARAMETERS")) {
@@ -169,7 +169,7 @@ namespace Server.Analizador.Chison
                 | res_type + igual + cadena
                 | res_as + igual + res_in
                 | res_as + igual + res_out;*/
-                return new Parametro(getLexema(raiz, 0), getLexema(raiz, 2));
+                return new Parametro(getLexema(raiz, 0).Replace("\"", ""), getLexema(raiz, 2));
             }
             else if (CompararNombre(raiz, "LISTA_ATTRS")) {
                 if (raiz.ChildNodes.Count != 0 && CompararNombre(raiz.ChildNodes[0], "IMPORT"))
@@ -246,10 +246,10 @@ namespace Server.Analizador.Chison
                 | res_pk + igual + PRIMITIVO*/
                 if (CompararNombre(raiz.ChildNodes[0], "pk"))
                 {
-                    return new Columna(getLexema(raiz, 0), getLexema(raiz, 2).Equals("TRUE", StringComparison.InvariantCulture) ? true : false);
+                    return new Columna(getLexema(raiz, 0).Replace("\"", ""), getLexema(raiz, 2).Equals("TRUE", StringComparison.InvariantCulture) ? true : false);
                 }
                 else {
-                    return new Columna(getLexema(raiz, 0), getLexema(raiz, 0));
+                    return new Columna(getLexema(raiz, 0).Replace("\"", ""), getLexema(raiz, 0));
                 }
             }
             else if (CompararNombre(raiz, "LISTA_DATA_COLUMNAS1")) {
@@ -288,7 +288,7 @@ namespace Server.Analizador.Chison
             }
             else if (CompararNombre(raiz, "DATA_COLUMNAS")) {
                 //cadena + igual + VALOR
-                return new KeyValuePair<String, Object>(getLexema(raiz, 0), recorrido(raiz.ChildNodes[2]));
+                return new KeyValuePair<String, Object>(getLexema(raiz, 0).Replace("\"", ""), recorrido(raiz.ChildNodes[2]));
             }
             else if (CompararNombre(raiz, "LISTA")) {
                 return recorrido(raiz.ChildNodes[1]);
@@ -400,10 +400,10 @@ namespace Server.Analizador.Chison
                 | res_permissions + igual + l_corchete + LISTA_PERMISOS + r_corchete;*/
                 if (raiz.ChildNodes.Count > 4)
                 {
-                    return new User(getLexema(raiz, 0), recorrido(raiz.ChildNodes[3]), getFila(raiz,0), getColumna(raiz, 0));
+                    return new User(getLexema(raiz, 0).Replace("\"",""), recorrido(raiz.ChildNodes[3]), getFila(raiz,0), getColumna(raiz, 0));
                 }
                 else {
-                    return new User(getLexema(raiz, 0), getLexema(raiz, 2), getFila(raiz, 0), getColumna(raiz, 0));
+                    return new User(getLexema(raiz, 0).Replace("\"", ""), getLexema(raiz, 2), getFila(raiz, 0), getColumna(raiz, 0));
                 }
             }
             else if (CompararNombre(raiz, "LISTA_PERMISOS")) {

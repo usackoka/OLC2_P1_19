@@ -35,7 +35,8 @@ namespace Server.Analizador.LUP
             else if (CompararNombre(raiz, "LOGIN"))
             {
                 //res_loginOpen + res_userOpen + id + res_userClose + res_pass + res_loginClose;
-                return this.dbms.login(getLexema(raiz, 2), getLexema(raiz, 4).Replace("[+PASS]", "").Replace("[-PASS]", ""));
+                return this.dbms.login(getLexema(raiz, 2), getLexema(raiz, 4).Replace("[+PASS]", "").Replace("[-PASS]", "")
+                    .Replace("[+pass]", "").Replace("[-pass]", ""));
             }
             else if (CompararNombre(raiz,"LOGOUT")) {
                 //res_logoutOpen + res_userOpen + id + res_userClose + res_logoutClose;
@@ -44,7 +45,9 @@ namespace Server.Analizador.LUP
             else if (CompararNombre(raiz, "QUERY")) {
                 //res_queryOpen + res_userOpen + id + res_userClose + res_data + res_queryClose
 
-                String cadena = getLexema(raiz, 4).Replace("[+DATA]", "").Replace("[-DATA]", "");
+                String cadena = getLexema(raiz, 4).Replace("[+DATA]", "").Replace("[-DATA]", "")
+                    .Replace("[+data]", "").Replace("[-data]", "");
+
                 Generador parserCQL = new Generador();
                 if (parserCQL.esCadenaValida(cadena, new GramaticaCQL()))
                 {
