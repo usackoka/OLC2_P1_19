@@ -719,7 +719,6 @@
     <Content Include="Formularios\Principal.aspx" />
     <Content Include="Js\FileManager.js" />
     <Content Include="Formularios\pagEditor.aspx" />
-    <Content Include="Jison\Analizador.js" />
     <Content Include="Formularios\pagBlockly.aspx" />
     <Content Include="codeMirror\bin\authors.sh" />
     <Content Include="codeMirror\bin\lint" />

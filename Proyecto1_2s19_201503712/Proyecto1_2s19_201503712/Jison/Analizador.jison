@@ -1,13 +1,22 @@
 ﻿%lex
 %options case-insensitive
 %locations
-%%
+
 \s+                   /* skip whitespace */
 
+%s res_message
+%%
+\s+                   /* skip whitespace */
+//-------------------------- Comentario multilinea ---------------------
+"[+MESSAGE]"                {this.begin("res_message");}
+<res_message>"[-MESSAGE]"  %{this.begin('INITIAL');%}
+<res_message>.                {}
+<res_message>[\t\r\n\f]      {}
 
 <<EOF>>                 return 'EOF';
 //.                       { console.error('Este es un error léxico: ' + yytext + ', en la linea: ' + yylloc.first_line + ', en la columna: ' + yylloc.first_column); }
 
+/*
 ("[+DATA]")(.|\t|\r|\n)+("[-DATA]") 					return "res_data";
 ("\[\+MESSAGE\]")(.|\s)*("\[-MESSAGE\]") 				return "res_message";
 ("[+ERROR]")						 					return "res_errorAbre";
@@ -17,6 +26,7 @@
 ("[+LINE]")(.|\t|\r|\n)+("[-LINE]")						return "res_fila";
 ("[+COLUMN]")(.|\t|\r|\n)+("[-COLUMN]")					return "res_columna";
 ("[+TYPE]")(.|\t|\r|\n)+("[-TYPE]")						return "res_tipo";
+*/
 /lex
 
 %define parse.error verbose
