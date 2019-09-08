@@ -22,7 +22,7 @@ namespace Proyecto1_2s19_201503712.Formularios
             String res = servidor.AnalizarPruebaCQL(hdCadena.Value);
             //Response.Write("<script>alert('" + res + "')</script>");
             //Response.Write("<textarea>"+res+"</textarea>");
-            txtSalida.Value = res;
+            txtSalida.Value = res1+"\n"+res;
         }
     }
 }

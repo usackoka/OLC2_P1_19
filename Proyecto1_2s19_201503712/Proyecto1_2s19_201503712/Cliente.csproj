@@ -630,6 +630,9 @@
     <Content Include="Connected Services\localhost\Proyecto1_2s19_201503712.localhost.AnalizarPruebaCQLResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
+    <Content Include="Connected Services\localhost\Proyecto1_2s19_201503712.localhost.getErroresChisonResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
     <None Include="Connected Services\localhost\Rutas.disco" />
     <None Include="Connected Services\localhost\configuration91.svcinfo" />
     <None Include="Connected Services\localhost\configuration.svcinfo" />
@@ -722,7 +725,6 @@
     <Content Include="codeMirror\bin\lint" />
     <Content Include="codeMirror\bin\release" />
     <Content Include="codeMirror\bin\source-highlight" />
-    <None Include="Connected Services\localhost\Rutas.wsdl" />
     <Content Include="Formularios\Plantilla\fonts\Flaticon.eot" />
     <Content Include="Formularios\Plantilla\fonts\Flaticon.ttf" />
     <Content Include="Formularios\Plantilla\fonts\Flaticon.woff" />
@@ -735,6 +737,7 @@
     <Content Include="Formularios\Plantilla\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="Formularios\Plantilla\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="Formularios\Plantilla\fonts\glyphicons-halflings-regular.woff2" />
+    <None Include="Connected Services\localhost\Rutas.wsdl" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

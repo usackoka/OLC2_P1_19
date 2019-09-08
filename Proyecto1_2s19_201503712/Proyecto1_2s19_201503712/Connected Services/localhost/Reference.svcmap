@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="b8fee1e6-1c53-489d-9f21-0e8de35e1118" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="f53b0aa4-41d8-4f6f-81b2-a7ffb641c187" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
   <ClientOptions>
     <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
     <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
@@ -22,8 +22,8 @@
     <MetadataSource Address="http://localhost:47252/Rutas.asmx" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="Rutas.wsdl" MetadataType="Wsdl" ID="87943507-9992-4e09-aada-6c9ebd1b0372" SourceId="1" SourceUrl="http://localhost:47252/Rutas.asmx?wsdl" />
-    <MetadataFile FileName="Rutas.disco" MetadataType="Disco" ID="ee42dfc2-0585-4749-a8d9-6b879f720e57" SourceId="1" SourceUrl="http://localhost:47252/Rutas.asmx?disco" />
+    <MetadataFile FileName="Rutas.wsdl" MetadataType="Wsdl" ID="6ce2d574-b7d0-4110-a140-3324890ad588" SourceId="1" SourceUrl="http://localhost:47252/Rutas.asmx?wsdl" />
+    <MetadataFile FileName="Rutas.disco" MetadataType="Disco" ID="2449a079-7c66-4186-9d2a-2b6348d72df6" SourceId="1" SourceUrl="http://localhost:47252/Rutas.asmx?disco" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

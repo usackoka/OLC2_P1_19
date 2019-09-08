@@ -15,12 +15,80 @@ namespace Proyecto1_2s19_201503712.localhost {
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="localhost.RutasSoap")]
     public interface RutasSoap {
         
+        // CODEGEN: Se está generando un contrato de mensaje, ya que el nombre de elemento getErroresChisonResult del espacio de nombres http://tempuri.org/ no está marcado para aceptar valores nil.
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/getErroresChison", ReplyAction="*")]
+        Proyecto1_2s19_201503712.localhost.getErroresChisonResponse getErroresChison(Proyecto1_2s19_201503712.localhost.getErroresChisonRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/getErroresChison", ReplyAction="*")]
+        System.Threading.Tasks.Task<Proyecto1_2s19_201503712.localhost.getErroresChisonResponse> getErroresChisonAsync(Proyecto1_2s19_201503712.localhost.getErroresChisonRequest request);
+        
         // CODEGEN: Se está generando un contrato de mensaje, ya que el nombre de elemento cadena del espacio de nombres http://tempuri.org/ no está marcado para aceptar valores nil.
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/AnalizarPruebaCQL", ReplyAction="*")]
         Proyecto1_2s19_201503712.localhost.AnalizarPruebaCQLResponse AnalizarPruebaCQL(Proyecto1_2s19_201503712.localhost.AnalizarPruebaCQLRequest request);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/AnalizarPruebaCQL", ReplyAction="*")]
         System.Threading.Tasks.Task<Proyecto1_2s19_201503712.localhost.AnalizarPruebaCQLResponse> AnalizarPruebaCQLAsync(Proyecto1_2s19_201503712.localhost.AnalizarPruebaCQLRequest request);
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class getErroresChisonRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="getErroresChison", Namespace="http://tempuri.org/", Order=0)]
+        public Proyecto1_2s19_201503712.localhost.getErroresChisonRequestBody Body;
+        
+        public getErroresChisonRequest() {
+        }
+        
+        public getErroresChisonRequest(Proyecto1_2s19_201503712.localhost.getErroresChisonRequestBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute()]
+    public partial class getErroresChisonRequestBody {
+        
+        public getErroresChisonRequestBody() {
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class getErroresChisonResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="getErroresChisonResponse", Namespace="http://tempuri.org/", Order=0)]
+        public Proyecto1_2s19_201503712.localhost.getErroresChisonResponseBody Body;
+        
+        public getErroresChisonResponse() {
+        }
+        
+        public getErroresChisonResponse(Proyecto1_2s19_201503712.localhost.getErroresChisonResponseBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://tempuri.org/")]
+    public partial class getErroresChisonResponseBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public string getErroresChisonResult;
+        
+        public getErroresChisonResponseBody() {
+        }
+        
+        public getErroresChisonResponseBody(string getErroresChisonResult) {
+            this.getErroresChisonResult = getErroresChisonResult;
+        }
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -116,6 +184,29 @@ namespace Proyecto1_2s19_201503712.localhost {
         
         public RutasSoapClient(System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
                 base(binding, remoteAddress) {
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        Proyecto1_2s19_201503712.localhost.getErroresChisonResponse Proyecto1_2s19_201503712.localhost.RutasSoap.getErroresChison(Proyecto1_2s19_201503712.localhost.getErroresChisonRequest request) {
+            return base.Channel.getErroresChison(request);
+        }
+        
+        public string getErroresChison() {
+            Proyecto1_2s19_201503712.localhost.getErroresChisonRequest inValue = new Proyecto1_2s19_201503712.localhost.getErroresChisonRequest();
+            inValue.Body = new Proyecto1_2s19_201503712.localhost.getErroresChisonRequestBody();
+            Proyecto1_2s19_201503712.localhost.getErroresChisonResponse retVal = ((Proyecto1_2s19_201503712.localhost.RutasSoap)(this)).getErroresChison(inValue);
+            return retVal.Body.getErroresChisonResult;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<Proyecto1_2s19_201503712.localhost.getErroresChisonResponse> Proyecto1_2s19_201503712.localhost.RutasSoap.getErroresChisonAsync(Proyecto1_2s19_201503712.localhost.getErroresChisonRequest request) {
+            return base.Channel.getErroresChisonAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<Proyecto1_2s19_201503712.localhost.getErroresChisonResponse> getErroresChisonAsync() {
+            Proyecto1_2s19_201503712.localhost.getErroresChisonRequest inValue = new Proyecto1_2s19_201503712.localhost.getErroresChisonRequest();
+            inValue.Body = new Proyecto1_2s19_201503712.localhost.getErroresChisonRequestBody();
+            return ((Proyecto1_2s19_201503712.localhost.RutasSoap)(this)).getErroresChisonAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]

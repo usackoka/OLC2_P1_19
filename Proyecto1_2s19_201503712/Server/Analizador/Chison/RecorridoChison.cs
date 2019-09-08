@@ -38,15 +38,8 @@ namespace Server.Analizador.Chison
             if (CompararNombre(raiz, "S"))
             {
                 // dolar + menor_que + DATABASES + coma + USERS + mayor_que + dolar
-                try
-                {
                     nodosChison.AddRange((List<object>)recorrido(raiz.ChildNodes[2]));
                     nodosChison.AddRange((List<object>)recorrido(raiz.ChildNodes[4]));
-                }
-                catch (Exception)
-                {
-                    Console.Write("");
-                }
                 return null;
             }
             else if (CompararNombre(raiz, "INICIO_IMPORT")) {
@@ -405,7 +398,7 @@ namespace Server.Analizador.Chison
                 /*res_name + igual + cadena
                 | res_password + igual + cadena
                 | res_permissions + igual + l_corchete + LISTA_PERMISOS + r_corchete;*/
-                if (raiz.ChildNodes.Count > 0)
+                if (raiz.ChildNodes.Count > 4)
                 {
                     return new User(getLexema(raiz, 0), recorrido(raiz.ChildNodes[3]), getFila(raiz,0), getColumna(raiz, 0));
                 }

@@ -30,7 +30,7 @@ namespace Server
         }
 
         [WebMethod]
-        public String getErroresChison() {
+        public string getErroresChison() {
             String respuesta = "";
             foreach (clsToken error in dbms.errores)
             {
@@ -52,6 +52,7 @@ namespace Server
                 respuesta += "\n[-DESC]\n";
                 respuesta += "\n[-ERROR]\n";
             }
+            dbms.errores = new List<clsToken>();
             return respuesta;
         }
 
