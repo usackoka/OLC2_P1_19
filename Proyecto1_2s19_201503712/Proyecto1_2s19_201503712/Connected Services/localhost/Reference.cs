@@ -15,80 +15,12 @@ namespace Proyecto1_2s19_201503712.localhost {
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="localhost.RutasSoap")]
     public interface RutasSoap {
         
-        // CODEGEN: Se está generando un contrato de mensaje, ya que el nombre de elemento HelloWorldResult del espacio de nombres http://tempuri.org/ no está marcado para aceptar valores nil.
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/HelloWorld", ReplyAction="*")]
-        Proyecto1_2s19_201503712.localhost.HelloWorldResponse HelloWorld(Proyecto1_2s19_201503712.localhost.HelloWorldRequest request);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/HelloWorld", ReplyAction="*")]
-        System.Threading.Tasks.Task<Proyecto1_2s19_201503712.localhost.HelloWorldResponse> HelloWorldAsync(Proyecto1_2s19_201503712.localhost.HelloWorldRequest request);
-        
         // CODEGEN: Se está generando un contrato de mensaje, ya que el nombre de elemento cadena del espacio de nombres http://tempuri.org/ no está marcado para aceptar valores nil.
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/AnalizarPruebaCQL", ReplyAction="*")]
         Proyecto1_2s19_201503712.localhost.AnalizarPruebaCQLResponse AnalizarPruebaCQL(Proyecto1_2s19_201503712.localhost.AnalizarPruebaCQLRequest request);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/AnalizarPruebaCQL", ReplyAction="*")]
         System.Threading.Tasks.Task<Proyecto1_2s19_201503712.localhost.AnalizarPruebaCQLResponse> AnalizarPruebaCQLAsync(Proyecto1_2s19_201503712.localhost.AnalizarPruebaCQLRequest request);
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class HelloWorldRequest {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Name="HelloWorld", Namespace="http://tempuri.org/", Order=0)]
-        public Proyecto1_2s19_201503712.localhost.HelloWorldRequestBody Body;
-        
-        public HelloWorldRequest() {
-        }
-        
-        public HelloWorldRequest(Proyecto1_2s19_201503712.localhost.HelloWorldRequestBody Body) {
-            this.Body = Body;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.Runtime.Serialization.DataContractAttribute()]
-    public partial class HelloWorldRequestBody {
-        
-        public HelloWorldRequestBody() {
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class HelloWorldResponse {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Name="HelloWorldResponse", Namespace="http://tempuri.org/", Order=0)]
-        public Proyecto1_2s19_201503712.localhost.HelloWorldResponseBody Body;
-        
-        public HelloWorldResponse() {
-        }
-        
-        public HelloWorldResponse(Proyecto1_2s19_201503712.localhost.HelloWorldResponseBody Body) {
-            this.Body = Body;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://tempuri.org/")]
-    public partial class HelloWorldResponseBody {
-        
-        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
-        public string HelloWorldResult;
-        
-        public HelloWorldResponseBody() {
-        }
-        
-        public HelloWorldResponseBody(string HelloWorldResult) {
-            this.HelloWorldResult = HelloWorldResult;
-        }
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -184,29 +116,6 @@ namespace Proyecto1_2s19_201503712.localhost {
         
         public RutasSoapClient(System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
                 base(binding, remoteAddress) {
-        }
-        
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        Proyecto1_2s19_201503712.localhost.HelloWorldResponse Proyecto1_2s19_201503712.localhost.RutasSoap.HelloWorld(Proyecto1_2s19_201503712.localhost.HelloWorldRequest request) {
-            return base.Channel.HelloWorld(request);
-        }
-        
-        public string HelloWorld() {
-            Proyecto1_2s19_201503712.localhost.HelloWorldRequest inValue = new Proyecto1_2s19_201503712.localhost.HelloWorldRequest();
-            inValue.Body = new Proyecto1_2s19_201503712.localhost.HelloWorldRequestBody();
-            Proyecto1_2s19_201503712.localhost.HelloWorldResponse retVal = ((Proyecto1_2s19_201503712.localhost.RutasSoap)(this)).HelloWorld(inValue);
-            return retVal.Body.HelloWorldResult;
-        }
-        
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<Proyecto1_2s19_201503712.localhost.HelloWorldResponse> Proyecto1_2s19_201503712.localhost.RutasSoap.HelloWorldAsync(Proyecto1_2s19_201503712.localhost.HelloWorldRequest request) {
-            return base.Channel.HelloWorldAsync(request);
-        }
-        
-        public System.Threading.Tasks.Task<Proyecto1_2s19_201503712.localhost.HelloWorldResponse> HelloWorldAsync() {
-            Proyecto1_2s19_201503712.localhost.HelloWorldRequest inValue = new Proyecto1_2s19_201503712.localhost.HelloWorldRequest();
-            inValue.Body = new Proyecto1_2s19_201503712.localhost.HelloWorldRequestBody();
-            return ((Proyecto1_2s19_201503712.localhost.RutasSoap)(this)).HelloWorldAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]

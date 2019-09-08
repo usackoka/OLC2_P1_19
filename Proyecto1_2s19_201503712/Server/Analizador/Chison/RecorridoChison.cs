@@ -19,6 +19,8 @@ namespace Server.Analizador.Chison
 
         public RecorridoChison(ParseTreeNode padre, Management dbms)
         {
+            this.errores = new List<clsToken>();
+            this.nodosChison = new List<object>();
             this.dbms = dbms;
             recorrido(padre);
         }

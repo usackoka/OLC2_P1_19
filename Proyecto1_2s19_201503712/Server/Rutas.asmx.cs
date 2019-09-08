@@ -30,6 +30,32 @@ namespace Server
         }
 
         [WebMethod]
+        public String getErroresChison() {
+            String respuesta = "";
+            foreach (clsToken error in dbms.errores)
+            {
+                respuesta += "\n[+ERROR]\n";
+                respuesta += "\n[+LEXEMA]\n";
+                respuesta += error.lexema;
+                respuesta += "\n[-LEXEMA]\n";
+                respuesta += "\n[+LINE]\n";
+                respuesta += error.fila;
+                respuesta += "\n[-LINE]\n";
+                respuesta += "\n[+COLUMN]\n";
+                respuesta += error.columna;
+                respuesta += "\n[-COLUMN]\n";
+                respuesta += "\n[+TYPE]\n";
+                respuesta += error.tipo;
+                respuesta += "\n[-TYPE]\n";
+                respuesta += "\n[+DESC]\n";
+                respuesta += error.descripcion;
+                respuesta += "\n[-DESC]\n";
+                respuesta += "\n[-ERROR]\n";
+            }
+            return respuesta;
+        }
+
+        [WebMethod(EnableSession = true)]
         public string AnalizarPruebaCQL(String cadena) {
             Generador parserLUP = new Generador();
             if (parserLUP.esCadenaValida(cadena, new GramaticaLUP()))
@@ -38,11 +64,11 @@ namespace Server
                 {
                     //Graficar.ConstruirArbol(parserLUP.padre.Root, "AST_LUP", "");
                     RecorridoLUP recorrido = new RecorridoLUP();
-                    if (Session["user"] == null)
-                    {
-                        return "NINGUN USUARIO ACTIVO PARA REALIZAR EL QUERY";
+
+                    if (Session["user"]!=null) {
+                        dbms.usuarioActivo = (AST.DBMS.User)Session["user"];
                     }
-                    dbms.usuarioActivo = (AST.DBMS.User)Session["user"];
+
                     Object o = recorrido.ejecutarLUP(parserLUP.padre.Root, dbms);
                     if (o is AST.DBMS.User)
                     {

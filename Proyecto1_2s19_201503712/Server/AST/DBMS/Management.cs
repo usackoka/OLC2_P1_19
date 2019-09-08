@@ -17,7 +17,7 @@ namespace Server.AST.DBMS
         public User usuarioActivo { get; set; }
         List<User> users;
         List<DataBase> bases;
-        List<clsToken> errores;
+        public List<clsToken> errores;
 
         public Management() {
             this.bases = new List<DataBase>();
@@ -363,12 +363,12 @@ namespace Server.AST.DBMS
         ////////////////////////////////////////////////////////////////////////////////////////////////////
         ///
         /// =============== para el que viene desde chison
-        public Object createDataBase(String id, AST_CQL arbol, int fila, int columna)
+        public Object createDataBase(String id, int fila, int columna)
         {
             //pregunto si existe
             if (getDataBase(id) != null)
             {
-                arbol.addError("EXCEPTION.BDAlreadyExists - Chison", "Ya existe la base de datos: " + id, fila, columna);
+                addError("EXCEPTION.BDAlreadyExists - Chison", "Ya existe la base de datos: " + id, fila, columna);
                 return Catch.EXCEPTION.BDAlreadyExists;
             }
             DataBase db = new DataBase(id);

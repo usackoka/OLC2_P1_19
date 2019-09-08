@@ -43,6 +43,7 @@ namespace Server.Analizador.LUP
             }
             else if (CompararNombre(raiz, "QUERY")) {
                 //res_queryOpen + res_userOpen + id + res_userClose + res_data + res_queryClose
+
                 String cadena = getLexema(raiz, 4).Replace("[+DATA]", "").Replace("[-DATA]", "");
                 Generador parserCQL = new Generador();
                 if (parserCQL.esCadenaValida(cadena, new GramaticaCQL()))

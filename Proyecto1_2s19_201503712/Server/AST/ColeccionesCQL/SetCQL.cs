@@ -323,6 +323,7 @@ namespace Server.AST.ColeccionesCQL
                 }
                 catch (Exception ex)
                 {
+                    Console.Write(ex);
                     //arbol.addError("Set-"+ex.ToString(),"Error al ordenar, posiblemente los valores no son del mismo tipo",fila,columna);
                 }
                 return null;

@@ -630,9 +630,6 @@
     <Content Include="Connected Services\localhost\Proyecto1_2s19_201503712.localhost.AnalizarPruebaCQLResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
-    <Content Include="Connected Services\localhost\Proyecto1_2s19_201503712.localhost.HelloWorldResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Content>
     <None Include="Connected Services\localhost\Rutas.disco" />
     <None Include="Connected Services\localhost\configuration91.svcinfo" />
     <None Include="Connected Services\localhost\configuration.svcinfo" />

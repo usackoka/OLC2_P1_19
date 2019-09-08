@@ -25,7 +25,7 @@ namespace Server.Analizador.Chison
         public object Ejecutar(Management dbms)
         {
             //creo la base de datos
-            dbms.createDataBase(this.name, arbol, fila, columna);
+            dbms.createDataBase(this.name, fila, columna);
 
             //creo toda la data de la base de datos
             foreach (Data_Base_CHISON contenido in this.data) {

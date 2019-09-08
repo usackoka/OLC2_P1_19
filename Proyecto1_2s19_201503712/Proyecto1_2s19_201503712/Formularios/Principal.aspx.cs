@@ -18,6 +18,7 @@ namespace Proyecto1_2s19_201503712.Formularios
         {
             localhost.RutasSoapClient servidor = new localhost.RutasSoapClient();
 
+            String res1 = servidor.getErroresChison();
             String res = servidor.AnalizarPruebaCQL(hdCadena.Value);
             //Response.Write("<script>alert('" + res + "')</script>");
             //Response.Write("<textarea>"+res+"</textarea>");
