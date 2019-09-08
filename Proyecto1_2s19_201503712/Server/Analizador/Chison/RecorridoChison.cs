@@ -1,5 +1,6 @@
 ﻿using Irony.Parsing;
 using Server.AST;
+using Server.AST.DBMS;
 using Server.AST.ExpresionesCQL;
 using System;
 using System.Collections.Generic;
@@ -12,12 +13,22 @@ namespace Server.Analizador.Chison
 {
     public class RecorridoChison
     {
-        AST_CQL arbol;
+        Management dbms;
+        public List<object> nodosChison;
+        List<clsToken> errores;
 
-        public RecorridoChison(ParseTreeNode padre, AST_CQL arbol)
+        public RecorridoChison(ParseTreeNode padre, Management dbms)
         {
-            this.arbol = arbol;
+            this.dbms = dbms;
             recorrido(padre);
+        }
+
+        public void ejecutarChison() {
+            foreach (Object obj in nodosChison) {
+                if (obj is UserCHISON) {
+                    ((UserCHISON)obj).Ejecutar(this.dbms);
+                }
+            }
         }
 
         Object recorrido(ParseTreeNode raiz)
@@ -27,14 +38,14 @@ namespace Server.Analizador.Chison
                 // dolar + menor_que + DATABASES + coma + USERS + mayor_que + dolar
                 try
                 {
-                    arbol.nodosChison.AddRange((List<NodoCQL>)recorrido(raiz.ChildNodes[2]));
-                    arbol.nodosChison.AddRange((List<NodoCQL>)recorrido(raiz.ChildNodes[4]));
+                    nodosChison.AddRange((List<object>)recorrido(raiz.ChildNodes[2]));
+                    nodosChison.AddRange((List<object>)recorrido(raiz.ChildNodes[4]));
                 }
                 catch (Exception)
                 {
                     Console.Write("");
                 }
-                return arbol;
+                return null;
             }
             else if (CompararNombre(raiz, "INICIO_IMPORT")) {
                 return recorrido(raiz.ChildNodes[0]);
@@ -50,19 +61,19 @@ namespace Server.Analizador.Chison
                 {
                     //IMPORT.Rule = dolar + l_llave + id + punto + res_chison + r_llave + dolar;
                     Object o = AnalizarImport(getLexema(raiz, 2));
-                    if (!(o is List<NodoCQL>)) {
-                        arbol.addError("Analizar-Chison", "No se pudo leer bien el import: " + getLexema(raiz, 2),
+                    if (!(o is List<object>)) {
+                        addError("Analizar-Chison", "No se pudo leer bien el import: " + getLexema(raiz, 2),
                             getFila(raiz, 0), getColumna(raiz, 0));
-                        return new List<NodoCQL>();
+                        return new List<object>();
                     }
                     return o;
                 }
                 else
                 {
-                    List<NodoCQL> lista = new List<NodoCQL>();
+                    List<object> lista = new List<object>();
                     foreach (ParseTreeNode nodo in raiz.ChildNodes)
                     {
-                        lista.Add((NodoCQL)recorrido(nodo));
+                        lista.Add(recorrido(nodo));
                     }
                     return lista;
                 }
@@ -81,7 +92,7 @@ namespace Server.Analizador.Chison
                     Object o = AnalizarImport(getLexema(raiz, 2));
                     if (!(o is List<Data_Base_CHISON>))
                     {
-                        arbol.addError("Analizar-Chison", "No se pudo leer bien el import: " + getLexema(raiz, 2),
+                        addError("Analizar-Chison", "No se pudo leer bien el import: " + getLexema(raiz, 2),
                             getFila(raiz, 0), getColumna(raiz, 0));
                         return new List<Data_Base_CHISON>();
                     }
@@ -131,7 +142,7 @@ namespace Server.Analizador.Chison
                     Object o = AnalizarImport(getLexema(raiz, 2));
                     if (!(o is List<Parametro>))
                     {
-                        arbol.addError("Analizar-Chison", "No se pudo leer bien el import: " + getLexema(raiz, 2),
+                        addError("Analizar-Chison", "No se pudo leer bien el import: " + getLexema(raiz, 2),
                             getFila(raiz, 0), getColumna(raiz, 0));
                         return new List<Parametro>();
                     }
@@ -172,7 +183,7 @@ namespace Server.Analizador.Chison
                     Object o = AnalizarImport(getLexema(raiz, 2));
                     if (!(o is List<List<KeyValuePair<Object, Object>>>))
                     {
-                        arbol.addError("Analizar-Chison", "No se pudo leer bien el import: " + getLexema(raiz, 2),
+                        addError("Analizar-Chison", "No se pudo leer bien el import: " + getLexema(raiz, 2),
                             getFila(raiz, 0), getColumna(raiz, 0));
                         return new List<List<KeyValuePair<Object, Object>>>();
                     }
@@ -206,7 +217,7 @@ namespace Server.Analizador.Chison
                     Object o = AnalizarImport(getLexema(raiz, 2));
                     if (!(o is List<Columna>))
                     {
-                        arbol.addError("Analizar-Chison", "No se pudo leer bien el import: " + getLexema(raiz, 2),
+                        addError("Analizar-Chison", "No se pudo leer bien el import: " + getLexema(raiz, 2),
                             getFila(raiz, 0), getColumna(raiz, 0));
                         return new List<Columna>();
                     }
@@ -253,7 +264,7 @@ namespace Server.Analizador.Chison
                     Object o = AnalizarImport(getLexema(raiz, 2));
                     if (!(o is List<List<KeyValuePair<String, Object>>>))
                     {
-                        arbol.addError("Analizar-Chison", "No se pudo leer bien el import: " + getLexema(raiz, 2),
+                        addError("Analizar-Chison", "No se pudo leer bien el import: " + getLexema(raiz, 2),
                             getFila(raiz, 0), getColumna(raiz, 0));
                         return new List<List<KeyValuePair<String, Object>>>();
                     }
@@ -301,7 +312,7 @@ namespace Server.Analizador.Chison
                     Object o = AnalizarImport(getLexema(raiz, 2));
                     if (!(o is List<KeyValuePair<Object, Object>>))
                     {
-                        arbol.addError("Analizar-Chison", "No se pudo leer bien el import: " + getLexema(raiz, 2),
+                        addError("Analizar-Chison", "No se pudo leer bien el import: " + getLexema(raiz, 2),
                             getFila(raiz, 0), getColumna(raiz, 0));
                         return new List<KeyValuePair<Object, Object>>();
                     }
@@ -361,7 +372,7 @@ namespace Server.Analizador.Chison
                     Object o = AnalizarImport(getLexema(raiz, 2));
                     if (!(o is List<User>))
                     {
-                        arbol.addError("Analizar-Chison", "No se pudo leer bien el import: " + getLexema(raiz, 2),
+                        addError("Analizar-Chison", "No se pudo leer bien el import: " + getLexema(raiz, 2),
                             getFila(raiz, 0), getColumna(raiz, 0));
                         return new List<User>();
                     }
@@ -407,7 +418,7 @@ namespace Server.Analizador.Chison
                     Object o = AnalizarImport(getLexema(raiz, 2));
                     if (!(o is List<String>))
                     {
-                        arbol.addError("Analizar-Chison", "No se pudo leer bien el import: " + getLexema(raiz, 2),
+                        addError("Analizar-Chison", "No se pudo leer bien el import: " + getLexema(raiz, 2),
                             getFila(raiz, 0), getColumna(raiz, 0));
                         return new List<String>();
                     }
@@ -459,12 +470,17 @@ namespace Server.Analizador.Chison
             return Regex.IsMatch(search, Regex.Escape(match), RegexOptions.IgnoreCase);
         }
 
+        public void addError(String lexema, String descripcion, int fila, int columna)
+        {
+            this.errores.Add(new clsToken(lexema, descripcion, fila, columna, "Semántico", ""));
+        }
+
         Object AnalizarImport(String nombre) {
             String ruta = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Chisons\"+nombre+".chison");
 
             if (!File.Exists(ruta))
             {
-                arbol.addError("Analizar Chison - "+nombre, "No existe el chison "+nombre+".chison en: " + ruta, 0, 0);
+                addError("Analizar Chison - "+nombre, "No existe el chison "+nombre+".chison en: " + ruta, 0, 0);
                 return null;
             }
 
@@ -478,14 +494,14 @@ namespace Server.Analizador.Chison
                 if (parserChison.padre.Root != null)
                 {
                     //Graficar.ConstruirArbol(parserChison.padre.Root, "AST_CHISON", "");
-                    RecorridoChison recorrido = new RecorridoChison(parserChison.padre.Root, arbol);
+                    RecorridoChison recorrido = new RecorridoChison(parserChison.padre.Root,this.dbms);
                 }
             }
             else
             {
                 foreach (clsToken error in parserChison.ListaErrores)
                 {//errores
-                    arbol.errores.Add(new clsToken(error.lexema + " - Analizador Chison - "+nombre+".chison", error.descripcion, error.fila, error.columna, error.tipo, error.ambito));
+                    errores.Add(new clsToken(error.lexema + " - Analizador Chison - "+nombre+".chison", error.descripcion, error.fila, error.columna, error.tipo, error.ambito));
                 }
             }
 

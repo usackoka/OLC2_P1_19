@@ -14,42 +14,54 @@ namespace Server.AST.DBMS
     public class Management
     {
         DataBase system;
-        User usuarioActivo;
+        public User usuarioActivo { get; set; }
         List<User> users;
         List<DataBase> bases;
+        List<clsToken> errores;
 
-        public Management(AST_CQL arbol) {
+        public Management() {
             this.bases = new List<DataBase>();
             this.users = new List<User>();
-            this.usuarioActivo = null;
-
-            //Usuario por defecto
-            User user = new User("admin", "admin");
-            this.users.Add(user);
-
-            //base de datos (defecto)
-            system = new DataBase("virtual");
-            this.bases.Add(system);
-
-            //para mientras que no hay login
-            usuarioActivo = user;
-            usuarioActivo.basesGrant.Add(system.id);
-
-            //analizar chison principal
-            analizarChison("",arbol);
+            this.errores = new List<clsToken>();
         }
 
+        ////////////////////////////////////////////////////////////////////////////////////////////////////
+        //////////////////////////////////////// OTROS
+        ////////////////////////////////////////////////////////////////////////////////////////////////////
+        public void addError(String lexema, String descripcion, int fila, int columna)
+        {
+            this.errores.Add(new clsToken(lexema, descripcion, fila, columna, "Semántico", ""));
+        }
+
+        public Object login(String id, String pass) {
+            User user = getUser(id);
+            if (user != null)
+            {
+                if (user.contraseña.Equals(pass))
+                {
+                    return user;
+                }
+                else
+                {
+                    return "[+LOGIN]\n  [FAIL]\n[-LOGIN]";
+                }
+            }
+            else
+            {
+                return "[+LOGIN]\n  [FAIL]\n[-LOGIN]";
+            }
+        }
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////
         //////////////////////////////////////// CHISON
         ////////////////////////////////////////////////////////////////////////////////////////////////////
-        void analizarChison(String ruta, AST_CQL arbol) {
+        public void analizarChison(String ruta) {
             //============ creo el archivo chison principal
             if(ruta=="")
                 ruta = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Chisons\principal.chison");
 
             if (!File.Exists(ruta)) {
-                arbol.addError("Analizar Chison","No existe el chison principal.chison en: "+ruta,0,0);
+                addError("Analizar Chison","No existe el chison principal.chison en: "+ruta,0,0);
                 return;
             }
 
@@ -64,14 +76,15 @@ namespace Server.AST.DBMS
                 if (parserChison.padre.Root != null)
                 {
                     //Graficar.ConstruirArbol(parserChison.padre.Root, "AST_CHISON", "");
-                    RecorridoChison recorrido = new RecorridoChison(parserChison.padre.Root, arbol);
+                    RecorridoChison recorrido = new RecorridoChison(parserChison.padre.Root, this);
+                    recorrido.ejecutarChison();
                 }
             }
             else
             {
                 foreach (clsToken error in parserChison.ListaErrores)
                 {//errores
-                    arbol.errores.Add(new clsToken(error.lexema+" - Analizador Chison",error.descripcion, error.fila, error.columna, error.tipo,error.ambito));
+                    errores.Add(new clsToken(error.lexema+" - Analizador Chison",error.descripcion, error.fila, error.columna, error.tipo,error.ambito));
                 }
             }
         }
@@ -276,6 +289,19 @@ namespace Server.AST.DBMS
             return null;
         }
 
+        //para el que se crea desde chison
+        public Object createUser(String id, String contraseña, int fila, int columna)
+        {
+            if (getUser(id) != null)
+            {
+                addError("EXCEPTION.UserAlreadyExists", "El user: " + id + " Ya existe ", fila, columna);
+                return Catch.EXCEPTION.UserAlreadyExists;
+            }
+
+            this.users.Add(new User(id, contraseña));
+            return null;
+        }
+
         public Object revokeUser(String idUser, String idBd, AST_CQL arbol, int fila, int columna) {
             if (!usuarioActivo.basesGrant.Contains(idBd))
             {
@@ -367,6 +393,13 @@ namespace Server.AST.DBMS
             }
             DataBase db = new DataBase(createDataBase.id);
             this.usuarioActivo.basesGrant.Add(db.id);
+
+            //=================== hago el grant para el admin
+            User admin = getUser("admin");
+            if (admin!=null && !admin.basesGrant.Contains(db.id)) {
+                admin.basesGrant.Add(db.id);
+            }
+
             bases.Add(db);
             return null;
         }

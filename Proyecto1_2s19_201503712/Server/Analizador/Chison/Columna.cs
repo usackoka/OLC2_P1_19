@@ -1,4 +1,5 @@
 ﻿using Server.AST;
+using Server.AST.DBMS;
 using Server.AST.ExpresionesCQL;
 using System;
 using System.Collections;
@@ -26,7 +27,7 @@ namespace Server.Analizador.Chison
             }
         }
 
-        public String getName(AST_CQL arbol, int fila, int columna)
+        public String getName(Management dbms, int fila, int columna)
         {
             if (this.valores.ContainsKey("name"))
             {
@@ -34,26 +35,26 @@ namespace Server.Analizador.Chison
             }
             else
             {
-                arbol.addError("LoadColumn-Chison", "La columna no contiene el atributo NAME", fila, columna);
+                dbms.addError("LoadColumn-Chison", "La columna no contiene el atributo NAME", fila, columna);
                 return "NULL";
             }
         }
 
-        public Object getType(AST_CQL arbol, int fila, int columna)
+        public Object getType(Management dbms, int fila, int columna)
         {
             if (this.valores.ContainsKey("type"))
             {
                 String id = this.valores["type"].ToString();
-                return Primitivo.getTipoString(id,arbol);
+                return Primitivo.getTipoString(id,dbms);
             }
             else
             {
-                arbol.addError("LoadColumn-Chison", "La columna no contiene el atributo TYPE", fila, columna);
+                dbms.addError("LoadColumn-Chison", "La columna no contiene el atributo TYPE", fila, columna);
                 return "NULL";
             }
         }
 
-        public Boolean getPK(AST_CQL arbol, int fila, int columna)
+        public Boolean getPK(Management dbms, int fila, int columna)
         {
             if (this.valores.ContainsKey("pk"))
             {
@@ -61,7 +62,7 @@ namespace Server.Analizador.Chison
             }
             else
             {
-                arbol.addError("LoadColumn-Chison", "La columna no contiene el atributo PK", fila, columna);
+                dbms.addError("LoadColumn-Chison", "La columna no contiene el atributo PK", fila, columna);
                 return false;
             }
         }

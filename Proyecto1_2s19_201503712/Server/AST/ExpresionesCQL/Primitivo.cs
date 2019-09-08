@@ -1,4 +1,5 @@
-﻿using Server.AST.ExpresionesCQL.Tipos;
+﻿using Server.AST.DBMS;
+using Server.AST.ExpresionesCQL.Tipos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -125,7 +126,7 @@ namespace Server.AST.ExpresionesCQL
             }
         }
 
-        public static Object getTipoString(String nombre, AST_CQL arbol) {
+        public static Object getTipoString(String nombre, Management dbms) {
             if (CompararNombre(nombre, "INT"))
             {
                 return TIPO_DATO.INT;
@@ -161,7 +162,7 @@ namespace Server.AST.ExpresionesCQL
                 return TIPO_DATO.DATE;
             }
             else {
-                arbol.addError("Primitivo-getTipoString-Chison", "No se procesó el tipo: " + nombre, 0, 0);
+                dbms.addError("Primitivo-getTipoString-Chison", "No se procesó el tipo: " + nombre, 0, 0);
                 return "not Supported";
             }
         }

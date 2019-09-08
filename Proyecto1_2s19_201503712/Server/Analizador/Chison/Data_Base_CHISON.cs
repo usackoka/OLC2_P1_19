@@ -1,5 +1,6 @@
 ﻿using Server.AST;
 using Server.AST.CQL;
+using Server.AST.DBMS;
 using Server.AST.SentenciasCQL;
 using System;
 using System.Collections;
@@ -34,19 +35,19 @@ namespace Server.Analizador.Chison
             }
         }
 
-        public String getCqlType(AST_CQL arbol) {
+        public String getCqlType(Management dbms) {
             if (this.valores.ContainsKey("cql-type"))
             {
                 return this.valores["cql-type"].ToString();
             }
             else
             {
-                arbol.addError("LoadData-Chison", "La Data no contiene el atributo CQL-TYPE", fila, columna);
+                dbms.addError("LoadData-Chison", "La Data no contiene el atributo CQL-TYPE", fila, columna);
                 return "NULL";
             }
         }
 
-        public String getName(AST_CQL arbol)
+        public String getName(Management dbms)
         {
             if (this.valores.ContainsKey("name"))
             {
@@ -54,12 +55,12 @@ namespace Server.Analizador.Chison
             }
             else
             {
-                arbol.addError("LoadData-Chison", "La Data no contiene el atributo NAME", fila, columna);
+                dbms.addError("LoadData-Chison", "La Data no contiene el atributo NAME", fila, columna);
                 return "NULL";
             }
         }
 
-        public List<KeyValuePair<String, Object>> getData(AST_CQL arbol) {
+        public List<KeyValuePair<String, Object>> getData(Management dbms) {
             List<KeyValuePair<String, Object>> lista = new List<KeyValuePair<String, Object>>();
 
             if (this.valores.ContainsKey("data"))
@@ -69,28 +70,28 @@ namespace Server.Analizador.Chison
             }
             else
             {
-                arbol.addError("LoadData-Chison", "La Data no contiene el atributo DATA", fila, columna);
+                dbms.addError("LoadData-Chison", "La Data no contiene el atributo DATA", fila, columna);
             }
 
             return lista;
         }
 
-        public List<ColumnCQL> getColumnsDefinitions(AST_CQL arbol) {
+        public List<ColumnCQL> getColumnsDefinitions(Management dbms) {
             if (this.valores.ContainsKey("columns"))
             {
                 List<ColumnCQL> retornos = new List<ColumnCQL>();
                 List<Columna> columns = (List<Columna>)this.valores["columns"];
                 foreach (Columna c in columns) {
-                    retornos.Add(new ColumnCQL(c.getName(arbol,fila,columna),
-                        c.getType(arbol,fila,columna),
-                        c.getPK(arbol,fila,columna),
+                    retornos.Add(new ColumnCQL(c.getName(dbms,fila,columna),
+                        c.getType(dbms,fila,columna),
+                        c.getPK(dbms,fila,columna),
                         fila,columna));
                 }
                 return retornos;
             }
             else
             {
-                arbol.addError("LoadData-Chison", "La Data no contiene el atributo COLUMNS", fila, columna);
+                dbms.addError("LoadData-Chison", "La Data no contiene el atributo COLUMNS", fila, columna);
                 return new List<ColumnCQL>();
             }
         }

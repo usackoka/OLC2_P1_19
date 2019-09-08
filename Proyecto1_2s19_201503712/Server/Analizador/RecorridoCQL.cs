@@ -2,6 +2,7 @@
 using Server.AST;
 using Server.AST.ColeccionesCQL;
 using Server.AST.CQL;
+using Server.AST.DBMS;
 using Server.AST.ExpresionesCQL;
 using Server.AST.ExpresionesCQL.Tipos;
 using Server.AST.SentenciasCQL;
@@ -15,9 +16,10 @@ namespace Server.Analizador
     {
         public AST_CQL ast { get; set; }
 
-        public RecorridoCQL(ParseTreeNode padre)
+        public RecorridoCQL(ParseTreeNode padre, Management dbms)
         {
             ast = new AST_CQL();
+            ast.dbms = dbms;
             ast.nodos = (List<NodoCQL>)recorrido(padre);
         }
 

@@ -35,10 +35,6 @@ Luis
 [-LOGOUT]
 
 [+LOGIN]  
-[+USER]
-   Luis  
-[-USER]  
-[+PASS]
-   1234  
-[-PASS] 
-[-LOGIN] 
+[+USER]admin[-USER]  
+[+PASS]admin[-PASS] 
+[-LOGIN]

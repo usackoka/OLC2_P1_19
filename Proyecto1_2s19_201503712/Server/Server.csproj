@@ -90,6 +90,7 @@
     <Compile Include="Analizador\Generador.cs" />
     <Compile Include="Analizador\GramaticaCQL.cs" />
     <Compile Include="Analizador\LUP\GramaticaLUP.cs" />
+    <Compile Include="Analizador\LUP\RecorridoLUP.cs" />
     <Compile Include="Analizador\RecorridoCQL.cs" />
     <Compile Include="AST\AST_CQL.cs" />
     <Compile Include="AST\ColeccionesCQL\ListCQL.cs" />

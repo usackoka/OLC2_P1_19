@@ -31,7 +31,7 @@ namespace Server.AST
             this.entorno = new Entorno(null);
             this.finalizado = false;
             this.nodosChison = new List<NodoCQL>();
-            this.dbms = new Management(this);
+            this.dbms = new Management();
         }
 
         public void Ejecutar() {

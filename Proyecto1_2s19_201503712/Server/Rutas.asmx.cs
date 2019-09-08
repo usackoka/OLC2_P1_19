@@ -8,6 +8,7 @@ using System.Web.Services;
 using System.Web.Script.Serialization;
 using System.Threading;
 using Server.Analizador.LUP;
+using Server.AST.DBMS;
 
 namespace Server
 {
@@ -21,33 +22,50 @@ namespace Server
     // [System.Web.Script.Services.ScriptService]
     public class Rutas : System.Web.Services.WebService
     {
-        
+        static Management dbms;
 
-        [WebMethod]
-        public string HelloWorld()
-        {
-            return "Hola Mundo";
-        }
-
-        [WebMethod]
-        public string login(String cadena) {
-            return "";
+        public Rutas() {
+            dbms = new Management();
+            dbms.analizarChison("");
         }
 
         [WebMethod]
         public string AnalizarPruebaCQL(String cadena) {
-
             Generador parserLUP = new Generador();
             if (parserLUP.esCadenaValida(cadena, new GramaticaLUP()))
             {
                 if (parserLUP.padre.Root != null)
                 {
-                    Graficar.ConstruirArbol(parserLUP.padre.Root, "AST_LUP", "");
-                    //RecorridoCQL recorrido = new RecorridoCQL(parserLUP.padre.Root);
-                    //return recorrido.ast.getLUP();
-                    return "TRUE";
+                    //Graficar.ConstruirArbol(parserLUP.padre.Root, "AST_LUP", "");
+                    RecorridoLUP recorrido = new RecorridoLUP();
+                    if (Session["user"] == null)
+                    {
+                        return "NINGUN USUARIO ACTIVO PARA REALIZAR EL QUERY";
+                    }
+                    dbms.usuarioActivo = (AST.DBMS.User)Session["user"];
+                    Object o = recorrido.ejecutarLUP(parserLUP.padre.Root, dbms);
+                    if (o is AST.DBMS.User)
+                    {
+                        Session["user"] = o;
+                        return "[+LOGIN]\n  [SUCCESS]\n[-LOGIN]";
+                    }
+                    else if (o is RecorridoLUP.TIPO_REQUEST && ((RecorridoLUP.TIPO_REQUEST)o).Equals(RecorridoLUP.TIPO_REQUEST.LOGOUT)) {
+
+                        Session["user"] = null;
+                        return "[+LOGOUT]\n  [SUCCESS]\n[-LOGOUT]";
+                    }
+                    else
+                    {
+                        return o.ToString();
+                    }
                 }
-                return "FALSE";
+                else {
+                    return "[+ERROR]\n" +
+                        "[+DESC]\n" +
+                        "Padre LUP Null\n" +
+                        "[-DESC]\n" +
+                        "[-ERROR]\n";
+                }
             }
             else {
                 String respuesta = "";
@@ -73,56 +91,7 @@ namespace Server
                 }
                 return respuesta;
             }
-
-            Generador parserCQL = new Generador();
-            if (parserCQL.esCadenaValida(cadena, new GramaticaCQL()))
-            {
-                if (parserCQL.padre.Root != null)
-                {
-                    //Graficar.ConstruirArbol(parserCQL.padre.Root, "AST_CQL", "");
-                    RecorridoCQL recorrido = new RecorridoCQL(parserCQL.padre.Root);
-
-                    ThreadStart threadDelegate = new ThreadStart(recorrido.ast.Ejecutar);
-
-                    Thread T = new Thread(threadDelegate, 1000000000);
-                    T.Start();
-
-                    while (!recorrido.ast.finalizado) {
-                        Console.WriteLine("Esperando..............");
-                    }
-                    return recorrido.ast.getLUP();
-                }
-                return "[+ERROR]\n" +
-                    "[+DESC]\n" +
-                    "Padre Null\n"+
-                    "[-DESC]\n" +
-                    "[-ERROR]\n";
-            }
-            else
-            {
-                String respuesta = "";
-                foreach (clsToken error in parserCQL.ListaErrores)
-                {
-                    respuesta += "\n[+ERROR]\n";
-                    respuesta += "\n[+LEXEMA]\n";
-                    respuesta += error.lexema;
-                    respuesta += "\n[-LEXEMA]\n";
-                    respuesta += "\n[+LINE]\n";
-                    respuesta += error.fila;
-                    respuesta += "\n[-LINE]\n";
-                    respuesta += "\n[+COLUMN]\n";
-                    respuesta += error.columna;
-                    respuesta += "\n[-COLUMN]\n";
-                    respuesta += "\n[+TYPE]\n";
-                    respuesta += error.tipo;
-                    respuesta += "\n[-TYPE]\n";
-                    respuesta += "\n[+DESC]\n";
-                    respuesta += error.descripcion;
-                    respuesta += "\n[-DESC]\n";
-                    respuesta += "\n[-ERROR]\n";
-                }
-                return respuesta;
-            }
+            
         }
     }
 }

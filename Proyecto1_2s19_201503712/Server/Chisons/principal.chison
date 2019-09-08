@@ -1,83 +1,9 @@
 $<
-"DATABASES"=[
-<
-"NAME"="virtual",
-"DATA"= [   <
-   "CQL-TYPE" = "TABLE",
-   "NAME" = "orders",
-   "COLUMNS" = [
-       <
-       "NAME"="ordernumber",
-       "TYPE"="INT",
-       "PK"=TRUE
-       >,
-       <
-       "NAME"="orderdate",
-       "TYPE"="DATE",
-       "PK"=FALSE
-       >,
-       <
-       "NAME"="ordertime",
-       "TYPE"="TIME",
-       "PK"=FALSE
-       >,
-       <
-       "NAME"="order_",
-       "TYPE"="tipo_order",
-       "PK"=FALSE
-       >,
-       <
-       "NAME"="customernumber",
-       "TYPE"="INT",
-       "PK"=FALSE
-       >,
-       <
-       "NAME"="sequence",
-       "TYPE"="LIST<INT>",
-       "PK"=FALSE
-       >],
-   "DATA" = [
-       <
-       "ordernumber"=1,
-       "orderdate"='2019-12-13',
-       "ordertime"='12:00:00',
-       "order_"=       <
-"number"=0,"status"=NULL       >
-,
-       "customernumber"=10,
-       "sequence"=[4,6,8,0]
-       >,
-       <
-       "ordernumber"=2,
-       "orderdate"='2019-8-20',
-       "ordertime"='23:23:23',
-       "order_"=       <
-"number"=NullPointerException,"status"=NULL       >
-,
-       "customernumber"=20,
-       "sequence"=[3,5,7,9,0]
-       >]
-   >
-,   <
-   "CQL-TYPE"="tipo_order",
-   "NAME"="tipo_order",
-   "ATTRS"=[
-       <"NAME"="number",
-"TYPE"="INT"
-        >,
-       <"NAME"="status",
-"TYPE"="STRING"
-        >]
-   >
-]
->],
+"DATABASES"=[],
 "USERS"=[
 <
 "NAME"="admin",
 "PASSWORD"="admin",
-"PERMISSIONS"= [
-   <"NAME"="virtual"
-   >]
+"PERMISSIONS"= []
 >]
-
 >$
