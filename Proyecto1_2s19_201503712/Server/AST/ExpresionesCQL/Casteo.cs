@@ -46,6 +46,18 @@ namespace Server.AST.ExpresionesCQL
             switch (tipoDato) {
                 case Primitivo.TIPO_DATO.BOOLEAN:
                     return Convert.ToBoolean(expresion.getValor(arbol));
+                case Primitivo.TIPO_DATO.DATE:
+                    return new Date(expresion.getValor(arbol).ToString());
+                case Primitivo.TIPO_DATO.TIME:
+                    String[] arr = this.expresion.getValor(arbol).ToString().Split(':');
+                    if (arr.Length == 3)
+                    {
+                        return new TimeSpan(Convert.ToInt32(arr[0]), Convert.ToInt32(arr[1]), Convert.ToInt32(arr[2]));
+                    }
+                    else
+                    {
+                        return new TimeSpan();
+                    }
                 case Primitivo.TIPO_DATO.STRING:
                     return expresion.getValor(arbol).ToString();
                 case Primitivo.TIPO_DATO.DOUBLE:

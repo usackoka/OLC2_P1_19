@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="getErroresChison">
+        <s:complexType />
+      </s:element>
+      <s:element name="getErroresChisonResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getErroresChisonResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AnalizarLUP">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="cadena" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AnalizarLUPResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AnalizarLUPResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="getErroresChisonSoapIn">
+    <wsdl:part name="parameters" element="tns:getErroresChison" />
+  </wsdl:message>
+  <wsdl:message name="getErroresChisonSoapOut">
+    <wsdl:part name="parameters" element="tns:getErroresChisonResponse" />
+  </wsdl:message>
+  <wsdl:message name="AnalizarLUPSoapIn">
+    <wsdl:part name="parameters" element="tns:AnalizarLUP" />
+  </wsdl:message>
+  <wsdl:message name="AnalizarLUPSoapOut">
+    <wsdl:part name="parameters" element="tns:AnalizarLUPResponse" />
+  </wsdl:message>
+  <wsdl:portType name="RutasSoap">
+    <wsdl:operation name="getErroresChison">
+      <wsdl:input message="tns:getErroresChisonSoapIn" />
+      <wsdl:output message="tns:getErroresChisonSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AnalizarLUP">
+      <wsdl:input message="tns:AnalizarLUPSoapIn" />
+      <wsdl:output message="tns:AnalizarLUPSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="RutasSoap" type="tns:RutasSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="getErroresChison">
+      <soap:operation soapAction="http://tempuri.org/getErroresChison" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AnalizarLUP">
+      <soap:operation soapAction="http://tempuri.org/AnalizarLUP" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="RutasSoap12" type="tns:RutasSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="getErroresChison">
+      <soap12:operation soapAction="http://tempuri.org/getErroresChison" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AnalizarLUP">
+      <soap12:operation soapAction="http://tempuri.org/AnalizarLUP" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Rutas">
+    <wsdl:port name="RutasSoap" binding="tns:RutasSoap">
+      <soap:address location="http://localhost:47252/Rutas.asmx" />
+    </wsdl:port>
+    <wsdl:port name="RutasSoap12" binding="tns:RutasSoap12">
+      <soap12:address location="http://localhost:47252/Rutas.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

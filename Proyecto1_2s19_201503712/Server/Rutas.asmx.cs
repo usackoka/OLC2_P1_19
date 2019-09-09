@@ -57,7 +57,7 @@ namespace Server
         }
 
         [WebMethod(EnableSession = true)]
-        public string AnalizarPruebaCQL(String cadena) {
+        public string AnalizarLUP(String cadena) {
             Generador parserLUP = new Generador();
             if (parserLUP.esCadenaValida(cadena, new GramaticaLUP()))
             {
@@ -65,20 +65,12 @@ namespace Server
                 {
                     //Graficar.ConstruirArbol(parserLUP.padre.Root, "AST_LUP", "");
                     RecorridoLUP recorrido = new RecorridoLUP();
-
-                    if (Session["user"]!=null) {
-                        dbms.usuarioActivo = (AST.DBMS.User)Session["user"];
-                    }
-
                     Object o = recorrido.ejecutarLUP(parserLUP.padre.Root, dbms);
                     if (o is AST.DBMS.User)
                     {
-                        Session["user"] = o;
                         return "[+LOGIN]\n  [SUCCESS]\n[-LOGIN]";
                     }
                     else if (o is RecorridoLUP.TIPO_REQUEST && ((RecorridoLUP.TIPO_REQUEST)o).Equals(RecorridoLUP.TIPO_REQUEST.LOGOUT)) {
-
-                        Session["user"] = null;
                         return "[+LOGOUT]\n  [SUCCESS]\n[-LOGOUT]";
                     }
                     else

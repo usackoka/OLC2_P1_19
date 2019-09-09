@@ -78,7 +78,7 @@ namespace Server.AST.ColeccionesCQL
                     list3.valores = listReturn3;
                     return list3;
                 default:
-                    UserType modeloUt = arbol.dbms.getUserType(tipo.ToString());
+                    UserType modeloUt = arbol.dbms.getUserType(tipo.ToString(),arbol);
                     if (modeloUt == null)
                     {
                         arbol.addError("TypeDontExists", "No se encontró el UserType: " + tipo.ToString(), fila, columna);

@@ -137,7 +137,14 @@ namespace Server.AST.DBMS
         //////////////////////////////////////// PROCEDURES
         ////////////////////////////////////////////////////////////////////////////////////////////////////
         public Object createProcedure(CreateProcedure cp, AST_CQL arbol, int fila, int columna) {
-            if (getProcedure(cp.id, cp.getFirma()) != null)
+
+            if (this.system == null)
+            {
+                arbol.addError("System-NULL", "No hay ninguna base de datos en uso", fila, columna);
+                return null;
+            }
+
+            if (getProcedure(cp.id, cp.getFirma(),arbol) != null)
             {
                 arbol.addError("ProcedureAlreadyExists", "Ya existe el procedure con nombre: " + cp.id, fila, columna);
                 return Catch.EXCEPTION.ProcedureAlreadyExists;
@@ -147,8 +154,14 @@ namespace Server.AST.DBMS
             return null;
         }
 
-        public Procedure getProcedure(String id, String firma)
+        public Procedure getProcedure(String id, String firma, AST_CQL arbol)
         {
+            if (this.system == null)
+            {
+                arbol.addError("System-NULL", "No hay ninguna base de datos en uso", 0, 0);
+                return null;
+            }
+
             foreach (Procedure ut in system.procedures)
             {
                 if (ut.id.Equals(id) && ut.getFirma().Equals(firma))
@@ -162,7 +175,7 @@ namespace Server.AST.DBMS
         //////////////////////////////////////// ACCIONES TABLAS
         ////////////////////////////////////////////////////////////////////////////////////////////////////
         public Object insertInto(Insert insert, AST_CQL arbol, int fila, int columna) {
-            TableCQL table = getTable(insert.idTabla);
+            TableCQL table = getTable(insert.idTabla,arbol);
             if (table == null) {
                 arbol.addError("TableDontExists", "Insert-Into No existe la tabla: " + insert.idTabla,fila,columna);
                 return Catch.EXCEPTION.TableDontExists;
@@ -172,7 +185,7 @@ namespace Server.AST.DBMS
         }
 
         public Object updateTable(Update upd, AST_CQL arbol, int fila, int columna) {
-            TableCQL table = getTable(upd.idTabla);
+            TableCQL table = getTable(upd.idTabla,arbol);
             if (table == null)
             {
                 arbol.addError("TableDontExists", "Update No existe la tabla: " + upd.idTabla,fila,columna);
@@ -183,7 +196,7 @@ namespace Server.AST.DBMS
         }
 
         public Object deleteFrom(DeleteFrom delete, AST_CQL arbol, int fila, int columna) {
-            TableCQL table = getTable(delete.idTabla);
+            TableCQL table = getTable(delete.idTabla,arbol);
             if (table == null)
             {
                 arbol.addError("TableDontExists", "Delete-From No existe la tabla: " + delete.idTabla,fila,columna);
@@ -194,7 +207,7 @@ namespace Server.AST.DBMS
         }
 
         public Object alterTableAdd(AlterTableAdd alter, AST_CQL arbol, int fila, int columna) {
-            TableCQL table = getTable(alter.idTabla);
+            TableCQL table = getTable(alter.idTabla,arbol);
             if (table == null)
             {
                 arbol.addError("TableDontExists", "Alter-Table-Add - No existe la tabla: " + alter.idTabla,fila,columna);
@@ -205,7 +218,7 @@ namespace Server.AST.DBMS
         }
 
         public Object alterTableDrop(AlterTableDrop alter, AST_CQL arbol, int fila, int columna) {
-            TableCQL table = getTable(alter.idTabla);
+            TableCQL table = getTable(alter.idTabla,arbol);
             if (table == null)
             {
                 arbol.addError("TableDontExists", "Alter-Table-Drop - No existe la tabla: " + alter.idTabla,fila,columna);
@@ -219,7 +232,14 @@ namespace Server.AST.DBMS
         //////////////////////////////////////// TABLAS
         ////////////////////////////////////////////////////////////////////////////////////////////////////
         public Object createTable(CreateTable ct, AST_CQL arbol, int fila, int columna) {
-            if (getTable(ct.id) != null) {
+
+            if (this.system == null)
+            {
+                arbol.addError("System-NULL", "No hay ninguna base de datos en uso", fila, columna);
+                return null;
+            }
+
+            if (getTable(ct.id,arbol) != null) {
                 if (ct.IfNotExists)
                 {
                     return null;
@@ -236,7 +256,7 @@ namespace Server.AST.DBMS
         }
 
         public Object truncateTable(String id, AST_CQL arbol, int fila, int columna) {
-            TableCQL tb = getTable(id);
+            TableCQL tb = getTable(id,arbol);
             if (tb == null)
             {
                 arbol.addError("EXCEPTION.TableDontExists", "No existe la tabla: " + id,fila,columna);
@@ -248,7 +268,13 @@ namespace Server.AST.DBMS
         }
 
         public Object dropTable(DropTable dt, AST_CQL arbol, int fila, int columna) {
-            TableCQL tb = getTable(dt.id);
+            if (this.system == null)
+            {
+                arbol.addError("System-NULL", "No hay ninguna base de datos en uso", fila, columna);
+                return null;
+            }
+
+            TableCQL tb = getTable(dt.id, arbol);
             if (tb == null) {
                 if (dt.IfExists)
                 {
@@ -264,8 +290,14 @@ namespace Server.AST.DBMS
             return null;
         }
 
-        public TableCQL getTable(String id)
+        public TableCQL getTable(String id, AST_CQL arbol)
         {
+            if (this.system == null)
+            {
+                arbol.addError("System-NULL", "No hay ninguna base de datos en uso", 0, 0);
+                return null;
+            }
+
             foreach (TableCQL ut in system.tables)
             {
                 if (ut.id.Equals(id))
@@ -451,7 +483,7 @@ namespace Server.AST.DBMS
         public Object createUserType(CreateUserType createUserType, AST_CQL arbol, int fila, int columna)
         {
             //pregunto si existe
-            if (getUserType(createUserType.id)!=null) {
+            if (getUserType(createUserType.id,arbol)!=null) {
                 if (createUserType.IfNotExists) {
                     return null;
                 }
@@ -465,7 +497,13 @@ namespace Server.AST.DBMS
             return null;
         }
 
-        public UserType getUserType(String id) {
+        public UserType getUserType(String id, AST_CQL arbol) {
+
+            if (this.system==null) {
+                arbol.addError("System-NULL","No hay ninguna base de datos en uso",0,0);
+                return null;
+            }
+
             foreach (UserType ut in system.userTypes) {
                 if (ut.id.Equals(id)) {
                     return ut;

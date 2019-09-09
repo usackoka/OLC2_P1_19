@@ -1,3 +1,7 @@
+CREATE DATABASE virtual;
+
+USE virtual;
+
 //funciones auxiliares-------------
 int ins(int @carnet, String @nombres, String @apellidos){
 	INSERT INTO Estudiante(carnet, nombres, apellidos) VALUES (@carnet, @nombres, @apellidos);
@@ -191,10 +195,6 @@ CLOSE @ccc;
 
 //commit;
 
-//SELECT * FROM Estudiante LIMIT 4;
+SELECT * FROM Estudiante LIMIT 4;
 
 log(count(<<SELECT * FROM Estudiante LIMIT 4>>));
-
-for(int @i; @i<5; @i+=1){
-	log("HOLA "+@i);
-}

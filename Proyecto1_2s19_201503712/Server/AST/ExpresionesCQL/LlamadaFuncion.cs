@@ -29,7 +29,7 @@ namespace Server.AST.ExpresionesCQL
         public override object getTipo(AST_CQL arbol)
         {
             if (tipoLlamada.Equals(TIPO_LLAMADA.CALL)) {
-                Procedure procedure = arbol.dbms.getProcedure(this.idLlamada, getFirma(arbol));
+                Procedure procedure = arbol.dbms.getProcedure(this.idLlamada, getFirma(arbol),arbol);
                 if (procedure != null)
                 {  
                     return procedure.getTipo(arbol);
@@ -93,7 +93,7 @@ namespace Server.AST.ExpresionesCQL
             //======================================== CALL PROCEDURE ============================
             else {
                 //pregunto si existe el procedure
-                Procedure procedure = arbol.dbms.getProcedure(this.idLlamada, getFirma(arbol));
+                Procedure procedure = arbol.dbms.getProcedure(this.idLlamada, getFirma(arbol),arbol);
                 if (procedure != null)
                 {  //obtengo los parámetros
                     List<Object> valores = new List<object>();

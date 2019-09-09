@@ -44,6 +44,7 @@ namespace Server.Analizador.LUP
             }
             else if (CompararNombre(raiz, "QUERY")) {
                 //res_queryOpen + res_userOpen + id + res_userClose + res_data + res_queryClose
+                dbms.usuarioActivo = dbms.getUser(getLexema(raiz,2));
 
                 String cadena = getLexema(raiz, 4).Replace("[+DATA]", "").Replace("[-DATA]", "")
                     .Replace("[+data]", "").Replace("[-data]", "");

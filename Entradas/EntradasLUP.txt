@@ -1,40 +1,174 @@
-[+QUERY] 
-[+USER]  
-	Luis 
-[-USER] 
-[+DATA] 
- 
-Date @fecha = '2019-08-18'; //‘yyyy-mm-dd’ 
-String @salida = "";
-@salida += @fecha.getYear(); //devuelve año en entero
-@salida += "/";
-@salida += @fecha.getMonth(); 
-@salida += "/";
-@salida += @fecha.getDay();
-
-log(@salida);
-
-@salida = "";
-Time @hora = '11:10:00'; // ‘hh:mm:ss’ 
-@salida += "Hora: ";
-@salida += @hora.getHour();
-@salida += "\nMinutos: ";
-@salida += @hora.getMinuts();
-@salida += "\nSegundos: ";
-@salida += @hora.getSeconds();
-
-log(@salida);
-[-DATA] 
-[-QUERY]
 
 
-[+LOGOUT]  
-[+USER]   
-Luis  
-[-USER] 
-[-LOGOUT]
+[+MESSAGE]
+hola estoy dentro de esta mierda d:
+[-MESSAGE]
 
-[+LOGIN]  
-[+USER]admin[-USER]  
-[+PASS]admin[-PASS] 
-[-LOGIN]
+[+MESSAGE]
+oscar rené
+[-MESSAGE]
+
+[+MESSAGE]
+alba jeanneeth
+[-MESSAGE]
+
+[+MESSAGE]
+rodney estuardo
+[-MESSAGE]
+
+[+MESSAGE]
+sharolin guadalupe
+[-MESSAGE]
+
+[+MESSAGE]
+david andres
+[-MESSAGE]
+
+[+MESSAGE]
+julia argentina
+[-MESSAGE]
+
+[+MESSAGE]
+mitchel andrea
+[-MESSAGE]
+
+[+MESSAGE]
+sebastián
+[-MESSAGE]
+
+[+MESSAGE]
+miguel angel omar
+[-MESSAGE]
+
+[+MESSAGE]
+gustavo adolfo
+[-MESSAGE]
+
+[+MESSAGE]
+4
+[-MESSAGE]
+
+[+DATA]
+<table border="2" style="margin: 0 auto;">
+<td>carnet</td>
+<td>contador</td>
+<td>comidas_favoritas</td>
+<td>nombres</td>
+<td>apellidos</td>
+<td>fecha_nacimiento</td>
+<td>pet</td>
+<td>facultad</td>
+<td>edad</td>
+<td>notas_cursos</td>
+<td>numeros_favoritos</td>
+    <tr>
+        <td>201503712</td>
+        <td>0</td>
+        <td>["kakik","pizza","pollo en crema","shucos de la u","taco-bell"]</td>
+        <td>oscar rené</td>
+        <td>cuéllar mancillar</td>
+        <td>1997-9-8</td>
+        <td>   <
+   "CQL-TYPE"="mascota",
+   "NAME"="mascota",
+   "ATTRS"=[
+       <"NAME"="nombre",
+"TYPE"="STRING"
+        >,
+       <"NAME"="raza",
+"TYPE"="STRING"
+        >,
+       <"NAME"="edad",
+"TYPE"="INT"
+        >]
+   >
+</td>
+        <td>ingeniería</td>
+        <td>22</td>
+        <td><"mate1"=99,"logica"=35,"mate2"=90,"compi2"=61,"social"=45></td>
+        <td>[7,9]</td>
+    </tr>
+    <tr>
+        <td>201513629</td>
+        <td>1</td>
+        <td>["shucos de la u"]</td>
+        <td>alba jeanneeth</td>
+        <td>chinchilla morales</td>
+        <td>1997-9-8</td>
+        <td>   <
+   "CQL-TYPE"="mascota",
+   "NAME"="mascota",
+   "ATTRS"=[
+       <"NAME"="nombre",
+"TYPE"="STRING"
+        >,
+       <"NAME"="raza",
+"TYPE"="STRING"
+        >,
+       <"NAME"="edad",
+"TYPE"="INT"
+        >]
+   >
+</td>
+        <td>ingeniería</td>
+        <td>22</td>
+        <td><"mate1"=99,"logica"=35,"mate2"=90,"compi2"=61,"social"=45></td>
+        <td>[0]</td>
+    </tr>
+    <tr>
+        <td>201504028</td>
+        <td>2</td>
+        <td>["shucos de la u"]</td>
+        <td>rodney estuardo</td>
+        <td>lopez marroquín</td>
+        <td>1997-9-8</td>
+        <td>   <
+   "CQL-TYPE"="mascota",
+   "NAME"="mascota",
+   "ATTRS"=[
+       <"NAME"="nombre",
+"TYPE"="STRING"
+        >,
+       <"NAME"="raza",
+"TYPE"="STRING"
+        >,
+       <"NAME"="edad",
+"TYPE"="INT"
+        >]
+   >
+</td>
+        <td>ingeniería</td>
+        <td>22</td>
+        <td><"mate1"=99,"logica"=35,"mate2"=90,"compi2"=61,"social"=45></td>
+        <td>[0]</td>
+    </tr>
+    <tr>
+        <td>201408486</td>
+        <td>4</td>
+        <td>["shucos de la u"]</td>
+        <td>sharolin guadalupe</td>
+        <td>lacunza gonzález</td>
+        <td>1996-9-8</td>
+        <td>   <
+   "CQL-TYPE"="mascota",
+   "NAME"="mascota",
+   "ATTRS"=[
+       <"NAME"="nombre",
+"TYPE"="STRING"
+        >,
+       <"NAME"="raza",
+"TYPE"="STRING"
+        >,
+       <"NAME"="edad",
+"TYPE"="INT"
+        >]
+   >
+</td>
+        <td>ingeniería</td>
+        <td>23</td>
+        <td><"mate1"=99,"logica"=35,"mate2"=90,"compi2"=61,"social"=45></td>
+        <td>[0]</td>
+    </tr>
+</table>
+
+[-DATA]

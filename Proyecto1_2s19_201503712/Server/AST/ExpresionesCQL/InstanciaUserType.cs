@@ -24,7 +24,7 @@ namespace Server.AST.ExpresionesCQL
 
         public override object getValor(AST_CQL arbol)
         {
-            UserType modeloUt = arbol.dbms.getUserType(this.id);
+            UserType modeloUt = arbol.dbms.getUserType(this.id,arbol);
             if (modeloUt==null) {
                 arbol.addError("UserType","No se encontró el UserType: "+id,fila,columna);
                 return Catch.EXCEPTION.TypeDontExists;
