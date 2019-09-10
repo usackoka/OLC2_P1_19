@@ -1,32 +1,4 @@
-﻿* {
-    margin: 0px;
-    padding: 0px;
-}
-
-div#div1 {
-    margin: auto;
-    margin-top: 50px;
-    width: 960px;
-    height: 800px;
-}
-
-div#divEntrada {
-    float: right;
-    width: 300px;
-    height: 500px;
-}
-
-div#divControles {
-    width: 640px;
-    height: 100px;
-}
-
-div#divEditor {
-    width: 640px;
-    height: 580px;
-}
-
-/*=========================================  Estilos para los tabs  ===========================================*/
+﻿/*=========================================  Estilos para los tabs  ===========================================*/
 /* Style the tab */
 .tab {
     overflow: hidden;

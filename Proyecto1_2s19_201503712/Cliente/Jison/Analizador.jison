@@ -49,6 +49,10 @@ digito = [0-9]
 "[-LINE]"				return 'res_lineClose';
 "[+COLUMN]"				return 'res_columnOpen';
 "[-COLUMN]"				return 'res_columnClose';
+"[+LOGIN]"				return 'res_loginOpen';
+"[-LOGIN]"				return 'res_loginClose';
+"[SUCCESS]"				return 'res_success';
+"[FAIL]"				return 'res_fail';
 {digito}+				return 'numero';
 <<EOF>>                 return 'EOF';
 .                       { console.error('Este es un error léxico: ' + yytext + ', en la linea: ' + yylloc.first_line + ', en la columna: ' + yylloc.first_column); }
@@ -67,6 +71,7 @@ digito = [0-9]
     }
 
     function AST_LUP(){
+    	this.login = false;
     	this.contMess = 0;
     	this.contData = 0;
     	this.contErr = 0;
@@ -95,6 +100,14 @@ LIST_BLOCK : LIST_BLOCK BLOCK
 BLOCK : MENSAJE {ast.mensajes[ast.contMess++] = $1;}
 	| DATA {ast.data[ast.contData++] = $1;}
 	| ERROR {ast.errores[ast.contErr++] = $1;}
+	//| LOGIN
+;
+
+LOGIN : 'res_loginOpen' STATUS 'res_loginClose'
+;
+
+STATUS : res_success {ast.login = true;}
+	| res_fail {ast.login = false;}
 ;
 
 MENSAJE : 'res_messageOpen' T1 'res_messageClose'

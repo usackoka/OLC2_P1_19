@@ -29,6 +29,7 @@ namespace Server.Analizador.Chison
             foreach (Object obj in nodosChison) {
                 if (obj is UserCHISON) {
                     ((UserCHISON)obj).Ejecutar(this.dbms);
+                } else if (obj is DataBaseCHISON) {
                 }
             }
         }

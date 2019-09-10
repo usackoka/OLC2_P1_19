@@ -31,13 +31,13 @@ namespace Cliente.Formularios {
         protected global::System.Web.UI.WebControls.HiddenField hdCadena;
         
         /// <summary>
-        /// Control txtSalida.
+        /// Control txtConsola.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTextArea txtSalida;
+        protected global::System.Web.UI.HtmlControls.HtmlTextArea txtConsola;
         
         /// <summary>
         /// Control txtEnviado.
@@ -49,12 +49,12 @@ namespace Cliente.Formularios {
         protected global::System.Web.UI.HtmlControls.HtmlTextArea txtEnviado;
         
         /// <summary>
-        /// Control txtConsola.
+        /// Control txtSalida.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTextArea txtConsola;
+        protected global::System.Web.UI.HtmlControls.HtmlTextArea txtSalida;
     }
 }

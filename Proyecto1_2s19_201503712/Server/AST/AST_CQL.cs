@@ -103,7 +103,7 @@ namespace Server.AST
         }
 
         private String getTablaSelect(List<ColumnCQL> data) {
-            String res = "<table border=\"2\" style=\"margin: 0 auto;\">\n";
+            String res = "<table border=\"2\" style=\"margin: 0 auto;\" class=\"table table-striped table-bordered table-responsive table-dark\">\n";
 
             //nombre de las columnas
             foreach (ColumnCQL column in data) {

@@ -72,12 +72,12 @@
   }
 */
 var Analizador = (function(){
-var o=function(k,v,o,l){for(o=o||{},l=k.length;l--;o[k[l]]=v);return o},$V0=[1,7],$V1=[1,8],$V2=[1,9],$V3=[5,10,13,15],$V4=[1,13],$V5=[1,14],$V6=[1,18],$V7=[1,19],$V8=[12,14,17,24,26,28,29];
+var o=function(k,v,o,l){for(o=o||{},l=k.length;l--;o[k[l]]=v);return o},$V0=[1,7],$V1=[1,8],$V2=[1,9],$V3=[5,16,19,21],$V4=[1,13],$V5=[1,14],$V6=[1,18],$V7=[1,19],$V8=[18,20,23,30,32,34,35];
 var parser = {trace: function trace () { },
 yy: {},
-symbols_: {"error":2,"S":3,"LIST_BLOCK":4,"EOF":5,"BLOCK":6,"MENSAJE":7,"DATA":8,"ERROR":9,"res_messageOpen":10,"T1":11,"res_messageClose":12,"res_dataOpen":13,"res_dataClose":14,"res_errorOpen":15,"res_lexemaOpen":16,"res_lexemaClose":17,"res_lineOpen":18,"numero":19,"res_lineClose":20,"res_columnOpen":21,"res_columnClose":22,"res_typeOpen":23,"res_typeClose":24,"res_descripcionOpen":25,"res_descripcionClose":26,"res_errorClose":27,"TODO":28,"WS":29,"$accept":0,"$end":1},
-terminals_: {2:"error",5:"EOF",10:"res_messageOpen",12:"res_messageClose",13:"res_dataOpen",14:"res_dataClose",15:"res_errorOpen",16:"res_lexemaOpen",17:"res_lexemaClose",18:"res_lineOpen",19:"numero",20:"res_lineClose",21:"res_columnOpen",22:"res_columnClose",23:"res_typeOpen",24:"res_typeClose",25:"res_descripcionOpen",26:"res_descripcionClose",27:"res_errorClose",28:"TODO",29:"WS"},
-productions_: [0,[3,2],[4,2],[4,1],[6,1],[6,1],[6,1],[7,3],[8,3],[9,17],[11,2],[11,2],[11,1],[11,1]],
+symbols_: {"error":2,"S":3,"LIST_BLOCK":4,"EOF":5,"BLOCK":6,"MENSAJE":7,"DATA":8,"ERROR":9,"LOGIN":10,"res_loginOpen":11,"STATUS":12,"res_loginClose":13,"res_success":14,"res_fail":15,"res_messageOpen":16,"T1":17,"res_messageClose":18,"res_dataOpen":19,"res_dataClose":20,"res_errorOpen":21,"res_lexemaOpen":22,"res_lexemaClose":23,"res_lineOpen":24,"numero":25,"res_lineClose":26,"res_columnOpen":27,"res_columnClose":28,"res_typeOpen":29,"res_typeClose":30,"res_descripcionOpen":31,"res_descripcionClose":32,"res_errorClose":33,"TODO":34,"WS":35,"$accept":0,"$end":1},
+terminals_: {2:"error",5:"EOF",11:"res_loginOpen",13:"res_loginClose",14:"res_success",15:"res_fail",16:"res_messageOpen",18:"res_messageClose",19:"res_dataOpen",20:"res_dataClose",21:"res_errorOpen",22:"res_lexemaOpen",23:"res_lexemaClose",24:"res_lineOpen",25:"numero",26:"res_lineClose",27:"res_columnOpen",28:"res_columnClose",29:"res_typeOpen",30:"res_typeClose",31:"res_descripcionOpen",32:"res_descripcionClose",33:"res_errorClose",34:"TODO",35:"WS"},
+productions_: [0,[3,2],[4,2],[4,1],[6,1],[6,1],[6,1],[10,3],[12,1],[12,1],[7,3],[8,3],[9,17],[17,2],[17,2],[17,1],[17,1]],
 performAction: function anonymous(yytext, yyleng, yylineno, yy, yystate /* action[1] */, $$ /* vstack */, _$ /* lstack */) {
 /* this == yyval */
 
@@ -97,26 +97,32 @@ break;
 case 6:
 ast.errores[ast.contErr++] = $$[$0];
 break;
-case 7:
-this.$ = $$[$0-1];
-break;
 case 8:
-this.$=$$[$0-1];
+ast.login = true;
 break;
 case 9:
+ast.login = false;
+break;
+case 10:
+this.$ = $$[$0-1];
+break;
+case 11:
+this.$=$$[$0-1];
+break;
+case 12:
 var error = new TokenError(); error.lexema = $$[$0-14]; error.fila = $$[$0-11]; error.columna=$$[$0-8]; 
 			error.tipo = $$[$0-5]; error.descripcion = $$[$0-2];
 			this.$ = error;
 break;
-case 10: case 11:
+case 13: case 14:
 this.$ = $$[$0-1]+$$[$0];
 break;
-case 12: case 13:
+case 15: case 16:
 this.$=$$[$0];
 break;
 }
 },
-table: [{3:1,4:2,6:3,7:4,8:5,9:6,10:$V0,13:$V1,15:$V2},{1:[3]},{5:[1,10],6:11,7:4,8:5,9:6,10:$V0,13:$V1,15:$V2},o($V3,[2,3]),o($V3,[2,4]),o($V3,[2,5]),o($V3,[2,6]),{11:12,28:$V4,29:$V5},{11:15,28:$V4,29:$V5},{16:[1,16]},{1:[2,1]},o($V3,[2,2]),{12:[1,17],28:$V6,29:$V7},o($V8,[2,12]),o($V8,[2,13]),{14:[1,20],28:$V6,29:$V7},{11:21,28:$V4,29:$V5},o($V3,[2,7]),o($V8,[2,10]),o($V8,[2,11]),o($V3,[2,8]),{17:[1,22],28:$V6,29:$V7},{18:[1,23]},{19:[1,24]},{20:[1,25]},{21:[1,26]},{19:[1,27]},{22:[1,28]},{23:[1,29]},{11:30,28:$V4,29:$V5},{24:[1,31],28:$V6,29:$V7},{25:[1,32]},{11:33,28:$V4,29:$V5},{26:[1,34],28:$V6,29:$V7},{27:[1,35]},o($V3,[2,9])],
+table: [{3:1,4:2,6:3,7:4,8:5,9:6,16:$V0,19:$V1,21:$V2},{1:[3]},{5:[1,10],6:11,7:4,8:5,9:6,16:$V0,19:$V1,21:$V2},o($V3,[2,3]),o($V3,[2,4]),o($V3,[2,5]),o($V3,[2,6]),{17:12,34:$V4,35:$V5},{17:15,34:$V4,35:$V5},{22:[1,16]},{1:[2,1]},o($V3,[2,2]),{18:[1,17],34:$V6,35:$V7},o($V8,[2,15]),o($V8,[2,16]),{20:[1,20],34:$V6,35:$V7},{17:21,34:$V4,35:$V5},o($V3,[2,10]),o($V8,[2,13]),o($V8,[2,14]),o($V3,[2,11]),{23:[1,22],34:$V6,35:$V7},{24:[1,23]},{25:[1,24]},{26:[1,25]},{27:[1,26]},{25:[1,27]},{28:[1,28]},{29:[1,29]},{17:30,34:$V4,35:$V5},{30:[1,31],34:$V6,35:$V7},{31:[1,32]},{17:33,34:$V4,35:$V5},{32:[1,34],34:$V6,35:$V7},{33:[1,35]},o($V3,[2,12])],
 defaultActions: {10:[2,1]},
 parseError: function parseError (str, hash) {
     if (hash.recoverable) {
@@ -274,6 +280,7 @@ parse: function parse(input) {
     }
 
     function AST_LUP(){
+    	this.login = false;
     	this.contMess = 0;
     	this.contData = 0;
     	this.contErr = 0;
@@ -613,70 +620,78 @@ performAction: function anonymous(yy,yy_,$avoiding_name_collisions,YY_START) {
 
 var YYSTATE=YY_START;
 switch($avoiding_name_collisions) {
-case 0:this.begin("res_message"); return 10
+case 0:this.begin("res_message"); return 16
 break;
-case 1:this.begin('INITIAL');  return 12;
+case 1:this.begin('INITIAL');  return 18;
 break;
-case 2:return 28
+case 2:return 34
 break;
-case 3:return 29
+case 3:return 35
 break;
-case 4:this.begin("res_lexema"); return 16
+case 4:this.begin("res_lexema"); return 22
 break;
-case 5:this.begin('INITIAL');  return 17;
+case 5:this.begin('INITIAL');  return 23;
 break;
-case 6:return 28
+case 6:return 34
 break;
-case 7:return 29
+case 7:return 35
 break;
-case 8:this.begin("res_descripcion"); return 25
+case 8:this.begin("res_descripcion"); return 31
 break;
-case 9:this.begin('INITIAL');  return 26;
+case 9:this.begin('INITIAL');  return 32;
 break;
-case 10:return 28
+case 10:return 34
 break;
-case 11:return 29
+case 11:return 35
 break;
-case 12:this.begin("res_type"); return 23
+case 12:this.begin("res_type"); return 29
 break;
-case 13:this.begin('INITIAL');  return 24;
+case 13:this.begin('INITIAL');  return 30;
 break;
-case 14:return 28
+case 14:return 34
 break;
-case 15:return 29
+case 15:return 35
 break;
-case 16:this.begin("res_data"); return 13
+case 16:this.begin("res_data"); return 19
 break;
-case 17:this.begin('INITIAL');  return 14;
+case 17:this.begin('INITIAL');  return 20;
 break;
-case 18:return 28
+case 18:return 34
 break;
-case 19:return 29
+case 19:return 35
 break;
 case 20:/* skip whitespace */
 break;
-case 21:return 15;
+case 21:return 21;
 break;
-case 22:return 27;
+case 22:return 33;
 break;
-case 23:return 18;
+case 23:return 24;
 break;
-case 24:return 20;
+case 24:return 26;
 break;
-case 25:return 21;
+case 25:return 27;
 break;
-case 26:return 22;
+case 26:return 28;
 break;
-case 27:return 19;
+case 27:return 11;
 break;
-case 28:return 5;
+case 28:return 13;
 break;
-case 29: console.error('Este es un error léxico: ' + yy_.yytext + ', en la linea: ' + yy_.yylloc.first_line + ', en la columna: ' + yy_.yylloc.first_column); 
+case 29:return 14;
+break;
+case 30:return 15;
+break;
+case 31:return 25;
+break;
+case 32:return 5;
+break;
+case 33: console.error('Este es un error léxico: ' + yy_.yytext + ', en la linea: ' + yy_.yylloc.first_line + ', en la columna: ' + yy_.yylloc.first_column); 
 break;
 }
 },
-rules: [/^(?:\[\+MESSAGE\])/i,/^(?:\[-MESSAGE\])/i,/^(?:.)/i,/^(?:[\t\r\n\f])/i,/^(?:\[\+LEXEMA\])/i,/^(?:\[-LEXEMA\])/i,/^(?:.)/i,/^(?:[\t\r\n\f])/i,/^(?:\[\+DESC\])/i,/^(?:\[-DESC\])/i,/^(?:.)/i,/^(?:[\t\r\n\f])/i,/^(?:\[\+TYPE\])/i,/^(?:\[-TYPE\])/i,/^(?:.)/i,/^(?:[\t\r\n\f])/i,/^(?:\[\+DATA\])/i,/^(?:\[-DATA\])/i,/^(?:.)/i,/^(?:[\t\r\n\f])/i,/^(?:\s+)/i,/^(?:\[\+ERROR\])/i,/^(?:\[-ERROR\])/i,/^(?:\[\+LINE\])/i,/^(?:\[-LINE\])/i,/^(?:\[\+COLUMN\])/i,/^(?:\[-COLUMN\])/i,/^(?:([0-9])+)/i,/^(?:$)/i,/^(?:.)/i],
-conditions: {"res_data":{"rules":[0,4,8,12,16,17,18,19,20,21,22,23,24,25,26,27,28,29],"inclusive":true},"res_type":{"rules":[0,4,8,12,13,14,15,16,20,21,22,23,24,25,26,27,28,29],"inclusive":true},"res_descripcion":{"rules":[0,4,8,9,10,11,12,16,20,21,22,23,24,25,26,27,28,29],"inclusive":true},"res_lexema":{"rules":[0,4,5,6,7,8,12,16,20,21,22,23,24,25,26,27,28,29],"inclusive":true},"res_message":{"rules":[0,1,2,3,4,8,12,16,20,21,22,23,24,25,26,27,28,29],"inclusive":true},"INITIAL":{"rules":[0,4,8,12,16,20,21,22,23,24,25,26,27,28,29],"inclusive":true}}
+rules: [/^(?:\[\+MESSAGE\])/i,/^(?:\[-MESSAGE\])/i,/^(?:.)/i,/^(?:[\t\r\n\f])/i,/^(?:\[\+LEXEMA\])/i,/^(?:\[-LEXEMA\])/i,/^(?:.)/i,/^(?:[\t\r\n\f])/i,/^(?:\[\+DESC\])/i,/^(?:\[-DESC\])/i,/^(?:.)/i,/^(?:[\t\r\n\f])/i,/^(?:\[\+TYPE\])/i,/^(?:\[-TYPE\])/i,/^(?:.)/i,/^(?:[\t\r\n\f])/i,/^(?:\[\+DATA\])/i,/^(?:\[-DATA\])/i,/^(?:.)/i,/^(?:[\t\r\n\f])/i,/^(?:\s+)/i,/^(?:\[\+ERROR\])/i,/^(?:\[-ERROR\])/i,/^(?:\[\+LINE\])/i,/^(?:\[-LINE\])/i,/^(?:\[\+COLUMN\])/i,/^(?:\[-COLUMN\])/i,/^(?:\[\+LOGIN\])/i,/^(?:\[-LOGIN\])/i,/^(?:\[SUCCESS\])/i,/^(?:\[FAIL\])/i,/^(?:([0-9])+)/i,/^(?:$)/i,/^(?:.)/i],
+conditions: {"res_data":{"rules":[0,4,8,12,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33],"inclusive":true},"res_type":{"rules":[0,4,8,12,13,14,15,16,20,21,22,23,24,25,26,27,28,29,30,31,32,33],"inclusive":true},"res_descripcion":{"rules":[0,4,8,9,10,11,12,16,20,21,22,23,24,25,26,27,28,29,30,31,32,33],"inclusive":true},"res_lexema":{"rules":[0,4,5,6,7,8,12,16,20,21,22,23,24,25,26,27,28,29,30,31,32,33],"inclusive":true},"res_message":{"rules":[0,1,2,3,4,8,12,16,20,21,22,23,24,25,26,27,28,29,30,31,32,33],"inclusive":true},"INITIAL":{"rules":[0,4,8,12,16,20,21,22,23,24,25,26,27,28,29,30,31,32,33],"inclusive":true}}
 });
 return lexer;
 })();

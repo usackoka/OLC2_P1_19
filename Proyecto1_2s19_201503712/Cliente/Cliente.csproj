@@ -69,6 +69,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="BlockLy\blockly_compressed.js" />
+    <Content Include="BlockLy\blocks_compressed.js" />
+    <Content Include="BlockLy\es.js" />
+    <Content Include="BlockLy\javascript_compressed.js" />
+    <Content Include="BlockLy\misBloques.js" />
     <Content Include="codeMirror\addon\comment\comment.js" />
     <Content Include="codeMirror\addon\comment\continuecomment.js" />
     <Content Include="codeMirror\addon\dialog\dialog.css" />
@@ -642,7 +647,9 @@
     </None>
     <Content Include="Formularios\css\index_style.css" />
     <Content Include="Formularios\css\style.css" />
+    <Content Include="Formularios\Login.aspx" />
     <Content Include="Formularios\modoAvanzado.aspx" />
+    <Content Include="Formularios\modoPrincipiante.aspx" />
     <Content Include="Jison\Analizador.js" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -652,12 +659,26 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="Formularios\Login.aspx.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Formularios\Login.aspx.designer.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Formularios\modoAvanzado.aspx.cs">
       <DependentUpon>modoAvanzado.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Formularios\modoAvanzado.aspx.designer.cs">
       <DependentUpon>modoAvanzado.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Formularios\modoPrincipiante.aspx.cs">
+      <DependentUpon>modoPrincipiante.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Formularios\modoPrincipiante.aspx.designer.cs">
+      <DependentUpon>modoPrincipiante.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

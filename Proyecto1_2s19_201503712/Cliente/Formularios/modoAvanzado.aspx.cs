@@ -30,9 +30,12 @@ namespace Cliente.Formularios
                                                     "[+DATA]" + hdCadena.Value +
                                                     "[-DATA]" +
                                                     "[-QUERY]");
-            //Response.Write("<script>alert('" + res + "')</script>");
-            //Response.Write("<textarea>"+res+"</textarea>");
             txtSalida.Value = "\n" + res1 + "\n" + res;
+        }
+
+        protected void Unnamed_Click1(object sender, EventArgs e)
+        {
+            Session["idUser"] = null;
         }
     }
 }
