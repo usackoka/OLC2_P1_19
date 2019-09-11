@@ -1,9 +1,68 @@
 $<
-"DATABASES"=[],
+"DATABASES"=[
+<
+"NAME"="virtual",
+"DATA"= [   <
+   "CQL-TYPE" = "TABLE",
+   "NAME" = "persona",
+   "COLUMNS" = [
+       <
+       "NAME"="nombre",
+       "TYPE"="STRING",
+       "PK"=FALSE
+       >,
+       <
+       "NAME"="edad",
+       "TYPE"="INT",
+       "PK"=FALSE
+       >,
+       <
+       "NAME"="hora_creado",
+       "TYPE"="TIME",
+       "PK"=FALSE
+       >,
+       <
+       "NAME"="fecha_creado",
+       "TYPE"="DATE",
+       "PK"=FALSE
+       >,
+       <
+       "NAME"="sexo",
+       "TYPE"="BOOLEAN",
+       "PK"=FALSE
+       >],
+   "DATA" = [
+       <
+       "nombre"="oscar cuéllar",
+       "edad"=22,
+       "hora_creado"='23:20:07',
+       "fecha_creado"='2019-9-10',
+       "sexo"=True
+       >,
+       <
+       "nombre"="david alcazar",
+       "edad"=22,
+       "hora_creado"='23:20:07',
+       "fecha_creado"='2019-9-10',
+       "sexo"=True
+       >,
+       <
+       "nombre"="albita chinchilla",
+       "edad"=22,
+       "hora_creado"='23:20:07',
+       "fecha_creado"='2019-9-10',
+       "sexo"=False
+       >]
+   >
+]
+>],
 "USERS"=[
 <
 "NAME"="admin",
 "PASSWORD"="admin",
-"PERMISSIONS"= []
+"PERMISSIONS"= [
+   <"NAME"="virtual"
+   >]
 >]
+
 >$

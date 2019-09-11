@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 
 namespace Cliente.Formularios
 {
-    public partial class modoAvanzado : System.Web.UI.Page
+    public partial class modoIntermedio : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -19,7 +19,8 @@ namespace Cliente.Formularios
             localhost.RutasSoapClient servidor = new localhost.RutasSoapClient();
             String res1 = servidor.getErroresChison();
             String user = "admin";
-            if (Session["idUser"]!=null) {
+            if (Session["idUser"] != null)
+            {
                 user = Session["idUser"].ToString();
             }
             String enviado = "[+QUERY] " +

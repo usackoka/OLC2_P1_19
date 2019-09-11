@@ -60,13 +60,15 @@ namespace Server.Analizador.Chison
             }
         }
 
-        public List<KeyValuePair<String, Object>> getData(Management dbms) {
-            List<KeyValuePair<String, Object>> lista = new List<KeyValuePair<String, Object>>();
+        public List<List<KeyValuePair<String, Object>>> getData(Management dbms) {
+            List<List<KeyValuePair<String, Object>>> lista = new List<List<KeyValuePair<String, Object>>>();
 
             if (this.valores.ContainsKey("data"))
             {
                 Object o = this.valores["data"];
-
+                if (o is List<List<KeyValuePair<String,Object>>>) {
+                    return (List<List<KeyValuePair<String,object>>>)o;
+                }            
             }
             else
             {

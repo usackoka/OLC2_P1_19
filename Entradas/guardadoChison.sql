@@ -1,3 +1,7 @@
+CREATE DATABASE virtual;
+
+use virtual;
+
 CREATE TABLE Persona(
 	nombre STRING,
 	edad inT,
@@ -11,3 +15,20 @@ INSERT INTO Persona VALUES("David Alcazar",22,NOW(),Today(),true);
 INSERT INTO Persona VALUES("Albita Chinchilla",22,NOW(),Today(),false);
 
 commit;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+use virtual;
+select * from persona;

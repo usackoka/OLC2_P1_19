@@ -482,6 +482,12 @@ namespace Server.AST.DBMS
         ////////////////////////////////////////////////////////////////////////////////////////////////////
         public Object createUserType(CreateUserType createUserType, AST_CQL arbol, int fila, int columna)
         {
+            if (this.system == null)
+            {
+                arbol.addError("System-NULL", "No hay ninguna base de datos en uso", 0, 0);
+                return null;
+            }
+
             //pregunto si existe
             if (getUserType(createUserType.id,arbol)!=null) {
                 if (createUserType.IfNotExists) {

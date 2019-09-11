@@ -13,5 +13,32 @@ namespace Cliente.Formularios
         {
 
         }
+
+        protected void Unnamed_Click(object sender, EventArgs e)
+        {
+            localhost.RutasSoapClient servidor = new localhost.RutasSoapClient();
+            String res1 = servidor.getErroresChison();
+            String user = "admin";
+            if (Session["idUser"] != null)
+            {
+                user = Session["idUser"].ToString();
+            }
+            String enviado = "[+QUERY] " +
+                                                    "[+USER]" +
+                                                    "   " + user +
+                                                    "[-USER]" +
+                                                    "[+DATA]" + hdCadena.Value +
+                                                    "[-DATA]" +
+                                                    "[-QUERY]";
+            String res = servidor.AnalizarLUP(enviado);
+            txtSalida.Value = "\n" + res1 + "\n" + res;
+            txtEnviado.Value = enviado;
+        }
+
+        protected void Unnamed_Click1(object sender, EventArgs e)
+        {
+            Session["idUser"] = null;
+            Response.Redirect("Login.aspx");
+        }
     }
 }

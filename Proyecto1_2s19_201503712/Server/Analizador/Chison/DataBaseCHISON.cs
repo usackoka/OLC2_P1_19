@@ -3,6 +3,7 @@ using Server.AST.CQL;
 using Server.AST.DBMS;
 using Server.AST.SentenciasCQL;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -34,7 +35,24 @@ namespace Server.Analizador.Chison
                 if (compararNombre(cql_type,"table")) {
                     String name = contenido.getName(dbms);
                     List<ColumnCQL> columns = contenido.getColumnsDefinitions(dbms);
-                    List<KeyValuePair<String, Object>> values = contenido.getData(dbms);
+                    List<List<KeyValuePair<String, Object>>> values = contenido.getData(dbms);
+                    TableCQL tabla = new TableCQL(name, columns);
+
+                    foreach (ColumnCQL column in tabla.data) {
+                        List<Object> valoresColumna = new List<object>();
+
+                        foreach (List<KeyValuePair<String,Object>> lista in values) {
+                            foreach (KeyValuePair<string,object> kvp in lista) {
+                                if (kvp.Key.Equals(column.id)) {
+                                    valoresColumna.Add(kvp.Value);
+                                }
+                            }
+                        }
+
+                        column.valores = valoresColumna;
+                    }
+
+                    dbms.getDataBase(this.name).tables.Add(tabla);
                 }
             }
 

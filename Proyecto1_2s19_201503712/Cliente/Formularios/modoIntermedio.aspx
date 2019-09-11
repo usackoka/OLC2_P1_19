@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Login.aspx.cs" Inherits="Cliente.Formularios.Login" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="modoIntermedio.aspx.cs" Inherits="Cliente.Formularios.modoIntermedio" %>
 
 <!DOCTYPE html>
 
@@ -18,8 +18,15 @@
     <script type="text/javascript" src="js/bundle.min.js"></script>
     <script type="text/javascript" src="js/bootstrap.js"></script>
     <script type="text/javascript" src="js/bootstrap.min.js"></script>
+
+    <%-- /////////////////////////// BLOCKLY /////////////////////////////////////// --%>
+    <script src="../BlockLy/blockly_compressed.js"></script>
+    <script src="../BlockLy/blocks_compressed.js"></script>
+    <script src="../BlockLy/javascript_compressed.js"></script>
+    <script src="../BlockLy/misBloques.js"></script>
+    <script src="../BlockLy/es.js"></script>
 </head>
-<body style="background-color: #7A96EE">
+<body>
     <%-- //////////////////////////////////// BEGIN BARRA //////////////////////////////////////////////// --%>
     <nav class="navbar navbar-expand-lg navbar-light bg-light navbar-dark bg-dark">
         <a class="navbar-brand" href="#">Proyecto 1 - 201503712</a>
@@ -32,46 +39,96 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link disabled">Login</a>
+                    <a class="nav-link" href="modoPrincipiante.aspx">Principiante</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="modoIntermedio.aspx">Intermedio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="modoAvanzado.aspx">Avanzado</a>
                 </li>
                 <%--<li class="nav-item">
                     <a class="nav-link disabled" href="#">Disabled</a>
                 </li>--%>
             </ul>
-
             <div class="form-inline my-2 my-lg-0">
                 <button class="btn btn-outline-success my-2 my-sm-0" onclick="AnalizarLUP()">Analizar LUP</button>
+                <form id="form2" runat="server" class="form-inline my-2 my-lg-0">
+                    <asp:HiddenField ID="hdCadena" runat="server" />
+                    <asp:Button class="btn btn-outline-success my-2 my-sm-0" runat="server" OnClientClick="AlmacenarTexto()" OnClick="Unnamed_Click" Text="Analizar CQL"></asp:Button>
+                    <asp:Button class="btn btn-outline-success my-2 my-sm-0" runat="server" OnClick="Unnamed_Click1" Text="Cerrar Sesión"></asp:Button>
+                </form>
             </div>
         </div>
     </nav>
     <%-- ////////////////////////////////////////// END BARRA ////////////////////////////////////////////////// --%>
 
-    <div>
-        <br />
-        <br />
-        <br />
-        <form class="form-row" runat="server">
-            <div class="col-md-offset-10"></div>
-            <div class="form-group col-md-4">
-                <label for="inputEmail4">Email</label>
-                <input runat="server" type="text" class="form-control" id="user" placeholder="Usuario" />
-            </div>
-            <div class="form-group col-md-4">
-                <label for="inputPassword4">Password</label>
-                <input runat="server" type="password" class="form-control" id="pass" placeholder="Contraseña" />
-            </div>
-            <div class="col-md-offset-10"></div>
-            <asp:Button runat="server" class="btn btn-primary" Text="Ingresar" OnClick="Unnamed_Click"></asp:Button>
+    <form id="form1">
+        <div id="DivBlockly" style="height: 400px; width: 1350px"></div>
+        <input type="button" onclick="MostrarCodigo()" value="MostrarCodigo" />
+        <xml id="toolbox" style="display: none">
+             <category name="Sentencias">
+                <block type="select"></block>
+                <block type="where"></block>
+                <block type="where_2"></block>
+                <block type="orderby"></block>
+                <block type="limit"></block>
+                <block type="insert"></block>
+                <block type="update"></block>
+                <block type="delete"></block>
+             </category>
+            <category name="Control dbms">
+                <block type="use"></block>
+            </category>
+             <category name="Atributos">
+                <block type="text"></block>
+                <block type="seleccion"></block>
+             </category>
+             <category name="Valores">
+                <block type="text"></block>
+                <block type="lists_create_with"></block>
+                <block type="math_number"></block>
+            </category>
+            <category name="Operadores">
+                <block type="logic_compare"></block>
+                <block type="math_arithmetic"></block>
+            </category>
+            <category name="Sentencias de Control" colour="330">
+                <block type="controls_if"></block>
+            </category>
+            <category name="Variables" colour="330">
+                <block type="var"></block>
+                <block type="reasignar"></block>
+                <block type="valinstancia"></block>
+                <block type="create_var"></block>
 
-            <asp:HiddenField ID="hdLogin" runat="server"/>
-            <asp:HiddenField ID="hdUser" runat="server"/>
-        </form>
-        <br />
+            </category>
+        </xml>
+        <script>
+            var EspacioTrabajo = Blockly.inject('DivBlockly', { toolbox: document.getElementById('toolbox') });
+            function MostrarCodigo() {
+                var codigo = Blockly.JavaScript.workspaceToCode(EspacioTrabajo);
+                document.getElementById('txtBlockly').innerHTML = codigo;
+            }
+        </script>
+    </form>
 
+    <div id="divEditorTexto">
         <div class="tab">
+            <button class="tablinks" onclick="openTab(event, 'Consola')">Consola</button>
             <button class="tablinks" onclick="openTab(event, 'Paquetes_Enviados')">Paquetes Enviados</button>
             <button class="tablinks" onclick="openTab(event, 'Paquetes_Recibidos')">Paquetes Recibidos</button>
+            <button class="tablinks" onclick="openTab(event, 'Generado_Blockly')">Generado Blockly</button>
             <button class="tablinks" onclick="openTab(event, 'Errores')">Errores</button>
+            <button class="tablinks" onclick="openTab(event, 'Consultas')">Consultas</button>
+        </div>
+        <div id="Consola" class="tabcontent">
+            <h3>Consola</h3>
+            <textarea id="txtConsola" rows="20" cols="150" runat="server" class="text-white bg-dark"></textarea>
+        </div>
+        <div id="Generado_Blockly" class="tabcontent">
+            <h3>Generado Blockly</h3>
+            <textarea id="txtBlockly" rows="20" cols="150" runat="server" class="text-white bg-dark"></textarea>
         </div>
         <div id="Paquetes_Enviados" class="tabcontent">
             <h3>Paquetes Enviados</h3>
@@ -84,6 +141,11 @@
         <div id="Errores" class="tabcontent">
             <h3>Errores</h3>
             <div id="divErrores">
+            </div>
+        </div>
+        <div id="Consultas" class="tabcontent">
+            <h3>Consultas</h3>
+            <div id="divConsultas">
             </div>
         </div>
     </div>
@@ -111,9 +173,27 @@
             evt.currentTarget.className += " active";
         }
 
+        function AlmacenarTexto() {
+            document.getElementById('hdCadena').value = document.getElementById('txtBlockly').value;
+        }
+
         function AnalizarLUP() {
             var text = document.getElementById("txtSalida").value;
             var ast = Analizador.parse(text);
+
+            //imprimo los mensajes en la consola
+            for (i in ast.mensajes) {
+                document.getElementById("txtConsola").value +=
+                    (ast.mensajes[i]).toString().replace("[+MESSAGE]", "").replace("[-MESSAGE]", "") + "\n";
+            }
+
+            //creo la tabla para las consultas
+            for (i in ast.data) {
+                var divTablaConsulta = document.createElement('div');
+                var data = ast.data[i];
+                divTablaConsulta.innerHTML += data.toString().replace("[+DATA]", "").replace("[-DATA]", "");
+                document.getElementById('divConsultas').appendChild(divTablaConsulta);
+            }
 
             //creo la tabla para los errores
             var divTablaErrores = document.createElement('div');
@@ -138,16 +218,7 @@
             tablaErrores += "</table>";
             divTablaErrores.innerHTML = tablaErrores;
             document.getElementById('divErrores').appendChild(divTablaErrores);
-            
-            if (ast.login == true) {
-                document.getElementById('hdLogin').value = "true";
-                alert("Login True");
-            } else {
-                document.getElementById('hdLogin').value = "false";
-                alert("Login False");
-            }
         }
-
     </script>
 </body>
 </html>

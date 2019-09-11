@@ -13,7 +13,10 @@ namespace Server.Analizador.Chison
     {
         Hashtable valores;
 
-        public Columna() { }
+        public Columna()
+        {
+            this.valores = new Hashtable();
+        }
 
         public Columna(String id, Object obj) {
             this.valores = new Hashtable();

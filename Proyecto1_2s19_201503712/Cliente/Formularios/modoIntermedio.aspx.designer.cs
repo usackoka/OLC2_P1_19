@@ -10,7 +10,7 @@
 namespace Cliente.Formularios {
     
     
-    public partial class modoPrincipiante {
+    public partial class modoIntermedio {
         
         /// <summary>
         /// Control form2.

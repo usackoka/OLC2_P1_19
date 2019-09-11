@@ -30,6 +30,7 @@ namespace Server.Analizador.Chison
                 if (obj is UserCHISON) {
                     ((UserCHISON)obj).Ejecutar(this.dbms);
                 } else if (obj is DataBaseCHISON) {
+                    ((DataBaseCHISON)obj).Ejecutar(this.dbms);
                 }
             }
         }
@@ -433,7 +434,7 @@ namespace Server.Analizador.Chison
             }
             else if (CompararNombre(raiz, "PERMISO")) {
                 // menor_que + res_name + igual + cadena + mayor_que
-                return getLexema(raiz,3);
+                return getLexema(raiz,3).Replace("\"", "");
             }
             else
             {

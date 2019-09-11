@@ -148,7 +148,69 @@ Blockly.Blocks['where_2'] = {
   }
 };
 
+Blockly.Blocks['use'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Use")
+        .appendField(new Blockly.FieldTextInput("DataBase"), "dataBase");
+    this.setColour(60);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};
 
+Blockly.Blocks['reasignar'] = {
+  init: function() {
+    this.appendValueInput("expresion")
+        .setCheck(null)
+        .appendField("Reasignar")
+        .appendField(new Blockly.FieldTextInput("@id"), "var")
+        .appendField(new Blockly.FieldDropdown([["=","igual"], ["+=","mas_igual"], ["-=","menos_igual"]]), "asignacion");
+    this.setColour(230);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['var'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Variable")
+        .appendField(new Blockly.FieldTextInput("@id"), "variable");
+    this.setOutput(true, null);
+    this.setColour(230);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['create_var'] = {
+  init: function() {
+    this.appendValueInput("identifier")
+        .setCheck("var")
+        .appendField("Tipo")
+        .appendField(new Blockly.FieldDropdown([["INT","int"], ["STRING","string"], ["DOUBLE","double"], ["DATE","date"], ["TIME","time"], ["BOOLEAN","boolean"], ["CURSOR","cursor"]]), "tipo")
+        .appendField("Id");
+    this.appendValueInput("ValorInstancia")
+        .setCheck("valinstancia")
+        .appendField("Valor Instancia");
+    this.setColour(230);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['valinstancia'] = {
+  init: function() {
+    this.appendValueInput("expresion")
+        .setCheck(null)
+        .appendField("=");
+    this.setOutput(true, null);
+    this.setColour(230);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -160,6 +222,13 @@ Blockly.Blocks['where_2'] = {
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 //=============================== CODIGO ===========================================================
 //========================= SELECT ========================================
+Blockly.JavaScript['use'] = function(block) {
+  var text_database = block.getFieldValue('dataBase');
+  // TODO: Assemble JavaScript into code variable.
+  var code = 'USE '+text_database+';\n';
+  return code;
+};
+
 Blockly.JavaScript['where'] = function(block) {
   var text_expresion = block.getFieldValue('expresion');
   // TODO: Assemble JavaScript into code variable.
@@ -235,6 +304,39 @@ Blockly.JavaScript['where_2'] = function(block) {
   var value_where = Blockly.JavaScript.valueToCode(block, 'where', Blockly.JavaScript.ORDER_ATOMIC);
   // TODO: Assemble JavaScript into code variable.
   var code = ' WHERE '+value_where;
+  // TODO: Change ORDER_NONE to the correct strength.
+  return [code, Blockly.JavaScript.ORDER_NONE];
+};
+
+Blockly.JavaScript['reasignar'] = function(block) {
+  var text_var = block.getFieldValue('var');
+  var dropdown_asignacion = block.getFieldValue('asignacion');
+  var value_expresion = Blockly.JavaScript.valueToCode(block, 'expresion', Blockly.JavaScript.ORDER_ATOMIC);
+  // TODO: Assemble JavaScript into code variable.
+  var code = text_var + dropdown_asignacion + value_expresion+';\n';
+  return code;
+};
+
+Blockly.JavaScript['var'] = function(block) {
+  var text_variable = block.getFieldValue('variable');
+  // TODO: Assemble JavaScript into code variable.
+  var code = text_variable;
+  return [code, Blockly.JavaScript.ORDER_NONE];
+};
+
+Blockly.JavaScript['create_var'] = function(block) {
+  var dropdown_tipo = block.getFieldValue('tipo');
+  var value_identifier = Blockly.JavaScript.valueToCode(block, 'identifier', Blockly.JavaScript.ORDER_ATOMIC);
+  var value_valorinstancia = Blockly.JavaScript.valueToCode(block, 'ValorInstancia', Blockly.JavaScript.ORDER_ATOMIC);
+  // TODO: Assemble JavaScript into code variable.
+  var code = dropdown_tipo + ' '+value_identifier+' '+value_valorinstancia+';\n';
+  return code;
+};
+
+Blockly.JavaScript['valinstancia'] = function(block) {
+  var value_expresion = Blockly.JavaScript.valueToCode(block, 'expresion', Blockly.JavaScript.ORDER_ATOMIC);
+  // TODO: Assemble JavaScript into code variable.
+  var code = value_expresion;
   // TODO: Change ORDER_NONE to the correct strength.
   return [code, Blockly.JavaScript.ORDER_NONE];
 };

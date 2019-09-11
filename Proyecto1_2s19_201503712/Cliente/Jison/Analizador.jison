@@ -5,6 +5,7 @@
 %options case-insensitive
 %locations
 digito = [0-9]
+letras = [A-Za-zÑñ]
 %s res_message
 %s res_lexema
 %s res_descripcion
@@ -43,18 +44,38 @@ digito = [0-9]
 //========================================================================
 \s+                   /* skip whitespace */
 
-"[+ERROR]"				return 'res_errorOpen';
-"[-ERROR]"				return 'res_errorClose';
-"[+LINE]"				return 'res_lineOpen';
-"[-LINE]"				return 'res_lineClose';
-"[+COLUMN]"				return 'res_columnOpen';
-"[-COLUMN]"				return 'res_columnClose';
-"[+LOGIN]"				return 'res_loginOpen';
-"[-LOGIN]"				return 'res_loginClose';
-"[SUCCESS]"				return 'res_success';
-"[FAIL]"				return 'res_fail';
-{digito}+				return 'numero';
-<<EOF>>                 return 'EOF';
+/*
+"[+DATABASES]"										return 'res_dataBasesOpen';
+"[-DATABASES]"										return 'res_dataBasesClose';
+"[+DATABASE]"										return 'res_dataBaseOpen';
+"[-DATABASE]"										return 'res_dataBaseClose';
+"[+NAME]"											return 'res_nameOpen';
+"[-NAME]"											return 'res_nameClose';
+"[+TABLES]"											return 'res_tablesOpen';
+"[-TABLES]"											return 'res_tablesClose';
+"[+TABLE]"											return 'res_tableOpen';
+"[-TABLE]"											return 'res_tableClose';
+"[+TYPES]"											return 'res_typesOpen';
+"[-TYPES]"											return 'res_typesClose';
+"[+TYPE]"											return 'res_typeOpen';
+"[-TYPE]"											return 'res_typeClose';
+"[+PROCEDURES]"										return 'res_procedureOpen';
+"[-PROCEDURES]"										return 'res_procedureClose';
+*/
+
+"[+ERROR]"											return 'res_errorOpen';
+"[-ERROR]"											return 'res_errorClose';
+"[+LINE]"											return 'res_lineOpen';
+"[-LINE]"											return 'res_lineClose';
+"[+COLUMN]"											return 'res_columnOpen';
+"[-COLUMN]"											return 'res_columnClose';
+"[+LOGIN]"											return 'res_loginOpen';
+"[-LOGIN]"											return 'res_loginClose';
+"[SUCCESS]"											return 'res_success';
+"[FAIL]"											return 'res_fail';
+{digito}+											return 'numero';
+({letras}|"_")({letras}+|{digito}*|"_")*          	return 'id';
+<<EOF>>                 							return 'EOF';
 .                       { console.error('Este es un error léxico: ' + yytext + ', en la linea: ' + yylloc.first_line + ', en la columna: ' + yylloc.first_column); }
 
 /lex
@@ -75,9 +96,11 @@ digito = [0-9]
     	this.contMess = 0;
     	this.contData = 0;
     	this.contErr = 0;
+    	this.contDBMS = 0;
     	this.data = {};
     	this.errores = {};
 	    this.mensajes = {};
+	    this.dbms = {};
     }
 
     var ast = new AST_LUP();
@@ -100,7 +123,8 @@ LIST_BLOCK : LIST_BLOCK BLOCK
 BLOCK : MENSAJE {ast.mensajes[ast.contMess++] = $1;}
 	| DATA {ast.data[ast.contData++] = $1;}
 	| ERROR {ast.errores[ast.contErr++] = $1;}
-	//| LOGIN
+	//| DBMS
+	| LOGIN
 ;
 
 LOGIN : 'res_loginOpen' STATUS 'res_loginClose'
@@ -129,6 +153,22 @@ ERROR : 'res_errorOpen'
 			error.tipo = $12; error.descripcion = $15;
 			$$ = error;}
 ;
+
+/*
+DBMS : res_dataBasesOpen DATA_BASES res_dataBasesClose
+;
+
+DATA_BASES : DATA_BASES res_dataBaseOpen + CONTENIDO + res_dataBaseClose {
+	var data_base = {};
+	data_base.
+	ast.dbms[ast.contDBMS++] = $1;
+}
+	| res_dataBaseOpen + CONTENIDO + res_dataBaseClose
+;
+
+CONTENIDO : 
+*/
+
 
 T1 : T1 'TODO' {$$ = $1+$2;}
 	| T1 'WS' {$$ = $1+$2;}

@@ -54,13 +54,13 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Principiante</a>
+                    <a class="nav-link" href="modoPrincipiante.aspx">Principiante</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Intermedio</a>
+                    <a class="nav-link" href="modoIntermedio.aspx">Intermedio</a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href="#">Avanzado</a>
+                    <a class="nav-link" href="modoAvanzado.aspx">Avanzado</a>
                 </li>
                 <%--<li class="nav-item">
                     <a class="nav-link disabled" href="#">Disabled</a>

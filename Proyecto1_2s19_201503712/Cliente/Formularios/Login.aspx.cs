@@ -12,6 +12,11 @@ namespace Cliente.Formularios
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack) {
+                foreach (System.Collections.DictionaryEntry entry in HttpContext.Current.Cache)
+                {
+                    HttpContext.Current.Cache.Remove((string)entry.Key);
+                }
+
                 Session["idUser"] = null;
             }
         }

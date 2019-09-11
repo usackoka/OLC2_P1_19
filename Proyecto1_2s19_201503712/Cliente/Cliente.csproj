@@ -649,8 +649,8 @@
     <Content Include="Formularios\css\style.css" />
     <Content Include="Formularios\Login.aspx" />
     <Content Include="Formularios\modoAvanzado.aspx" />
+    <Content Include="Formularios\modoIntermedio.aspx" />
     <Content Include="Formularios\modoPrincipiante.aspx" />
-    <Content Include="Jison\Analizador.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -672,6 +672,13 @@
     </Compile>
     <Compile Include="Formularios\modoAvanzado.aspx.designer.cs">
       <DependentUpon>modoAvanzado.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Formularios\modoIntermedio.aspx.cs">
+      <DependentUpon>modoIntermedio.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Formularios\modoIntermedio.aspx.designer.cs">
+      <DependentUpon>modoIntermedio.aspx</DependentUpon>
     </Compile>
     <Compile Include="Formularios\modoPrincipiante.aspx.cs">
       <DependentUpon>modoPrincipiante.aspx</DependentUpon>
