@@ -61,7 +61,7 @@ namespace Server.Analizador.Chison
         {
             if (this.valores.ContainsKey("pk"))
             {
-                return this.valores["pk"].ToString().Equals("true", StringComparison.InvariantCultureIgnoreCase) ? true:false ;
+                return this.valores["pk"].ToString().Equals("false")?false:true;
             }
             else
             {

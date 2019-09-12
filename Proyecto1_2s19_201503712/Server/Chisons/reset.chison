@@ -1,0 +1,10 @@
+$<
+"DATABASES"=[],
+"USERS"=[
+<
+"NAME"="admin",
+"PASSWORD"="admin",
+"PERMISSIONS"= []
+>]
+
+>$

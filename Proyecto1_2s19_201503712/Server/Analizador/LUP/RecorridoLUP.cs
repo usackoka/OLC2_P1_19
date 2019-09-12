@@ -49,7 +49,7 @@ namespace Server.Analizador.LUP
                 String cadena = getLexema(raiz, 4).Replace("[+DATA]", "").Replace("[-DATA]", "")
                     .Replace("[+data]", "").Replace("[-data]", "");
 
-                Generador parserCQL = new Generador();
+                Generador parserCQL = new Generador(); 
                 if (parserCQL.esCadenaValida(cadena, new GramaticaCQL()))
                 {
                     if (parserCQL.padre.Root != null)

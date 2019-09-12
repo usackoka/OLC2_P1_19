@@ -1,4 +1,5 @@
-﻿using Server.AST.DBMS;
+﻿using Server.AST.ColeccionesCQL;
+using Server.AST.DBMS;
 using Server.AST.ExpresionesCQL.Tipos;
 using System;
 using System.Collections.Generic;
@@ -126,7 +127,72 @@ namespace Server.AST.ExpresionesCQL
             }
         }
 
+        public override object getValor(AST_CQL arbol)
+        {
+
+            switch (this.tipoDato)
+            {
+                case TIPO_DATO.NULL:
+                case TIPO_DATO.BOOLEAN:
+                case TIPO_DATO.DOUBLE:
+                case TIPO_DATO.INT:
+                case TIPO_DATO.STRING:
+                case TIPO_DATO.DATE:
+                case TIPO_DATO.TIME:
+                    return this.value;
+                case TIPO_DATO.ID:
+                    return arbol.entorno.getValorVariable(this.value.ToString(), arbol, fila, columna);
+                default:
+                    arbol.addError("", "(Primitivo) no soportado tipo: " + this.tipoDato, fila, columna);
+                    return this.value;
+            }
+        }
+
+        Boolean ContainsString(String match, String search)
+        {
+            return Regex.IsMatch(search, Regex.Escape(match), RegexOptions.IgnoreCase);
+        }
+
+        static Boolean CompararNombre(String n1, String n2)
+        {
+            return n1.Equals(n1, StringComparison.InvariantCultureIgnoreCase);
+        }
+
+        /// <summary>
+        /// ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// //////////////////////////////////////// METODOS CHISON ///////////////////////////////////////////////////
+        /// ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// </summary>
+        /// <returns></returns>
+        public static Object getObjectByList(List<Object> lista, Object tipoDato, Management dbms) {
+            if (tipoDato is TipoList)
+            {
+                ListCQL list = new ListCQL(tipoDato, 0, 0);
+                list.valores = lista;
+                return list;
+            }
+            else {
+                dbms.addError("getObjectByList","No se encontró el tipo: "+tipoDato,0,0);
+                return TIPO_DATO.NULL;
+            }
+        }
+
         public static Object getTipoString(String nombre, Management dbms) {
+
+            if (nombre.ToLower().Contains("list")) {
+                nombre = nombre.Substring(4);
+                nombre = nombre.TrimStart('<').TrimEnd('>');
+                return new TipoList(getTipoString(nombre, dbms));
+            } else if (nombre.ToLower().Contains("set")) {
+                nombre = nombre.Substring(4);
+                nombre = nombre.TrimStart('<').TrimEnd('>');
+                return new TipoList(getTipoString(nombre, dbms));
+            }
+
             if (CompararNombre(nombre, "INT"))
             {
                 return TIPO_DATO.INT;
@@ -165,35 +231,6 @@ namespace Server.AST.ExpresionesCQL
                 dbms.addError("Primitivo-getTipoString-Chison", "No se procesó el tipo: " + nombre, 0, 0);
                 return "not Supported";
             }
-        }
-
-        public override object getValor(AST_CQL arbol)
-        {
-
-            switch (this.tipoDato)
-            {
-                case TIPO_DATO.NULL:
-                case TIPO_DATO.BOOLEAN:
-                case TIPO_DATO.DOUBLE:
-                case TIPO_DATO.INT:
-                case TIPO_DATO.STRING:
-                case TIPO_DATO.DATE:
-                case TIPO_DATO.TIME:
-                    return this.value;
-                case TIPO_DATO.ID:
-                    return arbol.entorno.getValorVariable(this.value.ToString(),arbol,fila,columna);
-                default:
-                    arbol.addError("","(Primitivo) no soportado tipo: "+this.tipoDato,fila,columna);
-                    return this.value;
-            }
-        }
-
-        Boolean ContainsString(String match, String search) {
-            return Regex.IsMatch(search, Regex.Escape(match), RegexOptions.IgnoreCase);
-        }
-
-        static Boolean CompararNombre(String n1, String n2) {
-            return n1.Equals(n1,StringComparison.InvariantCultureIgnoreCase);
         }
     }
 }

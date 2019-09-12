@@ -2,6 +2,7 @@
 using Server.AST;
 using Server.AST.DBMS;
 using Server.AST.ExpresionesCQL;
+using Server.AST.ExpresionesCQL.Tipos;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -39,10 +40,13 @@ namespace Server.Analizador.Chison
         {
             if (CompararNombre(raiz, "S"))
             {
-                // dolar + menor_que + DATABASES + coma + USERS + mayor_que + dolar
-                    nodosChison.AddRange((List<object>)recorrido(raiz.ChildNodes[2]));
-                    nodosChison.Add((UserCHISON)recorrido(raiz.ChildNodes[4]));
+                if (raiz.ChildNodes.Count==0) {
                     return null;
+                }
+                // dolar + menor_que + DATABASES + coma + USERS + mayor_que + dolar
+                nodosChison.AddRange((List<object>)recorrido(raiz.ChildNodes[2]));
+                nodosChison.Add((UserCHISON)recorrido(raiz.ChildNodes[4]));
+                return null;
             }
             else if (CompararNombre(raiz, "INICIO_IMPORT")) {
                 return recorrido(raiz.ChildNodes[0]);
@@ -126,7 +130,7 @@ namespace Server.Analizador.Chison
                 | res_attrs + igual + l_corchete + LISTA_ATTRS + r_corchete
                 | res_parameters + igual + l_corchete + LISTA_PARAMETERS + r_corchete*/
                 if (raiz.ChildNodes.Count == 3) {
-                    return new Data_Base_CHISON(getLexema(raiz, 0).Replace("\"", ""), getLexema(raiz, 2), getFila(raiz, 0), getColumna(raiz, 0));
+                    return new Data_Base_CHISON(getLexema(raiz, 0).Replace("\"", ""), getLexema(raiz, 2).Replace("\"", ""), getFila(raiz, 0), getColumna(raiz, 0));
                 }
                 else {
                     return new Data_Base_CHISON(getLexema(raiz, 0).Replace("\"", ""), recorrido(raiz.ChildNodes[3]), getFila(raiz, 0), getColumna(raiz, 0));
@@ -251,7 +255,7 @@ namespace Server.Analizador.Chison
                     return new Columna(getLexema(raiz, 0).Replace("\"", ""), getLexema(raiz, 2).Equals("TRUE", StringComparison.InvariantCulture) ? true : false);
                 }
                 else {
-                    return new Columna(getLexema(raiz, 0).Replace("\"", ""), getLexema(raiz, 0));
+                    return new Columna(getLexema(raiz, 0).Replace("\"", ""), getLexema(raiz, 2).Replace("\"", ""));
                 }
             }
             else if (CompararNombre(raiz, "LISTA_DATA_COLUMNAS1")) {
@@ -350,12 +354,41 @@ namespace Server.Analizador.Chison
                     {
                         return Primitivo.TIPO_DATO.NULL;
                     }
-                    return ContainsString(value, "true") ? true : false;
+
+                    if (value.Replace(" (Keyword)","").ToLower().Equals("true")) {
+                        return true;
+                    }
+                    else {
+                        return false;
+                    }
                 }
                 else {
                     //cadena2
-                    return null;
+                    value = value.Replace(" (cadena)", "").Replace(" (cadena2)", "");
+                    if (value.Contains("-") || value.Contains("/"))
+                    {
+                        return new Date(value.ToString());
+                    }
+                    else
+                    {
+                        String[] arr = value.Split(':');
+                        if (arr.Length == 3)
+                        {
+                            return new TimeSpan(Convert.ToInt32(arr[0]), Convert.ToInt32(arr[1]),
+                                Convert.ToInt32(arr[2]));
+                        }
+                        else
+                        {
+                            return new TimeSpan();
+                        }
+                    }
                 }
+            }
+            else if (CompararNombre(raiz,"VALOR")) {
+                /*PRIMITIVO
+                | LISTA
+                | MAP;*/
+                return recorrido(raiz.ChildNodes[0]);
             }
             //====================================== USUARIOS =====================================
             else if (CompararNombre(raiz, "USERS")) {
@@ -402,7 +435,7 @@ namespace Server.Analizador.Chison
                 | res_permissions + igual + l_corchete + LISTA_PERMISOS + r_corchete;*/
                 if (raiz.ChildNodes.Count > 4)
                 {
-                    return new User(getLexema(raiz, 0).Replace("\"",""), recorrido(raiz.ChildNodes[3]), getFila(raiz,0), getColumna(raiz, 0));
+                    return new User(getLexema(raiz, 0).Replace("\"", ""), recorrido(raiz.ChildNodes[3]), getFila(raiz, 0), getColumna(raiz, 0));
                 }
                 else {
                     return new User(getLexema(raiz, 0).Replace("\"", ""), getLexema(raiz, 2), getFila(raiz, 0), getColumna(raiz, 0));
@@ -434,7 +467,7 @@ namespace Server.Analizador.Chison
             }
             else if (CompararNombre(raiz, "PERMISO")) {
                 // menor_que + res_name + igual + cadena + mayor_que
-                return getLexema(raiz,3).Replace("\"", "");
+                return getLexema(raiz, 3).Replace("\"", "");
             }
             else
             {

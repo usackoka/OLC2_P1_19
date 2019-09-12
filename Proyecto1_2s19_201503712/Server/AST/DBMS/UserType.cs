@@ -1,5 +1,6 @@
 ﻿using Server.AST.CQL;
 using Server.AST.ExpresionesCQL;
+using Server.AST.ExpresionesCQL.Tipos;
 using System;
 using System.Collections.Generic;
 
@@ -43,7 +44,7 @@ namespace Server.AST.DBMS
         {
             String trad = "";
             trad += "   <\n";
-            trad += "   \"CQL-TYPE\"=\""+this.id+"\",\n";
+            trad += "   \"CQL-TYPE\"=\"OBJECT\",\n";
             trad += "   \"NAME\"=\"" + this.id + "\",\n";
             trad += "   \"ATTRS\"=[" + getAtributos() + "]\n";
             trad += "   >\n";
@@ -71,7 +72,11 @@ namespace Server.AST.DBMS
                 {
                     valor += "\"" + atr.valor + "\",";
                 }
-                else if (atr.valor is DateTime)
+                else if (atr.valor is Date)
+                {
+                    valor += "'" + atr.valor + "',";
+                }
+                else if (atr.valor is TimeSpan)
                 {
                     valor += "'" + atr.valor + "',";
                 }

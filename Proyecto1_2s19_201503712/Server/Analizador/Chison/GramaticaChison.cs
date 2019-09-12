@@ -108,7 +108,8 @@ namespace Server.Analizador.Chison
             #endregion
 
             #region Gramatica
-            S.Rule = dolar + menor_que + DATABASES + coma + USERS + mayor_que + dolar;
+            S.Rule = dolar + menor_que + DATABASES + coma + USERS + mayor_que + dolar
+                | Empty;
 
             //============================ IMPORT =========================================
             IMPORT.Rule = dolar + l_llave + id + punto + res_chison + r_llave + dolar;
