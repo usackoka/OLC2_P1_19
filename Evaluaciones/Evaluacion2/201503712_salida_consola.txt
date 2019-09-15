@@ -1,0 +1,39 @@
+	** EJECUTNADO SCRIPT "MINIMO" **
+	** CARNET: 201503712 **
+	** NOMBRE: Oscar Cuellar **
+
+
+base de datos creada
+
+
+Tabla "Customers" creada exitosamente
+
+
+>> Estadísticas de límite de crédito
+
+
+>> COUNT: 122
+
+
+>> MIN: 0
+
+
+>> MAX: 227600
+
+
+>> SUM: 8254400
+
+
+>> AVG: 67659.0163934426
+
+
+@sequence.size: 5
+
+
+@sequence.get: 5
+
+
+@sequence.contains: False
+
+
+@sequence.contains: True

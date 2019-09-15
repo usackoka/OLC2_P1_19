@@ -1,4 +1,4 @@
-/*
+[+QUERY] [+USER]   admin[-USER][+DATA]/*
 *********************************************************************
 
 *********************************************************************
@@ -6,8 +6,8 @@
 + Validación de mínimos
 *********************************************************************
 */
-int @carnet = 201503712;
-String @nombre = "Oscar Cuellar";
+int @carnet = 2000987654;
+String @nombre = "Estudiante Ejemplo";
 
 LOG("\t** EJECUTNADO SCRIPT \"MINIMO\" **\n\t** CARNET: " + @carnet + " **\n\t** NOMBRE: " + @nombre + " **");
 
@@ -43,20 +43,25 @@ CREATE TABLE IF NOT EXISTS customers (
 
 LOG("Tabla \"Customers\" creada exitosamente");
 
+/*
 CREATE TABLE customers (
     customerName Counter PRIMARY KEY
 );  // Error tabla ya existe
+*/
 
-
+/*
 ALTER TABLE Customers 
     ADD id Counter;        // Error
+    */
 
 ALTER TABLE customers ADD 
     salesRepEmployeeNumber int,
     creditLimit double;
 
+/*
 ALTER TABLE customers DROP
     customerNumber;           // Error
+*/
 
 commit;
 
@@ -87,12 +92,14 @@ VALUES (
     "21000.00"
 );
 
+/*
 INSERT INTO customers(customerNumber)
 VALUES (-1); // Error
+*/
 
 Select * from customers;        // 1 dato
 
-
+/*
 INSERT  INTO customers
 VALUES (
     01,
@@ -108,6 +115,7 @@ VALUES (
     1370,
     "21000.00"
 );  // Error
+*/
 
 Select * from customers;        // 1 dato
 
@@ -394,11 +402,11 @@ SELECT customerName, addressLine2 FROM customers;
 ALTER TABLE customers DROP
     addressLine2;
 
-SELECT customerName, addressLine2 FROM customers; // Error
+//SELECT customerName, addressLine2 FROM customers; // Error
 
 commit;
 
-SELECT customerName, addressLine2 FROM customers; // error
+//SELECT customerName, addressLine2 FROM customers; // error
 
 /* FCL */
 
@@ -486,4 +494,4 @@ WHERE order_.status != @ORDER_STATUS_DELIVERED;
 
 SELECT * FROM orders;
 
-commit;
+commit;[-DATA][-QUERY]
