@@ -195,6 +195,6 @@ CLOSE @ccc;
 
 //commit;
 
-SELECT * FROM Estudiante LIMIT 4;
+SELECT * FROM Estudiante;
 
 log(count(<<SELECT * FROM Estudiante LIMIT 4>>));

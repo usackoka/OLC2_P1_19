@@ -1,6 +1,7 @@
 ﻿using Server.AST.CQL;
 using Server.AST.DBMS;
 using Server.AST.ExpresionesCQL;
+using Server.AST.ExpresionesCQL.Tipos;
 using System;
 using System.Collections.Generic;
 
@@ -32,7 +33,27 @@ namespace Server.Analizador.Chison
 
                 if (compararNombre(cql_type, "object")) {
                     //es por que es un userType
+                    String name = contenido.getName(dbms);
+                    List<List<KeyValuePair<String, String>>> attrs = contenido.getAttrs(dbms);
 
+                    //creo los atributos
+                    List<KeyValuePair<String, Object>> atributos = new List<KeyValuePair<string, object>>();
+                    foreach (List<KeyValuePair<String,String>> lista in attrs) {
+                        String nombre = "NULL";
+                        Object tipo = new Null();
+                        foreach (KeyValuePair<String,String> kvp in lista) {
+                            if (kvp.Key.Equals("name"))
+                            {
+                                nombre = kvp.Value;
+                            }
+                            else {
+                                tipo = Primitivo.getTipoString(kvp.Value,dbms);
+                            }
+                        }
+                        atributos.Add(new KeyValuePair<String, Object>(nombre,tipo));
+                    }
+
+                    UserType userType = new UserType(name,atributos);
                 }
             }
 

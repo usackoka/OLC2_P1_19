@@ -147,7 +147,23 @@ namespace Server.AST.DBMS
                 }
 
                 //creo una tupla resultado si se cumple el where
-                if (where == null || Convert.ToBoolean(where.getValor(arbol)))
+                Boolean vale;
+                if (where == null)
+                {
+                    vale = true;
+                }
+                else{
+                    Object ret = where.getValor(arbol);
+                    if (ret is Boolean)
+                    {
+                        vale = Convert.ToBoolean(ret);
+                    }
+                    else {
+                        vale = false;
+                    }
+                }
+
+                if (vale)
                 {
                     foreach (ColumnCQL column in data)
                     {
@@ -237,7 +253,25 @@ namespace Server.AST.DBMS
                     }
 
                     //creo una tupla resultado si se cumple el where
-                    if (where == null || Convert.ToBoolean(where.getValor(arbol)))
+                    Boolean vale;
+                    if (where == null)
+                    {
+                        vale = true;
+                    }
+                    else
+                    {
+                        Object ret = where.getValor(arbol);
+                        if (ret is Boolean)
+                        {
+                            vale = Convert.ToBoolean(ret);
+                        }
+                        else
+                        {
+                            vale = false;
+                        }
+                    }
+
+                    if (vale)
                     {
                         foreach (ColumnCQL column in data)
                         {

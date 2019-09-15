@@ -13,6 +13,23 @@ namespace Server.AST.DBMS
         public List<KeyValuePair<String, Object>> atributos;
         public List<Atributo> valores;
 
+        //=============================== DESDE CHISON ======================================================
+        //cuando lo genero desde Chison
+        public UserType(String id, List<KeyValuePair<String, Object>> atributos) {
+            this.id = id;
+            this.atributos = atributos;
+            this.valores = new List<Atributo>();
+        }
+        //Cuando hay instancia de UserType con New
+        public UserType(UserType ut,List<KeyValuePair<String,object>> valores ,Management dbms)
+        {
+            this.id = ut.id;
+            this.IfNotExists = ut.IfNotExists;
+            this.atributos = ut.atributos;
+            iniciarValores(dbms,valores);
+        }
+
+        //====================================== DESDE CQL ===================================================
         //Cuando se encuentra la sentencia create user Type...
         public UserType(CreateUserType createUserType)
         {
@@ -110,6 +127,20 @@ namespace Server.AST.DBMS
                 this.valores.Add(new Atributo(kvp.Key, kvp.Value, expresiones[i].getValor(arbol)));
             }
         }
+
+        //================== desde chison
+        void iniciarValores(Management dbms, List<KeyValuePair<String,object>> valores)
+        {
+            this.valores = new List<Atributo>();
+            foreach (KeyValuePair<String,Object> kvp in valores) {
+                foreach (KeyValuePair<String,Object> atr in this.atributos) {
+                    if (atr.Key.Equals(kvp.Key)) {
+                        this.valores.Add(new Atributo(kvp.Key,atr.Value,kvp.Value));
+                    }
+                }
+            }
+        }
+        //====================================
 
         void iniciarValores(AST_CQL arbol)
         {

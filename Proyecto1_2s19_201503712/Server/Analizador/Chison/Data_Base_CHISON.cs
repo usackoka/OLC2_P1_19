@@ -78,6 +78,25 @@ namespace Server.Analizador.Chison
             return lista;
         }
 
+        public List<List<KeyValuePair<String, String>>> getAttrs(Management dbms) {
+            List<List<KeyValuePair<String, String>>> lista = new List<List<KeyValuePair<String, String>>>();
+
+            if (this.valores.ContainsKey("attrs"))
+            {
+                Object o = this.valores["attrs"];
+                if (o is List<List<KeyValuePair<String, String>>>)
+                {
+                    return (List<List<KeyValuePair<String, String>>>)o;
+                }
+            }
+            else
+            {
+                dbms.addError("LoadData-Chison", "La Data no contiene el atributo ATTRS", fila, columna);
+            }
+
+            return lista;
+        }
+
         public List<ColumnCQL> getColumnsDefinitions(Management dbms) {
             if (this.valores.ContainsKey("columns"))
             {

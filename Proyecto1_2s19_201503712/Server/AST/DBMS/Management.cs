@@ -503,6 +503,26 @@ namespace Server.AST.DBMS
             return null;
         }
 
+        //para cuando viene de chison
+        public UserType getUserType(String id)
+        {
+
+            if (this.system == null)
+            {
+                addError("System-NULL", "No hay ninguna base de datos en uso", 0, 0);
+                return null;
+            }
+
+            foreach (UserType ut in system.userTypes)
+            {
+                if (ut.id.Equals(id))
+                {
+                    return ut;
+                }
+            }
+            return null;
+        }
+
         public UserType getUserType(String id, AST_CQL arbol) {
 
             if (this.system==null) {

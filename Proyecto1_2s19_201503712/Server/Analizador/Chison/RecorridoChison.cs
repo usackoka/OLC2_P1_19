@@ -40,7 +40,7 @@ namespace Server.Analizador.Chison
         {
             if (CompararNombre(raiz, "S"))
             {
-                if (raiz.ChildNodes.Count==0) {
+                if (raiz.ChildNodes.Count == 0) {
                     return null;
                 }
                 // dolar + menor_que + DATABASES + coma + USERS + mayor_que + dolar
@@ -182,23 +182,35 @@ namespace Server.Analizador.Chison
                 {
                     //IMPORT.Rule = dolar + l_llave + id + punto + res_chison + r_llave + dolar;
                     Object o = AnalizarImport(getLexema(raiz, 2));
-                    if (!(o is List<List<KeyValuePair<Object, Object>>>))
+                    if (!(o is List<List<KeyValuePair<String, String>>>))
                     {
                         addError("Analizar-Chison", "No se pudo leer bien el import: " + getLexema(raiz, 2),
                             getFila(raiz, 0), getColumna(raiz, 0));
-                        return new List<List<KeyValuePair<Object, Object>>>();
+                        return new List<List<KeyValuePair<String, String>>>();
                     }
                     return o;
                 }
                 else
                 {
-                    List<List<KeyValuePair<Object, Object>>> lista = new List<List<KeyValuePair<Object, Object>>>();
+                    List<List<KeyValuePair<String, String>>> lista = new List<List<KeyValuePair<String, String>>>();
                     foreach (ParseTreeNode nodo in raiz.ChildNodes)
                     {
-                        lista.Add((List<KeyValuePair<Object, Object>>)recorrido(nodo));
+                        lista.Add((List<KeyValuePair<String, String>>)recorrido(nodo));
                     }
                     return lista;
                 }
+            }
+            else if (CompararNombre(raiz, "ATTRS_VALS")) {
+                return new KeyValuePair<String, String>(getLexema(raiz,0).Replace(" (cadena)","").Replace("\"","").ToLower(), 
+                    getLexema(raiz,2).Replace(" (cadena)", "").Replace("\"", ""));
+            }
+            else if (CompararNombre(raiz, "LISTA_ATTRS_VALS")) {
+                List<KeyValuePair<String, String>> lista = new List<KeyValuePair<String, String>>();
+                foreach (ParseTreeNode nodo in raiz.ChildNodes)
+                {
+                    lista.Add((KeyValuePair<String, String>)recorrido(nodo));
+                }
+                return lista;
             }
             else if (CompararNombre(raiz, "LISTA_KEY_VALUE_PAIR")) {
                 List<KeyValuePair<Object, Object>> lista = new List<KeyValuePair<Object, Object>>();
@@ -355,7 +367,7 @@ namespace Server.Analizador.Chison
                         return new Null();
                     }
 
-                    if (value.Replace(" (Keyword)","").ToLower().Equals("true")) {
+                    if (value.Replace(" (Keyword)", "").ToLower().Equals("true")) {
                         return true;
                     }
                     else {
@@ -384,7 +396,7 @@ namespace Server.Analizador.Chison
                     }
                 }
             }
-            else if (CompararNombre(raiz,"VALOR")) {
+            else if (CompararNombre(raiz, "VALOR")) {
                 /*PRIMITIVO
                 | LISTA
                 | MAP;*/

@@ -849,17 +849,20 @@ namespace Server.Analizador
                 {
                     if (ContainsString(getLexema(raiz, 1), "list"))
                     {
-                        return new ListCQL(recorrido(raiz.ChildNodes[3]), getFila(raiz, 0), getColumna(raiz, 0));
+                        return new InstanciaListCQL(recorrido(raiz.ChildNodes[3]), getFila(raiz, 0), getColumna(raiz, 0));
+                        //return new ListCQL(recorrido(raiz.ChildNodes[3]), getFila(raiz, 0), getColumna(raiz, 0));
                     }
                     else
                     {
-                        return new SetCQL(recorrido(raiz.ChildNodes[3]), getFila(raiz, 0), getColumna(raiz, 0));
+                        return new InstanciaSetCQL(recorrido(raiz.ChildNodes[3]), getFila(raiz, 0), getColumna(raiz, 0));
+                        //return new SetCQL(recorrido(raiz.ChildNodes[3]), getFila(raiz, 0), getColumna(raiz, 0));
                     }
                 }
                 else if (raiz.ChildNodes.Count == 7)
                 {
                     //res_new + res_map + menor_que + TIPO + coma + TIPO + mayor_que
-                    return new MapCQL(recorrido(raiz.ChildNodes[3]), recorrido(raiz.ChildNodes[5]), getFila(raiz, 0), getColumna(raiz, 0));
+                    return new InstanciaMapCQL(recorrido(raiz.ChildNodes[3]), recorrido(raiz.ChildNodes[5]), getFila(raiz, 0), getColumna(raiz, 0));
+                    //return new MapCQL(recorrido(raiz.ChildNodes[3]), recorrido(raiz.ChildNodes[5]), getFila(raiz, 0), getColumna(raiz, 0));
                 }
                 else
                 {

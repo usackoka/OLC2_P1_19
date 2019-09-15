@@ -47,7 +47,8 @@ namespace Server.Analizador.LUP
                 //res_queryOpen + res_userOpen + id + res_userClose + res_data + res_queryClose
                 dbms.usuarioActivo = dbms.getUser(getLexema(raiz,2));
 
-                String cadena = getLexema(raiz, 4).Replace("[+DATA]", "").Replace("[-DATA]", "")
+                String cadena = getLexema(raiz, 4);
+                cadena = cadena.Replace("[+DATA]", "").Replace("[-DATA]", "")
                     .Replace("[+data]", "").Replace("[-data]", "");
 
                 Generador parserCQL = new Generador(); 
@@ -115,7 +116,7 @@ namespace Server.Analizador.LUP
 
         string getLexema(ParseTreeNode nodo, int num)
         {
-            return nodo.ChildNodes[num].Token.Text.ToLower();
+            return nodo.ChildNodes[num].Token.Text;
         }
 
         int getFila(ParseTreeNode nodo, int num)

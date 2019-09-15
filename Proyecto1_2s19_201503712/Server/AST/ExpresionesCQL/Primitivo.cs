@@ -1,6 +1,7 @@
 ﻿using Server.AST.ColeccionesCQL;
 using Server.AST.DBMS;
 using Server.AST.ExpresionesCQL.Tipos;
+using Server.AST.SentenciasCQL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -198,22 +199,61 @@ namespace Server.AST.ExpresionesCQL
                     return new Null();
                 }
             }
-            else if (obj is List<KeyValuePair<String,Object>>) {//objeto
-                return null;
-            }
-            else if (obj is List<KeyValuePair<Object,Object>>) //mapa
+            /*
+            else if (obj is List<KeyValuePair<String, Object>>)
+            {//objeto
+                
+                if (tipoDato is String)
+                {
+                    UserType modeloUt = dbms.getUserType(tipoDato.ToString());
+                    if (modeloUt == null)
+                    {
+                        dbms.addError("TypeDontExists", "No se encontró el UserType: " + tipoDato.ToString(), 0, 0);
+                        new Null();
+                    }
+
+                    List<KeyValuePair<Object, Object>> list = new List<KeyValuePair<object, object>>();
+                    foreach (KeyValuePair<String, Object> o in lista)
+                    {
+                        list.Add(new KeyValuePair<object, object>(getObjectByList(o.Key, ((TipoMAP)tipoDato).tipoClave, dbms),
+                                        getObjectByList(o.Value, ((TipoMAP)tipoDato).tipoValor, dbms)));
+                    }
+                    return new UserType(modeloUt, list, dbms);
+                }
+                else
+                {
+                    dbms.addError("getObjectByList", "No se encontró el tipo: " + tipoDato, 0, 0);
+                    return new Null();
+                }
+            }*/
+            else if (obj is List<KeyValuePair<Object, Object>>) //mapa u objeto
             {
                 List<KeyValuePair<Object, Object>> lista = (List<KeyValuePair<Object, Object>>)obj;
                 if (tipoDato is TipoMAP)
                 {
                     MapCQL list = new MapCQL(((TipoMAP)tipoDato).tipoClave, ((TipoMAP)tipoDato).tipoValor, 0, 0);
                     //convierto los valores de la lista
-                    foreach (KeyValuePair<Object,Object> o in lista)
+                    foreach (KeyValuePair<Object, Object> o in lista)
                     {
                         list.valores.Add(getObjectByList(o.Key, ((TipoMAP)tipoDato).tipoClave, dbms),
-                                        getObjectByList(o.Value, ((TipoMAP)tipoDato).tipoValor,dbms));
+                                        getObjectByList(o.Value, ((TipoMAP)tipoDato).tipoValor, dbms));
                     }
                     return list;
+                }
+                else if (tipoDato is String) {
+                    UserType modeloUt = dbms.getUserType(tipoDato.ToString());
+                    if (modeloUt == null)
+                    {
+                        dbms.addError("TypeDontExists", "No se encontró el UserType: " + tipoDato.ToString(), 0, 0);
+                        new Null();
+                    }
+
+                    List<KeyValuePair<String, Object>> list = new List<KeyValuePair<String, Object>>();
+                    foreach (KeyValuePair<Object, Object> o in lista)
+                    {
+                        list.Add(new KeyValuePair<String, Object>(o.Key.ToString(),getObjectByList(o.Value, ((TipoMAP)tipoDato).tipoValor, dbms)));
+                    }
+                    return new UserType(modeloUt, list, dbms);
                 }
                 else
                 {
@@ -294,6 +334,37 @@ namespace Server.AST.ExpresionesCQL
             }
             else {
                 return nombre;
+            }
+        }
+
+        public static Object getDefecto(Object tipoDato, Management arbol)
+        {
+
+            if (tipoDato is String || tipoDato is TipoMAP || tipoDato is TipoList || tipoDato is TipoSet)
+            {
+                return new Null();
+            }
+
+            switch (tipoDato)
+            {
+                case TIPO_DATO.TIME:
+                    return new TimeSpan(DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
+                case TIPO_DATO.DATE:
+                    return new Date();
+                case TIPO_DATO.INT:
+                case TIPO_DATO.COUNTER:
+                    return 0;
+                case TIPO_DATO.BOOLEAN:
+                    return false;
+                case TIPO_DATO.DOUBLE:
+                    return 0.0;
+                case TIPO_DATO.STRING:
+                case TIPO_DATO.STRUCT:
+                case TIPO_DATO.CURSOR:
+                    return new Null();
+                default:
+                    arbol.addError(tipoDato.ToString(), "No hay defecto para el tipo de dato: " + tipoDato, 0, 0);
+                    return new Null();
             }
         }
     }

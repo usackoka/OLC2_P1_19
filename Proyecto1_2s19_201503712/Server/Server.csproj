@@ -93,6 +93,9 @@
     <Compile Include="Analizador\LUP\RecorridoLUP.cs" />
     <Compile Include="Analizador\RecorridoCQL.cs" />
     <Compile Include="AST\AST_CQL.cs" />
+    <Compile Include="AST\ColeccionesCQL\InstanciaListCQL.cs" />
+    <Compile Include="AST\ColeccionesCQL\InstanciaMapCQL.cs" />
+    <Compile Include="AST\ColeccionesCQL\InstanciaSetCQL.cs" />
     <Compile Include="AST\ColeccionesCQL\ListCQL.cs" />
     <Compile Include="AST\ColeccionesCQL\MapCQL.cs" />
     <Compile Include="AST\ColeccionesCQL\SetCQL.cs" />
