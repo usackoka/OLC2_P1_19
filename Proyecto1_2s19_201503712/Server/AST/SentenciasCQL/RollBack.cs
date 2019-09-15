@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Server.AST.DBMS;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -14,7 +15,12 @@ namespace Server.AST.SentenciasCQL
 
         public override object Ejecutar(AST_CQL arbol)
         {
-            return null;
+            String baseUso = arbol.dbms.system.id;
+            String userActivo = arbol.dbms.usuarioActivo.id;
+            arbol.dbms = new Management();
+            arbol.dbms.analizarChison("");
+            arbol.dbms.usuarioActivo = arbol.dbms.getUser(userActivo);
+            return arbol.dbms.useDataBase(baseUso,arbol,fila,columna) ;
         }
     }
 }

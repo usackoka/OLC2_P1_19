@@ -15,13 +15,13 @@ CREATE DATABASE _01_database;   // base de datos para mínimos
 
 LOG("base de datos creada");
 
-//commit;     // debe crear la base de datos en los archivos *.chison
+commit;     // debe crear la base de datos en los archivos *.chison
 
 CREATE DATABASE IF NOT EXISTS _01_dAtAbAsE;     // no debe dar error
 
-//commit;     // el archivo chison no debe modificarse
+commit;     // el archivo chison no debe modificarse
 
-//USE _01_database_; // debe dar excepción
+USE _01_database_; // debe dar excepción
 
 USE _01_database;
 
@@ -63,7 +63,7 @@ ALTER TABLE customers DROP
     customerNumber;           // Error
 */
 
-//commit;
+commit;
 
 INSERT INTO customers(
     customerName,
@@ -379,7 +379,7 @@ VALUES("Diecast Collectables","Franco","Valarie","6175552555","6251 Ingle Ln.",N
 INSERT INTO customers(customerName, contactLastName, contactFirstName, phone, addressLine1, addressLine2, city, state, postalCode, country, salesRepEmployeeNumber, creditLimit) 
 VALUES("Kelly\'s Gift Shop","Snowden","Tony","+64 9 5555500","Arenales 1938 3\'A\'",NULL,"Auckland  ",NULL,NULL,"New Zealand",1612,110000.00);
 
-//commit;
+commit;
 
 /* Funciones de agregación */
 int @count_      = COUNT(<<SELECT creditLimit FROM customers>>);
@@ -404,7 +404,7 @@ ALTER TABLE customers DROP
 
 //SELECT customerName, addressLine2 FROM customers; // Error
 
-//commit;
+commit;
 
 //SELECT customerName, addressLine2 FROM customers; // error
 
@@ -471,7 +471,7 @@ INSERT INTO ORDERS VALUES(
     @sequence
 );
 
-//commit;
+commit;
 
 SELECT * FROM orders;
 
@@ -494,4 +494,4 @@ WHERE order_.status != @ORDER_STATUS_DELIVERED;
 
 SELECT * FROM orders;
 
-//commit;
+commit;
