@@ -200,17 +200,22 @@ namespace Server.Analizador.Chison
                     return lista;
                 }
             }
-            else if (CompararNombre(raiz, "ATTRS_VALS")) {
-                return new KeyValuePair<String, String>(getLexema(raiz,0).Replace(" (cadena)","").Replace("\"","").ToLower(), 
-                    getLexema(raiz,2).Replace(" (cadena)", "").Replace("\"", ""));
+            else if (CompararNombre(raiz,"ATTRS")) {
+                return recorrido(raiz.ChildNodes[1]);
             }
-            else if (CompararNombre(raiz, "LISTA_ATTRS_VALS")) {
+            else if (CompararNombre(raiz, "LISTA_ATTRS_VALS"))
+            {
                 List<KeyValuePair<String, String>> lista = new List<KeyValuePair<String, String>>();
                 foreach (ParseTreeNode nodo in raiz.ChildNodes)
                 {
                     lista.Add((KeyValuePair<String, String>)recorrido(nodo));
                 }
                 return lista;
+            }
+            else if (CompararNombre(raiz, "ATTRS_VALS")) {
+                //cadena + igual + cadena
+                return new KeyValuePair<String, String>(getLexema(raiz, 0).Replace(" (cadena)", "").Replace("\"", "").ToLower(),
+                    getLexema(raiz, 2).Replace(" (cadena)", "").Replace("\"", ""));
             }
             else if (CompararNombre(raiz, "LISTA_KEY_VALUE_PAIR")) {
                 List<KeyValuePair<Object, Object>> lista = new List<KeyValuePair<Object, Object>>();

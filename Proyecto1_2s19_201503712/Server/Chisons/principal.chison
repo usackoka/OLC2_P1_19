@@ -45,21 +45,21 @@ $<
        <
        "nombre"="Oscar Cuéllar",
        "edad"=22,
-       "hora_creado"='22:17:36',
-       "fecha_creado"='2019-9-14',
+       "hora_creado"='00:37:01',
+       "fecha_creado"='2019-9-15',
        "lista"=[1,2,3,7],
        "sexo"=True,
        "mascotas"=<"Coco"=       <
 "nombre"="Coco","raza"="Frensh","familia"="Mancilla","fecha_nacimiento"='2011-6-3'       >
-"Fito"=       <
-"nombre"="Fito","raza"="Chihuahua","familia"="Mancilla","fecha_nacimiento"='2019-9-14'       >
+,"Fito"=       <
+"nombre"="Fito","raza"="Chihuahua","familia"="Mancilla","fecha_nacimiento"='2019-9-15'       >
 >
        >,
        <
        "nombre"="David Alcazar",
        "edad"=22,
-       "hora_creado"='22:17:36',
-       "fecha_creado"='2019-9-14',
+       "hora_creado"='00:37:01',
+       "fecha_creado"='2019-9-15',
        "lista"=[1,2,3,5],
        "sexo"=True,
        "mascotas"=<>
@@ -67,8 +67,8 @@ $<
        <
        "nombre"="Albita Chinchilla",
        "edad"=22,
-       "hora_creado"='22:17:36',
-       "fecha_creado"='2019-9-14',
+       "hora_creado"='00:37:01',
+       "fecha_creado"='2019-9-15',
        "lista"=[1,2,3,6],
        "sexo"=False,
        "mascotas"=<>

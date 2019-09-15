@@ -95,6 +95,8 @@ namespace Server.Analizador.Chison
             var PERMISO = new NonTerminal("PERMISO");
             var LISTA_ATTRS = new NonTerminal("LISTA_ATTRS");
             var ATTRS = new NonTerminal("ATTRS");
+            var LISTA_ATTRS_VALS = new NonTerminal("LISTA_ATTRS_VALS");
+            var ATTRS_VALS = new NonTerminal("ATTRS_VALS");
             var LISTA_PARAMETERS = new NonTerminal("LISTA_PARAMETERS");
             var LISTA_CARACT_PARAMETER = new NonTerminal("LISTA_CARACT_PARAMETER");
             var PARAMETER = new NonTerminal("PARAMETER");
@@ -183,7 +185,7 @@ namespace Server.Analizador.Chison
             LISTA_ATTRS.Rule = MakeStarRule(LISTA_ATTRS,coma , ATTRS)
                 | IMPORT;
 
-            ATTRS.Rule = menor_que + LISTA_KEY_VALUE_PAIR + mayor_que;
+            ATTRS.Rule = menor_que + LISTA_ATTRS_VALS + mayor_que;
 
             LISTA_COLUMNAS.Rule = MakeStarRule(LISTA_COLUMNAS,coma,COLUMNA)
                 | IMPORT;
@@ -215,6 +217,10 @@ namespace Server.Analizador.Chison
 
             MAP.Rule = menor_que + LISTA_KEY_VALUE_PAIR + mayor_que
                 | IMPORT;
+
+            LISTA_ATTRS_VALS.Rule = MakeStarRule(LISTA_ATTRS_VALS, coma, ATTRS_VALS);
+
+            ATTRS_VALS.Rule = cadena + igual + cadena;
 
             LISTA_KEY_VALUE_PAIR.Rule = MakeStarRule(LISTA_KEY_VALUE_PAIR,coma,KEY_VALUE_PAIR);
 

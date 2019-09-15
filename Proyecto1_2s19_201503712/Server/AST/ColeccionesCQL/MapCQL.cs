@@ -69,7 +69,7 @@ namespace Server.AST.ColeccionesCQL
                 }
                 else if (pair.Value is UserType)
                 {
-                    trad += ((UserType)pair.Value).getData();
+                    trad += ((UserType)pair.Value).getData() + ',';
                 }
                 else
                 {

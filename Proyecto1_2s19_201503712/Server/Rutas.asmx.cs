@@ -26,7 +26,7 @@ namespace Server
 
         public Rutas() {
             dbms = new Management();
-            //dbms.analizarChison("");
+            dbms.analizarChison("");
         }
 
         [WebMethod]
@@ -64,8 +64,6 @@ namespace Server
                 if (parserLUP.padre.Root != null)
                 {
                     //Graficar.ConstruirArbol(parserLUP.padre.Root, "AST_LUP", "");
-                    dbms = new Management();
-                    dbms.analizarChison("");
 
                     RecorridoLUP recorrido = new RecorridoLUP();
                     Object o = recorrido.ejecutarLUP(parserLUP.padre.Root, dbms);
