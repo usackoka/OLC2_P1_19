@@ -166,11 +166,11 @@ namespace Server.AST.DBMS
 
         public Object getTipoAtributo(String id, Management arbol)
         {
-            foreach (Atributo atr in this.valores)
+            foreach (KeyValuePair<String,Object> atr in this.atributos)
             {
-                if (atr.id.Equals(id))
+                if (atr.Key.Equals(id))
                 {
-                    return atr.tipoDato;
+                    return atr.Value;
                 }
             }
             arbol.addError("UserType, getAtributo", "No existe el atributo: " + id + " en " + this.id, 0, 0);
