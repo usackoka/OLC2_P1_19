@@ -164,6 +164,19 @@ namespace Server.AST.DBMS
             return null;
         }
 
+        public Object getTipoAtributo(String id, Management arbol)
+        {
+            foreach (Atributo atr in this.valores)
+            {
+                if (atr.id.Equals(id))
+                {
+                    return atr.tipoDato;
+                }
+            }
+            arbol.addError("UserType, getAtributo", "No existe el atributo: " + id + " en " + this.id, 0, 0);
+            return null;
+        }
+
         public void addAtributos(List<KeyValuePair<String,Object>> atributos) {
             this.atributos.AddRange(atributos);
         }

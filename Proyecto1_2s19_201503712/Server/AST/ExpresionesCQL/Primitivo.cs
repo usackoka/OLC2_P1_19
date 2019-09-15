@@ -195,37 +195,10 @@ namespace Server.AST.ExpresionesCQL
                 }
                 else
                 {
-                    dbms.addError("getObjectByList", "No se encontró el tipo: " + tipoDato, 0, 0);
+                    dbms.addError("getObjectByList - List obj", "No se encontró el tipo: " + tipoDato, 0, 0);
                     return new Null();
                 }
             }
-            /*
-            else if (obj is List<KeyValuePair<String, Object>>)
-            {//objeto
-                
-                if (tipoDato is String)
-                {
-                    UserType modeloUt = dbms.getUserType(tipoDato.ToString());
-                    if (modeloUt == null)
-                    {
-                        dbms.addError("TypeDontExists", "No se encontró el UserType: " + tipoDato.ToString(), 0, 0);
-                        new Null();
-                    }
-
-                    List<KeyValuePair<Object, Object>> list = new List<KeyValuePair<object, object>>();
-                    foreach (KeyValuePair<String, Object> o in lista)
-                    {
-                        list.Add(new KeyValuePair<object, object>(getObjectByList(o.Key, ((TipoMAP)tipoDato).tipoClave, dbms),
-                                        getObjectByList(o.Value, ((TipoMAP)tipoDato).tipoValor, dbms)));
-                    }
-                    return new UserType(modeloUt, list, dbms);
-                }
-                else
-                {
-                    dbms.addError("getObjectByList", "No se encontró el tipo: " + tipoDato, 0, 0);
-                    return new Null();
-                }
-            }*/
             else if (obj is List<KeyValuePair<Object, Object>>) //mapa u objeto
             {
                 List<KeyValuePair<Object, Object>> lista = (List<KeyValuePair<Object, Object>>)obj;
@@ -244,20 +217,25 @@ namespace Server.AST.ExpresionesCQL
                     UserType modeloUt = dbms.getUserType(tipoDato.ToString());
                     if (modeloUt == null)
                     {
-                        dbms.addError("TypeDontExists", "No se encontró el UserType: " + tipoDato.ToString(), 0, 0);
-                        new Null();
+                        dbms.addError("TypeDontExists - List obj,obj", "No se encontró el UserType: " + tipoDato.ToString(), 0, 0);
+                        return new Null();
                     }
 
                     List<KeyValuePair<String, Object>> list = new List<KeyValuePair<String, Object>>();
                     foreach (KeyValuePair<Object, Object> o in lista)
                     {
-                        list.Add(new KeyValuePair<String, Object>(o.Key.ToString(),getObjectByList(o.Value, ((TipoMAP)tipoDato).tipoValor, dbms)));
+                        String key = o.Key.ToString();
+                        Object ob = getObjectByList(o.Value,
+                                modeloUt.getTipoAtributo(o.Key.ToString(),
+                                dbms)
+                            , dbms);
+                        list.Add(new KeyValuePair<String, Object>(key,ob));
                     }
                     return new UserType(modeloUt, list, dbms);
                 }
                 else
                 {
-                    dbms.addError("getObjectByList", "No se encontró el tipo: " + tipoDato, 0, 0);
+                    dbms.addError("getObjectByList - List obj,obj", "No se encontró el tipo: " + tipoDato, 0, 0);
                     return new Null();
                 }
             }
@@ -267,7 +245,7 @@ namespace Server.AST.ExpresionesCQL
                     return obj;
                 }
                 else {
-                    dbms.addError("getObjectByList", "No se encontró el tipo: " + tipoDato, 0, 0);
+                    dbms.addError("getObjectByList - Primitivo", "No se encontró el tipo: " + tipoDato, 0, 0);
                     return new Null();
                 }
             }
@@ -302,34 +280,34 @@ namespace Server.AST.ExpresionesCQL
                 return new TipoMAP(getTipoString(tips[0], dbms),getTipoString(tips[1],dbms));
             }
 
-            if (CompararNombre(nombre, "INT"))
+            if (nombre.Equals("INT",StringComparison.InvariantCultureIgnoreCase))
             {
                 return TIPO_DATO.INT;
             }
-            else if (CompararNombre(nombre, "STRING"))
+            else if (nombre.Equals("STRING", StringComparison.InvariantCultureIgnoreCase))
             {
                 return TIPO_DATO.STRING;
             }
-            else if (CompararNombre(nombre, "BOOLEAN"))
+            else if (nombre.Equals("BOOLEAN", StringComparison.InvariantCultureIgnoreCase))
             {
                 return TIPO_DATO.BOOLEAN;
             }
-            else if (CompararNombre(nombre, "DOUBLE"))
+            else if (nombre.Equals("DOUBLE", StringComparison.InvariantCultureIgnoreCase))
             {
                 return TIPO_DATO.DOUBLE;
             }
-            else if (CompararNombre(nombre, "COUNTER"))
+            else if (nombre.Equals("COUNTER", StringComparison.InvariantCultureIgnoreCase))
             {
                 return TIPO_DATO.COUNTER;
             }
-            else if (CompararNombre(nombre, "CURSOR"))
+            else if (nombre.Equals("CURSOR", StringComparison.InvariantCultureIgnoreCase))
             {
                 return TIPO_DATO.CURSOR;
             }
-            else if (CompararNombre(nombre, "TIME")) {
+            else if (nombre.Equals("TIME", StringComparison.InvariantCultureIgnoreCase)) {
                 return TIPO_DATO.TIME;
             }
-            else if (CompararNombre(nombre,"DATE")) {
+            else if (nombre.Equals("DATE", StringComparison.InvariantCultureIgnoreCase)) {
                 return TIPO_DATO.DATE;
             }
             else {

@@ -13,7 +13,7 @@ namespace Server.AST.DBMS
 {
     public class Management
     {
-        DataBase system;
+        public DataBase system;
         public User usuarioActivo { get; set; }
         List<User> users;
         List<DataBase> bases;

@@ -53,10 +53,11 @@ namespace Server.Analizador.Chison
                         atributos.Add(new KeyValuePair<String, Object>(nombre,tipo));
                     }
 
-                    UserType userType = new UserType(name,atributos);
+                    dbms.getDataBase(this.name).userTypes.Add(new UserType(name, atributos));
                 }
             }
 
+            dbms.system = dbms.getDataBase(this.name);
             //creo toda la data de la base de datos
             foreach (Data_Base_CHISON contenido in this.data)
             {
@@ -90,6 +91,7 @@ namespace Server.Analizador.Chison
                     dbms.getDataBase(this.name).tables.Add(tabla);
                 }
             }
+            dbms.system = null;
 
             return null;
         }
