@@ -36,7 +36,7 @@ namespace Server.AST
                 if (this.padre == null)
                 {
                     arbol.addError(id, "No se encontró la variable: " + id + " en ningún ambito (getTipoVariable)", fila, columna);
-                    return Primitivo.TIPO_DATO.NULL;
+                    return new Null();
                 }
                 else
                 {
@@ -54,7 +54,7 @@ namespace Server.AST
                 if (this.padre == null)
                 {
                     arbol.addError(id,"No se encontró la variable: "+id+" en ningún ambito (getValorVariable)",fila,columna);
-                    return Primitivo.TIPO_DATO.NULL;
+                    return new Null();
                 }
                 else {
                     return this.padre.getValorVariable(id, arbol, fila, columna);
@@ -73,7 +73,7 @@ namespace Server.AST
                 if (this.padre == null)
                 {
                     arbol.addError(id, "No se encontró la variable: " + id + " en ningún ambito (getVariable)", fila, columna);
-                    return Primitivo.TIPO_DATO.NULL;
+                    return new Null();
                 }
                 else
                 {

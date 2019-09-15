@@ -162,7 +162,7 @@ namespace Server.AST.ColeccionesCQL
             else
             {
                 arbol.addError("set", "(" + idLlamada + ") no posee el metódo buscado", fila, columna);
-                return Primitivo.TIPO_DATO.NULL;
+                return new Null();
             }
         }
 
@@ -233,7 +233,7 @@ namespace Server.AST.ColeccionesCQL
             if (this.expresiones.Count != 1)
             {
                 arbol.addError("set", "(remove) debe tener exclusivamente 1 parámetro", fila, columna);
-                return Primitivo.TIPO_DATO.NULL;
+                return new Null();
             }
             else
             {
@@ -245,7 +245,7 @@ namespace Server.AST.ColeccionesCQL
                 else
                 {
                     arbol.addError("set", "(remove) el parámetro debe ser de valor entero", fila, columna);
-                    return Primitivo.TIPO_DATO.NULL;
+                    return new Null();
                 }
             }
 
@@ -268,7 +268,7 @@ namespace Server.AST.ColeccionesCQL
             if (this.expresiones.Count != 1)
             {
                 arbol.addError("set", "(get) debe tener exclusivamente 1 parámetro", fila, columna);
-                return Primitivo.TIPO_DATO.NULL;
+                return new Null();
             }
             else
             {
@@ -280,7 +280,7 @@ namespace Server.AST.ColeccionesCQL
                 else
                 {
                     arbol.addError("set", "(get) el parámetro debe ser de valor entero", fila, columna);
-                    return Primitivo.TIPO_DATO.NULL;
+                    return new Null();
                 }
             }
 

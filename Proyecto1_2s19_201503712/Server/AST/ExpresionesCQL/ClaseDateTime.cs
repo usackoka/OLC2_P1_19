@@ -52,7 +52,7 @@ namespace Server.AST.ExpresionesCQL
             else
             {
                 arbol.addError("Clase DateTime", "No posee el método: " + idMetodo, 0, 0);
-                return Primitivo.TIPO_DATO.NULL;
+                return new Null();
             }
         }
 

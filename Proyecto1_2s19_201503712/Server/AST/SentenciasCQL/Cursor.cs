@@ -13,6 +13,7 @@ namespace Server.AST.SentenciasCQL
         public NodoCQL select;
         public List<ColumnCQL> data;
         TIPO_CURSOR tipoCursor;
+        Entorno entornoEjecucion;
 
         public Cursor(String id, NodoCQL valorCursor, TIPO_CURSOR tipoCursor ,int fila, int columna) {
             this.id = id;
@@ -30,11 +31,15 @@ namespace Server.AST.SentenciasCQL
         {
             switch (this.tipoCursor) {
                 case TIPO_CURSOR.INSTANCE:
+                    Entorno ent = new Entorno(arbol.entorno);
+                    this.entornoEjecucion = ent;
                     arbol.entorno.addVariable(this.id, new Variable(this, Primitivo.TIPO_DATO.CURSOR),arbol,fila,columna);
                     return null;
                 case TIPO_CURSOR.OPEN:
                     Cursor cursor = (Cursor)arbol.entorno.getValorVariable(this.id, arbol, fila, columna);
                     Object o;
+                    Entorno temp = arbol.entorno;
+                    arbol.entorno = cursor.entornoEjecucion;
                     if (cursor.select is Select)
                     {
                         o = ((Select)cursor.select).Ejecutar(arbol);
@@ -42,6 +47,8 @@ namespace Server.AST.SentenciasCQL
                     else {
                         o = ((Expresion)cursor.select).getValor(arbol);
                     }
+                    arbol.entorno = temp;
+
                     if (o is List<ColumnCQL>)
                     {
                         cursor.data = (List<ColumnCQL>)o;
@@ -60,7 +67,6 @@ namespace Server.AST.SentenciasCQL
                     }
                     return o;
                 default:
-
                     Cursor cursor2 = (Cursor)arbol.entorno.getValorVariable(this.id, arbol, fila, columna);
                     cursor2.data = null;
                     arbol.entorno.reasignarVariable(this.id, cursor2, Primitivo.TIPO_DATO.CURSOR, arbol, fila, columna);

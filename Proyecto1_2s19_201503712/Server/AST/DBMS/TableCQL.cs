@@ -1,6 +1,7 @@
 ﻿using Server.AST.ColeccionesCQL;
 using Server.AST.CQL;
 using Server.AST.ExpresionesCQL;
+using Server.AST.ExpresionesCQL.Tipos;
 using Server.AST.SentenciasCQL;
 using System;
 using System.Collections.Generic;
@@ -114,7 +115,7 @@ namespace Server.AST.DBMS
                 //la lleno de valores nulos para las tuplas que ya estén ingresadas
                 for (int i = 0; i < indiceTupla; i++)
                 {
-                    kvp.valores.Add(Primitivo.TIPO_DATO.NULL);
+                    kvp.valores.Add(new Null());
                 }
                 this.data.Add(kvp);
             }
@@ -353,7 +354,7 @@ namespace Server.AST.DBMS
                         }
                         else
                         {
-                            columna.valores.Add(Primitivo.TIPO_DATO.NULL);
+                            columna.valores.Add(new Null());
                         }
                     }
                 }

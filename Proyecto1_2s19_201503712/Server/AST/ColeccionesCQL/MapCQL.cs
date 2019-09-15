@@ -174,7 +174,7 @@ namespace Server.AST.ColeccionesCQL
             else
             {
                 arbol.addError("Map", "(" + idLlamada + ") no posee el metódo buscado", fila, columna);
-                return Primitivo.TIPO_DATO.NULL;
+                return new Null();
             }
         }
 
@@ -239,7 +239,7 @@ namespace Server.AST.ColeccionesCQL
             if (this.expresiones.Count != 1)
             {
                 arbol.addError("Map", "(remove) debe tener exclusivamente 1 parámetro", fila, columna);
-                return Primitivo.TIPO_DATO.NULL;
+                return new Null();
             }
 
             Object key = this.expresiones[0].getValor(arbol);
@@ -260,7 +260,7 @@ namespace Server.AST.ColeccionesCQL
             if (this.expresiones.Count != 1)
             {
                 arbol.addError("Map", "(get) debe tener exclusivamente 1 parámetro", fila, columna);
-                return Primitivo.TIPO_DATO.NULL;
+                return new Null();
             }
 
             //MANDAR EX si se pasa del límite

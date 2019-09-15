@@ -1,4 +1,5 @@
 ﻿using Server.AST.CQL;
+using Server.AST.ExpresionesCQL.Tipos;
 using Server.AST.SentenciasCQL;
 using System;
 using System.Collections.Generic;
@@ -50,7 +51,7 @@ namespace Server.AST.ExpresionesCQL
                 }
             }
             arbol.addError(idLlamada, "No se encontró función con la firma: " + getFirma(arbol), fila, columna);
-            return Primitivo.TIPO_DATO.NULL;
+            return new Null();
         }
 
         public override object getValor(AST_CQL arbol)

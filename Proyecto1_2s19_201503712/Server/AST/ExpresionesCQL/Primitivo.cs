@@ -47,8 +47,8 @@ namespace Server.AST.ExpresionesCQL
                 }
                 else
                 {
-                    this.value = TIPO_DATO.NULL;
-                    this.tipoDato = TIPO_DATO.NULL;
+                    this.value = new Null();
+                    this.tipoDato = new Null();
                 }
             }
             else if (this.value.ToString().Contains(" (Identifier)"))
@@ -86,7 +86,7 @@ namespace Server.AST.ExpresionesCQL
         public static Object getDefecto(Object tipoDato, AST_CQL arbol) {
 
             if (tipoDato is String || tipoDato is TipoMAP || tipoDato is TipoList || tipoDato is TipoSet) {
-                return TIPO_DATO.NULL;
+                return new Null();
             }
 
             switch (tipoDato) {
@@ -102,18 +102,17 @@ namespace Server.AST.ExpresionesCQL
                 case TIPO_DATO.DOUBLE:
                     return 0.0;
                 case TIPO_DATO.STRING:
-                case TIPO_DATO.NULL:
                 case TIPO_DATO.STRUCT:
                 case TIPO_DATO.CURSOR:
-                    return TIPO_DATO.NULL;
+                    return new Null();
                 default:
                     arbol.addError(tipoDato.ToString(),"No hay defecto para el tipo de dato: "+tipoDato,0,0);
-                    return -1;
+                    return new Null();
             }
         }
 
         public enum TIPO_DATO {
-            INT, BOOLEAN, DOUBLE, STRING, NULL, ID, COUNTER, STRUCT, CURSOR, TIME, DATE
+            INT, BOOLEAN, DOUBLE, STRING, ID, COUNTER, STRUCT, CURSOR, TIME, DATE
         }
 
         public override object getTipo(AST_CQL arbol)
@@ -129,10 +128,12 @@ namespace Server.AST.ExpresionesCQL
 
         public override object getValor(AST_CQL arbol)
         {
+            if (this.tipoDato is Null) {
+                return new Null();
+            }
 
             switch (this.tipoDato)
             {
-                case TIPO_DATO.NULL:
                 case TIPO_DATO.BOOLEAN:
                 case TIPO_DATO.DOUBLE:
                 case TIPO_DATO.INT:
@@ -168,29 +169,97 @@ namespace Server.AST.ExpresionesCQL
         /// ///////////////////////////////////////////////////////////////////////////////////////////////////////////
         /// </summary>
         /// <returns></returns>
-        public static Object getObjectByList(List<Object> lista, Object tipoDato, Management dbms) {
-            if (tipoDato is TipoList)
+        public static Object getObjectByList(object obj, Object tipoDato, Management dbms) {
+
+            if (obj is List<Object>)
             {
-                ListCQL list = new ListCQL(tipoDato, 0, 0);
-                list.valores = lista;
-                return list;
+                List<Object> lista = (List<Object>)obj;
+                if (tipoDato is TipoList)
+                {
+                    ListCQL list = new ListCQL(((TipoList)tipoDato).tipo, 0, 0);
+                    //convierto los valores de la lista
+                    foreach (Object o in lista) {
+                        list.valores.Add(getObjectByList(o, ((TipoList)tipoDato).tipo, dbms));
+                    }
+                    return list;
+                }
+                else if (tipoDato is TipoSet) {
+                    SetCQL list = new SetCQL(((TipoSet)tipoDato).tipo, 0, 0);
+                    //convierto los valores de la lista
+                    foreach (Object o in lista)
+                    {
+                        list.valores.Add(getObjectByList(o, ((TipoSet)tipoDato).tipo, dbms));
+                    }
+                    return list;
+                }
+                else
+                {
+                    dbms.addError("getObjectByList", "No se encontró el tipo: " + tipoDato, 0, 0);
+                    return new Null();
+                }
             }
-            else {
-                dbms.addError("getObjectByList","No se encontró el tipo: "+tipoDato,0,0);
-                return TIPO_DATO.NULL;
+            else if (obj is List<KeyValuePair<String,Object>>) {//objeto
+                return null;
             }
+            else if (obj is List<KeyValuePair<Object,Object>>) //mapa
+            {
+                List<KeyValuePair<Object, Object>> lista = (List<KeyValuePair<Object, Object>>)obj;
+                if (tipoDato is TipoMAP)
+                {
+                    MapCQL list = new MapCQL(((TipoMAP)tipoDato).tipoClave, ((TipoMAP)tipoDato).tipoValor, 0, 0);
+                    //convierto los valores de la lista
+                    foreach (KeyValuePair<Object,Object> o in lista)
+                    {
+                        list.valores.Add(getObjectByList(o.Key, ((TipoMAP)tipoDato).tipoClave, dbms),
+                                        getObjectByList(o.Value, ((TipoMAP)tipoDato).tipoValor,dbms));
+                    }
+                    return list;
+                }
+                else
+                {
+                    dbms.addError("getObjectByList", "No se encontró el tipo: " + tipoDato, 0, 0);
+                    return new Null();
+                }
+            }
+            else {//primitivo
+                if (tipoDato is Primitivo.TIPO_DATO)
+                {
+                    return obj;
+                }
+                else {
+                    dbms.addError("getObjectByList", "No se encontró el tipo: " + tipoDato, 0, 0);
+                    return new Null();
+                }
+            }
+            
         }
 
         public static Object getTipoString(String nombre, Management dbms) {
 
-            if (nombre.ToLower().Contains("list")) {
+            String carColl = "";
+            try
+            {
+                carColl = nombre.Substring(0, 3);
+            }
+            catch (Exception)
+            {
+                Console.Write("...");
+            }
+
+            if (carColl.Equals("lis")) {
                 nombre = nombre.Substring(4);
                 nombre = nombre.TrimStart('<').TrimEnd('>');
                 return new TipoList(getTipoString(nombre, dbms));
-            } else if (nombre.ToLower().Contains("set")) {
-                nombre = nombre.Substring(4);
+            } else if (carColl.Equals("set")) {
+                nombre = nombre.Substring(3);
                 nombre = nombre.TrimStart('<').TrimEnd('>');
                 return new TipoList(getTipoString(nombre, dbms));
+            } else if (carColl.Equals("map"))
+            {
+                nombre = nombre.Substring(3);
+                nombre = nombre.TrimStart('<').TrimEnd('>');
+                String[] tips = nombre.Split(',');
+                return new TipoMAP(getTipoString(tips[0], dbms),getTipoString(tips[1],dbms));
             }
 
             if (CompararNombre(nombre, "INT"))
@@ -213,10 +282,6 @@ namespace Server.AST.ExpresionesCQL
             {
                 return TIPO_DATO.COUNTER;
             }
-            else if (CompararNombre(nombre, "NULL"))
-            {
-                return TIPO_DATO.NULL;
-            }
             else if (CompararNombre(nombre, "CURSOR"))
             {
                 return TIPO_DATO.CURSOR;
@@ -228,8 +293,7 @@ namespace Server.AST.ExpresionesCQL
                 return TIPO_DATO.DATE;
             }
             else {
-                dbms.addError("Primitivo-getTipoString-Chison", "No se procesó el tipo: " + nombre, 0, 0);
-                return "not Supported";
+                return nombre;
             }
         }
     }

@@ -142,6 +142,7 @@
     <Compile Include="AST\ExpresionesCQL\Ternaria.cs" />
     <Compile Include="AST\ExpresionesCQL\Throw.cs" />
     <Compile Include="AST\ExpresionesCQL\Tipos\Date.cs" />
+    <Compile Include="AST\ExpresionesCQL\Tipos\Null.cs" />
     <Compile Include="AST\ExpresionesCQL\Tipos\TipoList.cs" />
     <Compile Include="AST\ExpresionesCQL\Tipos\TipoMAP.cs" />
     <Compile Include="AST\ExpresionesCQL\Tipos\TipoSet.cs" />

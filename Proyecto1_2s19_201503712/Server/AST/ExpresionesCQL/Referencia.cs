@@ -55,7 +55,7 @@ namespace Server.AST.ExpresionesCQL
                 return ((Atributo)valorRetorno).valor;
             }
 
-            return valorRetorno!=null?valorRetorno:Primitivo.TIPO_DATO.NULL;
+            return valorRetorno!=null?valorRetorno:new Null();
         }
 
         void setValorRecursivo(AST_CQL arbol) {
@@ -140,8 +140,8 @@ namespace Server.AST.ExpresionesCQL
         }
 
         Object getTipoRecursivo(AST_CQL arbol) {
-            Object valorRetorno = Primitivo.TIPO_DATO.NULL;
-            Object tipoRetorno = Primitivo.TIPO_DATO.NULL;
+            Object valorRetorno =new Null();
+            Object tipoRetorno =new Null();
 
             foreach (Object obj in referencias)
             {

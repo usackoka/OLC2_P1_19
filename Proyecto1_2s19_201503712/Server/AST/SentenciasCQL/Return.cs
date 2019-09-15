@@ -1,4 +1,5 @@
 ﻿using Server.AST.ExpresionesCQL;
+using Server.AST.ExpresionesCQL.Tipos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +19,7 @@ namespace Server.AST.SentenciasCQL
         public override object Ejecutar(AST_CQL arbol)
         {
             if (expresiones.Count == 0) {
-                return  Primitivo.TIPO_DATO.NULL;
+                return new Null();
             }
             else if (expresiones.Count == 1)
             {

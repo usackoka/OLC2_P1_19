@@ -352,7 +352,7 @@ namespace Server.Analizador.Chison
                 {
                     if (ContainsString(value, "null"))
                     {
-                        return Primitivo.TIPO_DATO.NULL;
+                        return new Null();
                     }
 
                     if (value.Replace(" (Keyword)","").ToLower().Equals("true")) {

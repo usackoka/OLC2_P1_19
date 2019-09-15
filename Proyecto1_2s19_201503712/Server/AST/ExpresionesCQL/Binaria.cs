@@ -53,7 +53,7 @@ namespace Server.AST.ExpresionesCQL
                     }
                     else {
                         arbol.addError("", "(Binaria, getTipo, Suma) No soportado: " + izq + " y " + der, fila, columna);
-                        return Primitivo.TIPO_DATO.NULL;
+                        return new Null();
                     }
                 case "-":
                 case "*":
@@ -82,7 +82,7 @@ namespace Server.AST.ExpresionesCQL
                     else
                     {
                         arbol.addError("","(Binaria, getTipo, Multiplicación, Resta, Módulo, División) No soportado: " + izq + " y " +der,fila,columna);
-                        return Primitivo.TIPO_DATO.NULL;
+                        return new Null();
                     }
                 case "**":
                     if (izq.Equals(Primitivo.TIPO_DATO.DOUBLE) || der.Equals(Primitivo.TIPO_DATO.DOUBLE))
@@ -96,7 +96,7 @@ namespace Server.AST.ExpresionesCQL
                     else
                     {
                         arbol.addError("","(Binaria, getTipo, potencia) No soportado: " + izq + " y " +der,fila,columna);
-                        return Primitivo.TIPO_DATO.NULL;
+                        return new Null();
                     }
                 case "<=":
                 case ">=":
@@ -119,309 +119,321 @@ namespace Server.AST.ExpresionesCQL
             Object tipIzq = izquierda.getTipo(arbol);
             Object tipDer = derecha.getTipo(arbol);
 
-            switch (operador) {
-                case "+":
-                    if (tipIzq.Equals(Primitivo.TIPO_DATO.STRING) || tipDer.Equals(Primitivo.TIPO_DATO.STRING))
-                    {
-                        return izquierda.getValor(arbol) + "" + derecha.getValor(arbol);
-                    }
-                    else if (tipIzq.Equals(Primitivo.TIPO_DATO.DOUBLE) || tipDer.Equals(Primitivo.TIPO_DATO.DOUBLE))
-                    {
-                        return Convert.ToDouble(izquierda.getValor(arbol)) + Convert.ToDouble(derecha.getValor(arbol));
-                    }
-                    else if (tipIzq.Equals(Primitivo.TIPO_DATO.INT) && tipDer.Equals(Primitivo.TIPO_DATO.INT))
-                    {
-                        return Convert.ToInt32(izquierda.getValor(arbol)) + Convert.ToInt32(derecha.getValor(arbol));
-                    }
-                    else if (tipIzq is TipoMAP && tipDer is TipoMAP) {
-                        MapCQL mapIzq = (MapCQL)izquierda.getValor(arbol);
-                        mapIzq.addRange((MapCQL)derecha.getValor(arbol));
-                        return mapIzq;
-                    }
-                    else if (tipIzq is TipoSet && tipDer is TipoSet) {
-                        SetCQL setIzq = (SetCQL)izquierda.getValor(arbol);
-                        setIzq.addRange((SetCQL)derecha.getValor(arbol), arbol);
-                        return setIzq;
-                    }
-                    else if (tipIzq is TipoList && tipDer is TipoList)
-                    {
-                        ListCQL listIzq = (ListCQL)izquierda.getValor(arbol);
-                        listIzq.addRange((ListCQL)derecha.getValor(arbol),arbol);
-                        return listIzq;
-                    }
-                    else
-                    {
-                        arbol.addError("", "(Binaria, getValor, Suma) No soportado: " + tipIzq + " y " + tipDer, fila, columna);
+            try
+            {
+                switch (operador)
+                {
+                    case "+":
+                        if (tipIzq.Equals(Primitivo.TIPO_DATO.STRING) || tipDer.Equals(Primitivo.TIPO_DATO.STRING))
+                        {
+                            return izquierda.getValor(arbol) + "" + derecha.getValor(arbol);
+                        }
+                        else if (tipIzq.Equals(Primitivo.TIPO_DATO.DOUBLE) || tipDer.Equals(Primitivo.TIPO_DATO.DOUBLE))
+                        {
+                            return Convert.ToDouble(izquierda.getValor(arbol)) + Convert.ToDouble(derecha.getValor(arbol));
+                        }
+                        else if (tipIzq.Equals(Primitivo.TIPO_DATO.INT) && tipDer.Equals(Primitivo.TIPO_DATO.INT))
+                        {
+                            return Convert.ToInt32(izquierda.getValor(arbol)) + Convert.ToInt32(derecha.getValor(arbol));
+                        }
+                        else if (tipIzq is TipoMAP && tipDer is TipoMAP)
+                        {
+                            MapCQL mapIzq = (MapCQL)izquierda.getValor(arbol);
+                            mapIzq.addRange((MapCQL)derecha.getValor(arbol));
+                            return mapIzq;
+                        }
+                        else if (tipIzq is TipoSet && tipDer is TipoSet)
+                        {
+                            SetCQL setIzq = (SetCQL)izquierda.getValor(arbol);
+                            setIzq.addRange((SetCQL)derecha.getValor(arbol), arbol);
+                            return setIzq;
+                        }
+                        else if (tipIzq is TipoList && tipDer is TipoList)
+                        {
+                            ListCQL listIzq = (ListCQL)izquierda.getValor(arbol);
+                            listIzq.addRange((ListCQL)derecha.getValor(arbol), arbol);
+                            return listIzq;
+                        }
+                        else
+                        {
+                            arbol.addError("", "(Binaria, getValor, Suma) No soportado: " + tipIzq + " y " + tipDer, fila, columna);
+                            return -1;
+                        }
+                    case "-":
+                        if (tipIzq.Equals(Primitivo.TIPO_DATO.DOUBLE) || tipDer.Equals(Primitivo.TIPO_DATO.DOUBLE))
+                        {
+                            return Convert.ToDouble(izquierda.getValor(arbol)) - Convert.ToDouble(derecha.getValor(arbol));
+                        }
+                        else if (tipIzq.Equals(Primitivo.TIPO_DATO.INT) && tipDer.Equals(Primitivo.TIPO_DATO.INT))
+                        {
+                            return Convert.ToInt32(izquierda.getValor(arbol)) - Convert.ToInt32(derecha.getValor(arbol));
+                        }
+                        else if (tipIzq is TipoSet && tipDer is TipoSet)
+                        {
+                            SetCQL setIzq = (SetCQL)izquierda.getValor(arbol);
+                            setIzq.removeRange((SetCQL)derecha.getValor(arbol));
+                            return setIzq;
+                        }
+                        else if (tipIzq is TipoMAP && tipDer is TipoSet)
+                        {
+                            MapCQL mapIzq = (MapCQL)izquierda.getValor(arbol);
+                            mapIzq.removeRange((SetCQL)derecha.getValor(arbol));
+                            return mapIzq;
+                        }
+                        else if (tipIzq is TipoList && tipDer is TipoList)
+                        {
+                            ListCQL listIzq = (ListCQL)izquierda.getValor(arbol);
+                            listIzq.removeRange((ListCQL)derecha.getValor(arbol));
+                            return listIzq;
+                        }
+                        else
+                        {
+                            arbol.addError("", "(Binaria, getValor, Resta) No soportado: " + tipIzq + " y " + tipDer, fila, columna);
+                            return -1;
+                        }
+                    case "*":
+                        if (tipIzq.Equals(Primitivo.TIPO_DATO.DOUBLE) || tipDer.Equals(Primitivo.TIPO_DATO.DOUBLE))
+                        {
+                            return Convert.ToDouble(izquierda.getValor(arbol)) * Convert.ToDouble(derecha.getValor(arbol));
+                        }
+                        else if (tipIzq.Equals(Primitivo.TIPO_DATO.INT) && tipDer.Equals(Primitivo.TIPO_DATO.INT))
+                        {
+                            return Convert.ToInt32(izquierda.getValor(arbol)) * Convert.ToInt32(derecha.getValor(arbol));
+                        }
+                        else
+                        {
+                            arbol.addError("", "(Binaria, getValor, Multiplicación) No soportado: " + tipIzq + " y " + tipDer, fila, columna);
+                            return -1;
+                        }
+                    case "%":
+                        if (tipIzq.Equals(Primitivo.TIPO_DATO.DOUBLE) || tipDer.Equals(Primitivo.TIPO_DATO.DOUBLE))
+                        {
+                            return Convert.ToDouble(izquierda.getValor(arbol)) % Convert.ToDouble(derecha.getValor(arbol));
+                        }
+                        else if (tipIzq.Equals(Primitivo.TIPO_DATO.INT) && tipDer.Equals(Primitivo.TIPO_DATO.INT))
+                        {
+                            return Convert.ToInt32(izquierda.getValor(arbol)) % Convert.ToInt32(derecha.getValor(arbol));
+                        }
+                        else
+                        {
+                            arbol.addError("", "(Binaria, getValor, Modular) No soportado: " + tipIzq + " y " + tipDer, fila, columna);
+                            return -1;
+                        }
+                    case "/":
+                        if (tipIzq.Equals(Primitivo.TIPO_DATO.DOUBLE) || tipDer.Equals(Primitivo.TIPO_DATO.DOUBLE))
+                        {
+                            return Convert.ToDouble(izquierda.getValor(arbol)) / Convert.ToDouble(derecha.getValor(arbol));
+                        }
+                        else if (tipIzq.Equals(Primitivo.TIPO_DATO.INT) && tipDer.Equals(Primitivo.TIPO_DATO.INT))
+                        {
+                            return Convert.ToInt32(izquierda.getValor(arbol)) / Convert.ToInt32(derecha.getValor(arbol));
+                        }
+                        else
+                        {
+                            arbol.addError("", "(Binaria, getValor, División) No soportado: " + tipIzq + " y " + tipDer, fila, columna);
+                            return -1;
+                        }
+                    case "**":
+                        if (tipIzq.Equals(Primitivo.TIPO_DATO.DOUBLE) || tipDer.Equals(Primitivo.TIPO_DATO.DOUBLE))
+                        {
+                            return Math.Pow(Convert.ToDouble(izquierda.getValor(arbol)), Convert.ToDouble(derecha.getValor(arbol)));
+                        }
+                        else if (tipIzq.Equals(Primitivo.TIPO_DATO.INT) || tipDer.Equals(Primitivo.TIPO_DATO.INT))
+                        {
+                            return Math.Pow(Convert.ToDouble(izquierda.getValor(arbol)), Convert.ToDouble(derecha.getValor(arbol)));
+                        }
+                        else
+                        {
+                            arbol.addError("", "(Binaria, getTipo, potencia) No soportado: " + tipIzq + " y " + tipDer, fila, columna);
+                            return -1;
+                        }
+                    case "<=":
+                        if (tipIzq.Equals(Primitivo.TIPO_DATO.DOUBLE) || tipDer.Equals(Primitivo.TIPO_DATO.DOUBLE))
+                        {
+                            return Convert.ToDouble(izquierda.getValor(arbol)) <= Convert.ToDouble(derecha.getValor(arbol));
+                        }
+                        else if (tipIzq.Equals(Primitivo.TIPO_DATO.INT) && tipDer.Equals(Primitivo.TIPO_DATO.INT))
+                        {
+                            return Convert.ToInt32(izquierda.getValor(arbol)) <= Convert.ToInt32(derecha.getValor(arbol));
+                        }
+                        else if (tipIzq.Equals(Primitivo.TIPO_DATO.DATE) && tipDer.Equals(Primitivo.TIPO_DATO.DATE))
+                        {
+                            return ((Date)izquierda.getValor(arbol)).dateTime <= ((Date)derecha.getValor(arbol)).dateTime;
+                        }
+                        else if (tipIzq.Equals(Primitivo.TIPO_DATO.TIME) && tipDer.Equals(Primitivo.TIPO_DATO.TIME))
+                        {
+                            return ((TimeSpan)izquierda.getValor(arbol)) <= ((TimeSpan)derecha.getValor(arbol));
+                        }
+                        else
+                        {
+                            arbol.addError("", "(Binaria, getValor, <=) No soportado: " + tipIzq + " y " + tipDer, fila, columna);
+                            return -1;
+                        }
+                    case ">=":
+                        if (tipIzq.Equals(Primitivo.TIPO_DATO.DOUBLE) || tipDer.Equals(Primitivo.TIPO_DATO.DOUBLE))
+                        {
+                            return Convert.ToDouble(izquierda.getValor(arbol)) >= Convert.ToDouble(derecha.getValor(arbol));
+                        }
+                        else if (tipIzq.Equals(Primitivo.TIPO_DATO.INT) && tipDer.Equals(Primitivo.TIPO_DATO.INT))
+                        {
+                            return Convert.ToInt32(izquierda.getValor(arbol)) >= Convert.ToInt32(derecha.getValor(arbol));
+                        }
+                        else if (tipIzq.Equals(Primitivo.TIPO_DATO.DATE) && tipDer.Equals(Primitivo.TIPO_DATO.DATE))
+                        {
+                            return ((Date)izquierda.getValor(arbol)).dateTime >= ((Date)derecha.getValor(arbol)).dateTime;
+                        }
+                        else if (tipIzq.Equals(Primitivo.TIPO_DATO.TIME) && tipDer.Equals(Primitivo.TIPO_DATO.TIME))
+                        {
+                            return ((Date)izquierda.getValor(arbol)).dateTime >= ((Date)derecha.getValor(arbol)).dateTime;
+                        }
+                        else
+                        {
+                            arbol.addError("", "(Binaria, getValor, >=) No soportado: " + tipIzq + " y " + tipDer, fila, columna);
+                            return -1;
+                        }
+                    case ">":
+                        if (tipIzq.Equals(Primitivo.TIPO_DATO.DOUBLE) || tipDer.Equals(Primitivo.TIPO_DATO.DOUBLE))
+                        {
+                            return Convert.ToDouble(izquierda.getValor(arbol)) > Convert.ToDouble(derecha.getValor(arbol));
+                        }
+                        else if (tipIzq.Equals(Primitivo.TIPO_DATO.INT) && tipDer.Equals(Primitivo.TIPO_DATO.INT))
+                        {
+                            return Convert.ToInt32(izquierda.getValor(arbol)) > Convert.ToInt32(derecha.getValor(arbol));
+                        }
+                        else if (tipIzq.Equals(Primitivo.TIPO_DATO.DATE) && tipDer.Equals(Primitivo.TIPO_DATO.DATE))
+                        {
+                            return ((Date)izquierda.getValor(arbol)).dateTime > ((Date)derecha.getValor(arbol)).dateTime;
+                        }
+                        else if (tipIzq.Equals(Primitivo.TIPO_DATO.TIME) && tipDer.Equals(Primitivo.TIPO_DATO.TIME))
+                        {
+                            return ((TimeSpan)izquierda.getValor(arbol)) > ((TimeSpan)derecha.getValor(arbol));
+                        }
+                        else
+                        {
+                            arbol.addError("", "(Binaria, getValor, >) No soportado: " + tipIzq + " y " + tipDer, fila, columna);
+                            return -1;
+                        }
+                    case "<":
+                        if (tipIzq.Equals(Primitivo.TIPO_DATO.DOUBLE) || tipDer.Equals(Primitivo.TIPO_DATO.DOUBLE))
+                        {
+                            return Convert.ToDouble(izquierda.getValor(arbol)) < Convert.ToDouble(derecha.getValor(arbol));
+                        }
+                        else if (tipIzq.Equals(Primitivo.TIPO_DATO.INT) && tipDer.Equals(Primitivo.TIPO_DATO.INT))
+                        {
+                            return Convert.ToInt32(izquierda.getValor(arbol)) < Convert.ToInt32(derecha.getValor(arbol));
+                        }
+                        else if (tipIzq.Equals(Primitivo.TIPO_DATO.DATE) && tipDer.Equals(Primitivo.TIPO_DATO.DATE))
+                        {
+                            return ((Date)izquierda.getValor(arbol)).dateTime < ((Date)derecha.getValor(arbol)).dateTime;
+                        }
+                        else if (tipIzq.Equals(Primitivo.TIPO_DATO.TIME) && tipDer.Equals(Primitivo.TIPO_DATO.TIME))
+                        {
+                            return ((TimeSpan)izquierda.getValor(arbol)) < ((TimeSpan)derecha.getValor(arbol));
+                        }
+                        else
+                        {
+                            arbol.addError("", "(Binaria, getValor, <) No soportado: " + tipIzq + " y " + tipDer, fila, columna);
+                            return -1;
+                        }
+                    case "!=":
+                        if (tipIzq.Equals(Primitivo.TIPO_DATO.STRING) || tipDer.Equals(Primitivo.TIPO_DATO.STRING))
+                        {
+                            return !izquierda.getValor(arbol).Equals(derecha.getValor(arbol));
+                        }
+                        else if (tipIzq.Equals(Primitivo.TIPO_DATO.DOUBLE) || tipDer.Equals(Primitivo.TIPO_DATO.DOUBLE))
+                        {
+                            return !Convert.ToDouble(izquierda.getValor(arbol)).Equals(Convert.ToDouble(derecha.getValor(arbol)));
+                        }
+                        else if (tipIzq.Equals(Primitivo.TIPO_DATO.INT) && tipDer.Equals(Primitivo.TIPO_DATO.INT))
+                        {
+                            return !Convert.ToInt32(izquierda.getValor(arbol)).Equals(Convert.ToInt32(derecha.getValor(arbol)));
+                        }
+                        else if (tipIzq.Equals(Primitivo.TIPO_DATO.DATE) && tipDer.Equals(Primitivo.TIPO_DATO.DATE))
+                        {
+                            return !((Date)izquierda.getValor(arbol)).dateTime.Equals(((Date)(derecha.getValor(arbol))).dateTime);
+                        }
+                        else if (tipIzq.Equals(Primitivo.TIPO_DATO.TIME) && tipDer.Equals(Primitivo.TIPO_DATO.TIME))
+                        {
+                            return !((TimeSpan)izquierda.getValor(arbol)).Equals((TimeSpan)derecha.getValor(arbol));
+                        }
+                        else if (tipIzq.Equals(new Null()) || tipDer.Equals(new Null()))
+                        {
+                            return !izquierda.getValor(arbol).Equals(derecha.getValor(arbol));
+                        }
+                        else
+                        {
+                            arbol.addError("", "(Binaria, getValor, !=) No soportado: " + tipIzq + " y " + tipDer, fila, columna);
+                            return !izquierda.getValor(arbol).Equals(derecha.getValor(arbol));
+                        }
+                    case "==":
+                        if (tipIzq.Equals(Primitivo.TIPO_DATO.STRING) || tipDer.Equals(Primitivo.TIPO_DATO.STRING))
+                        {
+                            return izquierda.getValor(arbol).Equals(derecha.getValor(arbol));
+                        }
+                        else if (tipIzq.Equals(Primitivo.TIPO_DATO.DOUBLE) || tipDer.Equals(Primitivo.TIPO_DATO.DOUBLE))
+                        {
+                            return Convert.ToDouble(izquierda.getValor(arbol)).Equals(Convert.ToDouble(derecha.getValor(arbol)));
+                        }
+                        else if (tipIzq.Equals(Primitivo.TIPO_DATO.INT) && tipDer.Equals(Primitivo.TIPO_DATO.INT))
+                        {
+                            return Convert.ToInt32(izquierda.getValor(arbol)).Equals(Convert.ToInt32(derecha.getValor(arbol)));
+                        }
+                        else if (tipIzq.Equals(Primitivo.TIPO_DATO.DATE) && tipDer.Equals(Primitivo.TIPO_DATO.DATE))
+                        {
+                            return ((Date)izquierda.getValor(arbol)).dateTime.Equals(((Date)derecha.getValor(arbol)).dateTime);
+                        }
+                        else if (tipIzq.Equals(Primitivo.TIPO_DATO.TIME) && tipDer.Equals(Primitivo.TIPO_DATO.TIME))
+                        {
+                            return (izquierda.getValor(arbol)).Equals((derecha.getValor(arbol)));
+                        }
+                        else if (tipIzq.Equals(new Null()) || tipDer.Equals(new Null()))
+                        {
+                            return izquierda.getValor(arbol).Equals(derecha.getValor(arbol));
+                        }
+                        else
+                        {
+                            arbol.addError("", "(Binaria, getValor, !=) No soportado: " + tipIzq + " y " + tipDer, fila, columna);
+                            return izquierda.getValor(arbol).Equals(derecha.getValor(arbol));
+                        }
+                    case "&&":
+                        if (tipIzq.Equals(Primitivo.TIPO_DATO.BOOLEAN) && tipDer.Equals(Primitivo.TIPO_DATO.BOOLEAN))
+                        {
+                            return Convert.ToBoolean(izquierda.getValor(arbol)) && Convert.ToBoolean(derecha.getValor(arbol));
+                        }
+                        else
+                        {
+                            arbol.addError("", "(Primitivo, getValor, &&) No soportado: " + operador, fila, columna);
+                            return -1;
+                        }
+                    case "||":
+                        if (tipIzq.Equals(Primitivo.TIPO_DATO.BOOLEAN) && tipDer.Equals(Primitivo.TIPO_DATO.BOOLEAN))
+                        {
+                            return Convert.ToBoolean(izquierda.getValor(arbol)) || Convert.ToBoolean(derecha.getValor(arbol));
+                        }
+                        else
+                        {
+                            arbol.addError("", "(Primitivo, getValor, ||) No soportado: " + operador, fila, columna);
+                            return -1;
+                        }
+                    case "^":
+                        if (tipIzq.Equals(Primitivo.TIPO_DATO.BOOLEAN) && tipDer.Equals(Primitivo.TIPO_DATO.BOOLEAN))
+                        {
+                            return Convert.ToBoolean(izquierda.getValor(arbol)) ^ Convert.ToBoolean(derecha.getValor(arbol));
+                        }
+                        else
+                        {
+                            arbol.addError("", "(Primitivo, getValor, ^) No soportado: " + operador, fila, columna);
+                            return -1;
+                        }
+                    default:
+                        arbol.addError("", "(Primitivo, getValor, default) No soportado: " + operador, fila, columna);
                         return -1;
-                    }
-                case "-":
-                    if (tipIzq.Equals(Primitivo.TIPO_DATO.DOUBLE) || tipDer.Equals(Primitivo.TIPO_DATO.DOUBLE))
-                    {
-                        return Convert.ToDouble(izquierda.getValor(arbol)) - Convert.ToDouble(derecha.getValor(arbol));
-                    }
-                    else if (tipIzq.Equals(Primitivo.TIPO_DATO.INT) && tipDer.Equals(Primitivo.TIPO_DATO.INT))
-                    {
-                        return Convert.ToInt32(izquierda.getValor(arbol)) - Convert.ToInt32(derecha.getValor(arbol));
-                    }
-                    else if (tipIzq is TipoSet && tipDer is TipoSet) {
-                        SetCQL setIzq = (SetCQL)izquierda.getValor(arbol);
-                        setIzq.removeRange((SetCQL)derecha.getValor(arbol));
-                        return setIzq;
-                    }
-                    else if (tipIzq is TipoMAP && tipDer is TipoSet)
-                    {
-                        MapCQL mapIzq = (MapCQL)izquierda.getValor(arbol);
-                        mapIzq.removeRange((SetCQL)derecha.getValor(arbol));
-                        return mapIzq;
-                    }
-                    else if (tipIzq is TipoList && tipDer is TipoList)
-                    {
-                        ListCQL listIzq = (ListCQL)izquierda.getValor(arbol);
-                        listIzq.removeRange((ListCQL)derecha.getValor(arbol));
-                        return listIzq;
-                    }
-                    else
-                    {
-                        arbol.addError("", "(Binaria, getValor, Resta) No soportado: " + tipIzq + " y " + tipDer, fila, columna);
-                        return -1;
-                    }
-                case "*":
-                    if (tipIzq.Equals(Primitivo.TIPO_DATO.DOUBLE) || tipDer.Equals(Primitivo.TIPO_DATO.DOUBLE))
-                    {
-                        return Convert.ToDouble(izquierda.getValor(arbol)) * Convert.ToDouble(derecha.getValor(arbol));
-                    }
-                    else if (tipIzq.Equals(Primitivo.TIPO_DATO.INT) && tipDer.Equals(Primitivo.TIPO_DATO.INT))
-                    {
-                        return Convert.ToInt32(izquierda.getValor(arbol)) * Convert.ToInt32(derecha.getValor(arbol));
-                    }
-                    else
-                    {
-                        arbol.addError("","(Binaria, getValor, Multiplicación) No soportado: " + tipIzq + " y " +tipDer,fila,columna);
-                        return -1;
-                    }
-                case "%":
-                    if (tipIzq.Equals(Primitivo.TIPO_DATO.DOUBLE) || tipDer.Equals(Primitivo.TIPO_DATO.DOUBLE))
-                    {
-                        return Convert.ToDouble(izquierda.getValor(arbol)) % Convert.ToDouble(derecha.getValor(arbol));
-                    }
-                    else if (tipIzq.Equals(Primitivo.TIPO_DATO.INT) && tipDer.Equals(Primitivo.TIPO_DATO.INT))
-                    {
-                        return Convert.ToInt32(izquierda.getValor(arbol)) % Convert.ToInt32(derecha.getValor(arbol));
-                    }
-                    else
-                    {
-                        arbol.addError("","(Binaria, getValor, Modular) No soportado: " + tipIzq + " y " +tipDer,fila,columna);
-                        return -1;
-                    }
-                case "/":
-                    if (tipIzq.Equals(Primitivo.TIPO_DATO.DOUBLE) || tipDer.Equals(Primitivo.TIPO_DATO.DOUBLE))
-                    {
-                        return Convert.ToDouble(izquierda.getValor(arbol)) / Convert.ToDouble(derecha.getValor(arbol));
-                    }
-                    else if (tipIzq.Equals(Primitivo.TIPO_DATO.INT) && tipDer.Equals(Primitivo.TIPO_DATO.INT))
-                    {
-                        return Convert.ToInt32(izquierda.getValor(arbol)) / Convert.ToInt32(derecha.getValor(arbol));
-                    }
-                    else
-                    {
-                        arbol.addError("","(Binaria, getValor, División) No soportado: " + tipIzq + " y " +tipDer,fila,columna);
-                        return -1;
-                    }
-                case "**":
-                    if (tipIzq.Equals(Primitivo.TIPO_DATO.DOUBLE) || tipDer.Equals(Primitivo.TIPO_DATO.DOUBLE))
-                    {
-                        return Math.Pow(Convert.ToDouble(izquierda.getValor(arbol)), Convert.ToDouble(derecha.getValor(arbol)));
-                    }
-                    else if (tipIzq.Equals(Primitivo.TIPO_DATO.INT) || tipDer.Equals(Primitivo.TIPO_DATO.INT))
-                    {
-                        return Math.Pow(Convert.ToDouble(izquierda.getValor(arbol)), Convert.ToDouble(derecha.getValor(arbol)));
-                    }
-                    else
-                    {
-                        arbol.addError("","(Binaria, getTipo, potencia) No soportado: " + tipIzq + " y " +tipDer,fila,columna);
-                        return -1;
-                    }
-                case "<=":
-                    if (tipIzq.Equals(Primitivo.TIPO_DATO.DOUBLE) || tipDer.Equals(Primitivo.TIPO_DATO.DOUBLE))
-                    {
-                        return Convert.ToDouble(izquierda.getValor(arbol)) <= Convert.ToDouble(derecha.getValor(arbol));
-                    }
-                    else if (tipIzq.Equals(Primitivo.TIPO_DATO.INT) && tipDer.Equals(Primitivo.TIPO_DATO.INT))
-                    {
-                        return Convert.ToInt32(izquierda.getValor(arbol)) <= Convert.ToInt32(derecha.getValor(arbol));
-                    }
-                    else if (tipIzq.Equals(Primitivo.TIPO_DATO.DATE) && tipDer.Equals(Primitivo.TIPO_DATO.DATE))
-                    {
-                        return ((Date)izquierda.getValor(arbol)).dateTime <= ((Date)derecha.getValor(arbol)).dateTime;
-                    }
-                    else if (tipIzq.Equals(Primitivo.TIPO_DATO.TIME) && tipDer.Equals(Primitivo.TIPO_DATO.TIME))
-                    {
-                        return ((TimeSpan)izquierda.getValor(arbol)) <= ((TimeSpan)derecha.getValor(arbol));
-                    }
-                    else
-                    {
-                        arbol.addError("","(Binaria, getValor, <=) No soportado: " + tipIzq + " y " +tipDer,fila,columna);
-                        return -1;
-                    }
-                case ">=":
-                    if (tipIzq.Equals(Primitivo.TIPO_DATO.DOUBLE) || tipDer.Equals(Primitivo.TIPO_DATO.DOUBLE))
-                    {
-                        return Convert.ToDouble(izquierda.getValor(arbol)) >= Convert.ToDouble(derecha.getValor(arbol));
-                    }
-                    else if (tipIzq.Equals(Primitivo.TIPO_DATO.INT) && tipDer.Equals(Primitivo.TIPO_DATO.INT))
-                    {
-                        return Convert.ToInt32(izquierda.getValor(arbol)) >= Convert.ToInt32(derecha.getValor(arbol));
-                    }
-                    else if (tipIzq.Equals(Primitivo.TIPO_DATO.DATE) && tipDer.Equals(Primitivo.TIPO_DATO.DATE))
-                    {
-                        return ((Date)izquierda.getValor(arbol)).dateTime >= ((Date)derecha.getValor(arbol)).dateTime;
-                    }
-                    else if (tipIzq.Equals(Primitivo.TIPO_DATO.TIME) && tipDer.Equals(Primitivo.TIPO_DATO.TIME))
-                    {
-                        return ((Date)izquierda.getValor(arbol)).dateTime >= ((Date)derecha.getValor(arbol)).dateTime;
-                    }
-                    else
-                    {
-                        arbol.addError("","(Binaria, getValor, >=) No soportado: " + tipIzq + " y " +tipDer,fila,columna);
-                        return -1;
-                    }
-                case ">":
-                    if (tipIzq.Equals(Primitivo.TIPO_DATO.DOUBLE) || tipDer.Equals(Primitivo.TIPO_DATO.DOUBLE))
-                    {
-                        return Convert.ToDouble(izquierda.getValor(arbol)) > Convert.ToDouble(derecha.getValor(arbol));
-                    }
-                    else if (tipIzq.Equals(Primitivo.TIPO_DATO.INT) && tipDer.Equals(Primitivo.TIPO_DATO.INT))
-                    {
-                        return Convert.ToInt32(izquierda.getValor(arbol)) > Convert.ToInt32(derecha.getValor(arbol));
-                    }
-                    else if (tipIzq.Equals(Primitivo.TIPO_DATO.DATE) && tipDer.Equals(Primitivo.TIPO_DATO.DATE))
-                    {
-                        return ((Date)izquierda.getValor(arbol)).dateTime > ((Date)derecha.getValor(arbol)).dateTime;
-                    }
-                    else if (tipIzq.Equals(Primitivo.TIPO_DATO.TIME) && tipDer.Equals(Primitivo.TIPO_DATO.TIME))
-                    {
-                        return ((TimeSpan)izquierda.getValor(arbol)) > ((TimeSpan)derecha.getValor(arbol));
-                    }
-                    else
-                    {
-                        arbol.addError("","(Binaria, getValor, >) No soportado: " + tipIzq + " y " +tipDer,fila,columna);
-                        return -1;
-                    }
-                case "<":
-                    if (tipIzq.Equals(Primitivo.TIPO_DATO.DOUBLE) || tipDer.Equals(Primitivo.TIPO_DATO.DOUBLE))
-                    {
-                        return Convert.ToDouble(izquierda.getValor(arbol)) < Convert.ToDouble(derecha.getValor(arbol));
-                    }
-                    else if (tipIzq.Equals(Primitivo.TIPO_DATO.INT) && tipDer.Equals(Primitivo.TIPO_DATO.INT))
-                    {
-                        return Convert.ToInt32(izquierda.getValor(arbol)) < Convert.ToInt32(derecha.getValor(arbol));
-                    }
-                    else if (tipIzq.Equals(Primitivo.TIPO_DATO.DATE) && tipDer.Equals(Primitivo.TIPO_DATO.DATE))
-                    {
-                        return ((Date)izquierda.getValor(arbol)).dateTime < ((Date)derecha.getValor(arbol)).dateTime;
-                    }
-                    else if (tipIzq.Equals(Primitivo.TIPO_DATO.TIME) && tipDer.Equals(Primitivo.TIPO_DATO.TIME))
-                    {
-                        return ((TimeSpan)izquierda.getValor(arbol)) < ((TimeSpan)derecha.getValor(arbol));
-                    }
-                    else
-                    {
-                        arbol.addError("","(Binaria, getValor, <) No soportado: " + tipIzq + " y " +tipDer,fila,columna);
-                        return -1;
-                    }
-                case "!=":
-                    if (tipIzq.Equals(Primitivo.TIPO_DATO.STRING) || tipDer.Equals(Primitivo.TIPO_DATO.STRING))
-                    {
-                        return !izquierda.getValor(arbol).Equals(derecha.getValor(arbol));
-                    }
-                    else if (tipIzq.Equals(Primitivo.TIPO_DATO.DOUBLE) || tipDer.Equals(Primitivo.TIPO_DATO.DOUBLE))
-                    {
-                        return !Convert.ToDouble(izquierda.getValor(arbol)).Equals(Convert.ToDouble(derecha.getValor(arbol)));
-                    }
-                    else if (tipIzq.Equals(Primitivo.TIPO_DATO.INT) && tipDer.Equals(Primitivo.TIPO_DATO.INT))
-                    {
-                        return !Convert.ToInt32(izquierda.getValor(arbol)).Equals(Convert.ToInt32(derecha.getValor(arbol)));
-                    }
-                    else if (tipIzq.Equals(Primitivo.TIPO_DATO.DATE) && tipDer.Equals(Primitivo.TIPO_DATO.DATE))
-                    {
-                        return !((Date)izquierda.getValor(arbol)).dateTime.Equals(((Date)(derecha.getValor(arbol))).dateTime);
-                    }
-                    else if (tipIzq.Equals(Primitivo.TIPO_DATO.TIME) && tipDer.Equals(Primitivo.TIPO_DATO.TIME))
-                    {
-                        return !((TimeSpan)izquierda.getValor(arbol)).Equals((TimeSpan)derecha.getValor(arbol));
-                    }
-                    else if (tipIzq.Equals(Primitivo.TIPO_DATO.NULL) || tipDer.Equals(Primitivo.TIPO_DATO.NULL))
-                    {
-                        return !izquierda.getValor(arbol).Equals(derecha.getValor(arbol));
-                    }
-                    else
-                    {
-                        arbol.addError("","(Binaria, getValor, !=) No soportado: " + tipIzq + " y " +tipDer,fila,columna);
-                        return !izquierda.getValor(arbol).Equals(derecha.getValor(arbol));
-                    }
-                case "==":
-                    if (tipIzq.Equals(Primitivo.TIPO_DATO.STRING) || tipDer.Equals(Primitivo.TIPO_DATO.STRING))
-                    {
-                        return izquierda.getValor(arbol).Equals(derecha.getValor(arbol));
-                    }
-                    else if (tipIzq.Equals(Primitivo.TIPO_DATO.DOUBLE) || tipDer.Equals(Primitivo.TIPO_DATO.DOUBLE))
-                    {
-                        return Convert.ToDouble(izquierda.getValor(arbol)).Equals(Convert.ToDouble(derecha.getValor(arbol)));
-                    }
-                    else if (tipIzq.Equals(Primitivo.TIPO_DATO.INT) && tipDer.Equals(Primitivo.TIPO_DATO.INT))
-                    {
-                        return Convert.ToInt32(izquierda.getValor(arbol)).Equals(Convert.ToInt32(derecha.getValor(arbol)));
-                    }
-                    else if (tipIzq.Equals(Primitivo.TIPO_DATO.DATE) && tipDer.Equals(Primitivo.TIPO_DATO.DATE))
-                    {
-                        return ((Date)izquierda.getValor(arbol)).dateTime.Equals(((Date)derecha.getValor(arbol)).dateTime);
-                    }
-                    else if (tipIzq.Equals(Primitivo.TIPO_DATO.TIME) && tipDer.Equals(Primitivo.TIPO_DATO.TIME))
-                    {
-                        return (izquierda.getValor(arbol)).Equals((derecha.getValor(arbol)));
-                    }
-                    else if (tipIzq.Equals(Primitivo.TIPO_DATO.NULL) || tipDer.Equals(Primitivo.TIPO_DATO.NULL))
-                    {
-                        return izquierda.getValor(arbol).Equals(derecha.getValor(arbol));
-                    }
-                    else
-                    {
-                        arbol.addError("", "(Binaria, getValor, !=) No soportado: " + tipIzq + " y " + tipDer, fila, columna);
-                        return izquierda.getValor(arbol).Equals(derecha.getValor(arbol));
-                    }
-                case "&&":
-                    if (tipIzq.Equals(Primitivo.TIPO_DATO.BOOLEAN) && tipDer.Equals(Primitivo.TIPO_DATO.BOOLEAN))
-                    {
-                        return Convert.ToBoolean(izquierda.getValor(arbol)) && Convert.ToBoolean(derecha.getValor(arbol));
-                    }
-                    else
-                    {
-                        arbol.addError("","(Primitivo, getValor, &&) No soportado: " + operador, fila, columna);
-                        return -1;
-                    }
-                case "||":
-                    if (tipIzq.Equals(Primitivo.TIPO_DATO.BOOLEAN) && tipDer.Equals(Primitivo.TIPO_DATO.BOOLEAN))
-                    {
-                        return Convert.ToBoolean(izquierda.getValor(arbol)) || Convert.ToBoolean(derecha.getValor(arbol));
-                    }
-                    else
-                    {
-                        arbol.addError("","(Primitivo, getValor, ||) No soportado: " + operador, fila, columna);
-                        return -1;
-                    }
-                case "^":
-                    if (tipIzq.Equals(Primitivo.TIPO_DATO.BOOLEAN) && tipDer.Equals(Primitivo.TIPO_DATO.BOOLEAN))
-                    {
-                        return Convert.ToBoolean(izquierda.getValor(arbol)) ^ Convert.ToBoolean(derecha.getValor(arbol));
-                    }
-                    else
-                    {
-                        arbol.addError("","(Primitivo, getValor, ^) No soportado: " + operador, fila, columna);
-                        return -1;
-                    }
-                default:
-                    arbol.addError("","(Primitivo, getValor, default) No soportado: "+operador, fila, columna);
-                    return -1;
+                }
+            }
+            catch (Exception ex)
+            {
+                arbol.addError(ex.ToString(),"Error Binaria, Error de tipos",fila,columna);
+                return new Null();
             }
         }
     }

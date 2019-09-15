@@ -114,8 +114,6 @@ SET songs = songs + {
     };
 
 
-
-
 procedure printSongsByYear(String @playlistName, int @year),() {
     Cursor @c1 = getPlaylist(@playlistName);
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Server.AST.ExpresionesCQL.Tipos;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -19,13 +20,13 @@ namespace Server.AST.ExpresionesCQL
 
         public override object getTipo(AST_CQL arbol)
         {
-            if (Convert.ToBoolean(condicion.getValor(arbol)))
-            {
-                return expVerdadero.getTipo(arbol);
+            if ((expVerdadero.getTipo(arbol) != expFalso.getTipo(arbol))) {
+                arbol.addError("Ternaria","Los tipos de la ternaria no son iguales ("+
+                    expFalso.getTipo(arbol)+","+expVerdadero.getTipo(arbol)+")",fila,columna);
+                return new Null();
             }
-            else
-            {
-                return expFalso.getTipo(arbol);
+            else {
+                return expVerdadero.getTipo(arbol);
             }
         }
 

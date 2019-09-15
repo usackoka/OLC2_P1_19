@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Server.AST.ExpresionesCQL.Tipos;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -40,7 +41,7 @@ namespace Server.AST.ExpresionesCQL
             else
             {
                 arbol.addError("Clase String", "No posee el método: " + idMetodo, 0, 0);
-                return Primitivo.TIPO_DATO.NULL;
+                return new Null();
             }
         }
 

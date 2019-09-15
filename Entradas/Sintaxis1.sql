@@ -237,7 +237,29 @@ int ackerman(int @m, int @n){
 	}
 }
 
+
+int @iteracion = 0;
+log(ackerman(3,4));
+int ackerman(int @m, int @n){
+	log("@m "+@m+" @n "+@n+" ite "+@iteracion);
+	@iteracion++;
+	if(@m==0){
+		return @n+1;
+	}
+	if(@m>0 && @n==0){
+		return ackerman(@m-1,1);
+	}
+	if(@m>0 && @n>0){
+		return ackerman(@m-1,ackerman(@m,@n-1));
+	}
+}
+
+
 //================================== prueba entornos =========================================
+
+
+int @nGlobal = 45;
+
 pruebaEntornos();
 
 int pruebaEntornos(){
@@ -252,6 +274,12 @@ int pruebaEntornos2(){
 	if(true){
 		log("Esto tampoco debería dar error: "+@n2);
 	}
+	pruebaEntornos3();
+}
+
+int pruebaEntornos3(){
+	log(@nGlobal);
+	log("Esto debería dar error: "+@n2);
 	log("Esto debería dar error: "+@n1);
 }
 

@@ -10,7 +10,23 @@ namespace Server.AST.ExpresionesCQL.Tipos
         public DateTime dateTime;
 
         public Date(String date) {
-            this.dateTime = DateTime.Parse(date);
+            try
+            {
+                this.dateTime = DateTime.Parse(date);
+            }
+            catch (Exception)
+            {
+                try
+                {
+                    String[] nums = date.Split('-');
+                    this.dateTime = new DateTime(Convert.ToInt32(nums[0]),Convert.ToInt32(nums[1]),Convert.ToInt32(nums[2]));
+                }
+                catch (Exception)
+                {
+                    Console.Write("");
+                    this.dateTime = DateTime.Now;
+                }
+            }
         }
 
         public Date(Expresion expresion, AST_CQL arbol, int fila, int columna) {

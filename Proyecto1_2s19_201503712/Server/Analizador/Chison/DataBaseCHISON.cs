@@ -59,9 +59,7 @@ namespace Server.Analizador.Chison
                                 if (kvp.Key.Equals(column.id))
                                 {
                                     Object valor = kvp.Value;
-                                    if (valor is List<Object>) {
-                                        valor = Primitivo.getObjectByList((List<Object>)valor,column.tipoDato,dbms);
-                                    }
+                                    valor = Primitivo.getObjectByList(valor, column.tipoDato, dbms);
                                     valoresColumna.Add(valor);
                                 }
                             }
