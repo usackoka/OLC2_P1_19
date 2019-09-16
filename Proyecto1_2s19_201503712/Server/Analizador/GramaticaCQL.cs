@@ -608,7 +608,7 @@ namespace Server.Analizador
 
             E_PARENT.Rule = l_parent + E + r_parent;
 
-            UNARIO.Rule = mas + E | menos + E | res_not + E;
+            UNARIO.Rule = mas + E | menos + E | not + E;
 
             PRIMITIVO.Rule = id | numero | cadena | cadena2 | res_true | res_false | res_null | arroba + id;
 

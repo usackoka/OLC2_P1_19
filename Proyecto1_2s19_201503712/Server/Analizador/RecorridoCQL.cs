@@ -15,12 +15,18 @@ namespace Server.Analizador
     public class RecorridoCQL
     {
         public AST_CQL ast { get; set; }
+        ParseTreeNode padre;
 
         public RecorridoCQL(ParseTreeNode padre, Management dbms)
         {
             ast = new AST_CQL();
+            this.padre = padre;
             ast.dbms = dbms;
+        }
+
+        public void Ejecutar() {
             ast.nodos = (List<NodoCQL>)recorrido(padre);
+            ast.Ejecutar();
         }
 
         bool agregarDolar;

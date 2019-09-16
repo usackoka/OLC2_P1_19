@@ -29,11 +29,11 @@ namespace Server.AST.ExpresionesCQL
                 case "-":
                     if (tipo.Equals(Primitivo.TIPO_DATO.INT))
                     {
-                        return Convert.ToInt32(unario.getValor(arbol));
+                        return - Convert.ToInt32(unario.getValor(arbol));
                     }
                     else if (tipo.Equals(Primitivo.TIPO_DATO.DOUBLE))
                     {
-                        return Convert.ToDouble(unario.getValor(arbol));
+                        return - Convert.ToDouble(unario.getValor(arbol));
                     }
                     else
                     {

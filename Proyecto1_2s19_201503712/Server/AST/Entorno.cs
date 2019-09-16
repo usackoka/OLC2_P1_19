@@ -97,6 +97,12 @@ namespace Server.AST
                 {
                     var.setValor(valor);
                 }
+                else if (var.getTipo(arbol).Equals(Primitivo.TIPO_DATO.DOUBLE) && tipo.Equals(Primitivo.TIPO_DATO.INT)) {
+                    var.setValor(valor);
+                }
+                else if (var.getTipo(arbol).Equals(Primitivo.TIPO_DATO.INT) && tipo.Equals(Primitivo.TIPO_DATO.DOUBLE)) {
+                    var.setValor(valor);
+                }
                 else if (var.getTipo(arbol).Equals(tipo))
                 {
                     var.setValor(valor);

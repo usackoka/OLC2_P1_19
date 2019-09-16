@@ -59,8 +59,7 @@ namespace Server.Analizador.LUP
                         //Graficar.ConstruirArbol(parserCQL.padre.Root, "AST_CQL", "");
                         RecorridoCQL recorrido = new RecorridoCQL(parserCQL.padre.Root, this.dbms);
 
-                        ThreadStart threadDelegate = new ThreadStart(recorrido.ast.Ejecutar);
-
+                        ThreadStart threadDelegate = new ThreadStart(recorrido.Ejecutar);
                         Thread T = new Thread(threadDelegate, 1000000000);
                         T.Start();
 

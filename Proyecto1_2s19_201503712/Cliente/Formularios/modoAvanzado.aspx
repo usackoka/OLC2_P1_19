@@ -170,7 +170,7 @@
                 //imprimo los mensajes en la consola
                 for (i in ast.mensajes) {
                     document.getElementById("txtConsola").value +=
-                        (ast.mensajes[i]).toString().replace("[+MESSAGE]", "").replace("[-MESSAGE]", "") + "\n";
+                        (ast.mensajes[i]).toString().replace("[+MESSAGE]", "").replace("[-MESSAGE]", "").replace("\n","");
                 }
 
                 //creo la tabla para las consultas

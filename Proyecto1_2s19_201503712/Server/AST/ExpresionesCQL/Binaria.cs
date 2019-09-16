@@ -130,7 +130,8 @@ namespace Server.AST.ExpresionesCQL
                         }
                         else if (tipIzq.Equals(Primitivo.TIPO_DATO.DOUBLE) || tipDer.Equals(Primitivo.TIPO_DATO.DOUBLE))
                         {
-                            return Convert.ToDouble(izquierda.getValor(arbol)) + Convert.ToDouble(derecha.getValor(arbol));
+                            Object value = Convert.ToDouble(izquierda.getValor(arbol)) + Convert.ToDouble(derecha.getValor(arbol));
+                            return value;
                         }
                         else if (tipIzq.Equals(Primitivo.TIPO_DATO.INT) && tipDer.Equals(Primitivo.TIPO_DATO.INT))
                         {
@@ -162,11 +163,13 @@ namespace Server.AST.ExpresionesCQL
                     case "-":
                         if (tipIzq.Equals(Primitivo.TIPO_DATO.DOUBLE) || tipDer.Equals(Primitivo.TIPO_DATO.DOUBLE))
                         {
-                            return Convert.ToDouble(izquierda.getValor(arbol)) - Convert.ToDouble(derecha.getValor(arbol));
+                            Object value = Convert.ToDouble(izquierda.getValor(arbol)) - Convert.ToDouble(derecha.getValor(arbol));
+                            return value;
                         }
                         else if (tipIzq.Equals(Primitivo.TIPO_DATO.INT) && tipDer.Equals(Primitivo.TIPO_DATO.INT))
                         {
-                            return Convert.ToInt32(izquierda.getValor(arbol)) - Convert.ToInt32(derecha.getValor(arbol));
+                            Object value = Convert.ToInt32(izquierda.getValor(arbol)) - Convert.ToInt32(derecha.getValor(arbol));
+                            return value;
                         }
                         else if (tipIzq is TipoSet && tipDer is TipoSet)
                         {
@@ -356,6 +359,10 @@ namespace Server.AST.ExpresionesCQL
                         {
                             return !((TimeSpan)izquierda.getValor(arbol)).Equals((TimeSpan)derecha.getValor(arbol));
                         }
+                        else if (tipIzq.Equals(Primitivo.TIPO_DATO.BOOLEAN) && tipDer.Equals(Primitivo.TIPO_DATO.BOOLEAN))
+                        {
+                            return !Convert.ToBoolean(izquierda.getValor(arbol)).Equals(Convert.ToBoolean(derecha.getValor(arbol)));
+                        }
                         else if (tipIzq.Equals(new Null()) || tipDer.Equals(new Null()))
                         {
                             return !izquierda.getValor(arbol).Equals(derecha.getValor(arbol));
@@ -385,6 +392,10 @@ namespace Server.AST.ExpresionesCQL
                         else if (tipIzq.Equals(Primitivo.TIPO_DATO.TIME) && tipDer.Equals(Primitivo.TIPO_DATO.TIME))
                         {
                             return (izquierda.getValor(arbol)).Equals((derecha.getValor(arbol)));
+                        }
+                        else if (tipIzq.Equals(Primitivo.TIPO_DATO.BOOLEAN) && tipDer.Equals(Primitivo.TIPO_DATO.BOOLEAN))
+                        {
+                            return Convert.ToBoolean(izquierda.getValor(arbol)).Equals(Convert.ToBoolean(derecha.getValor(arbol)));
                         }
                         else if (tipIzq.Equals(new Null()) || tipDer.Equals(new Null()))
                         {

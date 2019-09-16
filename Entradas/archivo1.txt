@@ -201,6 +201,7 @@ Inicio();
 
         Logicas3(n0);
 }
+
  int Logicas3(int n0){
     //do lo mismo que logicas2 pero con nands y nors
     LOG("==============Logicas3=============");
@@ -228,8 +229,9 @@ Inicio();
     LOG("======================================");
 
 }
+
  int Relacionales(){
-    int n0 = 34;
+    int @n0 = 34;
     int @n1 = 16;
     
     relaciones1(n0);
