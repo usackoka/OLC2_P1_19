@@ -23,7 +23,18 @@ namespace Server.AST.SentenciasCQL
 
         public override object Ejecutar(AST_CQL arbol)
         {
-            if (Convert.ToBoolean(this.condicion.getValor(arbol)))
+            Object valcon = condicion.getValor(arbol);
+            Boolean vale = false;
+            if (valcon is Boolean)
+            {
+                vale = Convert.ToBoolean(valcon);
+            }
+            else
+            {
+                arbol.addError("If", "No se puede obtener el valor booleano de la condición, valor: " + valcon, fila, columna);
+            }
+
+            if (vale)
             {
                 arbol.entorno = new Entorno(arbol.entorno);
 
@@ -52,8 +63,9 @@ namespace Server.AST.SentenciasCQL
                 foreach (ElseIf elseif in elseifs)
                 {
                     Object val = elseif.Ejecutar(arbol);
-                    if (val != null)
+                    if (val != null) {
                         return val;
+                    }
 
                     if (elseif.ejecutado)
                     {
@@ -64,8 +76,9 @@ namespace Server.AST.SentenciasCQL
                 if (else_ != null)
                 {
                     Object val = else_.Ejecutar(arbol);
-                    if (val != null)
+                    if (val != null) {
                         return val;
+                    }
                 }
             }
 

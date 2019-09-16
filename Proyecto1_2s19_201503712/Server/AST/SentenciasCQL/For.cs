@@ -1,8 +1,6 @@
 ﻿using Server.AST.ExpresionesCQL;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace Server.AST.SentenciasCQL
 {
@@ -14,7 +12,8 @@ namespace Server.AST.SentenciasCQL
         List<NodoCQL> instrucciones;
 
         public For(Sentencia fuente_for, Expresion condicion, NodoCQL actualizacion, List<NodoCQL> instrucciones,
-            int fila, int columna) {
+            int fila, int columna)
+        {
             this.fuente_for = fuente_for;
             this.condicion = condicion;
             this.actualizacion = actualizacion;
@@ -30,7 +29,19 @@ namespace Server.AST.SentenciasCQL
             //variable iteradora
             fuente_for.Ejecutar(arbol);
 
-            while (Convert.ToBoolean(condicion.getValor(arbol))) {
+            Object valcon = condicion.getValor(arbol);
+            Boolean vale = false;
+            if (valcon is Boolean)
+            {
+                vale = Convert.ToBoolean(valcon);
+            }
+            else
+            {
+                arbol.addError("While", "No se puede obtener el valor booleano de la condición, valor: " + valcon, fila, columna);
+            }
+
+            while (vale)
+            {
                 //nuevo entorno de la iteracion
                 arbol.entorno = new Entorno(arbol.entorno);
                 foreach (NodoCQL nodo in this.instrucciones)
@@ -56,8 +67,21 @@ namespace Server.AST.SentenciasCQL
                 {
                     ((Sentencia)actualizacion).Ejecutar(arbol);
                 }
-                else {
+                else
+                {
                     ((Expresion)actualizacion).getValor(arbol);
+                }
+
+                //===========evaluar condicion de nuevo
+                valcon = condicion.getValor(arbol);
+                vale = false;
+                if (valcon is Boolean)
+                {
+                    vale = Convert.ToBoolean(valcon);
+                }
+                else
+                {
+                    arbol.addError("While", "No se puede obtener el valor booleano de la condición, valor: " + valcon, fila, columna);
                 }
             }
             //salgo del entorno de la variable iteradora

@@ -36,7 +36,6 @@ namespace Server.AST.SentenciasCQL
                 }
             }
             arbol.entorno = arbol.entorno.padre;
-
             return null;
         }
     }

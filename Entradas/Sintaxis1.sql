@@ -160,7 +160,18 @@ int @n1,@n2=3,@n4;
 log("Esto debería dar 3: "+@n1+@n2);
 log("Esto debería dar 0: "+@n1+@n4);
 
+log(prueba());
+int prueba(){
+	int @nn1 = 31;
+	if(@nn1 == 29.0){
+		return 1;
+	}else if(@nn1 > 30){
+		return 2;
+	}else{
+		return 3;
+	}
 
+}
 
 int @nn1 = 40;
 @nn1 = @nn1 - 1;
@@ -237,9 +248,23 @@ int ackerman(int @m, int @n){
 	}
 }
 
+int @iteracion = 0;
+log(ackermann(3,2));
+int ackermann(int @m, int @n) {
+	log("@m "+@m+" @n "+@n+" ite "+@iteracion);
+	@iteracion++;
+    if (@m == 0) {
+        return (@n + 1);
+    } else if (@m > 0 && @n == 0) {
+        return ackermann(@m - 1, 1);
+    } else {
+        return ackermann(@m - 1, ackermann(@m, @n - 1));
+    }
+}
+
 
 int @iteracion = 0;
-log(ackerman(3,4));
+log(ackerman(3,2));
 int ackerman(int @m, int @n){
 	log("@m "+@m+" @n "+@n+" ite "+@iteracion);
 	@iteracion++;

@@ -22,7 +22,17 @@ namespace Server.AST.SentenciasCQL
 
         public override object Ejecutar(AST_CQL arbol)
         {
-            if (Convert.ToBoolean(condicion.getValor(arbol)))
+            Object valcon = condicion.getValor(arbol);
+            Boolean vale = false;
+            if (valcon is Boolean) {
+                vale = Convert.ToBoolean(valcon);
+            }
+            else {
+                arbol.addError("ElseIf","No se puede obtener el valor booleano de la condición, valor: "+valcon,fila,columna);
+            }
+            this.ejecutado = false;
+
+            if (vale)
             {
                 arbol.entorno = new Entorno(arbol.entorno);
                 this.ejecutado = true;
