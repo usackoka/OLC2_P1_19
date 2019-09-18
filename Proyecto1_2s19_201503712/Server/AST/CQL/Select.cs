@@ -71,10 +71,35 @@ namespace Server.AST.CQL
             }
 
             //agrego la lista a los print de tables
-            arbol.res_consultas.Add(resultado);
+            arbol.result_consultas.Add(getString(resultado));
 
             return resultado;
         }
-        
+
+        String getString(List<ColumnCQL> data) {
+            String res = "<table border=\"2\" style=\"margin: 0 auto;\" class=\"table table-striped table-bordered table-responsive table-dark\">\n";
+
+            //nombre de las columnas
+            foreach (ColumnCQL column in data)
+            {
+
+                res += "<td>" + column.id + "</td>\n";
+            }
+
+            int index = data.Count != 0 ? data[0].valores.Count : 0;
+            for (int i = 0; i < index; i++)
+            {
+                //filas
+
+                res += "    <tr>\n";
+                foreach (ColumnCQL column in data)
+                {
+                    res += "        <td>" + column.valores[i] + "</td>\n";
+                }
+                res += "    </tr>\n";
+            }
+            res += "</table>\n";
+            return res;
+        }
     }
 }

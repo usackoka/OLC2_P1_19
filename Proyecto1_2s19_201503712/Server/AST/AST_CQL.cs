@@ -14,7 +14,8 @@ namespace Server.AST
     {
         public List<NodoCQL> nodos { get; set; }
         public List<String> mensajes { get; set; }
-        public List<List<ColumnCQL>> res_consultas { get; set; }
+        private List<List<ColumnCQL>> res_consultas { get; set; }
+        public List<String> result_consultas { get; set; }
         public List<clsToken> errores { get; set; }
         public Entorno entorno { get; set; }
         public List<Funcion> funciones { get; set; }
@@ -26,6 +27,7 @@ namespace Server.AST
             this.nodos = new List<NodoCQL>();
             this.mensajes = new List<String>();
             this.res_consultas = new List<List<ColumnCQL>>();
+            this.result_consultas = new List<string>();
             this.errores = new List<clsToken>();
             this.entorno = new Entorno(null);
             this.finalizado = false;
@@ -46,6 +48,13 @@ namespace Server.AST
             this.finalizado = true;
         }
 
+        //==================================================================================================================
+        //==================================================================================================================
+        //==================================================================================================================
+        //============================================ METODOS LUP =========================================================
+        //==================================================================================================================
+        //==================================================================================================================
+        //==================================================================================================================
         public String getLUP() {
             String respuesta = "";
 
@@ -57,9 +66,9 @@ namespace Server.AST
             }
 
             //==== data selects ====
-            foreach (List<ColumnCQL> consulta in res_consultas) {
+            foreach (String consulta in result_consultas) {
                 respuesta += "\n[+DATA]\n";
-                respuesta += getTablaSelect(consulta);
+                respuesta += consulta;
                 respuesta += "\n[-DATA]\n";
             }
 
@@ -87,6 +96,7 @@ namespace Server.AST
             return respuesta;
         }
 
+        /*
         private String getTablaSelect(List<ColumnCQL> data) {
             String res = "<table border=\"2\" style=\"margin: 0 auto;\" class=\"table table-striped table-bordered table-responsive table-dark\">\n";
 
@@ -110,7 +120,7 @@ namespace Server.AST
             }
             res += "</table>\n";
             return res;
-        }
+        }*/
 
         public void addError(String lexema, String descripcion, int fila, int columna) {
             this.errores.Add(new clsToken(lexema, descripcion, fila, columna, "Semántico",""));

@@ -21,7 +21,7 @@ CREATE DATABASE IF NOT EXISTS _01_dAtAbAsE;     // no debe dar error
 
 commit;     // el archivo chison no debe modificarse
 
-USE _01_database_; // debe dar excepción
+//USE _01_database_; // debe dar excepción
 
 USE _01_database;
 
@@ -43,21 +43,25 @@ CREATE TABLE IF NOT EXISTS customers (
 
 LOG("Tabla \"Customers\" creada exitosamente");
 
+/*
 CREATE TABLE customers (
     customerName Counter PRIMARY KEY
 );  // Error tabla ya existe
+*/
 
-
+/*
 ALTER TABLE Customers 
     ADD id Counter;        // Error
+*/
 
 ALTER TABLE customers ADD 
     salesRepEmployeeNumber int,
     creditLimit double;
 
+/*
 ALTER TABLE customers DROP
     customerNumber;           // Error
-
+*/
 commit;
 
 INSERT INTO customers(

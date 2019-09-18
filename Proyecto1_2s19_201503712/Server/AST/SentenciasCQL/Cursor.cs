@@ -53,13 +53,13 @@ namespace Server.AST.SentenciasCQL
                     {
                         cursor.data = (List<ColumnCQL>)o;
                         arbol.entorno.reasignarVariable(this.id, cursor, Primitivo.TIPO_DATO.CURSOR, arbol, fila, columna);
-                        arbol.res_consultas.RemoveAt(arbol.res_consultas.Count - 1);
+                        arbol.result_consultas.RemoveAt(arbol.result_consultas.Count - 1);
                         return null;
                     }
                     else if (o is Cursor) {
                         cursor.data = ((Cursor)o).getSelect(arbol);
                         arbol.entorno.reasignarVariable(this.id, cursor, Primitivo.TIPO_DATO.CURSOR, arbol, fila, columna);
-                        arbol.res_consultas.RemoveAt(arbol.res_consultas.Count - 1);
+                        arbol.result_consultas.RemoveAt(arbol.result_consultas.Count - 1);
                         return null;
                     }
                     else {

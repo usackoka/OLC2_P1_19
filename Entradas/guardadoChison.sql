@@ -33,7 +33,40 @@ UPDATE Persona SET mascotas = mascotas + { "Coco":{"Coco","Frensh","Mancilla",'2
 								"Fito":{"Fito","Chihuahua","Mancilla",'2019-04-00'} as Mascota}
 								WHERE nombre == "Oscar Cuéllar" && edad == 22;
 
+
+CREATE DATABASE Database1;
+
+USE Database1;
+
+CREATE TYPE Curso(
+nombre String,
+codigo Int
+);
+
+CREATE TYPE Direccion(
+Apartamento String,
+Zona String,
+Nivel int
+);
+
+CREATE TABLE Alumno(
+carnet Counter,
+Nombre String,
+Edad int,
+Cursor_Aprobados List<List<Curso>>
+);
+
+List @aux = [
+  [{"MB1", 10} as Curso, {"MB2", 10} as Curso],
+  [{"MB2", 10} as Curso, {"MB1", 10} as Curso] 
+];
+
+INSERT INTO Alumno VALUES (1, "Estudiante1", 18, @aux);
+
+commit;
+
 commit;
 
 use virtual;
 select * from Persona;
+
