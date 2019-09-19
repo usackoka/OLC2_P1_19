@@ -142,7 +142,6 @@ namespace Server.AST.ExpresionesCQL
         Object getTipoRecursivo(AST_CQL arbol) {
             Object valorRetorno = null;
             Object tipoRetorno =new Null();
-
             
             for(int i = 0; i < referencias.Count; i++)
             {

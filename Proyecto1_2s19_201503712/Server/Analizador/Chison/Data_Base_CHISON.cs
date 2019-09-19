@@ -60,6 +60,43 @@ namespace Server.Analizador.Chison
             }
         }
 
+        public List<Parametro> getParameters(Management dbms) {
+            List<Parametro> lista = new List<Parametro>();
+
+            if (this.valores.ContainsKey("parameters"))
+            {
+                Object o = this.valores["parameters"];
+                if (o is List<Parametro>)
+                {
+                    return (List<Parametro>)o;
+                }
+            }
+            else
+            {
+                dbms.addError("LoadData-Chison", "La Data no contiene el atributo PARAMETERS", fila, columna);
+            }
+
+            return lista;
+        }
+
+        public String getInstrucciones(Management dbms)
+        {
+            if (this.valores.ContainsKey("instr"))
+            {
+                Object o = this.valores["instr"];
+                if (o is String)
+                {
+                    return o.ToString().TrimStart('$').TrimEnd('$');
+                }
+            }
+            else
+            {
+                dbms.addError("LoadData-Chison", "La Data no contiene el atributo INSTR", fila, columna);
+            }
+
+            return "";
+        }
+
         public List<List<KeyValuePair<String, Object>>> getData(Management dbms) {
             List<List<KeyValuePair<String, Object>>> lista = new List<List<KeyValuePair<String, Object>>>();
 

@@ -1,10 +1,30 @@
 $<
-"DATABASES"=[],
+"DATABASES"=[
+<
+"NAME"="db",
+"DATA"= [   <
+   "CQL-TYPE"="PROCEDURE",
+   "NAME"="imprimirmensajes",
+   "PARAMETERS"=[
+   <   "NAME"="msm1",
+   "TYPE"="STRING",
+   "AS"=IN
+   >,
+   <   "NAME"="msm2",
+   "TYPE"="STRING",
+   "AS"=IN
+   >],
+   "INSTR"= $log ( @ msm1 ) ; log ( @ msm2 ) ; $
+   >
+]
+>],
 "USERS"=[
 <
 "NAME"="admin",
 "PASSWORD"="admin",
-"PERMISSIONS"= []
+"PERMISSIONS"= [
+   <"NAME"="db"
+   >]
 >]
 
 >$

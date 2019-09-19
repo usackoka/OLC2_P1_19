@@ -175,7 +175,7 @@ namespace Server.Analizador.Chison
                 | res_type + igual + cadena
                 | res_as + igual + res_in
                 | res_as + igual + res_out;*/
-                return new Parametro(getLexema(raiz, 0).Replace("\"", ""), getLexema(raiz, 2));
+                return new Parametro(getLexema(raiz, 0).Replace("\"", ""), getLexema(raiz, 2).Replace("\"", ""));
             }
             else if (CompararNombre(raiz, "LISTA_ATTRS")) {
                 if (raiz.ChildNodes.Count != 0 && CompararNombre(raiz.ChildNodes[0], "IMPORT"))

@@ -72,7 +72,7 @@ namespace Server.AST.ExpresionesCQL
                     //busco la función
                     foreach (Funcion funcion in arbol.funciones)
                     {
-                        if (funcion.id.Equals(idLlamada) && getFirma(arbol).Equals(funcion.getFirma()))
+                        if (funcion.id.ToLower().Equals(idLlamada.ToLower()) && getFirma(arbol).Equals(funcion.getFirma()))
                         {
                             //paso los valores que tendrán los parámetros
                             funcion.valoresParametros = valores;

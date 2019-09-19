@@ -144,3 +144,6 @@ log("============= IN ORDEN =============");
 InOrden(@raiz);
 log("============= POS ORDEN =============");
 PosOrden(@raiz);
+log("======== ELIMINANDO CLAVE 3 =========");
+Eliminar(3);
+preOrden(@raiz);

@@ -164,7 +164,7 @@ namespace Server.AST.DBMS
 
             foreach (Procedure ut in system.procedures)
             {
-                if (ut.id.Equals(id) && ut.getFirma().Equals(firma))
+                if (ut.id.ToLower().Equals(id.ToLower()) && ut.getFirma().Equals(firma))
                 {
                     return ut;
                 }

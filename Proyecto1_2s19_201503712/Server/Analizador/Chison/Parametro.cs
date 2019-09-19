@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Server.AST.DBMS;
+using Server.AST.ExpresionesCQL;
+using Server.AST.ExpresionesCQL.Tipos;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,5 +31,43 @@ namespace Server.Analizador.Chison
             }
         }
 
+        public String getName(Management dbms)
+        {
+            if (this.valores.ContainsKey("name"))
+            {
+                return this.valores["name"].ToString();
+            }
+            else
+            {
+                dbms.addError("LoadData-Chison", "El parametro no contiene el atributo NAME", 0, 0);
+                return "NULL";
+            }
+        }
+
+        public Object getCqlType(Management dbms)
+        {
+            if (this.valores.ContainsKey("type"))
+            {
+                return Primitivo.getTipoString(this.valores["type"].ToString(),dbms);
+            }
+            else
+            {
+                dbms.addError("LoadData-Chison", "El parametro no contiene el atributo TYPE", 0, 0);
+                return new Null();
+            }
+        }
+
+        public Boolean getAS(Management dbms)
+        {
+            if (this.valores.ContainsKey("as"))
+            {
+                return Convert.ToBoolean(this.valores["as"].Equals("in"));
+            }
+            else
+            {
+                dbms.addError("LoadData-Chison", "El parametro no contiene el atributo AS", 0, 0);
+                return false;
+            }
+        }
     }
 }

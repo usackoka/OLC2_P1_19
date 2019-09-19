@@ -29,6 +29,10 @@ namespace Server.Analizador
             ast.Ejecutar();
         }
 
+        public List<NodoCQL> RecorridoDesdeChison() {
+            return (List<NodoCQL>)recorrido(padre);
+        }
+
         bool agregarDolar;
         Object recorrido(ParseTreeNode raiz)
         {

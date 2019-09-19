@@ -37,3 +37,18 @@ Nodo @lista = new Nodo;
 @lista = addPrimero(@lista, "Segundo valor insertado");
 @lista = addPrimero(@lista, "Tercer valor insertado");
 log(stringLista(@lista));
+
+//============================== CARGA DE PROCEDURES ================================
+create database db;
+use db;
+
+procedure imprimirMensajes(String @msm1, String @msm2),(){
+	log(@msm1);
+	log(@msm2);
+}
+
+commit;
+
+use db;
+
+call imprimirMensajes("Hola mensaje1","Hola mensaje2");
