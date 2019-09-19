@@ -1,3 +1,6 @@
+Create database virtual;
+use virtual;
+
 Create type If not exists NodoB(
 		Clave int,
 		Nombre string,
@@ -130,3 +133,11 @@ boolean Eliminar(int @elem){
 	}
 	return true;
 }
+
+Insertar(1,"Soy la clave 1");
+Insertar(2,"Soy la clave 2");
+Insertar(3,"Soy la clave 3");
+Insertar(4,"Soy la clave 4");
+preOrden(@raiz);
+InOrden(@raiz);
+PosOrden(@raiz);

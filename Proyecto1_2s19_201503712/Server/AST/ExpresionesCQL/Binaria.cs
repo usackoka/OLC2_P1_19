@@ -363,9 +363,9 @@ namespace Server.AST.ExpresionesCQL
                         {
                             return !Convert.ToBoolean(izquierda.getValor(arbol)).Equals(Convert.ToBoolean(derecha.getValor(arbol)));
                         }
-                        else if (tipIzq.Equals(new Null()) || tipDer.Equals(new Null()))
+                        else if (tipIzq is Null || tipDer is Null)
                         {
-                            return !izquierda.getValor(arbol).Equals(derecha.getValor(arbol));
+                            return !izquierda.getValor(arbol).ToString().Equals(derecha.getValor(arbol).ToString());
                         }
                         else
                         {
@@ -397,9 +397,9 @@ namespace Server.AST.ExpresionesCQL
                         {
                             return Convert.ToBoolean(izquierda.getValor(arbol)).Equals(Convert.ToBoolean(derecha.getValor(arbol)));
                         }
-                        else if (tipIzq.Equals(new Null()) || tipDer.Equals(new Null()))
+                        else if (tipIzq is Null|| tipDer is Null)
                         {
-                            return izquierda.getValor(arbol).Equals(derecha.getValor(arbol));
+                            return izquierda.getValor(arbol).ToString().Equals(derecha.getValor(arbol).ToString());
                         }
                         else
                         {

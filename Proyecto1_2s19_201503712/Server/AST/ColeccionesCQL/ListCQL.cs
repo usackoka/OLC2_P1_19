@@ -59,7 +59,7 @@ namespace Server.AST.ColeccionesCQL
                 }
                 else if (obj is UserType)
                 {
-                    trad += ((UserType)obj).getData();
+                    trad += ((UserType)obj).getData() + ",";
                 }
                 else
                 {

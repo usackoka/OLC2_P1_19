@@ -61,12 +61,19 @@ List @aux = [
   [{"MB2", 10} as Curso, {"MB1", 10} as Curso] 
 ];
 
-INSERT INTO Alumno VALUES (1, "Estudiante1", 18, @aux);
+INSERT INTO Alumno(Nombre, Edad, Cursor_Aprobados) VALUES ("Estudiante1", 18, @aux);
 
 commit;
 
-commit;
 
-use virtual;
-select * from Persona;
+use Database1;
+select * from Alumno;
 
+Cursor @c is Select Cursor_Aprobados from Alumno;
+
+OPEN @c;
+for each(List<List<Curso>> @lista) in @c{
+	log(@c.get(0).Nombre);
+}
+
+Close @c;
