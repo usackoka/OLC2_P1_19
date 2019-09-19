@@ -59,8 +59,8 @@ int InOrden(NodoB @actual){
 int PosOrden(NodoB @actual){
 	if(@actual != null){
 		PosOrden(@actual.Izq);
-		Log("Clave: " + @actual.clave + " Nombre: " + @actual.nombre + "\n");
 		PosOrden(@actual.Der);
+		Log("Clave: " + @actual.clave + " Nombre: " + @actual.nombre + "\n");
 	}
 	return 0;
 }
@@ -138,6 +138,9 @@ Insertar(1,"Soy la clave 1");
 Insertar(2,"Soy la clave 2");
 Insertar(3,"Soy la clave 3");
 Insertar(4,"Soy la clave 4");
+log("============= PRE ORDEN =============");
 preOrden(@raiz);
+log("============= IN ORDEN =============");
 InOrden(@raiz);
+log("============= POS ORDEN =============");
 PosOrden(@raiz);

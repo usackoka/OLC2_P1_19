@@ -97,6 +97,11 @@ namespace Server.AST
                 {
                     var.setValor(valor);
                 }
+                else if (var.getTipo(arbol) is String && tipo is Null)
+                {
+                    var.setValor(valor);
+                }
+                //=========== casteo implicito ============================
                 else if (var.getTipo(arbol).Equals(Primitivo.TIPO_DATO.DOUBLE) && tipo.Equals(Primitivo.TIPO_DATO.INT)) {
                     var.setValor(valor);
                 }
