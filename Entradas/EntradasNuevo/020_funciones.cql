@@ -30,7 +30,7 @@ int factorial(int @n) {
 }
 
 int modulo(double @n, double @p) {
-    return @n < @p ? @n : modulo(@n - @p, -@p);
+    return @n < @p ? @n : modulo(@n - @p, @p);
 }
 
 int mcd(int @a, int @b) {

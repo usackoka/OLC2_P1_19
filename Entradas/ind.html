@@ -17,100 +17,78 @@
 </head>
 <body>
 
-	<button type="button" class="btn btn-primary">Primary</button>
-<button type="button" class="btn btn-secondary">Secondary</button>
-<button type="button" class="btn btn-success">Success</button>
-<button type="button" class="btn btn-danger">Danger</button>
-<button type="button" class="btn btn-warning">Warning</button>
-<button type="button" class="btn btn-info">Info</button>
-<button type="button" class="btn btn-light">Light</button>
-<button type="button" class="btn btn-dark">Dark</button>
-<button type="button" class="btn btn-link">Link</button>
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="#">Navbar</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" 
-          data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" 
-          aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"> 
+<!---- Must Add above thing or you can use alternative icons or CSS Entities---->
 
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+<div class="tree ">
+<ul>
+
+<li><span><a style="color:#000; text-decoration:none;" data-toggle="collapse" href="#Web" aria-expanded="true" aria-controls="Web"><i class="collapsed"><i class="fas fa-folder"></i></i>
+<i class="expanded"><i class="far fa-folder-open"></i></i> Web</a></span>
+<div id="Web" class="collapse show">
+<ul>
+ <li><span><i class="far fa-file"></i><a href="#!"> Link 1</a></span></li>
+ <li><span><a style="color:#000; text-decoration:none;" data-toggle="collapse" href="#page1" aria-expanded="false" aria-controls="page1"><i class="collapsed"><i class="fas fa-folder"></i></i>
+<i class="expanded"><i class="far fa-folder-open"></i></i> Page 1</a></span>
+   <ul><div id="page1" class="collapse">
+     <li><span><i class="far fa-file"></i><a href="#!"> Link 1</a></span></li>
+     <li><span><i class="far fa-file"></i><a href="#!"> Link 2</a></span></li>
+     <li><span><i class="far fa-file"></i><a href="#!"> Link 3</a></span></li>
+     <li><span><i class="far fa-file"></i><a href="#!"> Link 4</a></span></li></div>
+   </ul>
+ </li>
+
+
+<li><span><a style="color:#000; text-decoration:none;" data-toggle="collapse" href="#Page2" aria-expanded="false" aria-controls="Page2"><i class="collapsed"><i class="fas fa-folder"></i></i>
+<i class="expanded"><i class="far fa-folder-open"></i></i> Page 2</a></span>
+  <ul><div id="Page2" class="collapse">
+    <li><span><a style="color:#000; text-decoration:none;" data-toggle="collapse" href="#folder1" aria-expanded="false" aria-controls="folder1"><i class="collapsed"><i class="fas fa-folder"></i></i>
+<i class="expanded"><i class="far fa-folder-open"></i></i> Folder 1</a></span>
+       <ul><div id="folder1" class="collapse">
+         <li><span><i class="far fa-file"></i><a href="#!"> Link 1</a></span></li>
+         <li><span><i class="far fa-file"></i><a href="#!"> Link 2</a></span></li>
+         <li><span><i class="far fa-file"></i><a href="#!"> Link 3</a></span> <a href="#!">& More Link</a></li></div>
+       </ul>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Link</a>
+
+      <li><span><a style="color:#000; text-decoration:none;" data-toggle="collapse" href="#folder2" aria-expanded="false" aria-controls="folder2"><i class="collapsed"><i class="fas fa-folder"></i></i>
+<i class="expanded"><i class="far fa-folder-open"></i></i> Folder 2</a></span>
+       <ul><div id="folder2" class="collapse">
+        <li><span><i class="far fa-file"></i><a href="#!"> Link 1</a></span></li>
+        <li><span><i class="far fa-file"></i><a href="#!"> Link 2</a></span></li>
+        <li><span><i class="far fa-file"></i><a href="#!"> Link 3</a></span> <a href="#!">& More Link</a></li></div>
+       </ul>
       </li>
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" 
-           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Dropdown
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="#">Action</a>
-          <a class="dropdown-item" href="#">Another action</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#">Something else here</a>
-        </div>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link disabled" href="#">Disabled</a>
-      </li>
-    </ul>
-    <form class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-    </form>
-  </div>
-</nav>
+                        
+     <li><span><a style="color:#000; text-decoration:none;" data-toggle="collapse" href="#folder3" aria-expanded="false" aria-controls="folder3"><i class="collapsed"><i class="fas fa-folder"></i></i>
+<i class="expanded"><i class="far fa-folder-open"></i></i> Folder 3</a></span>
+       <ul><div id="folder3" class="collapse">
+        <li><span><i class="far fa-file"></i><a href="#!"> Link</a></span> <a href="#!">& More Link</a></li></div>
+       </ul>
+     </li>
+     
+    <li><span><i class="far fa-file"></i><a href="#!"> Link</a></span></li>    
+     
+     </div>
+  </ul>
+</li>
 
-<div class="tab">
-  <button class="tablinks" onclick="openCity(event, 'London')">London</button>
-  <button class="tablinks" onclick="openCity(event, 'Paris')">Paris</button>
-  <button class="tablinks" onclick="openCity(event, 'Tokyo')">Tokyo</button>
+
+ <li><span><i class="far fa-file"></i><a href="#!"> Link 2</a></span></li>
+
+
+
+</ul>
 </div>
+</li>
+</ul>
 
-<!-- Tab content -->
-<div id="London" class="tabcontent">
-  <h3>London</h3>
-  <p>London is the capital city of England.</p>
-  <span onclick="this.parentElement.style.display='none'">x</span> 
 </div>
-
-<div id="Paris" class="tabcontent">
-  <h3>Paris</h3>
-  <p>Paris is the capital of France.</p> 
-</div>
-
-<div id="Tokyo" class="tabcontent">
-  <h3>Tokyo</h3>
-  <p>Tokyo is the capital of Japan.</p>
-</div>
-
-<script type="text/javascript">
-	function openCity(evt, cityName) {
-	  // Declare all variables
-	  var i, tabcontent, tablinks;
-
-	  // Get all elements with class="tabcontent" and hide them
-	  tabcontent = document.getElementsByClassName("tabcontent");
-	  for (i = 0; i < tabcontent.length; i++) {
-	    tabcontent[i].style.display = "none";
-	  }
-
-	  // Get all elements with class="tablinks" and remove the class "active"
-	  tablinks = document.getElementsByClassName("tablinks");
-	  for (i = 0; i < tablinks.length; i++) {
-	    tablinks[i].className = tablinks[i].className.replace(" active", "");
-	  }
-
-	  // Show the current tab, and add an "active" class to the button that opened the tab
-	  document.getElementById(cityName).style.display = "block";
-	  evt.currentTarget.className += " active";
-	}
-</script>
 
 
 </body>

@@ -170,8 +170,8 @@ namespace Server.AST.ExpresionesCQL
         /// ///////////////////////////////////////////////////////////////////////////////////////////////////////////
         /// </summary>
         /// <returns></returns>
-        public static Object getObjectByList(object obj, Object tipoDato, Management dbms) {
-
+        public static Object getObjectByList(object obj, Object tipoDato, Management dbms)
+        {
             if (obj is List<Object>)
             {
                 List<Object> lista = (List<Object>)obj;
@@ -225,17 +225,25 @@ namespace Server.AST.ExpresionesCQL
                     foreach (KeyValuePair<Object, Object> o in lista)
                     {
                         String key = o.Key.ToString();
-                        Object ob = getObjectByList(o.Value,
-                                modeloUt.getTipoAtributo(o.Key.ToString(),
-                                dbms)
-                            , dbms);
-                        list.Add(new KeyValuePair<String, Object>(key,ob));
+                        Object ob1 = modeloUt.getTipoAtributo(o.Key.ToString(), dbms);
+                        Object ob = getObjectByList(o.Value, ob1, dbms);
+                        list.Add(new KeyValuePair<String, Object>(key, ob));
                     }
                     return new UserType(modeloUt, list, dbms);
                 }
                 else
                 {
                     dbms.addError("getObjectByList - List obj,obj", "No se encontró el tipo: " + tipoDato, 0, 0);
+                    return new Null();
+                }
+            }
+            else if (obj is Null) {
+                if (tipoDato is String || tipoDato is SetCQL || tipoDato is MapCQL || tipoDato is ListCQL || tipoDato.Equals(Primitivo.TIPO_DATO.STRING))
+                {
+                    return obj;
+                }
+                else {
+                    dbms.addError("getObjectByList - obj is Null", "No se encontró el tipo: " + tipoDato, 0, 0);
                     return new Null();
                 }
             }

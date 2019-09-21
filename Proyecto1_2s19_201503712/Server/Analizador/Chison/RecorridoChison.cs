@@ -367,7 +367,7 @@ namespace Server.Analizador.Chison
                 }
                 else if (value.Contains(" (Keyword)"))
                 {
-                    if (ContainsString(value, "null"))
+                    if (value.Replace(" (Keyword)", "").ToLower().Equals("null"))
                     {
                         return new Null();
                     }

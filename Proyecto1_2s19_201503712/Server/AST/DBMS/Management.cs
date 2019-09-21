@@ -16,7 +16,7 @@ namespace Server.AST.DBMS
         public DataBase system;
         public User usuarioActivo { get; set; }
         List<User> users;
-        List<DataBase> bases;
+        public List<DataBase> bases;
         public List<clsToken> errores;
 
         public Management() {

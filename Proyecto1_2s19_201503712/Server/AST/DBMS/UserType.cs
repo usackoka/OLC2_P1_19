@@ -87,27 +87,28 @@ namespace Server.AST.DBMS
                 String valor = "";
                 if (atr.valor is String)
                 {
-                    valor += "\"" + atr.valor + "\",";
+                    valor = "\"" + atr.valor + "\",";
                 }
                 else if (atr.valor is Date)
                 {
-                    valor += "'" + atr.valor + "',";
+                    valor = "'" + atr.valor + "',";
                 }
                 else if (atr.valor is TimeSpan)
                 {
-                    valor += "'" + atr.valor + "',";
+                    valor = "'" + atr.valor + "',";
                 }
                 else if (atr.valor is UserType)
                 {
-                    valor += ((UserType)atr.valor).getData();
+                    valor = ((UserType)atr.valor).getData() + ",";
                 }
                 else
                 {
-                    valor += atr.valor + ",";
+                    valor = atr.valor + ",";
                 }
 
                 trad += "\""+atr.id+"\"="+ valor;
             }
+
             trad = trad.TrimEnd(',');
             trad += "       >\n";
             return trad;

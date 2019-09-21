@@ -1,20 +1,136 @@
 $<
 "DATABASES"=[
 <
-"NAME"="db",
+"NAME"="avl",
 "DATA"= [   <
+   "CQL-TYPE" = "TABLE",
+   "NAME" = "usuario",
+   "COLUMNS" = [
+       <
+       "NAME"="arbol",
+       "TYPE"="arbolavl",
+       "PK"=FALSE
+       >,
+       <
+       "NAME"="nombre",
+       "TYPE"="STRING",
+       "PK"=FALSE
+       >,
+       <
+       "NAME"="cod_usuario",
+       "TYPE"="COUNTER",
+       "PK"=TRUE
+       >],
+   "DATA" = [
+       <
+       "arbol"=       <
+"raiz"=       <
+"valor"=59,"izquierdo"=       <
+"valor"=26,"izquierdo"=       <
+"valor"=12,"izquierdo"=       <
+"valor"=5,"izquierdo"=Null,"derecho"=Null,"altura"=0,"id"=0       >
+,"derecho"=       <
+"valor"=15,"izquierdo"=Null,"derecho"=Null,"altura"=0,"id"=0       >
+,"altura"=1,"id"=0       >
+,"derecho"=       <
+"valor"=33,"izquierdo"=       <
+"valor"=27,"izquierdo"=Null,"derecho"=Null,"altura"=0,"id"=0       >
+,"derecho"=       <
+"valor"=47,"izquierdo"=Null,"derecho"=Null,"altura"=0,"id"=0       >
+,"altura"=1,"id"=0       >
+,"altura"=2,"id"=0       >
+,"derecho"=       <
+"valor"=90,"izquierdo"=       <
+"valor"=84,"izquierdo"=       <
+"valor"=74,"izquierdo"=Null,"derecho"=Null,"altura"=0,"id"=0       >
+,"derecho"=       <
+"valor"=88,"izquierdo"=Null,"derecho"=Null,"altura"=0,"id"=0       >
+,"altura"=1,"id"=0       >
+,"derecho"=       <
+"valor"=124,"izquierdo"=Null,"derecho"=       <
+"valor"=612,"izquierdo"=Null,"derecho"=Null,"altura"=0,"id"=0       >
+,"altura"=1,"id"=0       >
+,"altura"=2,"id"=0       >
+,"altura"=3,"id"=0       >
+       >
+,
+       "nombre"="Koka nnmms",
+       "cod_usuario"=0
+       >]
+   >
+,   <
+   "CQL-TYPE"="OBJECT",
+   "NAME"="nodoavl",
+   "ATTRS"=[
+       <"NAME"="valor",
+"TYPE"="INT"
+        >,
+       <"NAME"="izquierdo",
+"TYPE"="nodoavl"
+        >,
+       <"NAME"="derecho",
+"TYPE"="nodoavl"
+        >,
+       <"NAME"="altura",
+"TYPE"="INT"
+        >,
+       <"NAME"="id",
+"TYPE"="INT"
+        >]
+   >
+,   <
+   "CQL-TYPE"="OBJECT",
+   "NAME"="arbolavl",
+   "ATTRS"=[
+       <"NAME"="raiz",
+"TYPE"="nodoavl"
+        >]
+   >
+,   <
    "CQL-TYPE"="PROCEDURE",
-   "NAME"="imprimirmensajes",
+   "NAME"="inorden",
    "PARAMETERS"=[
-   <   "NAME"="msm1",
-   "TYPE"="STRING",
+   <   "NAME"="a",
+   "TYPE"="nodoavl",
    "AS"=IN
    >,
-   <   "NAME"="msm2",
-   "TYPE"="STRING",
-   "AS"=IN
+   <   "NAME"="ret",
+   "TYPE"="INT",
+   "AS"=OUT
    >],
-   "INSTR"= $log ( @ msm1 ) ; log ( @ msm2 ) ; $
+   "INSTR"= $if ( @ a == null ) { return 0 ; } inorden ( @ a .izquierdo ) ; LOG ( @ a .valor + \",\" ) ; inorden ( @ a .derecho ) ; return 0 ; $
+   >
+,   <
+   "CQL-TYPE"="PROCEDURE",
+   "NAME"="getdot",
+   "PARAMETERS"=[
+   <   "NAME"="ret",
+   "TYPE"="STRING",
+   "AS"=OUT
+   >],
+   "INSTR"= $return \"digraph grafica{\n\" + \"rankdir=TB;\n\" + \"node [shape = record, style=filled, fillcolor=seashell2];\n\" + getDotNodosInternos ( ) + \"}\n\" ; $
+   >
+,   <
+   "CQL-TYPE"="PROCEDURE",
+   "NAME"="getdotnodosinternos",
+   "PARAMETERS"=[
+   <   "NAME"="raiz",
+   "TYPE"="nodoavl",
+   "AS"=IN
+   >,
+   <   "NAME"="izquierdo",
+   "TYPE"="nodoavl",
+   "AS"=IN
+   >,
+   <   "NAME"="derecho",
+   "TYPE"="nodoavl",
+   "AS"=IN
+   >,
+   <   "NAME"="ret",
+   "TYPE"="STRING",
+   "AS"=OUT
+   >],
+   "INSTR"= $String @ etiqueta ; if ( @ izquierdo == null && @ derecho == null ) { @ etiqueta = \"nodo\" + @ raiz .id + \" [ label =\\"\" + @ raiz .valor + \"\\"];\n\" ; } else { @ etiqueta = \"nodo\" + @ raiz .id + \" [ label =\\"<C0>|\" + @ raiz .valor + \"|<C1>\\"];\n\" ; } if ( izquierdo != null ) { @ etiqueta = @ etiqueta + getDotNodosInternos ( @ raiz .izquierdo ,@ raiz .izquierdo .izquierdo ,@ raiz .derecho .derecho ) + \"nodo\" + @ raiz .id + \":C0->nodo\" + @ izquierdo .id + \"\n\" ; } if ( derecho != null ) { @ etiqueta = @ etiqueta + getDotNodosInternos ( @ raiz .derecho ,@ raiz .derecho .izquierdo ,@ raiz .derecho .derecho ) + \"nodo\" + @ raiz .id + \":C1->nodo\" + @ derecho .id + \"\n\" ; } return @ etiqueta ; $
    >
 ]
 >],
@@ -23,7 +139,7 @@ $<
 "NAME"="admin",
 "PASSWORD"="admin",
 "PERMISSIONS"= [
-   <"NAME"="db"
+   <"NAME"="avl"
    >]
 >]
 

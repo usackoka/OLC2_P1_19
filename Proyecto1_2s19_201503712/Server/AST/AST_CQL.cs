@@ -93,6 +93,54 @@ namespace Server.AST
                 respuesta += "\n[-ERROR]\n";
             }
 
+            //========= dbms ===============
+            respuesta += "\n[+DATABASES]";
+            foreach (DataBase db in dbms.bases)
+            {
+                respuesta += "\n    [+DATABASE]";
+                respuesta += "\n        [+NAME]"+db.id+"[-NAME]";
+
+                //tables
+                respuesta += "\n        [+TABLES]";
+                foreach (TableCQL table in db.tables)
+                {
+                    respuesta += "\n            [+TABLE]";
+                    respuesta += "\n                [+NAME]" + table.id + "[-NAME]";
+                    //====columnas
+                    foreach (ColumnCQL columna in table.data) {
+                        respuesta += "\n                [+COLUMN]" + columna.id + "[-COLUMN]";
+                    }
+                    respuesta += "\n            [-TABLE]";
+                }
+                respuesta += "\n        [-TABLES]";
+
+                //types
+                respuesta += "\n        [+TYPES]";
+                foreach (UserType ut in db.userTypes) {
+                    respuesta += "\n            [+TYPE]";
+                    respuesta += "\n                [+NAME]" + ut.id + "[-NAME]";
+                    //========atributos
+                    foreach (KeyValuePair<String,Object> atr in ut.atributos)
+                    {
+                        respuesta += "\n                [+ATTRIBUTES]" + atr.Key + "[-ATTRIBUTES]";
+                    }
+                    respuesta += "\n            [-TYPE]";
+                }
+                respuesta += "\n        [-TYPES]";
+
+                //procedures
+
+                respuesta += "\n        [+PROCEDURES]";
+                foreach (Procedure p in db.procedures)
+                {
+                    respuesta += "\n                [+NAME]" + p.id + "[-NAME]";
+                }
+                respuesta += "\n        [-PROCEDURES]";
+
+                respuesta += "\n    [-DATABASE]";
+            }
+            respuesta += "\n[-DATABASES]";
+
             return respuesta;
         }
 
