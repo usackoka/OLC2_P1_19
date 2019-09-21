@@ -195,13 +195,14 @@ inorden();
 INSERT into Usuario(arbol,nombre) values(@arbol,"Koka nnmms");
 commit;
 
-/*
+
 //================ luego de cargar el chison
+/*
 use avl;
 Cursor @c IS SELECT * FROM Usuario;
 OPEN @c;
 for each(ArbolAVL @arbol, String @nombre, Counter @cod_usuario) in @c{
 	LOG("============= IN ORDEN DEL ARBOL DE: "+@nombre+" cod: "+@cod_usuario);
-	call inorden(@arbol);
+	call inorden(@arbol.raiz);
 }
 */

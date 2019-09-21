@@ -337,7 +337,8 @@ namespace Server.Analizador
                 //l_parent + LISTA_PARAMETROS + r_parent + l_llave + BLOCK + r_llave;
                 return new CreateProcedure(getLexema(raiz, 1), (List<KeyValuePair<String, Object>>)recorrido(raiz.ChildNodes[3]),
                     (List<KeyValuePair<String, Object>>)recorrido(raiz.ChildNodes[7]), (List<NodoCQL>)recorrido(raiz.ChildNodes[10]),
-                    getArbolString(raiz.ChildNodes[10]).Replace("\"", "\\\""), getFila(raiz, 0), getColumna(raiz, 0));
+                    getArbolString(raiz.ChildNodes[10]), getFila(raiz, 0), getColumna(raiz, 0));
+                //.Replace("\"", "\\\"")  //al getArbolString
             }
             else if (CompararNombre(raiz, "CASTEOS"))
             {

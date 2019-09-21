@@ -98,7 +98,7 @@ $<
    "TYPE"="INT",
    "AS"=OUT
    >],
-   "INSTR"= $if ( @ a == null ) { return 0 ; } inorden ( @ a .izquierdo ) ; LOG ( @ a .valor + \",\" ) ; inorden ( @ a .derecho ) ; return 0 ; $
+   "INSTR"= $if ( @ a == null ) { return 0 ; } inorden ( @ a .izquierdo ) ; LOG ( @ a .valor + "," ) ; inorden ( @ a .derecho ) ; return 0 ; $
    >
 ,   <
    "CQL-TYPE"="PROCEDURE",
@@ -108,7 +108,7 @@ $<
    "TYPE"="STRING",
    "AS"=OUT
    >],
-   "INSTR"= $return \"digraph grafica{\n\" + \"rankdir=TB;\n\" + \"node [shape = record, style=filled, fillcolor=seashell2];\n\" + getDotNodosInternos ( ) + \"}\n\" ; $
+   "INSTR"= $return "digraph grafica{\n" + "rankdir=TB;\n" + "node [shape = record, style=filled, fillcolor=seashell2];\n" + getDotNodosInternos ( ) + "}\n" ; $
    >
 ,   <
    "CQL-TYPE"="PROCEDURE",
@@ -130,7 +130,7 @@ $<
    "TYPE"="STRING",
    "AS"=OUT
    >],
-   "INSTR"= $String @ etiqueta ; if ( @ izquierdo == null && @ derecho == null ) { @ etiqueta = \"nodo\" + @ raiz .id + \" [ label =\\"\" + @ raiz .valor + \"\\"];\n\" ; } else { @ etiqueta = \"nodo\" + @ raiz .id + \" [ label =\\"<C0>|\" + @ raiz .valor + \"|<C1>\\"];\n\" ; } if ( izquierdo != null ) { @ etiqueta = @ etiqueta + getDotNodosInternos ( @ raiz .izquierdo ,@ raiz .izquierdo .izquierdo ,@ raiz .derecho .derecho ) + \"nodo\" + @ raiz .id + \":C0->nodo\" + @ izquierdo .id + \"\n\" ; } if ( derecho != null ) { @ etiqueta = @ etiqueta + getDotNodosInternos ( @ raiz .derecho ,@ raiz .derecho .izquierdo ,@ raiz .derecho .derecho ) + \"nodo\" + @ raiz .id + \":C1->nodo\" + @ derecho .id + \"\n\" ; } return @ etiqueta ; $
+   "INSTR"= $String @ etiqueta ; if ( @ izquierdo == null && @ derecho == null ) { @ etiqueta = "nodo" + @ raiz .id + " [ label =\"" + @ raiz .valor + "\"];\n" ; } else { @ etiqueta = "nodo" + @ raiz .id + " [ label =\"<C0>|" + @ raiz .valor + "|<C1>\"];\n" ; } if ( izquierdo != null ) { @ etiqueta = @ etiqueta + getDotNodosInternos ( @ raiz .izquierdo ,@ raiz .izquierdo .izquierdo ,@ raiz .derecho .derecho ) + "nodo" + @ raiz .id + ":C0->nodo" + @ izquierdo .id + "\n" ; } if ( derecho != null ) { @ etiqueta = @ etiqueta + getDotNodosInternos ( @ raiz .derecho ,@ raiz .derecho .izquierdo ,@ raiz .derecho .derecho ) + "nodo" + @ raiz .id + ":C1->nodo" + @ derecho .id + "\n" ; } return @ etiqueta ; $
    >
 ]
 >],

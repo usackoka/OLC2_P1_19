@@ -141,6 +141,14 @@ namespace Server.Analizador.Chison
                     RecorridoCQL recorrido = new RecorridoCQL(parserCQL.padre.Root, dbms);
                     return recorrido.RecorridoDesdeChison();
                 }
+                dbms.addError("Error-LoadChison","Padre Null, instrucciones procedure",0,0);
+            }
+            else
+            {
+                foreach (clsToken error in parserCQL.ListaErrores)
+                {
+                    dbms.errores.Add(error);
+                }
             }
             dbms.addError("Error-LoadChison","Error al recorrer las instrucciones del procedure",0,0);
             return new List<NodoCQL>();

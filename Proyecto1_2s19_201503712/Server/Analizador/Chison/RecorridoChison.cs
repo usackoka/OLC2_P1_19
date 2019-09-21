@@ -130,6 +130,10 @@ namespace Server.Analizador.Chison
                 | res_attrs + igual + l_corchete + LISTA_ATTRS + r_corchete
                 | res_parameters + igual + l_corchete + LISTA_PARAMETERS + r_corchete*/
                 if (raiz.ChildNodes.Count == 3) {
+                    if (getLexema(raiz,0).Replace("\"", "").ToLower().Equals("instr"))
+                    {
+                        return new Data_Base_CHISON(getLexema(raiz, 0).Replace("\"", ""), getLexema(raiz, 2), getFila(raiz, 0), getColumna(raiz, 0));
+                    }
                     return new Data_Base_CHISON(getLexema(raiz, 0).Replace("\"", ""), getLexema(raiz, 2).Replace("\"", ""), getFila(raiz, 0), getColumna(raiz, 0));
                 }
                 else {
