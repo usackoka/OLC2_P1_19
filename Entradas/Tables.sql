@@ -195,6 +195,6 @@ CLOSE @ccc;
 
 //commit;
 
-SELECT * FROM Estudiante;
+SELECT * FROM Estudiante Order by carnet asc;
 
 log(count(<<SELECT * FROM Estudiante LIMIT 4>>));

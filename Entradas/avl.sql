@@ -1,6 +1,8 @@
 create dataBase avl;
 use avl;
 
+int @contador = 0;
+
 create type NodoAVL(
 	valor int,
 	izquierdo NodoAVL,
@@ -24,6 +26,7 @@ NodoAVL insertar(int @valor, NodoAVL @raiz) {
     if (@raiz == null) {
         @raiz = new NodoAVL;
         @raiz.valor = @valor;
+        @raiz.id = @contador++;
         //Si el nuevo @valor fuera menor que el nodo de actual entonces
     } else if (@valor < @raiz.valor) {
         //Se llama recursivamente al método para explorar el subarbol izquierdo
@@ -56,7 +59,7 @@ NodoAVL insertar(int @valor, NodoAVL @raiz) {
         //rotación de nodos, como el fe=2 hay dos posibilidades de 
         //rotación dependiendo de:                
         {
-            if (@valor > @raiz.derecho.@valor) //Si el nuevo @valor fuera mayor que la derecha del nodo des-
+            if (@valor > @raiz.derecho.valor) //Si el nuevo @valor fuera mayor que la derecha del nodo des-
             //balanceado, se sabe que el nuevo nodo será insertado a la 
             //derecha de la actual derecha, entonces tenemos una rotación 
             //simple por la derecha o sea una DerechaDerecha.                    
@@ -73,6 +76,7 @@ NodoAVL insertar(int @valor, NodoAVL @raiz) {
     } else // De lo contrario signifca que el @valor que se quiere insertar ya existe, 
     //como no se permite la duplicidad de este dato no se hace nada.
     {
+    	LOG("@valor: "+@valor+" @raiz.valor: "+@raiz.valor);
         LOG("No se permiten los @valores duplicados: \""
                 + ((String)@valor) + "\".");
     }
@@ -128,7 +132,7 @@ NodoAVL DerechaIzquierda(NodoAVL @n1) {
 
 int inorden() {
     LOG("Recorrido inorden del árbol binario de búsqueda:");
-    inorden(@arbol.raiz);
+    call inorden(@arbol.raiz);
     LOG("");
     return 0;
 }
@@ -137,33 +141,35 @@ Procedure inorden(NodoAVL @a),(int @ret) {
     if (@a == null) {
         return 0;
     }
-    inorden(@a.izquierdo);
+    call inorden(@a.izquierdo);
     LOG(@a.valor + ",");
-    inorden(@a.derecho);
+    call inorden(@a.derecho);
     return 0;
 }
 
-Procedure getDot(),(String @ret) {
+String getDot(NodoAVL @raiz) {
     return "digraph grafica{\n"
             + "rankdir=TB;\n"
             + "node [shape = record, style=filled, fillcolor=seashell2];\n"
-            + getDotNodosInternos()
+            + getDotNodosInternos(@raiz)
             + "}\n";
 }
 
-Procedure getDotNodosInternos(NodoAVL @raiz, NodoAVL @izquierdo, NodoAVL @derecho),(String @ret) {
+String getDotNodosInternos(NodoAVL @raiz) {
+	NodoAVL @izquierdo = @raiz.izquierdo;
+	NodoAVL @derecho = @raiz.derecho;
     String @etiqueta;
     if (@izquierdo == null && @derecho == null) {
         @etiqueta = "nodo" + @raiz.id + " [ label =\"" + @raiz.valor + "\"];\n";
     } else {
         @etiqueta = "nodo" + @raiz.id + " [ label =\"<C0>|" + @raiz.valor + "|<C1>\"];\n";
     }
-    if (izquierdo != null) {
-        @etiqueta = @etiqueta + getDotNodosInternos(@raiz.izquierdo, @raiz.izquierdo.izquierdo, @raiz.derecho.derecho)
+    if (@izquierdo != null) {
+        @etiqueta = @etiqueta + getDotNodosInternos(@izquierdo)
                 + "nodo" + @raiz.id + ":C0->nodo" + @izquierdo.id + "\n";
     }
-    if (derecho != null) {
-        @etiqueta = @etiqueta + getDotNodosInternos(@raiz.derecho, @raiz.derecho.izquierdo, @raiz.derecho.derecho)
+    if (@derecho != null) {
+        @etiqueta = @etiqueta + getDotNodosInternos(@derecho)
                 + "nodo" + @raiz.id + ":C1->nodo" + @derecho.id + "\n";
     }
     return @etiqueta;
@@ -191,9 +197,12 @@ insertar(90);
 insertar(124);
 insertar(612);
 inorden();
+LOG("============== GRAFICA =================");
+LOG(getDot(@arbol.raiz));
+
 
 INSERT into Usuario(arbol,nombre) values(@arbol,"Koka nnmms");
-commit;
+//commit;
 
 
 //================ luego de cargar el chison

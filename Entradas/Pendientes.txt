@@ -1,0 +1,17 @@
+//pendientes
+.message (exception)
+throw (probar)
+Paquete de fin de sesión  (lup)
+guardar
+terminar bloques
+arreglar bug cursor
+arbol de información LUP
+del batch (Descartar cualquier instrucción ejecutada al detectar error)
+manuales
+orderBy descendente
+
+//no evaluado
+metodos date y time
+metodos string
+correr desde cursor
+colores en el editor

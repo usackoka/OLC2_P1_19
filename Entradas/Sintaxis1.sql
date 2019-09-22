@@ -248,11 +248,8 @@ int ackerman(int @m, int @n){
 	}
 }
 
-int @iteracion = 0;
-log(ackermann(3,2));
+log(ackermann(3,5));
 int ackermann(int @m, int @n) {
-	log("@m "+@m+" @n "+@n+" ite "+@iteracion);
-	@iteracion++;
     if (@m == 0) {
         return (@n + 1);
     } else if (@m > 0 && @n == 0) {
@@ -262,12 +259,17 @@ int ackermann(int @m, int @n) {
     }
 }
 
+int ackerman2(int @m, int @n){
+	if (@m == 0) {
+        return (@n + 1);
+    } else{
+		return (@m > 0 && @n == 0)?ackermann(@m--, 1):ackerman2(@m--, ackerman2(@m, @n--))
+	}
+}
 
-int @iteracion = 0;
+
 log(ackerman(3,2));
 int ackerman(int @m, int @n){
-	log("@m "+@m+" @n "+@n+" ite "+@iteracion);
-	@iteracion++;
 	if(@m==0){
 		return @n+1;
 	}

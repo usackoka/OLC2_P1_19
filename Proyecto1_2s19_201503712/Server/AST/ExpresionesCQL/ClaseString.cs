@@ -38,6 +38,9 @@ namespace Server.AST.ExpresionesCQL
             {
                 return Primitivo.TIPO_DATO.STRING;
             }
+            else if (idMetodo.ToLower().Equals("message")) {
+                return Primitivo.TIPO_DATO.STRING;
+            }
             else
             {
                 arbol.addError("Clase String", "No posee el método: " + idMetodo, 0, 0);
@@ -60,7 +63,17 @@ namespace Server.AST.ExpresionesCQL
                     return "";
                 }
                 return value.ToLower();
-            } else if (idMetodo.ToLower().Equals("touppercase")) {
+            }
+            else if (idMetodo.ToLower().Equals("message"))
+            {
+                if (this.expresiones.Count != 0)
+                {
+                    arbol.addError("Clase String, " + idMetodo, "Se esperaba exclusivamente 0 parametros", 0, 0);
+                    return "";
+                }
+                return value;
+            }
+            else if (idMetodo.ToLower().Equals("touppercase")) {
                 if (this.expresiones.Count != 0)
                 {
                     arbol.addError("Clase String, " + idMetodo, "Se esperaba exclusivamente 0 parametros", 0, 0);

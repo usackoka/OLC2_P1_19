@@ -60,19 +60,22 @@ namespace Server.AST.SentenciasCQL
             //si no se cumple el if, preguntar por los if-else
             else
             {
+                //else ifs
                 foreach (ElseIf elseif in elseifs)
                 {
-                    Object val = elseif.Ejecutar(arbol);
-                    if (val != null) {
-                        return val;
-                    }
-
-                    if (elseif.ejecutado)
-                    {
-                        return null;
+                    if (elseif.ejectuarCondicion(arbol)) {
+                        Object val = elseif.Ejecutar(arbol);
+                        if (val != null)
+                        {
+                            return val;
+                        }
+                        else {
+                            return null;
+                        }
                     }
                 }
 
+                //si no se ejecutó ningún else if, pregunto por el else
                 if (else_ != null)
                 {
                     Object val = else_.Ejecutar(arbol);

@@ -6,20 +6,16 @@ CREATE DATABASE Funciones;
 
 use Funciones;
 
-/*
 log("Potencia 4,2: "+potencia((double)4,(double)2));
 log("Factorial 10: "+factorial(10));
 log("Modulo 35/6: "+modulo((double)35,(double)6));
 log("MCD 5,6: "+mcd(5,6));
 log("Fibonacci 9: "+fibonaci(9));
-*/
 log("Ackerman 3,3: "+ackermann(3,3));
-/*
 log("hofstaderFemenina 10: "+hofstaderFemenina(10));
 log("hofstaderMasculino 10: "+hofstaderMasculino(10));
 log("Par 90: "+par(90));
 log("Impar 90: "+impar(90));
-*/
 
 double potencia(double @base, double @exp) {
     return @exp == 0 ? 1 : @base * potencia(@base, @exp - 1);
@@ -30,11 +26,11 @@ int factorial(int @n) {
 }
 
 int modulo(double @n, double @p) {
-    return @n < @p ? @n : modulo(@n - @p, @p);
+    return @n < @p ? (int)@n : modulo(@n - @p, @p);
 }
 
 int mcd(int @a, int @b) {
-    return @b == 0 ?  a : mcd(@b, modulo(@a, @b));
+    return @b == 0 ?  @a : mcd(@b, modulo((double)@a, (double)@b));
 }
 
 int fibonaci(int @n){

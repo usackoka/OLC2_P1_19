@@ -86,6 +86,11 @@ namespace Server.AST.ExpresionesCQL
                             {
                                 valorRetorno = ((UserType)valorRetorno).getAtributo(obj.ToString().ToLower(), arbol);
                             }
+                        } else if (valorRetorno is String) {
+                            if (!obj.ToString().ToLower().Equals("message"))
+                            {
+                                arbol.addError("Referencia-getValor", "No se encontró el atributo: " + obj + " para el objeto string", fila, columna);
+                            }
                         }
                     }
                     else {
@@ -163,6 +168,13 @@ namespace Server.AST.ExpresionesCQL
                             {
                                 tipoRetorno = ((UserType)valorRetorno).getTipoAtributo(obj.ToString().ToLower(), arbol.dbms);
                                 valorRetorno = ((UserType)valorRetorno).getAtributo(obj.ToString().ToLower(), arbol);
+                            }
+                        }
+                        else if (valorRetorno is String)
+                        {
+                            if (!obj.ToString().ToLower().Equals("message"))
+                            {
+                                arbol.addError("Referencia-getValor", "No se encontró el atributo: " + obj + " para el objeto string", fila, columna);
                             }
                         }
                     }

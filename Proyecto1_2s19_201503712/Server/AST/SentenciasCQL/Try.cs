@@ -39,7 +39,12 @@ namespace Server.AST.SentenciasCQL
                 }
                 else
                 {
-                    ((Expresion)nodo).getValor(arbol);
+                    Object val = ((Expresion)nodo).getValor(arbol);
+                    if (val is Catch.EXCEPTION)
+                    {
+                        catchh.excCapturada = (Catch.EXCEPTION)val;
+                        return catchh.Ejecutar(arbol);
+                    }
                 }
             }
             arbol.entorno = arbol.entorno.padre;
