@@ -72,12 +72,12 @@
   }
 */
 var Analizador = (function(){
-var o=function(k,v,o,l){for(o=o||{},l=k.length;l--;o[k[l]]=v);return o},$V0=[1,13],$V1=[1,12],$V2=[1,9],$V3=[1,10],$V4=[1,11],$V5=[5,12,15,20,23,25],$V6=[1,17],$V7=[1,18],$V8=[1,28],$V9=[1,29],$Va=[22,24,27,34,36,38,39];
+var o=function(k,v,o,l){for(o=o||{},l=k.length;l--;o[k[l]]=v);return o},$V0=[1,15],$V1=[1,14],$V2=[1,10],$V3=[1,11],$V4=[1,12],$V5=[1,13],$V6=[5,13,16,21,24,26,39],$V7=[1,19],$V8=[1,20],$V9=[1,32],$Va=[1,33],$Vb=[23,25,28,35,37,70,71],$Vc=[1,39],$Vd=[41,42],$Ve=[1,84],$Vf=[1,93],$Vg=[1,100],$Vh=[55,56],$Vi=[65,66],$Vj=[1,108],$Vk=[32,58],$Vl=[60,61],$Vm=[63,68];
 var parser = {trace: function trace () { },
 yy: {},
-symbols_: {"error":2,"S":3,"LIST_BLOCK":4,"EOF":5,"BLOCK":6,"MENSAJE":7,"DATA":8,"ERROR":9,"LOGOUT":10,"LOGIN":11,"res_loginOpen":12,"STATUS":13,"res_loginClose":14,"res_logoutOpen":15,"STATUS2":16,"res_logoutClose":17,"res_success":18,"res_fail":19,"res_messageOpen":20,"T1":21,"res_messageClose":22,"res_dataOpen":23,"res_dataClose":24,"res_errorOpen":25,"res_lexemaOpen":26,"res_lexemaClose":27,"res_lineOpen":28,"numero":29,"res_lineClose":30,"res_columnOpen":31,"res_columnClose":32,"res_typeOpen":33,"res_typeClose":34,"res_descripcionOpen":35,"res_descripcionClose":36,"res_errorClose":37,"TODO":38,"WS":39,"$accept":0,"$end":1},
-terminals_: {2:"error",5:"EOF",12:"res_loginOpen",14:"res_loginClose",15:"res_logoutOpen",17:"res_logoutClose",18:"res_success",19:"res_fail",20:"res_messageOpen",22:"res_messageClose",23:"res_dataOpen",24:"res_dataClose",25:"res_errorOpen",26:"res_lexemaOpen",27:"res_lexemaClose",28:"res_lineOpen",29:"numero",30:"res_lineClose",31:"res_columnOpen",32:"res_columnClose",33:"res_typeOpen",34:"res_typeClose",35:"res_descripcionOpen",36:"res_descripcionClose",37:"res_errorClose",38:"TODO",39:"WS"},
-productions_: [0,[3,2],[4,2],[4,1],[6,1],[6,1],[6,1],[6,1],[6,1],[11,3],[10,3],[16,1],[16,1],[13,1],[13,1],[7,3],[8,3],[9,17],[21,2],[21,2],[21,1],[21,1]],
+symbols_: {"error":2,"S":3,"LIST_BLOCK":4,"EOF":5,"BLOCK":6,"MENSAJE":7,"DATA":8,"ERROR":9,"DBMS":10,"LOGOUT":11,"LOGIN":12,"res_loginOpen":13,"STATUS":14,"res_loginClose":15,"res_logoutOpen":16,"STATUS2":17,"res_logoutClose":18,"res_success":19,"res_fail":20,"res_messageOpen":21,"T1":22,"res_messageClose":23,"res_dataOpen":24,"res_dataClose":25,"res_errorOpen":26,"res_lexemaOpen":27,"res_lexemaClose":28,"res_lineOpen":29,"numero":30,"res_lineClose":31,"res_columnOpen":32,"res_columnClose":33,"res_typeOpen":34,"res_typeClose":35,"res_descripcionOpen":36,"res_descripcionClose":37,"res_errorClose":38,"res_dataBasesOpen":39,"DATA_BASES":40,"res_dataBasesClose":41,"res_dataBaseOpen":42,"CONTENIDO":43,"res_dataBaseClose":44,"res_nameOpen":45,"id":46,"res_nameClose":47,"res_tablesOpen":48,"TABLES":49,"res_typesOpen":50,"TYPES":51,"res_proceduresOpen":52,"PROCEDURES":53,"TABLE":54,"res_tablesClose":55,"res_tableOpen":56,"COLUMNAS":57,"res_tableClose":58,"TYPE":59,"res_typesClose":60,"res_typeCQLOpen":61,"ATRIBUTOS":62,"res_typeCQLClose":63,"PROCEDURE":64,"res_proceduresClose":65,"res_procedureOpen":66,"res_procedureClose":67,"res_atributtesOpen":68,"res_atributtesClose":69,"TODO":70,"WS":71,"$accept":0,"$end":1},
+terminals_: {2:"error",5:"EOF",13:"res_loginOpen",15:"res_loginClose",16:"res_logoutOpen",18:"res_logoutClose",19:"res_success",20:"res_fail",21:"res_messageOpen",23:"res_messageClose",24:"res_dataOpen",25:"res_dataClose",26:"res_errorOpen",27:"res_lexemaOpen",28:"res_lexemaClose",29:"res_lineOpen",30:"numero",31:"res_lineClose",32:"res_columnOpen",33:"res_columnClose",34:"res_typeOpen",35:"res_typeClose",36:"res_descripcionOpen",37:"res_descripcionClose",38:"res_errorClose",39:"res_dataBasesOpen",41:"res_dataBasesClose",42:"res_dataBaseOpen",44:"res_dataBaseClose",45:"res_nameOpen",46:"id",47:"res_nameClose",48:"res_tablesOpen",50:"res_typesOpen",52:"res_proceduresOpen",55:"res_tablesClose",56:"res_tableOpen",58:"res_tableClose",60:"res_typesClose",61:"res_typeCQLOpen",63:"res_typeCQLClose",65:"res_proceduresClose",66:"res_procedureOpen",67:"res_procedureClose",68:"res_atributtesOpen",69:"res_atributtesClose",70:"TODO",71:"WS"},
+productions_: [0,[3,2],[4,2],[4,1],[6,1],[6,1],[6,1],[6,1],[6,1],[6,1],[12,3],[11,3],[17,1],[17,1],[14,1],[14,1],[7,3],[8,3],[9,17],[10,3],[40,4],[40,3],[43,9],[49,2],[49,1],[54,7],[54,6],[57,4],[57,3],[51,2],[51,1],[59,7],[59,6],[53,2],[53,1],[64,4],[64,3],[62,4],[62,3],[22,2],[22,2],[22,1],[22,1]],
 performAction: function anonymous(yytext, yyleng, yylineno, yy, yystate /* action[1] */, $$ /* vstack */, _$ /* lstack */) {
 /* this == yyval */
 
@@ -97,39 +97,46 @@ break;
 case 6:
 ast.errores[ast.contErr++] = $$[$0];
 break;
-case 11:
+case 12:
 ast.logout = true;
 break;
-case 12:
+case 13:
 ast.logout = false;
 break;
-case 13:
+case 14:
 ast.login = true;
 break;
-case 14:
+case 15:
 ast.login = false;
 break;
-case 15:
+case 16:
 this.$ = $$[$0-1];
 break;
-case 16:
+case 17:
 this.$=$$[$0-1];
 break;
-case 17:
+case 18:
 var error = new TokenError(); error.lexema = $$[$0-14]; error.fila = $$[$0-11]; error.columna=$$[$0-8]; 
 			error.tipo = $$[$0-5]; error.descripcion = $$[$0-2];
 			this.$ = error;
 break;
-case 18: case 19:
+case 20:
+
+	var data_base = {};
+	data_base.
+	ast.dbms[ast.contDBMS++] = $$[$0-3];
+
+break;
+case 39: case 40:
 this.$ = $$[$0-1]+$$[$0];
 break;
-case 20: case 21:
+case 41: case 42:
 this.$=$$[$0];
 break;
 }
 },
-table: [{3:1,4:2,6:3,7:4,8:5,9:6,10:7,11:8,12:$V0,15:$V1,20:$V2,23:$V3,25:$V4},{1:[3]},{5:[1,14],6:15,7:4,8:5,9:6,10:7,11:8,12:$V0,15:$V1,20:$V2,23:$V3,25:$V4},o($V5,[2,3]),o($V5,[2,4]),o($V5,[2,5]),o($V5,[2,6]),o($V5,[2,7]),o($V5,[2,8]),{21:16,38:$V6,39:$V7},{21:19,38:$V6,39:$V7},{26:[1,20]},{16:21,18:[1,22],19:[1,23]},{13:24,18:[1,25],19:[1,26]},{1:[2,1]},o($V5,[2,2]),{22:[1,27],38:$V8,39:$V9},o($Va,[2,20]),o($Va,[2,21]),{24:[1,30],38:$V8,39:$V9},{21:31,38:$V6,39:$V7},{17:[1,32]},{17:[2,11]},{17:[2,12]},{14:[1,33]},{14:[2,13]},{14:[2,14]},o($V5,[2,15]),o($Va,[2,18]),o($Va,[2,19]),o($V5,[2,16]),{27:[1,34],38:$V8,39:$V9},o($V5,[2,10]),o($V5,[2,9]),{28:[1,35]},{29:[1,36]},{30:[1,37]},{31:[1,38]},{29:[1,39]},{32:[1,40]},{33:[1,41]},{21:42,38:$V6,39:$V7},{34:[1,43],38:$V8,39:$V9},{35:[1,44]},{21:45,38:$V6,39:$V7},{36:[1,46],38:$V8,39:$V9},{37:[1,47]},o($V5,[2,17])],
-defaultActions: {14:[2,1],22:[2,11],23:[2,12],25:[2,13],26:[2,14]},
+table: [{3:1,4:2,6:3,7:4,8:5,9:6,10:7,11:8,12:9,13:$V0,16:$V1,21:$V2,24:$V3,26:$V4,39:$V5},{1:[3]},{5:[1,16],6:17,7:4,8:5,9:6,10:7,11:8,12:9,13:$V0,16:$V1,21:$V2,24:$V3,26:$V4,39:$V5},o($V6,[2,3]),o($V6,[2,4]),o($V6,[2,5]),o($V6,[2,6]),o($V6,[2,7]),o($V6,[2,8]),o($V6,[2,9]),{22:18,70:$V7,71:$V8},{22:21,70:$V7,71:$V8},{27:[1,22]},{40:23,42:[1,24]},{17:25,19:[1,26],20:[1,27]},{14:28,19:[1,29],20:[1,30]},{1:[2,1]},o($V6,[2,2]),{23:[1,31],70:$V9,71:$Va},o($Vb,[2,41]),o($Vb,[2,42]),{25:[1,34],70:$V9,71:$Va},{22:35,70:$V7,71:$V8},{41:[1,36],42:[1,37]},{43:38,45:$Vc},{18:[1,40]},{18:[2,12]},{18:[2,13]},{15:[1,41]},{15:[2,14]},{15:[2,15]},o($V6,[2,16]),o($Vb,[2,39]),o($Vb,[2,40]),o($V6,[2,17]),{28:[1,42],70:$V9,71:$Va},o($V6,[2,19]),{43:43,45:$Vc},{44:[1,44]},{46:[1,45]},o($V6,[2,11]),o($V6,[2,10]),{29:[1,46]},{44:[1,47]},o($Vd,[2,21]),{47:[1,48]},{30:[1,49]},o($Vd,[2,20]),{48:[1,50]},{31:[1,51]},{49:52,54:53,55:[1,54],56:[1,55]},{32:[1,56]},{50:[1,57]},{55:[1,58],56:[1,59]},{50:[2,24]},{45:[1,60]},{30:[1,61]},{51:62,59:63,60:[1,64],61:[1,65]},{50:[2,23]},{45:[1,66]},{46:[1,67]},{33:[1,68]},{52:[1,69]},{60:[1,70],61:[1,71]},{52:[2,30]},{45:[1,72]},{46:[1,73]},{47:[1,74]},{34:[1,75]},{53:76,64:77,65:[1,78],66:[1,79]},{52:[2,29]},{45:[1,80]},{46:[1,81]},{47:[1,82]},{32:$Ve,57:83},{22:85,70:$V7,71:$V8},{44:[2,22]},{65:[1,86],66:[1,87]},{44:[2,34]},{46:[1,88]},{46:[1,89]},{47:[1,90]},{32:$Ve,57:91},{32:$Vf,58:[1,92]},{46:[1,94]},{35:[1,95],70:$V9,71:$Va},{44:[2,33]},{46:[1,96]},{67:[1,97]},{47:[1,98]},{62:99,68:$Vg},{32:$Vf,58:[1,101]},o($Vh,[2,26]),{46:[1,102]},{33:[1,103]},{36:[1,104]},{67:[1,105]},o($Vi,[2,36]),{62:106,68:$Vg},{63:[1,107],68:$Vj},{46:[1,109]},o($Vh,[2,25]),{33:[1,110]},o($Vk,[2,28]),{22:111,70:$V7,71:$V8},o($Vi,[2,35]),{63:[1,112],68:$Vj},o($Vl,[2,32]),{46:[1,113]},{69:[1,114]},o($Vk,[2,27]),{37:[1,115],70:$V9,71:$Va},o($Vl,[2,31]),{69:[1,116]},o($Vm,[2,38]),{38:[1,117]},o($Vm,[2,37]),o($V6,[2,18])],
+defaultActions: {16:[2,1],26:[2,12],27:[2,13],29:[2,14],30:[2,15],54:[2,24],58:[2,23],64:[2,30],70:[2,29],76:[2,22],78:[2,34],86:[2,33]},
 parseError: function parseError (str, hash) {
     if (hash.recoverable) {
         this.trace(str);
@@ -629,84 +636,124 @@ performAction: function anonymous(yy,yy_,$avoiding_name_collisions,YY_START) {
 
 var YYSTATE=YY_START;
 switch($avoiding_name_collisions) {
-case 0:this.begin("res_message"); return 20
+case 0:this.begin("res_message"); return 21
 break;
-case 1:this.begin('INITIAL');  return 22;
+case 1:this.begin('INITIAL');  return 23;
 break;
-case 2:return 38
+case 2:return 70
 break;
-case 3:return 39
+case 3:return 71
 break;
-case 4:this.begin("res_lexema"); return 26
+case 4:this.begin("res_lexema"); return 27
 break;
-case 5:this.begin('INITIAL');  return 27;
+case 5:this.begin('INITIAL');  return 28;
 break;
-case 6:return 38
+case 6:return 70
 break;
-case 7:return 39
+case 7:return 71
 break;
-case 8:this.begin("res_descripcion"); return 35
+case 8:this.begin("res_descripcion"); return 36
 break;
-case 9:this.begin('INITIAL');  return 36;
+case 9:this.begin('INITIAL');  return 37;
 break;
-case 10:return 38
+case 10:return 70
 break;
-case 11:return 39
+case 11:return 71
 break;
-case 12:this.begin("res_type"); return 33
+case 12:this.begin("res_type"); return 34
 break;
-case 13:this.begin('INITIAL');  return 34;
+case 13:this.begin('INITIAL');  return 35;
 break;
-case 14:return 38
+case 14:return 70
 break;
-case 15:return 39
+case 15:return 71
 break;
-case 16:this.begin("res_data"); return 23
+case 16:this.begin("res_data"); return 24
 break;
-case 17:this.begin('INITIAL');  return 24;
+case 17:this.begin('INITIAL');  return 25;
 break;
-case 18:return 38
+case 18:return 70
 break;
-case 19:return 39
+case 19:return 71
 break;
 case 20:/* skip whitespace */
 break;
-case 21:return 25;
+case 21:return 39;
 break;
-case 22:return 37;
+case 22:return 41;
 break;
-case 23:return 28;
+case 23:return 68;
 break;
-case 24:return 30;
+case 24:return 69;
 break;
-case 25:return 31;
+case 25:return 42;
 break;
-case 26:return 32;
+case 26:return 44;
 break;
-case 27:return 12;
+case 27:return 45;
 break;
-case 28:return 14;
+case 28:return 47;
 break;
-case 29:return 15;
+case 29:return 48;
 break;
-case 30:return 17;
+case 30:return 55;
 break;
-case 31:return 18;
+case 31:return 56;
 break;
-case 32:return 19;
+case 32:return 58;
 break;
-case 33:return 29;
+case 33:return 50;
 break;
-case 34:return 'id';
+case 34:return 60;
 break;
-case 35:return 5;
+case 35:return 61;
 break;
-case 36: console.error('Este es un error léxico: ' + yy_.yytext + ', en la linea: ' + yy_.yylloc.first_line + ', en la columna: ' + yy_.yylloc.first_column); 
+case 36:return 63;
+break;
+case 37:return 52;
+break;
+case 38:return 65;
+break;
+case 39:return 66;
+break;
+case 40:return 67;
+break;
+case 41:return 26;
+break;
+case 42:return 38;
+break;
+case 43:return 29;
+break;
+case 44:return 31;
+break;
+case 45:return 32;
+break;
+case 46:return 33;
+break;
+case 47:return 13;
+break;
+case 48:return 15;
+break;
+case 49:return 16;
+break;
+case 50:return 18;
+break;
+case 51:return 19;
+break;
+case 52:return 20;
+break;
+case 53:return 30;
+break;
+case 54:return 46;
+break;
+case 55:return 5;
+break;
+case 56: console.error('Este es un error léxico: ' + yy_.yytext + ', en la linea: ' + yy_.yylloc.first_line + ', en la columna: ' + yy_.yylloc.first_column); 
 break;
 }
 },
-rules: [/^(?:\[\+MESSAGE\])/i,/^(?:\[-MESSAGE\])/i,/^(?:.)/i,/^(?:[\t\r\n\f])/i,/^(?:\[\+LEXEMA\])/i,/^(?:\[-LEXEMA\])/i,/^(?:.)/i,/^(?:[\t\r\n\f])/i,/^(?:\[\+DESC\])/i,/^(?:\[-DESC\])/i,/^(?:.)/i,/^(?:[\t\r\n\f])/i,/^(?:\[\+TYPE\])/i,/^(?:\[-TYPE\])/i,/^(?:.)/i,/^(?:[\t\r\n\f])/i,/^(?:\[\+DATA\])/i,/^(?:\[-DATA\])/i,/^(?:.)/i,/^(?:[\t\r\n\f])/i,/^(?:\s+)/i,/^(?:\[\+ERROR\])/i,/^(?:\[-ERROR\])/i,/^(?:\[\+LINE\])/i,/^(?:\[-LINE\])/i,/^(?:\[\+COLUMN\])/i,/^(?:\[-COLUMN\])/i,/^(?:\[\+LOGIN\])/i,/^(?:\[-LOGIN\])/i,/^(?:\[\+LOGOUT\])/i,/^(?:\[-LOGOUT\])/i,/^(?:\[SUCCESS\])/i,/^(?:\[FAIL\])/i,/^(?:([0-9])+)/i,/^(?:(([A-Za-zÑñ])|_)(([A-Za-zÑñ])+|([0-9])*|_)*)/i,/^(?:$)/i,/^(?:.)/i],
-conditions: {"res_data":{"rules":[0,4,8,12,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36],"inclusive":true},"res_type":{"rules":[0,4,8,12,13,14,15,16,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36],"inclusive":true},"res_descripcion":{"rules":[0,4,8,9,10,11,12,16,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36],"inclusive":true},"res_lexema":{"rules":[0,4,5,6,7,8,12,16,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36],"inclusive":true},"res_message":{"rules":[0,1,2,3,4,8,12,16,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36],"inclusive":true},"INITIAL":{"rules":[0,4,8,12,16,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36],"inclusive":true}}
+rules: [/^(?:\[\+MESSAGE\])/i,/^(?:\[-MESSAGE\])/i,/^(?:.)/i,/^(?:[\t\r\n\f])/i,/^(?:\[\+LEXEMA\])/i,/^(?:\[-LEXEMA\])/i,/^(?:.)/i,/^(?:[\t\r\n\f])/i,/^(?:\[\+DESC\])/i,/^(?:\[-DESC\])/i,/^(?:.)/i,/^(?:[\t\r\n\f])/i,/^(?:\[\+TYPE\])/i,/^(?:\[-TYPE\])/i,/^(?:.)/i,/^(?:[\t\r\n\f])/i,/^(?:\[\+DATA\])/i,/^(?:\[-DATA\])/i,/^(?:.)/i,/^(?:[\t\r\n\f])/i,/^(?:\s+)/i,/^(?:\[\+DATABASES\])/i,/^(?:\[-DATABASES\])/i,/^(?:\[\+ATTRIBUTES\])/i,/^(?:\[-ATTRIBUTES\])/i,/^(?:\[\+DATABASE\])/i,/^(?:\[-DATABASE\])/i,/^(?:\[\+NAME\])/i,/^(?:\[-NAME\])/i,/^(?:\[\+TABLES\])/i,/^(?:\[-TABLES\])/i,/^(?:\[\+TABLE\])/i,/^(?:\[-TABLE\])/i,/^(?:\[\+TYPES\])/i,/^(?:\[-TYPES\])/i,/^(?:\[\+TYPECQL\])/i,/^(?:\[-TYPECQL\])/i,/^(?:\[\+PROCEDURES\])/i,/^(?:\[-PROCEDURES\])/i,/^(?:\[\+PROCEDURE\])/i,/^(?:\[-PROCEDURE\])/i,/^(?:\[\+ERROR\])/i,/^(?:\[-ERROR\])/i,/^(?:\[\+LINE\])/i,/^(?:\[-LINE\])/i,/^(?:\[\+COLUMN\])/i,/^(?:\[-COLUMN\])/i,/^(?:\[\+LOGIN\])/i,/^(?:\[-LOGIN\])/i,/^(?:\[\+LOGOUT\])/i,/^(?:\[-LOGOUT\])/i,/^(?:\[SUCCESS\])/i,/^(?:\[FAIL\])/i,/^(?:([0-9])+)/i,/^(?:(([A-Za-zÑñ])|_)(([A-Za-zÑñ])+|([0-9])*|_)*)/i,/^(?:$)/i,/^(?:.)/i],
+conditions: {"res_data":{"rules":[0,4,8,12,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56],"inclusive":true},"res_type":{"rules":[0,4,8,12,13,14,15,16,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56],"inclusive":true},"res_descripcion":{"rules":[0,4,8,9,10,11,12,16,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56],"inclusive":true},"res_lexema":{"rules":[0,4,5,6,7,8,12,16,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56],"inclusive":true},"res_message":{"rules":[0,1,2,3,4,8,12,16,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56],"inclusive":true},"INITIAL":{"rules":[0,4,8,12,16,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56],"inclusive":true}}
 });
 return lexer;
 })();

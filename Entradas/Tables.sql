@@ -205,3 +205,44 @@ APPLY BATCH;
 SELECT * FROM Estudiante Order by carnet asc;
 
 log(count(<<SELECT * FROM Estudiante LIMIT 4>>));
+
+create database db;
+use db;
+
+Procedure orderList(boolean @asc_),()
+{
+ 	List @arr = [5,6,4,7,3,8,2,9,1,10];
+	if(@asc_){
+	    for (int @i = 0; @i < @arr.size(); @i++) {
+	        for (int @j = 0; @j < @arr.size()-@i-1; @j++) 
+	        {
+	            if (@arr.get(@j) > @arr.get(@j+1)) 
+	            { 
+	                // intercambia las posiciones
+	                int @temp = @arr.get(@j); 
+	                @arr.set(@j,@arr.get(@j+1)); 
+	                @arr.set(@j+1,@temp);
+	            } 
+	        }
+	    }
+	}else{
+	    for (int @i = 0; @i < @arr.size(); @i++) {
+	        for (int @j = 0; @j < @arr.size()-@i-1; @j++) 
+	        {
+	            if (@arr.get(@j) < @arr.get(@j+1)) 
+	            { 
+	                // intercambia las posiciones
+	                int @temp = @arr.get(@j); 
+	                @arr.set(@j,@arr.get(@j+1)); 
+	                @arr.set(@j+1,@temp);
+	            } 
+	        }
+	    }
+	}
+
+	for(int @cont =0;@cont<@arr.size(); @cont++){
+	    log(@arr.get(@cont));
+	}    
+}
+
+call orderList(true);

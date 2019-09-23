@@ -117,14 +117,14 @@ namespace Server.AST
                 //types
                 respuesta += "\n        [+TYPES]";
                 foreach (UserType ut in db.userTypes) {
-                    respuesta += "\n            [+TYPE]";
+                    respuesta += "\n            [+TYPECQL]";
                     respuesta += "\n                [+NAME]" + ut.id + "[-NAME]";
                     //========atributos
                     foreach (KeyValuePair<String,Object> atr in ut.atributos)
                     {
                         respuesta += "\n                [+ATTRIBUTES]" + atr.Key + "[-ATTRIBUTES]";
                     }
-                    respuesta += "\n            [-TYPE]";
+                    respuesta += "\n            [-TYPECQL]";
                 }
                 respuesta += "\n        [-TYPES]";
 
@@ -133,7 +133,9 @@ namespace Server.AST
                 respuesta += "\n        [+PROCEDURES]";
                 foreach (Procedure p in db.procedures)
                 {
-                    respuesta += "\n                [+NAME]" + p.id + "[-NAME]";
+                    respuesta += "\n                [+PROCEDURE]";
+                    respuesta += "\n                    [+NAME]" + p.id + "[-NAME]";
+                    respuesta += "\n                [-PROCEDURE]";
                 }
                 respuesta += "\n        [-PROCEDURES]";
 

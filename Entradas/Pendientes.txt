@@ -1,8 +1,9 @@
 //pendientes
+arreglar carga chison // archivos de entrada
 programado, falta probar //batch (Descartar cualquier instrucción ejecutada al detectar error)
 terminar bloques
 arreglar bug cursor
-arbol de información LUP
+listo gramática, falta hacer el árbol //arbol de información LUP
 manuales
 orderBy descendente
 

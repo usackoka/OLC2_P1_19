@@ -44,9 +44,11 @@ letras = [A-Za-zÑñ]
 //========================================================================
 \s+                   /* skip whitespace */
 
-/*
+
 "[+DATABASES]"										return 'res_dataBasesOpen';
 "[-DATABASES]"										return 'res_dataBasesClose';
+"[+ATTRIBUTES]"										return 'res_atributtesOpen';
+"[-ATTRIBUTES]"										return 'res_atributtesClose';
 "[+DATABASE]"										return 'res_dataBaseOpen';
 "[-DATABASE]"										return 'res_dataBaseClose';
 "[+NAME]"											return 'res_nameOpen';
@@ -57,11 +59,12 @@ letras = [A-Za-zÑñ]
 "[-TABLE]"											return 'res_tableClose';
 "[+TYPES]"											return 'res_typesOpen';
 "[-TYPES]"											return 'res_typesClose';
-"[+TYPE]"											return 'res_typeOpen';
-"[-TYPE]"											return 'res_typeClose';
-"[+PROCEDURES]"										return 'res_procedureOpen';
-"[-PROCEDURES]"										return 'res_procedureClose';
-*/
+"[+TYPECQL]"										return 'res_typeCQLOpen';
+"[-TYPECQL]"										return 'res_typeCQLClose';
+"[+PROCEDURES]"										return 'res_proceduresOpen';
+"[-PROCEDURES]"										return 'res_proceduresClose';
+"[+PROCEDURE]"										return 'res_procedureOpen';
+"[-PROCEDURE]"										return 'res_procedureClose';
 
 "[+ERROR]"											return 'res_errorOpen';
 "[-ERROR]"											return 'res_errorClose';
@@ -126,7 +129,7 @@ LIST_BLOCK : LIST_BLOCK BLOCK
 BLOCK : MENSAJE {ast.mensajes[ast.contMess++] = $1;}
 	| DATA {ast.data[ast.contData++] = $1;}
 	| ERROR {ast.errores[ast.contErr++] = $1;}
-	//| DBMS
+	| DBMS
 	| LOGOUT
 	| LOGIN
 ;
@@ -165,21 +168,51 @@ ERROR : 'res_errorOpen'
 			$$ = error;}
 ;
 
-/*
 DBMS : res_dataBasesOpen DATA_BASES res_dataBasesClose
 ;
 
-DATA_BASES : DATA_BASES res_dataBaseOpen + CONTENIDO + res_dataBaseClose {
+DATA_BASES : DATA_BASES res_dataBaseOpen CONTENIDO res_dataBaseClose {
 	var data_base = {};
 	data_base.
 	ast.dbms[ast.contDBMS++] = $1;
 }
-	| res_dataBaseOpen + CONTENIDO + res_dataBaseClose
+	| res_dataBaseOpen CONTENIDO res_dataBaseClose
 ;
 
-CONTENIDO : 
-*/
+CONTENIDO : res_nameOpen id res_nameClose res_tablesOpen TABLES res_typesOpen TYPES res_proceduresOpen PROCEDURES
+;
 
+TABLES : TABLE res_tablesClose
+	| res_tablesClose
+;
+
+TABLE : TABLE res_tableOpen res_nameOpen id res_nameClose COLUMNAS res_tableClose
+	| res_tableOpen res_nameOpen id res_nameClose COLUMNAS res_tableClose
+;
+
+COLUMNAS : COLUMNAS res_columnOpen id res_columnClose
+	| res_columnOpen id res_columnClose
+;
+
+TYPES : TYPE res_typesClose
+	| res_typesClose
+;
+
+TYPE : TYPE res_typeCQLOpen res_nameOpen id res_nameClose ATRIBUTOS res_typeCQLClose
+	| res_typeCQLOpen res_nameOpen id res_nameClose ATRIBUTOS res_typeCQLClose
+;
+
+PROCEDURES : PROCEDURE res_proceduresClose
+	| res_proceduresClose
+;
+
+PROCEDURE : PROCEDURE res_procedureOpen id res_procedureClose
+	| res_procedureOpen id res_procedureClose
+;
+
+ATRIBUTOS : ATRIBUTOS res_atributtesOpen id res_atributtesClose
+	| res_atributtesOpen id res_atributtesClose
+;
 
 T1 : T1 'TODO' {$$ = $1+$2;}
 	| T1 'WS' {$$ = $1+$2;}

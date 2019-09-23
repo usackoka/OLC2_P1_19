@@ -91,12 +91,14 @@ VALUES (
     "21000.00"
 );
 
+/*
 INSERT INTO customers(customerNumber)
 VALUES (-1); // Error
+*/
 
 Select * from customers;        // 1 dato
 
-
+/*
 INSERT  INTO customers
 VALUES (
     01,
@@ -112,6 +114,7 @@ VALUES (
     1370,
     "21000.00"
 );  // Error
+*/
 
 Select * from customers;        // 1 dato
 
@@ -398,11 +401,11 @@ SELECT customerName, addressLine2 FROM customers;
 ALTER TABLE customers DROP
     addressLine2;
 
-SELECT customerName, addressLine2 FROM customers; // Error
+//SELECT customerName, addressLine2 FROM customers; // Error
 
 commit;
 
-SELECT customerName, addressLine2 FROM customers; // error
+//SELECT customerName, addressLine2 FROM customers; // error
 
 /* FCL */
 
