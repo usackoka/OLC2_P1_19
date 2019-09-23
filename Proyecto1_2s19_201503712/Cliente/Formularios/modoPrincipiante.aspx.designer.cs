@@ -31,6 +31,15 @@ namespace Cliente.Formularios {
         protected global::System.Web.UI.WebControls.HiddenField hdCadena;
         
         /// <summary>
+        /// Control hdCierre.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hdCierre;
+        
+        /// <summary>
         /// Control txtConsola.
         /// </summary>
         /// <remarks>

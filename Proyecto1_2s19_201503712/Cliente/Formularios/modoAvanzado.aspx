@@ -70,6 +70,7 @@
                 <button class="btn btn-outline-success my-2 my-sm-0" onclick="AnalizarLUP()">Analizar LUP</button>
                 <form id="form1" runat="server" class="form-inline my-2 my-lg-0">
                     <asp:HiddenField ID="hdCadena" runat="server"/>
+                    <asp:HiddenField ID="hdCierre" runat="server" />
                     <asp:Button class="btn btn-outline-success my-2 my-sm-0" runat="server" OnClientClick="AlmacenarTexto()" OnClick="Unnamed_Click" Text="Analizar CQL"></asp:Button>
                     <asp:Button class="btn btn-outline-success my-2 my-sm-0" runat="server" OnClick="Unnamed_Click1" Text="Cerrar Sesión"></asp:Button>
                 </form>
@@ -166,6 +167,15 @@
             function AnalizarLUP() {
                 var text = document.getElementById("txtSalida").value;
                 var ast = Analizador.parse(text);
+
+                //pregunto si tiene permiso de cerrar sesión
+                if (ast.logout == true) {
+                    document.getElementById('hdCierre').value = "true";
+                    alert("Logout True");
+                } else {
+                    document.getElementById('hdCierre').value = "false";
+                    alert("Logout False");
+                }
 
                 //imprimo los mensajes en la consola
                 for (i in ast.mensajes) {

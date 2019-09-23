@@ -82,8 +82,14 @@ namespace Server.Analizador.Chison
             else if (CompararNombre(raiz, "BASE"))
             {
                 /*menor_que + res_name + igual + cadena + coma + 
-                res_data + igual + l_corchete + LISTA_DATA_BASE + r_corchete + mayor_que;*/
-                return new DataBaseCHISON(getLexema(raiz, 3).Replace("\"", ""), (List<Data_Base_CHISON>)recorrido(raiz.ChildNodes[8]),
+                res_data + igual + l_corchete + LISTA_DATA_BASE + r_corchete + mayor_que
+                | menor_que + res_data + igual + l_corchete + LISTA_DATA_BASE + r_corchete +
+                 res_name + igual + cadena + coma + mayor_que;*/
+                if (getLexema(raiz, 1).Replace("\"", "").ToLower().Equals("name")) {
+                    return new DataBaseCHISON(getLexema(raiz, 3).Replace("\"", ""), (List<Data_Base_CHISON>)recorrido(raiz.ChildNodes[8]),
+                        getFila(raiz, 0), getColumna(raiz, 0));
+                }
+                return new DataBaseCHISON(getLexema(raiz, 8).Replace("\"", ""), (List<Data_Base_CHISON>)recorrido(raiz.ChildNodes[3]),
                     getFila(raiz, 0), getColumna(raiz, 0));
             }
             else if (CompararNombre(raiz, "LISTA_DATA_BASE")) {

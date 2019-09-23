@@ -142,8 +142,8 @@ namespace Server.Analizador.Chison
             LISTA_BASES.Rule = MakeStarRule(LISTA_BASES,coma,BASE)
                 | IMPORT;
 
-            BASE.Rule = menor_que + res_name + igual + cadena + coma + 
-                res_data + igual + l_corchete + LISTA_DATA_BASE + r_corchete + mayor_que;
+            BASE.Rule = menor_que + res_name + igual + cadena + coma +
+                res_data + igual + l_corchete + LISTA_DATA_BASE + r_corchete + mayor_que ;
 
             LISTA_DATA_BASE.Rule = MakeStarRule(LISTA_DATA_BASE,coma,DATA_BASE)
                 | IMPORT;

@@ -1,4 +1,4 @@
-﻿%lex
+%lex
 %{
 
 %}
@@ -71,6 +71,8 @@ letras = [A-Za-zÑñ]
 "[-COLUMN]"											return 'res_columnClose';
 "[+LOGIN]"											return 'res_loginOpen';
 "[-LOGIN]"											return 'res_loginClose';
+"[+LOGOUT]"											return 'res_logoutOpen';
+"[-LOGOUT]"											return 'res_logoutClose';
 "[SUCCESS]"											return 'res_success';
 "[FAIL]"											return 'res_fail';
 {digito}+											return 'numero';
@@ -93,6 +95,7 @@ letras = [A-Za-zÑñ]
 
     function AST_LUP(){
     	this.login = false;
+    	this.logout = false;
     	this.contMess = 0;
     	this.contData = 0;
     	this.contErr = 0;
@@ -124,10 +127,18 @@ BLOCK : MENSAJE {ast.mensajes[ast.contMess++] = $1;}
 	| DATA {ast.data[ast.contData++] = $1;}
 	| ERROR {ast.errores[ast.contErr++] = $1;}
 	//| DBMS
+	| LOGOUT
 	| LOGIN
 ;
 
 LOGIN : 'res_loginOpen' STATUS 'res_loginClose'
+;
+
+LOGOUT : 'res_logoutOpen' STATUS2 'res_logoutClose'
+;
+
+STATUS2 : res_success {ast.logout = true;}
+	| res_fail {ast.logout = false;}
 ;
 
 STATUS : res_success {ast.login = true;}

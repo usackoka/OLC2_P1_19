@@ -41,7 +41,7 @@ namespace Server.Analizador.LUP
             }
             else if (CompararNombre(raiz,"LOGOUT")) {
                 //res_logoutOpen + res_userOpen + id + res_userClose + res_logoutClose;
-                return TIPO_REQUEST.LOGOUT;
+                return "[+LOGOUT]\n\t[SUCCESS]\n\t[-LOGOUT]";
             }
             else if (CompararNombre(raiz, "QUERY")) {
                 //res_queryOpen + res_userOpen + id + res_userClose + res_data + res_queryClose

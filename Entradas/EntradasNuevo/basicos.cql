@@ -117,8 +117,6 @@ SET songs = songs + {
 procedure printSongsByYear(String @playlistName, int @year),() {
     Cursor @c1 = getPlaylist(@playlistName);
 
-    //Cursor @c1 IS SELECT songs from playlists where name == @playlistName;
-
     OPEN @c1;
 
     LOG( @playlistName +  " tiene las siguientes canciones del " + @year + ":");
@@ -137,8 +135,6 @@ procedure printSongsByYear(String @playlistName, int @year),() {
 }
 
 call printSongsByYear("Soft Rock", 2013);
-
-int @n1 = 3;
 
 Cursor getPlaylist(String @name) {
     Cursor @c1 IS SELECT songs from playlists where name == @name;

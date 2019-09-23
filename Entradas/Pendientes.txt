@@ -1,10 +1,9 @@
 //pendientes
-Paquete de fin de sesión  (lup)
+batch (Descartar cualquier instrucción ejecutada al detectar error)
 guardar
 terminar bloques
 arreglar bug cursor
 arbol de información LUP
-del batch (Descartar cualquier instrucción ejecutada al detectar error)
 manuales
 orderBy descendente
 

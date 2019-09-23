@@ -37,8 +37,28 @@ namespace Cliente.Formularios
 
         protected void Unnamed_Click1(object sender, EventArgs e)
         {
-            Session["idUser"] = null;
-            Response.Redirect("Login.aspx");
+            if (hdCierre.Value.Equals("true"))
+            {
+                Session["idUser"] = null;
+                Response.Redirect("Login.aspx");
+            }
+            else
+            {
+                localhost.RutasSoapClient servidor = new localhost.RutasSoapClient(); String user = "admin";
+                String res1 = servidor.getErroresChison();
+                if (Session["idUser"] != null)
+                {
+                    user = Session["idUser"].ToString();
+                }
+                String enviado = "[+LOGOUT]\n" +
+                    "   [+USER]\n" +
+                    "       " + user + "\n" +
+                    "   [-USER]\n" +
+                    "[-LOGOUT]";
+                String res = servidor.AnalizarLUP(enviado);
+                txtSalida.Value = "\n" + res1 + "\n" + res;
+                txtEnviado.Value = enviado;
+            }
         }
     }
 }
