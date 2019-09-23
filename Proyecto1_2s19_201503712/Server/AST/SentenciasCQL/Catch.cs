@@ -9,11 +9,11 @@ namespace Server.AST.SentenciasCQL
     public class Catch : Sentencia
     {
         String idEx;
-        EXCEPTION exception;
+        ExceptionCQL.EXCEPTION exception;
         List<NodoCQL> instrucciones;
-        public EXCEPTION excCapturada;
+        public ExceptionCQL excCapturada;
 
-        public Catch(String idEx,EXCEPTION exception ,List<NodoCQL> instrucciones, int fila, int columna) {
+        public Catch(String idEx, ExceptionCQL.EXCEPTION exception ,List<NodoCQL> instrucciones, int fila, int columna) {
             this.idEx = idEx;
             this.exception = exception;
             this.instrucciones = instrucciones;
@@ -24,7 +24,7 @@ namespace Server.AST.SentenciasCQL
         public override object Ejecutar(AST_CQL arbol)
         {
 
-            if (!excCapturada.Equals(exception) && !excCapturada.Equals(EXCEPTION.Exception)) {
+            if (!excCapturada.ex.Equals(exception) && !excCapturada.ex.Equals(ExceptionCQL.EXCEPTION.Exception)) {
                 arbol.addError("Catch-"+exception,"Se capturó una excepción: "+excCapturada+" y se esperaba: "+exception, fila, columna);
                 return null;
             }
@@ -32,7 +32,7 @@ namespace Server.AST.SentenciasCQL
             arbol.entorno = new Entorno(arbol.entorno);
 
             //creo la variable excep
-            arbol.entorno.addVariable(idEx,new Variable(getMensaje(),Primitivo.TIPO_DATO.STRING),arbol,fila,columna);
+            arbol.entorno.addVariable(idEx,new Variable(excCapturada.getValor(arbol),Primitivo.TIPO_DATO.STRING),arbol,fila,columna);
 
             foreach (NodoCQL nodo in this.instrucciones)
             {
@@ -48,7 +48,7 @@ namespace Server.AST.SentenciasCQL
                 else
                 {
                     Object val = ((Expresion)nodo).getValor(arbol);
-                    if (val is Catch.EXCEPTION)
+                    if (val is ExceptionCQL)
                     {
                         return val;
                     }
@@ -59,30 +59,7 @@ namespace Server.AST.SentenciasCQL
             return null;
         }
 
-        public enum EXCEPTION {
-            ArithmeticException,
-            CounterTypeException,
-            UserAlreadyExists,
-            UserDontExists,
-            ValuesException,
-            ColumnException,
-            BatchException,
-            IndexOutException,
-            NullPointerException,
-            NumberReturnsException,
-            FunctionAlreadyExists,
-            ProcedureAlreadyExists,
-            ObjectAlreadyExists,
-            TypeAlreadyExists,
-            TypeDontExists,
-            BDAlreadyExists,
-            BDDontExists,
-            UseBDException,
-            TableAlreadyExists,
-            TableDontExists,
-            Exception
-        }
-
+            /*
         public String getMensaje() {
             if (EXCEPTION.ArithmeticException == this.exception)
             {
@@ -171,5 +148,6 @@ namespace Server.AST.SentenciasCQL
                 return this.exception + " - " + "No hay mensaje personalizado para esta exception";
             }
         }
+        */
     }
 }

@@ -137,6 +137,7 @@
     <Compile Include="AST\ExpresionesCQL\Casteo.cs" />
     <Compile Include="AST\ExpresionesCQL\ClaseDateTime.cs" />
     <Compile Include="AST\ExpresionesCQL\ClaseString.cs" />
+    <Compile Include="AST\ExpresionesCQL\ExceptionCQL.cs" />
     <Compile Include="AST\ExpresionesCQL\Expresion.cs" />
     <Compile Include="AST\ExpresionesCQL\InstanciaUserType.cs" />
     <Compile Include="AST\ExpresionesCQL\LlamadaFuncion.cs" />

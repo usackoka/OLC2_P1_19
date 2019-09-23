@@ -27,7 +27,7 @@ namespace Server.AST.CQL
             //Obtengo la tabla y veo si existe
             TableCQL tabla = arbol.dbms.getTable(idTabla,arbol);
             if (tabla==null) {
-                return Catch.EXCEPTION.TableDontExists;
+                return new ExceptionCQL(ExceptionCQL.EXCEPTION.TableDontExists,"No existe la tabla: "+idTabla,0,0);
             }
 
             //creo un entorno para estas nuevas variables que llevarán el control del select

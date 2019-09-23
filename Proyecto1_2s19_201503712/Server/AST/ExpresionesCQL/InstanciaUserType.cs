@@ -27,7 +27,7 @@ namespace Server.AST.ExpresionesCQL
             UserType modeloUt = arbol.dbms.getUserType(this.id,arbol);
             if (modeloUt==null) {
                 arbol.addError("UserType","No se encontró el UserType: "+id,fila,columna);
-                return Catch.EXCEPTION.TypeDontExists;
+                return new ExceptionCQL(ExceptionCQL.EXCEPTION.TypeDontExists, "No se encontró el UserType: " + id, fila, columna);
             }
 
             return new UserType(modeloUt, arbol);

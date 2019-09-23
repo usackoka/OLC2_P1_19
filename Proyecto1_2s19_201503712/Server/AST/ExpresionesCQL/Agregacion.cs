@@ -54,7 +54,7 @@ namespace Server.AST.ExpresionesCQL
                 case TIPO_AGR.MIN:
                     if (data.Count!=1) {
                         arbol.addError("Agregacion MIN","Solo se debió seleccionar un campo de la tabla",fila,columna);
-                        return Catch.EXCEPTION.ValuesException;
+                        return new ExceptionCQL(ExceptionCQL.EXCEPTION.ValuesException, "Solo se debió seleccionar un campo de la tabla",fila,columna);
                     }
                     data[0].valores.Sort();
                     return data[0].valores[0];
@@ -62,7 +62,7 @@ namespace Server.AST.ExpresionesCQL
                     if (data.Count != 1)
                     {
                         arbol.addError("Agregacion MAX", "Solo se debió seleccionar un campo de la tabla", fila, columna);
-                        return Catch.EXCEPTION.ValuesException;
+                        return new ExceptionCQL(ExceptionCQL.EXCEPTION.ValuesException, "Solo se debió seleccionar un campo de la tabla", fila, columna);
                     }
                     data[0].valores.Sort();
                     return data[0].valores[data[0].valores.Count-1];
@@ -70,12 +70,12 @@ namespace Server.AST.ExpresionesCQL
                     if (data.Count != 1)
                     {
                         arbol.addError("Agregacion SUM", "Solo se debió seleccionar un campo de la tabla", fila, columna);
-                        return Catch.EXCEPTION.ValuesException;
+                        return new ExceptionCQL(ExceptionCQL.EXCEPTION.ValuesException, "Solo se debió seleccionar un campo de la tabla", fila, columna);
                     }
 
                     if (!(data[0].tipoDato.Equals(Primitivo.TIPO_DATO.INT) || data[0].tipoDato.Equals(Primitivo.TIPO_DATO.DOUBLE))) {
                         arbol.addError("Agregacion SUM","El campo seleccionado debía ser de tipo Numerico",fila,columna);
-                        return Catch.EXCEPTION.ValuesException;
+                        return new ExceptionCQL(ExceptionCQL.EXCEPTION.ValuesException, "El campo seleccionado debía ser de tipo Numerico", fila, columna);
                     }
 
                     int sumaInt = 0;
@@ -102,13 +102,13 @@ namespace Server.AST.ExpresionesCQL
                     if (data.Count != 1)
                     {
                         arbol.addError("Agregacion AVG", "Solo se debió seleccionar un campo de la tabla", fila, columna);
-                        return Catch.EXCEPTION.ValuesException;
+                        return new ExceptionCQL(ExceptionCQL.EXCEPTION.ValuesException, "Solo se debió seleccionar un campo de la tabla",fila,columna);
                     }
 
                     if (!(data[0].tipoDato.Equals(Primitivo.TIPO_DATO.INT) || data[0].tipoDato.Equals(Primitivo.TIPO_DATO.DOUBLE)))
                     {
                         arbol.addError("Agregacion SUM", "El campo seleccionado debía ser de tipo Numerico", fila, columna);
-                        return Catch.EXCEPTION.ValuesException;
+                        return new ExceptionCQL(ExceptionCQL.EXCEPTION.ValuesException, "El campo seleccionado debía ser de tipo Numerico", fila, columna);
                     }
 
                     sumaInt = 0;

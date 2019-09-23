@@ -299,14 +299,14 @@ namespace Server.Analizador
                 /*res_try + l_llave + BLOCK + r_llave + res_catch + l_parent + EXCEPTION + arroba
                                     + id + r_parent + l_llave + BLOCK + r_llave;*/
                 return new Try((List<NodoCQL>)recorrido(raiz.ChildNodes[2]), new Catch(getLexema(raiz, 8),
-                    (Catch.EXCEPTION)recorrido(raiz.ChildNodes[6]),
+                    (ExceptionCQL.EXCEPTION)recorrido(raiz.ChildNodes[6]),
                     (List<NodoCQL>)recorrido(raiz.ChildNodes[11]), getFila(raiz, 0), getColumna(raiz, 0)),
                     getFila(raiz, 0), getColumna(raiz, 0));
             }
             else if (CompararNombre(raiz, "THROW"))
             {
                 //res_throw + res_new + EXCEPTION;
-                return new Throw((Catch.EXCEPTION)recorrido(raiz.ChildNodes[2]), getFila(raiz, 0), getColumna(raiz, 0));
+                return new Throw((ExceptionCQL.EXCEPTION)recorrido(raiz.ChildNodes[2]), getFila(raiz, 0), getColumna(raiz, 0));
             }
             else if (CompararNombre(raiz, "CURSOR"))
             {
@@ -350,87 +350,87 @@ namespace Server.Analizador
             {
                 if (CompararNombre(raiz.ChildNodes[0], "arithmeticexception"))
                 {
-                    return Catch.EXCEPTION.ArithmeticException;
+                    return ExceptionCQL.EXCEPTION.ArithmeticException;
                 }
                 else if (CompararNombre(raiz.ChildNodes[0], "countertypeexception"))
                 {
-                    return Catch.EXCEPTION.CounterTypeException;
+                    return ExceptionCQL.EXCEPTION.CounterTypeException;
                 }
                 else if (CompararNombre(raiz.ChildNodes[0], "useralreadyexists"))
                 {
-                    return Catch.EXCEPTION.UserAlreadyExists;
+                    return ExceptionCQL.EXCEPTION.UserAlreadyExists;
                 }
                 else if (CompararNombre(raiz.ChildNodes[0], "userdontexists"))
                 {
-                    return Catch.EXCEPTION.UserDontExists;
+                    return ExceptionCQL.EXCEPTION.UserDontExists;
                 }
                 else if (CompararNombre(raiz.ChildNodes[0], "valuesexception"))
                 {
-                    return Catch.EXCEPTION.ValuesException;
+                    return ExceptionCQL.EXCEPTION.ValuesException;
                 }
                 else if (CompararNombre(raiz.ChildNodes[0], "columnexception"))
                 {
-                    return Catch.EXCEPTION.ColumnException;
+                    return ExceptionCQL.EXCEPTION.ColumnException;
                 }
                 else if (CompararNombre(raiz.ChildNodes[0], "batchexception"))
                 {
-                    return Catch.EXCEPTION.BatchException;
+                    return ExceptionCQL.EXCEPTION.BatchException;
                 }
                 else if (CompararNombre(raiz.ChildNodes[0], "indexoutexception"))
                 {
-                    return Catch.EXCEPTION.IndexOutException;
+                    return ExceptionCQL.EXCEPTION.IndexOutException;
                 }
                 else if (CompararNombre(raiz.ChildNodes[0], "nullpointerexception"))
                 {
-                    return Catch.EXCEPTION.NullPointerException;
+                    return ExceptionCQL.EXCEPTION.NullPointerException;
                 }
                 else if (CompararNombre(raiz.ChildNodes[0], "numberreturnsexception"))
                 {
-                    return Catch.EXCEPTION.NumberReturnsException;
+                    return ExceptionCQL.EXCEPTION.NumberReturnsException;
                 }
                 else if (CompararNombre(raiz.ChildNodes[0], "functionalreadyexists"))
                 {
-                    return Catch.EXCEPTION.FunctionAlreadyExists;
+                    return ExceptionCQL.EXCEPTION.FunctionAlreadyExists;
                 }
                 else if (CompararNombre(raiz.ChildNodes[0], "procedurealreadyexists"))
                 {
-                    return Catch.EXCEPTION.ProcedureAlreadyExists;
+                    return ExceptionCQL.EXCEPTION.ProcedureAlreadyExists;
                 }
                 else if (CompararNombre(raiz.ChildNodes[0], "objectalreadyexists"))
                 {
-                    return Catch.EXCEPTION.ObjectAlreadyExists;
+                    return ExceptionCQL.EXCEPTION.ObjectAlreadyExists;
                 }
                 else if (CompararNombre(raiz.ChildNodes[0], "typealreadyexists"))
                 {
-                    return Catch.EXCEPTION.TypeAlreadyExists;
+                    return ExceptionCQL.EXCEPTION.TypeAlreadyExists;
                 }
                 else if (CompararNombre(raiz.ChildNodes[0], "typedontexists"))
                 {
-                    return Catch.EXCEPTION.TypeDontExists;
+                    return ExceptionCQL.EXCEPTION.TypeDontExists;
                 }
                 else if (CompararNombre(raiz.ChildNodes[0], "bdalreadyexists"))
                 {
-                    return Catch.EXCEPTION.BDAlreadyExists;
+                    return ExceptionCQL.EXCEPTION.BDAlreadyExists;
                 }
                 else if (CompararNombre(raiz.ChildNodes[0], "bddontexists"))
                 {
-                    return Catch.EXCEPTION.BDDontExists;
+                    return ExceptionCQL.EXCEPTION.BDDontExists;
                 }
                 else if (CompararNombre(raiz.ChildNodes[0], "usebdexception"))
                 {
-                    return Catch.EXCEPTION.UseBDException;
+                    return ExceptionCQL.EXCEPTION.UseBDException;
                 }
                 else if (CompararNombre(raiz.ChildNodes[0], "tablealreadyexists"))
                 {
-                    return Catch.EXCEPTION.TableAlreadyExists;
+                    return ExceptionCQL.EXCEPTION.TableAlreadyExists;
                 }
                 else if (CompararNombre(raiz.ChildNodes[0], "tabledontexists"))
                 {
-                    return Catch.EXCEPTION.TableDontExists;
+                    return ExceptionCQL.EXCEPTION.TableDontExists;
                 }
                 else if (CompararNombre(raiz.ChildNodes[0], "exception"))
                 {
-                    return Catch.EXCEPTION.Exception;
+                    return ExceptionCQL.EXCEPTION.Exception;
                 }
                 else
                 {

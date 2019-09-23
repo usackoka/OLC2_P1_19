@@ -82,7 +82,7 @@ namespace Server.AST.ColeccionesCQL
                     if (modeloUt == null)
                     {
                         arbol.addError("TypeDontExists", "No se encontró el UserType: " + tipo.ToString(), fila, columna);
-                        return Catch.EXCEPTION.TypeDontExists;
+                        return new ExceptionCQL(ExceptionCQL.EXCEPTION.TypeDontExists, "No se encontró el UserType: " + tipo.ToString(), fila, columna);
                     }
                     return new UserType(modeloUt, expresiones, arbol);
             }

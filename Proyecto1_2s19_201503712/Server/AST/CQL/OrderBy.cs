@@ -7,7 +7,7 @@ namespace Server.AST.CQL
     public class OrderBy
     {
         List<Order> orders;
-        Hashtable ht;
+        //Hashtable ht;
 
         public OrderBy(List<Order> orders)
         {

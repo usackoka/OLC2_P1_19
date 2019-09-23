@@ -458,6 +458,7 @@ namespace Server.Analizador
                         //========== ver aquí ambiguedad entre referencias y reasignacion
                         | REFERENCIAS + igual + E
                         | res_return + LISTA_E
+                        | THROW
                         | REASIGNACION
                         | REASIGNACION2
                         | ACTUALIZACION2
@@ -584,8 +585,7 @@ namespace Server.Analizador
 
             CASTEOS.Rule = l_parent + TIPO + r_parent + E;
 
-            NATIVAS.Rule = DATE_NOW
-                | THROW;
+            NATIVAS.Rule = DATE_NOW;
 
             DATE_NOW.Rule = res_today + l_parent + r_parent
                 | res_now + l_parent + r_parent;

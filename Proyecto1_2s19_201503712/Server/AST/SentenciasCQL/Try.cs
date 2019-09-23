@@ -30,8 +30,8 @@ namespace Server.AST.SentenciasCQL
                     {
                         arbol.entorno = arbol.entorno.padre;
 
-                        if (val is Catch.EXCEPTION) {
-                            catchh.excCapturada = (Catch.EXCEPTION)val;
+                        if (val is ExceptionCQL) {
+                            catchh.excCapturada = (ExceptionCQL)val;
                             return catchh.Ejecutar(arbol);
                         }
                         return val;
@@ -40,9 +40,9 @@ namespace Server.AST.SentenciasCQL
                 else
                 {
                     Object val = ((Expresion)nodo).getValor(arbol);
-                    if (val is Catch.EXCEPTION)
+                    if (val is ExceptionCQL)
                     {
-                        catchh.excCapturada = (Catch.EXCEPTION)val;
+                        catchh.excCapturada = (ExceptionCQL)val;
                         return catchh.Ejecutar(arbol);
                     }
                 }

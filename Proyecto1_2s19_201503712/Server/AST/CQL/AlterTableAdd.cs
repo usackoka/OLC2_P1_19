@@ -25,7 +25,7 @@ namespace Server.AST.CQL
             foreach (ColumnCQL column in this.atributos) {
                 if (column.tipoDato.Equals(Primitivo.TIPO_DATO.COUNTER)) {
                     arbol.addError("EXCEPTION.ValuesException","No se puede hacer un alter add de un tipo COUNTER",fila, columna);
-                    return Catch.EXCEPTION.ValuesException;
+                    return new ExceptionCQL(ExceptionCQL.EXCEPTION.ValuesException, "No se puede hacer un alter add de un tipo COUNTER",fila,columna);
                 }
             }
 

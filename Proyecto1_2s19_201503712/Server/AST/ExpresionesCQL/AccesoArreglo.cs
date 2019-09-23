@@ -45,7 +45,7 @@ namespace Server.AST.ExpresionesCQL
                 Object objIndex = expresion.getValor(arbol);
                 if (!(objIndex is Int32 || objIndex is Double)) {
                     arbol.addError("EXCEPTION.NullPointerException","El índice del acceso debe de ser de tipo entero o double, vino: "+objIndex,fila,columna);
-                    return Catch.EXCEPTION.NullPointerException;
+                    return new ExceptionCQL(ExceptionCQL.EXCEPTION.NullPointerException, "El índice del acceso debe de ser de tipo entero o double, vino: " + objIndex,fila,columna);
                 }
                 int index = Convert.ToInt32(objIndex);
                 return ((ListCQL)obj).valores[index];
@@ -54,7 +54,7 @@ namespace Server.AST.ExpresionesCQL
                 if (!(objIndex is Int32 || objIndex is Double))
                 {
                     arbol.addError("EXCEPTION.NullPointerException", "El índice del acceso debe de ser de tipo entero o double, vino: " + objIndex, fila, columna);
-                    return Catch.EXCEPTION.NullPointerException;
+                    return new ExceptionCQL(ExceptionCQL.EXCEPTION.NullPointerException, "El índice del acceso debe de ser de tipo entero o double, vino: " + objIndex, fila, columna);
                 }
                 int index = Convert.ToInt32(objIndex);
                 return ((SetCQL)obj).valores[index];
@@ -62,13 +62,13 @@ namespace Server.AST.ExpresionesCQL
                 Object objIndex = expresion.getValor(arbol);
                 if (!((MapCQL)obj).valores.ContainsKey(objIndex)) {
                     arbol.addError("EXCEPTION.NullPointerException", "El map no contiene la clave: " + objIndex, fila, columna);
-                    return Catch.EXCEPTION.NullPointerException;
+                    return new ExceptionCQL(ExceptionCQL.EXCEPTION.NullPointerException, "El map no contiene la clave: " + objIndex, fila, columna);
                 }
                 return ((MapCQL)obj).valores[objIndex];
             }
             else {
                 arbol.addError("EXCEPTION.NullPointerException", "No se puede hacer un acceso de un tipo: "+obj,fila,columna);
-                return Catch.EXCEPTION.NullPointerException;
+                return new ExceptionCQL(ExceptionCQL.EXCEPTION.NullPointerException, "No se puede hacer un acceso de un tipo: " + obj, fila, columna);
             }
         }
     }

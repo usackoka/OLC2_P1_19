@@ -52,7 +52,11 @@ namespace Server.AST.SentenciasCQL
                 }
                 else
                 {
-                    ((Expresion)nodo).getValor(arbol);
+                    Object val = ((Expresion)nodo).getValor(arbol);
+                    if (val is ExceptionCQL)
+                    {
+                        return val;
+                    }
                 }
             }
 

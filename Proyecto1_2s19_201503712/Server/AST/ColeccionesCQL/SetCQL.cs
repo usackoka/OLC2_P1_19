@@ -249,7 +249,7 @@ namespace Server.AST.ColeccionesCQL
                 }
             }
 
-            if (this.valores.Count > index)
+            if (this.valores.Count > index && index >= 0)
             {
                 this.valores.RemoveAt(index);
                 return null;
@@ -257,7 +257,7 @@ namespace Server.AST.ColeccionesCQL
             else
             {
                 arbol.addError("EXCEPTION.IndexOutException", "(Remove, SET) index: " + index + " size: " + this.valores.Count, fila, columna);
-                return Catch.EXCEPTION.IndexOutException;
+                return new ExceptionCQL(ExceptionCQL.EXCEPTION.IndexOutException, "(Remove, Set) index: " + index + " size: " + this.valores.Count, fila, columna);
             }
         }
 
@@ -285,12 +285,12 @@ namespace Server.AST.ColeccionesCQL
             }
 
             //MANDAR EX si se pasa del límite
-            if (this.valores.Count > index) {
+            if (this.valores.Count > index && index >= 0) {
                 return this.valores[index];
             }
             else {
                 arbol.addError("EXCEPTION.IndexOutException", "(Get, Set) index: " + index + " size: " + this.valores.Count, fila, columna);
-                return Catch.EXCEPTION.IndexOutException;
+                return new ExceptionCQL(ExceptionCQL.EXCEPTION.IndexOutException, "(Get, Set) index: " + index + " size: " + this.valores.Count, fila, columna);
             }
         }
 
@@ -314,7 +314,7 @@ namespace Server.AST.ColeccionesCQL
                 }
             }
 
-            if (this.valores.Count > index)
+            if (this.valores.Count > index && index >= 0)
             {
                 this.valores[index] = this.expresiones[1].getValor(arbol);
                 try
@@ -331,7 +331,7 @@ namespace Server.AST.ColeccionesCQL
             else
             {
                 arbol.addError("EXCEPTION.IndexOutException", "(Set, Set) index: " + index + " size: " + this.valores.Count, fila, columna);
-                return Catch.EXCEPTION.IndexOutException;
+                return new ExceptionCQL(ExceptionCQL.EXCEPTION.IndexOutException, "(Set, Set) index: " + index + " size: " + this.valores.Count, fila, columna);
             }
         }
 

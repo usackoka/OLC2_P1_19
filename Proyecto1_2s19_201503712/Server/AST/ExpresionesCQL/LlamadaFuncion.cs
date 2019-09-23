@@ -39,7 +39,7 @@ namespace Server.AST.ExpresionesCQL
                 {
                     //retorno el nullpointer de no encontrada la función
                     arbol.addError("EXCEPTION.NullPointerException", "No existe el procedure: " + this.idLlamada + " con firma: " + getFirma(arbol), fila, columna);
-                    return Catch.EXCEPTION.NullPointerException;
+                    return new ExceptionCQL(ExceptionCQL.EXCEPTION.NullPointerException, "No existe el procedure: " + this.idLlamada + " con firma: " + getFirma(arbol),fila,columna);
                 }
             }
 
@@ -88,7 +88,7 @@ namespace Server.AST.ExpresionesCQL
                 {
                     //retorno el nullpointer de no encontrada la función
                     arbol.addError("EXCEPTION.NullPointerException","No existe la función: "+this.idLlamada+" con firma: "+getFirma(arbol),fila,columna);
-                    return Catch.EXCEPTION.NullPointerException;
+                    return new ExceptionCQL(ExceptionCQL.EXCEPTION.NullPointerException, "No existe la función: " + this.idLlamada + " con firma: " + getFirma(arbol), fila,columna);
                 }
             }
             //======================================== CALL PROCEDURE ============================
@@ -111,7 +111,7 @@ namespace Server.AST.ExpresionesCQL
                 {
                     //retorno el nullpointer de no encontrada la función
                     arbol.addError("EXCEPTION.NullPointerException", "No existe el procedure: " + this.idLlamada + " con firma: " + getFirma(arbol), fila, columna);
-                    return Catch.EXCEPTION.NullPointerException;
+                    return new ExceptionCQL(ExceptionCQL.EXCEPTION.NullPointerException, "No existe el procedure: " + this.idLlamada + " con firma: " + getFirma(arbol),fila,columna);
                 }
             }
 

@@ -37,20 +37,20 @@ namespace Server.AST.SentenciasCQL
             if (this.ids != null) {
                 if (!(valor is List<Object>)) {
                     arbol.addError("EXCEPTION.NullPointerException", "Se esperaba una llamada a Procedure del lado derecho", fila, columna);
-                    return Catch.EXCEPTION.NullPointerException;
+                    return new ExceptionCQL(ExceptionCQL.EXCEPTION.NullPointerException, "Se esperaba una llamada a Procedure del lado derecho", fila, columna);
                 }
 
                 List<Object> retornos = (List<Object>)valor;
 
                 if (retornos.Count != this.ids.Count) {
                     arbol.addError("EXCEPTION.NullPointerException", "No existe la misma cantidad de identificadores (" + this.ids.Count + ") esperando los retornos (" + retornos.Count + ")", fila, columna);
-                    return Catch.EXCEPTION.NullPointerException;
+                    return new ExceptionCQL(ExceptionCQL.EXCEPTION.NullPointerException, "No existe la misma cantidad de identificadores (" + this.ids.Count + ") esperando los retornos (" + retornos.Count + ")", fila, columna);
                 }
 
                 if (this.ids.Count != ((List<Object>)tipo).Count)
                 {
                     arbol.addError("EXCEPTION.NullPointerException", "No existe la misma cantidad de identificadores (" + this.ids.Count + ") esperando los tipos (" + ((List<Object>)tipo) + ")", fila, columna);
-                    return Catch.EXCEPTION.NullPointerException;
+                    return new ExceptionCQL(ExceptionCQL.EXCEPTION.NullPointerException, "No existe la misma cantidad de identificadores (" + this.ids.Count + ") esperando los tipos (" + ((List<Object>)tipo) + ")", fila, columna);
                 }
 
                 for (int i = 0; i < this.ids.Count; i++)
@@ -63,6 +63,8 @@ namespace Server.AST.SentenciasCQL
 
             if (tipo is List<Object>) {
                 tipo = ((List<Object>)tipo)[0];
+            } else if (valor is ExceptionCQL) {
+                return valor;
             }
 
             arbol.entorno.reasignarVariable(id,valor,tipo,arbol,fila,columna);

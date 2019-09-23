@@ -66,7 +66,7 @@ namespace Server.AST.ExpresionesCQL
                     return Convert.ToInt32(expresion.getValor(arbol));
                 default:
                     arbol.addError("Casteo-"+tipoDato,"No existe un casteo explicito para este tipo",fila,columna);
-                    return Catch.EXCEPTION.NullPointerException;
+                    return new ExceptionCQL(ExceptionCQL.EXCEPTION.NullPointerException, "Casteo-" + tipoDato+"No existe un casteo explicito para este tipo",fila,columna);
             }
         }
     }

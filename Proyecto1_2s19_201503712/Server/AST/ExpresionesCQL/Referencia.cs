@@ -45,7 +45,8 @@ namespace Server.AST.ExpresionesCQL
 
             //================== si es un set valor 
             if (this.valor != null) {
-                setValorRecursivo(arbol);
+                Object valRet =  setValorRecursivo(arbol);
+                if (valRet is ExceptionCQL) { return valRet; }
                 return null;
             }
 
@@ -55,15 +56,18 @@ namespace Server.AST.ExpresionesCQL
                 return ((Atributo)valorRetorno).valor;
             }
 
-            return valorRetorno!=null?valorRetorno:new Null();
+            return valorRetorno;
+            //return valorRetorno!=null?valorRetorno:new Null();
         }
 
-        void setValorRecursivo(AST_CQL arbol) {
+        Object setValorRecursivo(AST_CQL arbol) {
             Object ret =  getValorRecursivo(arbol);
 
             if (ret is Atributo) {
                 ((Atributo)ret).setValor(valor.getValor(arbol),valor.getTipo(arbol),arbol);
             }
+
+            return ret;
         }
 
         Object getValorRecursivo(AST_CQL arbol) {
@@ -91,6 +95,8 @@ namespace Server.AST.ExpresionesCQL
                             {
                                 arbol.addError("Referencia-getValor", "No se encontró el atributo: " + obj + " para el objeto string", fila, columna);
                             }
+                        } else if (valorRetorno is Null) {
+                            return new ExceptionCQL(ExceptionCQL.EXCEPTION.NullPointerException,"No se puede aplicar un acceso a atributo de un objeto con valor NULL",fila,columna);
                         }
                     }
                     else {
@@ -137,6 +143,10 @@ namespace Server.AST.ExpresionesCQL
                         //verifico el nombre del método para aplicarlo
                         list.expresiones = llf.expresiones;
                         valorRetorno = list.getMetodo(arbol, llf.idLlamada);
+                    }
+                    else if (valorRetorno is Null)
+                    {
+                        return new ExceptionCQL(ExceptionCQL.EXCEPTION.NullPointerException, "No se puede aplicar un acceso a atributo de un objeto con valor NULL", fila, columna);
                     }
                 }
             }
@@ -235,64 +245,6 @@ namespace Server.AST.ExpresionesCQL
                     }
                 }
             }
-
-            /*
-            foreach (Object obj in referencias)
-            {
-                //============== saco el tipo
-                if (obj is String)
-                {
-                    tipoRetorno = (new Primitivo(obj + " (Identifier)", fila, columna)).getTipo(arbol);
-                    valorRetorno = (new Primitivo(obj + " (Identifier)", fila, columna)).getValor(arbol);
-                }
-                else if (obj is LlamadaFuncion)
-                {
-                    LlamadaFuncion llf = (LlamadaFuncion)obj;
-                    //verifico el valor de retono
-                    if (valorRetorno is String)
-                    {
-                        ClaseString cs = new ClaseString();
-                        cs.expresiones = llf.expresiones;
-                        valorRetorno = cs.getMetodoString(llf.idLlamada, valorRetorno.ToString(), arbol);
-                        tipoRetorno = cs.getTipoMetodo(llf.idLlamada, arbol);
-                    }
-                    else if (valorRetorno is Date)
-                    {
-                        ClaseDateTime cs = new ClaseDateTime();
-                        cs.expresiones = llf.expresiones;
-                        valorRetorno = cs.getMetodoDateTime(llf.idLlamada, (Date)valorRetorno, arbol);
-                        tipoRetorno = Primitivo.TIPO_DATO.DATE;
-                    }
-                    else if (valorRetorno is TimeSpan)
-                    {
-                        ClaseDateTime cs = new ClaseDateTime();
-                        cs.expresiones = llf.expresiones;
-                        valorRetorno = cs.getMetodoTime(llf.idLlamada, (TimeSpan)valorRetorno, arbol);
-                        tipoRetorno = Primitivo.TIPO_DATO.TIME;
-                    }
-                    else if (valorRetorno is ListCQL)
-                    {
-                        ListCQL list = (ListCQL)valorRetorno;
-                        //verifico el nombre del método para aplicarlo
-                        list.expresiones = llf.expresiones;
-                        valorRetorno = list.getMetodo(arbol, llf.idLlamada);
-                        tipoRetorno = list.getTipoMetodo(llf.idLlamada);
-                    } else if (valorRetorno is SetCQL) {
-                        SetCQL list = (SetCQL)valorRetorno;
-                        //verifico el nombre del método para aplicarlo
-                        list.expresiones = llf.expresiones;
-                        valorRetorno = list.getMetodo(arbol, llf.idLlamada);
-                        tipoRetorno = list.getTipoMetodo(llf.idLlamada);
-                    } else if (valorRetorno is MapCQL)
-                    {
-                        MapCQL list = (MapCQL)valorRetorno;
-                        //verifico el nombre del método para aplicarlo
-                        list.expresiones = llf.expresiones;
-                        valorRetorno = list.getMetodo(arbol, llf.idLlamada);
-                        tipoRetorno = list.getTipoMetodo(llf.idLlamada);
-                    }
-                }
-            }*/
 
             return tipoRetorno;
         }

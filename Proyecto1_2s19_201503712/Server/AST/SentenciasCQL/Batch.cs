@@ -27,10 +27,10 @@ namespace Server.AST.SentenciasCQL
                     if (val != null)
                     {
                         arbol.entorno = arbol.entorno.padre;
-                        if (val is Catch.EXCEPTION) {
-                            return Catch.EXCEPTION.BatchException;
+                        if (val is ExceptionCQL)
+                        {
+                            return val;
                         }
-                        return val;
                     }
                 }
             }

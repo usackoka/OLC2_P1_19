@@ -8,9 +8,9 @@ namespace Server.AST.ExpresionesCQL
 {
     public class Throw : Sentencia
     {
-        Catch.EXCEPTION exception;
+        ExceptionCQL.EXCEPTION exception;
 
-        public Throw(Catch.EXCEPTION exception, int fila, int columna) {
+        public Throw(ExceptionCQL.EXCEPTION exception, int fila, int columna) {
             this.exception = exception;
             this.fila = fila;
             this.columna = columna;
@@ -18,7 +18,7 @@ namespace Server.AST.ExpresionesCQL
 
         public override object Ejecutar(AST_CQL arbol)
         {
-            return exception;
+            return new ExceptionCQL(this.exception,"",fila,columna);
         }
     }
 }

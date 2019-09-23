@@ -23,11 +23,19 @@ namespace Server.AST.SentenciasCQL
         {
             foreach (KeyValuePair<String, Expresion> kvp in kv) {
                 Object valor = Primitivo.getDefecto(tipoDato, arbol);
+
                 if (kvp.Value!=null) {
                     valor = kvp.Value.getValor(arbol);
+                    if (valor is ExceptionCQL)
+                    {
+                        return valor;
+                    }
                     //falta verificar que el tipo a asignar sea igual que el tipo de la variable
                 }
-                arbol.entorno.addVariable(kvp.Key, new Variable(valor, tipoDato),arbol,fila,columna);
+                Object v = arbol.entorno.addVariable(kvp.Key, new Variable(valor, tipoDato),arbol,fila,columna);
+                if (v is ExceptionCQL) {
+                    return v;
+                }
             }
 
             return null;

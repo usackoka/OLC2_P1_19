@@ -1,6 +1,4 @@
 //pendientes
-.message (exception)
-throw (probar)
 Paquete de fin de sesión  (lup)
 guardar
 terminar bloques

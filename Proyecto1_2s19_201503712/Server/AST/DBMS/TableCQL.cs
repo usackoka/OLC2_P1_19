@@ -90,7 +90,7 @@ namespace Server.AST.DBMS
                         if (column.primaryKey)
                         {
                             arbol.addError("EXCEPTION.ColumnException: " + column.id, "No se puede eliminar una columna PrimaryKey", fila, columna);
-                            return Catch.EXCEPTION.ColumnException;
+                            return new ExceptionCQL(ExceptionCQL.EXCEPTION.ColumnException, "Columna: "+column.id + " No se puede eliminar una columna PrimaryKey", fila, columna);
                         }
                         columnasEliminar.Add(column);
                     }
@@ -198,7 +198,7 @@ namespace Server.AST.DBMS
                                     {
                                         arbol.entorno = arbol.entorno.padre;
                                         arbol.addError("EXCEPTION.NullPointerException", "No se puede hacer un acceso a una columna de tipo: " + column.tipoDato, fila, col);
-                                        return Catch.EXCEPTION.NullPointerException;
+                                        return new ExceptionCQL(ExceptionCQL.EXCEPTION.NullPointerException, "No se puede hacer un acceso a una columna de tipo: " + column.tipoDato,fila,col);
                                     }
                                 }
                                 else if (asc.referencia != null) {
@@ -301,7 +301,7 @@ namespace Server.AST.DBMS
                                     {
                                         arbol.entorno = arbol.entorno.padre;
                                         arbol.addError("EXCEPTION.NullPointerException", "No se puede hacer un acceso a una columna de tipo: " + column.tipoDato, fila, col);
-                                        return Catch.EXCEPTION.NullPointerException;
+                                        return new ExceptionCQL(ExceptionCQL.EXCEPTION.NullPointerException, "No se puede hacer un acceso a una columna de tipo: " + column.tipoDato,fila,col);
                                     }
                                 }
                             }
@@ -347,7 +347,7 @@ namespace Server.AST.DBMS
                             if (columna.tipoDato.Equals(Primitivo.TIPO_DATO.COUNTER))
                             {
                                 arbol.addError("EXCEPTION.CounterTypeException: " + this.id, "No puede asignar valor a la columna: " + columna.id + " ya que es de tipo Counter", fila, col);
-                                return Catch.EXCEPTION.CounterTypeException;
+                                return new ExceptionCQL(ExceptionCQL.EXCEPTION.CounterTypeException,"Table: "+this.id+" No puede asignar valor a la columna: " + columna.id + " ya que es de tipo Counter",fila,col);
                             }
                             existe = true;
                             break;
@@ -356,7 +356,7 @@ namespace Server.AST.DBMS
                     if (!existe)
                     {
                         arbol.addError("EXCEPTION.ColumnException", "No existe la columna con nombre: " + idColumna + " para el insert en tabla: " + this.id, fila, col);
-                        return Catch.EXCEPTION.ColumnException;
+                        return new ExceptionCQL(ExceptionCQL.EXCEPTION.ColumnException, "No existe la columna con nombre: " + idColumna + " para el insert en tabla: " + this.id,fila,col);
                     }
                 }
 
@@ -398,13 +398,13 @@ namespace Server.AST.DBMS
                 if (contieneColumnaCounter())
                 {
                     arbol.addError("EXCEPTION.CounterTypeException: " + this.id, "La tabla contiene una columna de tipo Counter, debe usar la insercion especial", fila, col);
-                    return Catch.EXCEPTION.CounterTypeException;
+                    return new ExceptionCQL(ExceptionCQL.EXCEPTION.CounterTypeException, "La tabla: "+this.id+" contiene una columna de tipo Counter, debe usar la insercion especial",fila,col);
                 }
 
                 if (this.data.Count != values.Count)
                 {
                     arbol.addError("EXCEPTION.ValuesException: " + this.id, "No existe la misma cantidad de valores asignados a las columnas", fila, col);
-                    return Catch.EXCEPTION.ValuesException;
+                    return new ExceptionCQL(ExceptionCQL.EXCEPTION.ValuesException, "No existe la misma cantidad de valores asignados a las columnas, en tabla: "+this.id,fila,col);
                 }
 
                 int indexValor = 0;

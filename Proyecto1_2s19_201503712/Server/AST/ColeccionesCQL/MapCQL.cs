@@ -251,7 +251,7 @@ namespace Server.AST.ColeccionesCQL
             else
             {
                 arbol.addError("EXCEPTION.IndexOutException", "(REMOVE, MAP), no contiene la clave: " + key, fila, columna);
-                return Catch.EXCEPTION.IndexOutException;
+                return new ExceptionCQL(ExceptionCQL.EXCEPTION.IndexOutException, "(Remove, Map)  no contiene la clave: " + key, fila, columna);
             }
         }
 
@@ -273,7 +273,7 @@ namespace Server.AST.ColeccionesCQL
             else
             {
                 arbol.addError("EXCEPTION.IndexOutException", "(GET, MAP), no contiene la clave: "+key, fila, columna);
-                return Catch.EXCEPTION.IndexOutException;
+                return new ExceptionCQL(ExceptionCQL.EXCEPTION.IndexOutException, "(get, Map)  no contiene la clave: " + key, fila, columna);
             }
             
         }
@@ -293,7 +293,7 @@ namespace Server.AST.ColeccionesCQL
             else
             {
                 arbol.addError("EXCEPTION.IndexOutException", "(SET, MAP), no contiene la clave: " + key, fila, columna);
-                return Catch.EXCEPTION.IndexOutException;
+                return new ExceptionCQL(ExceptionCQL.EXCEPTION.IndexOutException, "(set, Map)  no contiene la clave: " + key, fila, columna);
             }
 
             return null;

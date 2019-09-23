@@ -17,12 +17,13 @@ namespace Server.AST
             this.tablaSimbolos = new TablaSimbolos();
         }
 
-        public void addVariable(String key, Variable value, AST_CQL arbol, int fila, int columna) {
+        public Object addVariable(String key, Variable value, AST_CQL arbol, int fila, int columna) {
             if (this.tablaSimbolos.ContainsKey(key)) {
-                arbol.addError("EXCEPTION","Ya existe la variable con id:"+key+" declarada en este ámbito",fila,columna);
-                return;
+                arbol.addError("ExceptionCQL.EXCEPTION.ObjectAlreadyExists", "Ya existe la variable con id:"+key+" declarada en este ámbito",fila,columna);
+                return new ExceptionCQL(ExceptionCQL.EXCEPTION.ObjectAlreadyExists, "Ya existe la variable con id:" + key + " declarada en este ámbito",fila,columna);
             }
             this.tablaSimbolos.Add(key, value);
+            return null;
         }
 
         public Object getTipoVariable(String id, AST_CQL arbol, int fila, int columna)
@@ -36,7 +37,7 @@ namespace Server.AST
                 if (this.padre == null)
                 {
                     arbol.addError(id, "No se encontró la variable: " + id + " en ningún ambito (getTipoVariable)", fila, columna);
-                    return new Null();
+                    return new ExceptionCQL(ExceptionCQL.EXCEPTION.NullPointerException, "No se encontró la variable: " + id + " en ningún ambito (getTipoVariable)",fila,columna);
                 }
                 else
                 {
@@ -54,7 +55,7 @@ namespace Server.AST
                 if (this.padre == null)
                 {
                     arbol.addError(id,"No se encontró la variable: "+id+" en ningún ambito (getValorVariable)",fila,columna);
-                    return new Null();
+                    return new ExceptionCQL(ExceptionCQL.EXCEPTION.NullPointerException, "No se encontró la variable: " + id + " en ningún ambito (getValorVariable)", fila, columna);
                 }
                 else {
                     return this.padre.getValorVariable(id, arbol, fila, columna);
@@ -73,7 +74,7 @@ namespace Server.AST
                 if (this.padre == null)
                 {
                     arbol.addError(id, "No se encontró la variable: " + id + " en ningún ambito (getVariable)", fila, columna);
-                    return new Null();
+                    return new ExceptionCQL(ExceptionCQL.EXCEPTION.NullPointerException, "No se encontró la variable: " + id + " en ningún ambito (getVariable)", fila, columna);
                 }
                 else
                 {
