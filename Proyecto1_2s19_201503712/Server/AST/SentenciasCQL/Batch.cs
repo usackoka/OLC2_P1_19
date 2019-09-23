@@ -19,6 +19,10 @@ namespace Server.AST.SentenciasCQL
         public override object Ejecutar(AST_CQL arbol)
         {
             arbol.entorno = new Entorno(arbol.entorno);
+            //commit para guardar si hay algún error y hacer rollback
+            Commit c = new Commit(fila,columna);
+            c.Ejecutar(arbol);
+
             foreach (NodoCQL nodo in this.instrucciones)
             {
                 if (nodo is Sentencia)
@@ -29,6 +33,9 @@ namespace Server.AST.SentenciasCQL
                         arbol.entorno = arbol.entorno.padre;
                         if (val is ExceptionCQL)
                         {
+                            //rollback
+                            RollBack r = new RollBack(fila,columna);
+                            r.Ejecutar(arbol);
                             return val;
                         }
                     }

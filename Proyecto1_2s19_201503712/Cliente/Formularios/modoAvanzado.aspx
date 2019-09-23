@@ -98,11 +98,7 @@
                 <select id="desplegable" class="btn btn-outline-success my-2 my-sm-0"></select>
                 &nbsp; &nbsp;
                     <input type="file" id="openfile" value="Nueva Pestaña" class="form-control mr-sm-2" lang="es"/>
-                <%--<button class="btn btn-dark" onclick="AnalizarLUP()">Analizar LUP</button>--%>
-                <%--<form id="form1" runat="server">
-                    <asp:HiddenField ID="hdCadena" runat="server" />
-                    <asp:Button class="btn btn-dark" runat="server" OnClientClick="AlmacenarTexto()" OnClick="Unnamed_Click" Text="Analizar CQL"></asp:Button>
-                </form>--%>
+                    <button onclick="saveTextAsFile()">Guardar Como</button>
             </div>
 
             <div id="divEditorTexto">
@@ -140,6 +136,33 @@
                 </div>
             </div>
         </div>
+
+        <script>
+            function saveTextAsFile()
+            {
+                var textFileAsBlob = new Blob([txtEntrada.getValue()], { type: 'text/plain' }); 
+                var downloadLink = document.createElement("a");
+                downloadLink.download = prompt("Nombre del archivo");
+    	        downloadLink.innerHTML = "Guardar Como";
+    	        if (window.webkitURL != null)
+    	        {
+    		        //Chrome allows the link to be clicked
+    		        //without actually adding it to the DOM.
+    		        downloadLink.href = window.webkitURL.createObjectURL(textFileAsBlob);
+    	        }
+    	        else
+    	        {
+    		        //Firefox requires the link to be added to the DOM
+    		        //before it can be clicked.
+    		        downloadLink.href = window.URL.createObjectURL(textFileAsBlob);
+    		        downloadLink.onclick = destroyClickedElement;
+    		        downloadLink.style.display = "none";
+    		        document.body.appendChild(downloadLink);
+    	        }
+    
+    	        downloadLink.click();
+            }
+        </script>
 
         <script src="../Jison/Analizador.js"></script>
         <script>
@@ -215,6 +238,7 @@
                 divTablaErrores.innerHTML = tablaErrores;
                 document.getElementById('divErrores').appendChild(divTablaErrores);
             }
+
         </script>
 
         <script>

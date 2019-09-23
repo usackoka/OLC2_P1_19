@@ -1,6 +1,5 @@
 //pendientes
-batch (Descartar cualquier instrucción ejecutada al detectar error)
-guardar
+programado, falta probar //batch (Descartar cualquier instrucción ejecutada al detectar error)
 terminar bloques
 arreglar bug cursor
 arbol de información LUP

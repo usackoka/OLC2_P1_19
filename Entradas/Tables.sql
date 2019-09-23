@@ -195,6 +195,13 @@ CLOSE @ccc;
 
 //commit;
 
+BEGIN BATCH
+INSERT INTO Estudiante(nombres,carnet) values("Esto no se guardará",200000);
+INSERT INTO Estudiante(nombres,carnet) values("Esto no se guardará",200001);
+INSERT INTO Estudiante(nombres,carnet) values("Esto no se guardará",200002);
+INSERT INTO Estudiante values("Esto no se guardará",200003);
+APPLY BATCH;
+
 SELECT * FROM Estudiante Order by carnet asc;
 
 log(count(<<SELECT * FROM Estudiante LIMIT 4>>));

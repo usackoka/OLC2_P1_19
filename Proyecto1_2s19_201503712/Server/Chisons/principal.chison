@@ -1,9 +1,342 @@
 $<
-"DATABASES"=[],
+"DATABASES"=[
+<
+"NAME"="virtual",
+"DATA"= [   <
+   "CQL-TYPE" = "TABLE",
+   "NAME" = "estudiante",
+   "COLUMNS" = [
+       <
+       "NAME"="carnet",
+       "TYPE"="INT",
+       "PK"=TRUE
+       >,
+       <
+       "NAME"="contador",
+       "TYPE"="COUNTER",
+       "PK"=FALSE
+       >,
+       <
+       "NAME"="comidas_favoritas",
+       "TYPE"="SET<STRING>",
+       "PK"=FALSE
+       >,
+       <
+       "NAME"="nombres",
+       "TYPE"="STRING",
+       "PK"=FALSE
+       >,
+       <
+       "NAME"="apellidos",
+       "TYPE"="STRING",
+       "PK"=FALSE
+       >,
+       <
+       "NAME"="fecha_nacimiento",
+       "TYPE"="DATE",
+       "PK"=FALSE
+       >,
+       <
+       "NAME"="pet",
+       "TYPE"="mascota",
+       "PK"=FALSE
+       >,
+       <
+       "NAME"="facultad",
+       "TYPE"="STRING",
+       "PK"=FALSE
+       >,
+       <
+       "NAME"="edad",
+       "TYPE"="INT",
+       "PK"=FALSE
+       >,
+       <
+       "NAME"="notas_cursos",
+       "TYPE"="MAP<STRING,INT>",
+       "PK"=FALSE
+       >,
+       <
+       "NAME"="numeros_favoritos",
+       "TYPE"="LIST<INT>",
+       "PK"=FALSE
+       >],
+   "DATA" = [
+       <
+       "carnet"=201503712,
+       "contador"=0,
+       "comidas_favoritas"=["kakik","pizza","pollo en crema","shucos de la U","taco-bell"],
+       "nombres"="Oscar René",
+       "apellidos"="Cuéllar Mancillar",
+       "fecha_nacimiento"='1997-9-23',
+       "pet"=       <
+"nombre"=Null,"raza"="Electrico","edad"=0       >
+,
+       "facultad"="Ingeniería",
+       "edad"=22,
+       "notas_cursos"=<"logica"=35,"mate2"=90,"mate1"=99,"compi2"=61,"social"=45>,
+       "numeros_favoritos"=[7,9]
+       >,
+       <
+       "carnet"=201513629,
+       "contador"=1,
+       "comidas_favoritas"=["shucos de la U"],
+       "nombres"="Alba Jeanneeth",
+       "apellidos"="Chinchilla Morales",
+       "fecha_nacimiento"='1997-9-23',
+       "pet"=       <
+"nombre"=Null,"raza"="Electrico","edad"=0       >
+,
+       "facultad"="Ingeniería",
+       "edad"=22,
+       "notas_cursos"=<"logica"=35,"mate2"=90,"mate1"=99,"compi2"=61,"social"=45>,
+       "numeros_favoritos"=[0]
+       >,
+       <
+       "carnet"=201504028,
+       "contador"=2,
+       "comidas_favoritas"=["shucos de la U"],
+       "nombres"="Rodney Estuardo",
+       "apellidos"="Lopez Marroquín",
+       "fecha_nacimiento"='1997-9-23',
+       "pet"=       <
+"nombre"=Null,"raza"="Electrico","edad"=0       >
+,
+       "facultad"="Ingeniería",
+       "edad"=22,
+       "notas_cursos"=<"logica"=35,"mate2"=90,"mate1"=99,"compi2"=61,"social"=45>,
+       "numeros_favoritos"=[0]
+       >,
+       <
+       "carnet"=201408486,
+       "contador"=4,
+       "comidas_favoritas"=["shucos de la U"],
+       "nombres"="Sharolin Guadalupe",
+       "apellidos"="Lacunza González",
+       "fecha_nacimiento"='1996-9-23',
+       "pet"=       <
+"nombre"=Null,"raza"="Electrico","edad"=0       >
+,
+       "facultad"="Ingeniería",
+       "edad"=23,
+       "notas_cursos"=<"logica"=35,"mate2"=90,"mate1"=99,"compi2"=61,"social"=45>,
+       "numeros_favoritos"=[0]
+       >,
+       <
+       "carnet"=201504480,
+       "contador"=5,
+       "comidas_favoritas"=["shucos de la U"],
+       "nombres"="David Andres",
+       "apellidos"="Alcazar Escobar",
+       "fecha_nacimiento"='1997-9-23',
+       "pet"=       <
+"nombre"=Null,"raza"="Electrico","edad"=0       >
+,
+       "facultad"="Ingeniería",
+       "edad"=22,
+       "notas_cursos"=<"logica"=35,"mate2"=90,"mate1"=99,"compi2"=61,"social"=45>,
+       "numeros_favoritos"=[0]
+       >,
+       <
+       "carnet"=201503865,
+       "contador"=6,
+       "comidas_favoritas"=["shucos de la U"],
+       "nombres"="Julia Argentina",
+       "apellidos"="Sierra Herrera",
+       "fecha_nacimiento"='1996-9-23',
+       "pet"=       <
+"nombre"=Null,"raza"="Electrico","edad"=0       >
+,
+       "facultad"="Ingeniería",
+       "edad"=23,
+       "notas_cursos"=<"logica"=35,"mate2"=90,"mate1"=99,"compi2"=61,"social"=45>,
+       "numeros_favoritos"=[0]
+       >,
+       <
+       "carnet"=201318570,
+       "contador"=7,
+       "comidas_favoritas"=["shucos de la U"],
+       "nombres"="Mitchel Andrea",
+       "apellidos"="Cano Marroquín",
+       "fecha_nacimiento"='1996-9-23',
+       "pet"=       <
+"nombre"=Null,"raza"="Electrico","edad"=0       >
+,
+       "facultad"="Ingeniería",
+       "edad"=23,
+       "notas_cursos"=<"logica"=35,"mate2"=90,"mate1"=99,"compi2"=61,"social"=45>,
+       "numeros_favoritos"=[0]
+       >,
+       <
+       "carnet"=201602929,
+       "contador"=8,
+       "comidas_favoritas"=["shucos de la U"],
+       "nombres"="Sebastián",
+       "apellidos"="Gómez Lavarreda",
+       "fecha_nacimiento"='1998-9-23',
+       "pet"=       <
+"nombre"=Null,"raza"="Electrico","edad"=0       >
+,
+       "facultad"="Ingeniería",
+       "edad"=21,
+       "notas_cursos"=<"logica"=35,"mate2"=90,"mate1"=99,"compi2"=61,"social"=45>,
+       "numeros_favoritos"=[0]
+       >,
+       <
+       "carnet"=201503666,
+       "contador"=9,
+       "comidas_favoritas"=["shucos de la U"],
+       "nombres"="Miguel Angel Omar",
+       "apellidos"="Ruano Roca",
+       "fecha_nacimiento"='1995-9-23',
+       "pet"=       <
+"nombre"=Null,"raza"="Electrico","edad"=0       >
+,
+       "facultad"="Ingeniería",
+       "edad"=24,
+       "notas_cursos"=<"logica"=35,"mate2"=90,"mate1"=99,"compi2"=61,"social"=45>,
+       "numeros_favoritos"=[0]
+       >,
+       <
+       "carnet"=201504429,
+       "contador"=10,
+       "comidas_favoritas"=["shucos de la U"],
+       "nombres"="Gustavo Adolfo",
+       "apellidos"="Gamboa Cruz",
+       "fecha_nacimiento"='1996-9-23',
+       "pet"=       <
+"nombre"=Null,"raza"="Electrico","edad"=0       >
+,
+       "facultad"="Ingeniería",
+       "edad"=23,
+       "notas_cursos"=<"logica"=35,"mate2"=90,"mate1"=99,"compi2"=61,"social"=45>,
+       "numeros_favoritos"=[0]
+       >]
+   >
+,   <
+   "CQL-TYPE" = "TABLE",
+   "NAME" = "libro",
+   "COLUMNS" = [
+       <
+       "NAME"="cod_libro",
+       "TYPE"="COUNTER",
+       "PK"=TRUE
+       >,
+       <
+       "NAME"="nombre",
+       "TYPE"="STRING",
+       "PK"=FALSE
+       >,
+       <
+       "NAME"="serie",
+       "TYPE"="STRING",
+       "PK"=FALSE
+       >,
+       <
+       "NAME"="folio",
+       "TYPE"="STRING",
+       "PK"=FALSE
+       >],
+   "DATA" = []
+   >
+,   <
+   "CQL-TYPE" = "TABLE",
+   "NAME" = "prestamo",
+   "COLUMNS" = [
+       <
+       "NAME"="carnet",
+       "TYPE"="INT",
+       "PK"=FALSE
+       >,
+       <
+       "NAME"="cod_libro",
+       "TYPE"="INT",
+       "PK"=FALSE
+       >,
+       <
+       "NAME"="",
+       "TYPE"="",
+       "PK"=FALSE
+       >],
+   "DATA" = []
+   >
+,   <
+   "CQL-TYPE"="OBJECT",
+   "NAME"="mascota",
+   "ATTRS"=[
+       <"NAME"="nombre",
+"TYPE"="STRING"
+        >,
+       <"NAME"="raza",
+"TYPE"="STRING"
+        >,
+       <"NAME"="edad",
+"TYPE"="INT"
+        >]
+   >
+,   <
+   "CQL-TYPE"="PROCEDURE",
+   "NAME"="ejemplo_procedure",
+   "PARAMETERS"=[
+   <   "NAME"="n",
+   "TYPE"="INT",
+   "AS"=IN
+   >,
+   <   "NAME"="p",
+   "TYPE"="INT",
+   "AS"=IN
+   >,
+   <   "NAME"="retorno1",
+   "TYPE"="INT",
+   "AS"=OUT
+   >,
+   <   "NAME"="ret2",
+   "TYPE"="INT",
+   "AS"=OUT
+   >],
+   "INSTR"= $if ( @ n == 0 ) { return 1 ,2 ; } else { return @ n ,@ n * 2 ; } $
+   >
+,   <
+   "CQL-TYPE"="PROCEDURE",
+   "NAME"="ejemplo_procedure",
+   "PARAMETERS"=[
+   <   "NAME"="n",
+   "TYPE"="INT",
+   "AS"=IN
+   >,
+   <   "NAME"="mensaje",
+   "TYPE"="STRING",
+   "AS"=IN
+   >,
+   <   "NAME"="ret1",
+   "TYPE"="INT",
+   "AS"=OUT
+   >,
+   <   "NAME"="ret2",
+   "TYPE"="STRING",
+   "AS"=OUT
+   >],
+   "INSTR"= $if ( @ n == 0 ) { return 1 ,"" ; } else { return @ n * 2 ,@ mensaje + " Devuelto" ; } $
+   >
+,   <
+   "CQL-TYPE"="PROCEDURE",
+   "NAME"="getcursor",
+   "PARAMETERS"=[
+   <   "NAME"="cur",
+   "TYPE"="CURSOR",
+   "AS"=OUT
+   >],
+   "INSTR"= $log ( "hola estoy dentro de esta mierda D:" ) ; CURSOR @ cc is SELECT nombres FROM Estudiante ; return @ cc ; $
+   >
+]
+>],
 "USERS"=[
 <
 "NAME"="admin",
 "PASSWORD"="admin",
-"PERMISSIONS"= []
+"PERMISSIONS"= [
+   <"NAME"="virtual"
+   >]
 >]
+
 >$
