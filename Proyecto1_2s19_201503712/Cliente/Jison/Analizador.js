@@ -120,12 +120,112 @@ var error = new TokenError(); error.lexema = $$[$0-14]; error.fila = $$[$0-11]; 
 			error.tipo = $$[$0-5]; error.descripcion = $$[$0-2];
 			this.$ = error;
 break;
-case 20:
+case 22:
 
-	var data_base = {};
-	data_base.
-	ast.dbms[ast.contDBMS++] = $$[$0-3];
+	var db = {};
+	db.name = $$[$0-7];
+	db.tables = $$[$0-4];
+	db.types = $$[$0-2];
+	db.procedures = $$[$0];
+	ast.dbms.dataBases[ast.dbms.contDataBase++] = db;
 
+break;
+case 23: case 29: case 33:
+
+	this.$ = $$[$0-1];
+
+break;
+case 24: case 30: case 34:
+
+		this.$ = {};
+	
+break;
+case 25:
+
+		var tab = {};
+		var tables = $$[$0-6];
+		tab.columns = $$[$0-1];
+		tab.name = $$[$0-3];
+		tables[ast.dbms.contTab++] = tab;
+		this.$ = tables;
+	
+break;
+case 26:
+
+		var tab = {};
+		var tables = {};
+		tab.columns = $$[$0-1];
+		tab.name = $$[$0-3];
+		ast.dbms.contTab = 0;
+		tables[ast.dbms.contTab++] = tab;
+		this.$ = tables;
+	
+break;
+case 27:
+
+		var columns = $$[$0-3];
+		columns[ast.dbms.contColumns++] = $$[$0-1];
+		this.$ = columns;
+	
+break;
+case 28:
+
+		var columns = {};
+		ast.dbms.contColumns = 0;
+		columns[ast.dbms.contColumns++] = $$[$0-1];
+		this.$ = columns;
+	
+break;
+case 31:
+
+	var typ = {};
+	var types = $$[$0-6];
+	typ.atrs = $$[$0-1];
+	typ.name = $$[$0-3];
+	types[ast.dbms.contTypes++] = typ;
+	this.$ = types;
+
+break;
+case 32:
+
+		var typ = {};
+		var types = {};
+		typ.atrs = $$[$0-1];
+		typ.name = $$[$0-3];
+		ast.dbms.contTypes = 0;
+		types[ast.dbms.contTypes++] = typ;
+		this.$ = types;
+	
+break;
+case 35:
+
+	var procedures = $$[$0-3];
+	procedures[ast.dbms.contProcedures++] = $$[$0-1];
+	this.$ = procedures;
+
+break;
+case 36:
+
+		var procedures = {};
+		ast.dbms.contProcedures = 0;
+		procedures[ast.dbms.contProcedures++] = $$[$0-1];
+		this.$ = procedures;
+	
+break;
+case 37:
+
+	var atrs = $$[$0-3];
+	atrs[ast.dbms.contAtrs++] = $$[$0-1];
+	this.$ = atrs;
+
+break;
+case 38:
+
+		var atrs = {};
+		ast.dbms.contAtrs = 0;
+		atrs[ast.dbms.contAtrs++] = $$[$0-1];
+		this.$ = atrs;
+	
 break;
 case 39: case 40:
 this.$ = $$[$0-1]+$$[$0];
@@ -302,7 +402,17 @@ parse: function parse(input) {
     	this.data = {};
     	this.errores = {};
 	    this.mensajes = {};
-	    this.dbms = {};
+	    this.dbms = new Estruct();
+    }
+
+    function Estruct(){
+    	this.contProcedures = 0;
+    	this.contAtrs = 0;
+    	this.contColumns = 0;
+    	this.contTypes = 0;
+    	this.contTab = 0;
+    	this.contDataBase = 0;
+    	this.dataBases = {};
     }
 
     var ast = new AST_LUP();

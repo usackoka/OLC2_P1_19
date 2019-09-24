@@ -2,94 +2,50 @@
 <html>
 <head>
 	<title></title>
-    <link rel="stylesheet" href="css/bootstrap-reboot.min.css" />
-    <link rel="stylesheet" href="css/bootstrap-reboot.css" />
-    <link rel="stylesheet" href="css/bootstrap-grid.min.css" />
-    <link rel="stylesheet" href="css/bootstrap-grid.css" />
-    <link rel="stylesheet" href="css/bootstrap.css" />
-    <link rel="stylesheet" href="css/bootstrap.min.css" />
-    <script type="text/javascript" src="js/bootstrap.bundle.js"></script>
-    <script type="text/javascript" src="js/bundle.min.js"></script>
-    <script type="text/javascript" src="js/bootstrap.js"></script>
-    <script type="text/javascript" src="js/bootstrap.min.js"></script>
 
     <link rel="stylesheet" href="ind.css" />
 </head>
 <body>
 
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<!------ Include the above in your HEAD tag ---------->
+<div>
+   <%-- =================== BEGIN ARBOLITO ======================= --%>
+                    <ul id="myUL">
+                      <li><span class="caret">Beverages</span>
+                        <ul class="nested">
+                          <li>Water</li>
+                          <li>Coffee</li>
+                          <li><span class="caret">Tea</span>
+                            <ul class="nested">
+                              <li>Black Tea</li>
+                              <li>White Tea</li>
+                              <li><span class="caret">Green Tea</span>
+                                <ul class="nested">
+                                  <li>Sencha</li>
+                                  <li>Gyokuro</li>
+                                  <li>Matcha</li>
+                                  <li>Pi Lo Chun</li>
+                                </ul>
+                              </li>
+                            </ul>
+                          </li>
+                        </ul>
+                      </li>
+                    </ul>
 
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"> 
-<!---- Must Add above thing or you can use alternative icons or CSS Entities---->
+                    <script type="text/javascript">
+                      var toggler = document.getElementsByClassName("caret");
+                      var i;
 
-<div class="tree ">
-<ul>
-
-<li><span><a style="color:#000; text-decoration:none;" data-toggle="collapse" href="#Web" aria-expanded="true" aria-controls="Web"><i class="collapsed"><i class="fas fa-folder"></i></i>
-<i class="expanded"><i class="far fa-folder-open"></i></i> Web</a></span>
-<div id="Web" class="collapse show">
-<ul>
- <li><span><i class="far fa-file"></i><a href="#!"> Link 1</a></span></li>
- <li><span><a style="color:#000; text-decoration:none;" data-toggle="collapse" href="#page1" aria-expanded="false" aria-controls="page1"><i class="collapsed"><i class="fas fa-folder"></i></i>
-<i class="expanded"><i class="far fa-folder-open"></i></i> Page 1</a></span>
-   <ul><div id="page1" class="collapse">
-     <li><span><i class="far fa-file"></i><a href="#!"> Link 1</a></span></li>
-     <li><span><i class="far fa-file"></i><a href="#!"> Link 2</a></span></li>
-     <li><span><i class="far fa-file"></i><a href="#!"> Link 3</a></span></li>
-     <li><span><i class="far fa-file"></i><a href="#!"> Link 4</a></span></li></div>
-   </ul>
- </li>
-
-
-<li><span><a style="color:#000; text-decoration:none;" data-toggle="collapse" href="#Page2" aria-expanded="false" aria-controls="Page2"><i class="collapsed"><i class="fas fa-folder"></i></i>
-<i class="expanded"><i class="far fa-folder-open"></i></i> Page 2</a></span>
-  <ul><div id="Page2" class="collapse">
-    <li><span><a style="color:#000; text-decoration:none;" data-toggle="collapse" href="#folder1" aria-expanded="false" aria-controls="folder1"><i class="collapsed"><i class="fas fa-folder"></i></i>
-<i class="expanded"><i class="far fa-folder-open"></i></i> Folder 1</a></span>
-       <ul><div id="folder1" class="collapse">
-         <li><span><i class="far fa-file"></i><a href="#!"> Link 1</a></span></li>
-         <li><span><i class="far fa-file"></i><a href="#!"> Link 2</a></span></li>
-         <li><span><i class="far fa-file"></i><a href="#!"> Link 3</a></span> <a href="#!">& More Link</a></li></div>
-       </ul>
-      </li>
-
-      <li><span><a style="color:#000; text-decoration:none;" data-toggle="collapse" href="#folder2" aria-expanded="false" aria-controls="folder2"><i class="collapsed"><i class="fas fa-folder"></i></i>
-<i class="expanded"><i class="far fa-folder-open"></i></i> Folder 2</a></span>
-       <ul><div id="folder2" class="collapse">
-        <li><span><i class="far fa-file"></i><a href="#!"> Link 1</a></span></li>
-        <li><span><i class="far fa-file"></i><a href="#!"> Link 2</a></span></li>
-        <li><span><i class="far fa-file"></i><a href="#!"> Link 3</a></span> <a href="#!">& More Link</a></li></div>
-       </ul>
-      </li>
-                        
-     <li><span><a style="color:#000; text-decoration:none;" data-toggle="collapse" href="#folder3" aria-expanded="false" aria-controls="folder3"><i class="collapsed"><i class="fas fa-folder"></i></i>
-<i class="expanded"><i class="far fa-folder-open"></i></i> Folder 3</a></span>
-       <ul><div id="folder3" class="collapse">
-        <li><span><i class="far fa-file"></i><a href="#!"> Link</a></span> <a href="#!">& More Link</a></li></div>
-       </ul>
-     </li>
-     
-    <li><span><i class="far fa-file"></i><a href="#!"> Link</a></span></li>    
-     
-     </div>
-  </ul>
-</li>
-
-
- <li><span><i class="far fa-file"></i><a href="#!"> Link 2</a></span></li>
-
-
-
-</ul>
+                      for (i = 0; i < toggler.length; i++) {
+                        toggler[i].addEventListener("click", function() {
+                          this.parentElement.querySelector(".nested").classList.toggle("active");
+                          this.classList.toggle("caret-down");
+                        });
+                      }
+                    </script>
+                    <%-- =================== END ARBOLITO ========================= --%>
+                    <textarea>holaaaaaaaaaa</textarea>
 </div>
-</li>
-</ul>
-
-</div>
-
 
 </body>
 </html>

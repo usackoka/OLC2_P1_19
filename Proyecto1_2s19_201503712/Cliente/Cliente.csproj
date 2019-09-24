@@ -647,6 +647,7 @@
     </None>
     <Content Include="Formularios\css\index_style.css" />
     <Content Include="Formularios\css\style.css" />
+    <Content Include="Formularios\css\triviu.css" />
     <Content Include="Formularios\Login.aspx" />
     <Content Include="Formularios\modoAvanzado.aspx" />
     <Content Include="Formularios\modoIntermedio.aspx" />

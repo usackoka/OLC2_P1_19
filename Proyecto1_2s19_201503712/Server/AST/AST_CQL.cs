@@ -129,13 +129,10 @@ namespace Server.AST
                 respuesta += "\n        [-TYPES]";
 
                 //procedures
-
                 respuesta += "\n        [+PROCEDURES]";
                 foreach (Procedure p in db.procedures)
                 {
-                    respuesta += "\n                [+PROCEDURE]";
-                    respuesta += "\n                    [+NAME]" + p.id + "[-NAME]";
-                    respuesta += "\n                [-PROCEDURE]";
+                    respuesta += "\n                [+PROCEDURE]"+p.id+"[-PROCEDURE]";
                 }
                 respuesta += "\n        [-PROCEDURES]";
 

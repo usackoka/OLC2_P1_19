@@ -106,7 +106,17 @@ letras = [A-Za-zÑñ]
     	this.data = {};
     	this.errores = {};
 	    this.mensajes = {};
-	    this.dbms = {};
+	    this.dbms = new Estruct();
+    }
+
+    function Estruct(){
+    	this.contProcedures = 0;
+    	this.contAtrs = 0;
+    	this.contColumns = 0;
+    	this.contTypes = 0;
+    	this.contTab = 0;
+    	this.contDataBase = 0;
+    	this.dataBases = {};
     }
 
     var ast = new AST_LUP();
@@ -171,47 +181,119 @@ ERROR : 'res_errorOpen'
 DBMS : res_dataBasesOpen DATA_BASES res_dataBasesClose
 ;
 
-DATA_BASES : DATA_BASES res_dataBaseOpen CONTENIDO res_dataBaseClose {
-	var data_base = {};
-	data_base.
-	ast.dbms[ast.contDBMS++] = $1;
+DATA_BASES : DATA_BASES res_dataBaseOpen CONTENIDO res_dataBaseClose 
+	| res_dataBaseOpen CONTENIDO res_dataBaseClose 
+;
+
+CONTENIDO : res_nameOpen id res_nameClose res_tablesOpen TABLES res_typesOpen TYPES res_proceduresOpen PROCEDURES {
+	var db = {};
+	db.name = $2;
+	db.tables = $5;
+	db.types = $7;
+	db.procedures = $9;
+	ast.dbms.dataBases[ast.dbms.contDataBase++] = db;
 }
-	| res_dataBaseOpen CONTENIDO res_dataBaseClose
 ;
 
-CONTENIDO : res_nameOpen id res_nameClose res_tablesOpen TABLES res_typesOpen TYPES res_proceduresOpen PROCEDURES
+TABLES : TABLE res_tablesClose {
+	$$ = $1;
+}
+	| res_tablesClose {
+		$$ = {};
+	}
 ;
 
-TABLES : TABLE res_tablesClose
-	| res_tablesClose
+TABLE : TABLE res_tableOpen res_nameOpen id res_nameClose COLUMNAS res_tableClose {
+		var tab = {};
+		var tables = $1;
+		tab.columns = $6;
+		tab.name = $4;
+		tables[ast.dbms.contTab++] = tab;
+		$$ = tables;
+	}
+	| res_tableOpen res_nameOpen id res_nameClose COLUMNAS res_tableClose {
+		var tab = {};
+		var tables = {};
+		tab.columns = $5;
+		tab.name = $3;
+		ast.dbms.contTab = 0;
+		tables[ast.dbms.contTab++] = tab;
+		$$ = tables;
+	}
 ;
 
-TABLE : TABLE res_tableOpen res_nameOpen id res_nameClose COLUMNAS res_tableClose
-	| res_tableOpen res_nameOpen id res_nameClose COLUMNAS res_tableClose
+COLUMNAS : COLUMNAS res_columnOpen id res_columnClose {
+		var columns = $1;
+		columns[ast.dbms.contColumns++] = $3;
+		$$ = columns;
+	}
+	| res_columnOpen id res_columnClose {
+		var columns = {};
+		ast.dbms.contColumns = 0;
+		columns[ast.dbms.contColumns++] = $2;
+		$$ = columns;
+	}
 ;
 
-COLUMNAS : COLUMNAS res_columnOpen id res_columnClose
-	| res_columnOpen id res_columnClose
+TYPES : TYPE res_typesClose {
+	$$ = $1;
+}
+	| res_typesClose {
+		$$ = {};
+	}
 ;
 
-TYPES : TYPE res_typesClose
-	| res_typesClose
+TYPE : TYPE res_typeCQLOpen res_nameOpen id res_nameClose ATRIBUTOS res_typeCQLClose {
+	var typ = {};
+	var types = $1;
+	typ.atrs = $6;
+	typ.name = $4;
+	types[ast.dbms.contTypes++] = typ;
+	$$ = types;
+}
+	| res_typeCQLOpen res_nameOpen id res_nameClose ATRIBUTOS res_typeCQLClose {
+		var typ = {};
+		var types = {};
+		typ.atrs = $5;
+		typ.name = $3;
+		ast.dbms.contTypes = 0;
+		types[ast.dbms.contTypes++] = typ;
+		$$ = types;
+	}
 ;
 
-TYPE : TYPE res_typeCQLOpen res_nameOpen id res_nameClose ATRIBUTOS res_typeCQLClose
-	| res_typeCQLOpen res_nameOpen id res_nameClose ATRIBUTOS res_typeCQLClose
+PROCEDURES : PROCEDURE res_proceduresClose {
+	$$ = $1;
+}
+	| res_proceduresClose {
+		$$ = {};
+	}
 ;
 
-PROCEDURES : PROCEDURE res_proceduresClose
-	| res_proceduresClose
+PROCEDURE : PROCEDURE res_procedureOpen id res_procedureClose {
+	var procedures = $1;
+	procedures[ast.dbms.contProcedures++] = $3;
+	$$ = procedures;
+}
+	| res_procedureOpen id res_procedureClose {
+		var procedures = {};
+		ast.dbms.contProcedures = 0;
+		procedures[ast.dbms.contProcedures++] = $2;
+		$$ = procedures;
+	}
 ;
 
-PROCEDURE : PROCEDURE res_procedureOpen id res_procedureClose
-	| res_procedureOpen id res_procedureClose
-;
-
-ATRIBUTOS : ATRIBUTOS res_atributtesOpen id res_atributtesClose
-	| res_atributtesOpen id res_atributtesClose
+ATRIBUTOS : ATRIBUTOS res_atributtesOpen id res_atributtesClose {
+	var atrs = $1;
+	atrs[ast.dbms.contAtrs++] = $3;
+	$$ = atrs;
+}
+	| res_atributtesOpen id res_atributtesClose {
+		var atrs = {};
+		ast.dbms.contAtrs = 0;
+		atrs[ast.dbms.contAtrs++] = $2;
+		$$ = atrs;
+	}
 ;
 
 T1 : T1 'TODO' {$$ = $1+$2;}

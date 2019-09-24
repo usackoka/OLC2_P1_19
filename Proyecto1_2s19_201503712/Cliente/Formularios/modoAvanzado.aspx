@@ -8,6 +8,7 @@
     <title></title>
     <%-- /////////////////////////////// BOOSTRAP /////////////////////////////////// --%>
     <link rel="stylesheet" href="css/index_style.css" />
+    <link rel="stylesheet" href="css/triviu.css" />
     <link rel="stylesheet" href="css/bootstrap-reboot.min.css" />
     <link rel="stylesheet" href="css/bootstrap-reboot.css" />
     <link rel="stylesheet" href="css/bootstrap-grid.min.css" />
@@ -40,7 +41,7 @@
     <script src="../codeMirror/mode/css/css.js"></script>
     <script src="../codeMirror/keymap/sublime.js"></script>
 </head>
-<body style="background-color:#7A96EE">
+<body style="background-color: #7A96EE">
 
     <%-- //////////////////////////////////// BEGIN BARRA //////////////////////////////////////////////// --%>
     <nav class="navbar navbar-expand-lg navbar-light bg-light navbar-dark bg-dark">
@@ -69,7 +70,7 @@
             <div class="form-inline my-2 my-lg-0">
                 <button class="btn btn-outline-success my-2 my-sm-0" onclick="AnalizarLUP()">Analizar LUP</button>
                 <form id="form1" runat="server" class="form-inline my-2 my-lg-0">
-                    <asp:HiddenField ID="hdCadena" runat="server"/>
+                    <asp:HiddenField ID="hdCadena" runat="server" />
                     <asp:HiddenField ID="hdCierre" runat="server" />
                     <asp:Button class="btn btn-outline-success my-2 my-sm-0" runat="server" OnClientClick="AlmacenarTexto()" OnClick="Unnamed_Click" Text="Analizar CQL"></asp:Button>
                     <asp:Button class="btn btn-outline-success my-2 my-sm-0" runat="server" OnClick="Unnamed_Click1" Text="Cerrar Sesión"></asp:Button>
@@ -96,15 +97,54 @@
         <div id="divContGeneral">
             <div id="divControless">
                 <select id="desplegable" class="btn btn-outline-success my-2 my-sm-0"></select>
+                <button onclick="saveTextAsFile()">Guardar Como</button>
                 &nbsp; &nbsp;
-                    <input type="file" id="openfile" value="Nueva Pestaña" class="form-control mr-sm-2" lang="es"/>
-                    <button onclick="saveTextAsFile()">Guardar Como</button>
+                    <input type="file" id="openfile" value="Nueva Pestaña" class="form-control mr-sm-2" lang="es" />
             </div>
 
             <div id="divEditorTexto">
-                <form id="form_txtEntrada">
-                    <textarea id="txtEntrada"></textarea>
-                </form>
+                <div class="container">
+                    <div class="row">
+                        <style> 
+                            h1 { 
+                                color:Green; 
+                            } 
+                            div.scroll { 
+                                margin:4px, 4px; 
+                                padding:4px; 
+                                background-color: green; 
+                                width: 500px; 
+                                height: 110px; 
+                                overflow-x: hidden; 
+                                overflow-x: auto; 
+                                text-align:justify; 
+                            } 
+                        </style> 
+                        <div class="scroll col order-1 col-md-3" style="height: 500px;" >
+                        <%-- =================== BEGIN ARBOLITO ======================= --%>
+                        <ul id="myUL">
+                        </ul>
+
+                        <script type="text/javascript">
+                            var toggler = document.getElementsByClassName("caret");
+                            var i;
+
+                            for (i = 0; i < toggler.length; i++) {
+                                toggler[i].addEventListener("click", function () {
+                                    this.parentElement.querySelector(".nested").classList.toggle("active");
+                                    this.classList.toggle("caret-down");
+                                });
+                            }
+                        </script>
+                        <%-- =================== END ARBOLITO ========================= --%>
+                        </div>
+                        <div class="col order-2 col-md-8">
+                            <form id="form_txtEntrada">
+                                <textarea id="txtEntrada"></textarea>
+                            </form>
+                        </div>
+                    </div>
+                </div>
                 <div class="tab">
                     <button class="tablinks" onclick="openTab(event, 'Consola')">Consola</button>
                     <button class="tablinks" onclick="openTab(event, 'Paquetes_Enviados')">Paquetes Enviados</button>
@@ -138,29 +178,26 @@
         </div>
 
         <script>
-            function saveTextAsFile()
-            {
-                var textFileAsBlob = new Blob([txtEntrada.getValue()], { type: 'text/plain' }); 
+            function saveTextAsFile() {
+                var textFileAsBlob = new Blob([txtEntrada.getValue()], { type: 'text/plain' });
                 var downloadLink = document.createElement("a");
                 downloadLink.download = prompt("Nombre del archivo");
-    	        downloadLink.innerHTML = "Guardar Como";
-    	        if (window.webkitURL != null)
-    	        {
-    		        //Chrome allows the link to be clicked
-    		        //without actually adding it to the DOM.
-    		        downloadLink.href = window.webkitURL.createObjectURL(textFileAsBlob);
-    	        }
-    	        else
-    	        {
-    		        //Firefox requires the link to be added to the DOM
-    		        //before it can be clicked.
-    		        downloadLink.href = window.URL.createObjectURL(textFileAsBlob);
-    		        downloadLink.onclick = destroyClickedElement;
-    		        downloadLink.style.display = "none";
-    		        document.body.appendChild(downloadLink);
-    	        }
-    
-    	        downloadLink.click();
+                downloadLink.innerHTML = "Guardar Como";
+                if (window.webkitURL != null) {
+                    //Chrome allows the link to be clicked
+                    //without actually adding it to the DOM.
+                    downloadLink.href = window.webkitURL.createObjectURL(textFileAsBlob);
+                }
+                else {
+                    //Firefox requires the link to be added to the DOM
+                    //before it can be clicked.
+                    downloadLink.href = window.URL.createObjectURL(textFileAsBlob);
+                    downloadLink.onclick = destroyClickedElement;
+                    downloadLink.style.display = "none";
+                    document.body.appendChild(downloadLink);
+                }
+
+                downloadLink.click();
             }
         </script>
 
@@ -197,13 +234,13 @@
                     alert("Logout True");
                 } else {
                     document.getElementById('hdCierre').value = "false";
-                    alert("Logout False");
+                    //alert("Logout False");
                 }
 
                 //imprimo los mensajes en la consola
                 for (i in ast.mensajes) {
                     document.getElementById("txtConsola").value +=
-                        (ast.mensajes[i]).toString().replace("[+MESSAGE]", "").replace("[-MESSAGE]", "").replace("\n","");
+                        (ast.mensajes[i]).toString().replace("[+MESSAGE]", "").replace("[-MESSAGE]", "").replace("\n", "");
                 }
 
                 //creo la tabla para las consultas
@@ -237,6 +274,125 @@
                 tablaErrores += "</table>";
                 divTablaErrores.innerHTML = tablaErrores;
                 document.getElementById('divErrores').appendChild(divTablaErrores);
+
+                //creo el arbol que muestra lo de la dbms
+                var myUL = document.getElementById('myUL');
+                for (i in ast.dbms.dataBases) {
+                    var dataBase = ast.dbms.dataBases[i];
+                    var liDb = document.createElement('li');
+                    var span = document.createElement('span');
+                    var ULdb = document.createElement('ul');
+                    ULdb.className = 'nested';
+                    span.className = 'caret';
+                    span.innerHTML = dataBase.name;
+
+                    //tablas
+                    var liTabs = document.createElement('li');
+                    var spanTabs = document.createElement('span');
+                    var ULTabs = document.createElement('ul');
+                    ULTabs.className = 'nested';
+                    spanTabs.className = 'caret';
+                    spanTabs.innerHTML = "Tablas";
+
+                    //UserTypes
+                    var liUser = document.createElement('li');
+                    var spanUser = document.createElement('span');
+                    var ULUser = document.createElement('ul');
+                    ULUser.className = 'nested';
+                    spanUser.className = 'caret';
+                    spanUser.innerHTML = "User Types";
+
+                    //Procedures
+                    var liProc = document.createElement('li');
+                    var spanProc = document.createElement('span');
+                    var ULProc = document.createElement('ul');
+                    ULProc.className = 'nested';
+                    spanProc.className = 'caret';
+                    spanProc.innerHTML = "Procedures";
+
+                    //cargo los procedures
+                    for (k in dataBase.procedures) {
+                        var proc = dataBase.procedures[k];
+                        var liProcedure = document.createElement('li');
+                        liProcedure.innerHTML = proc;
+                        ULProc.appendChild(liProcedure);
+                    }
+
+                    //cargo los userTypes
+                    for (j in dataBase.types) {
+                        var type = dataBase.types[j];
+                        var liType = document.createElement('li');
+                        var spanType = document.createElement('span');
+                        var ULType = document.createElement('ul');
+                        spanType.className = 'caret';
+                        spanType.innerHTML = type.name;
+
+                        //cargo las columnas de las tablas
+                        for (k in type.atrs) {
+                            var nombre = type.atrs[k];
+                            var liAtrs = document.createElement('li');
+                            liAtrs.innerHTML = nombre;
+                            ULType.appendChild(liAtrs);
+                        }
+
+                        liType.appendChild(spanType);
+                        liType.appendChild(ULType);
+                        ULUser.appendChild(liType);
+                    }
+
+                    //cargo las tablas
+                    for (j in dataBase.tables) {
+                        var tabla = dataBase.tables[j];
+                        var liTab = document.createElement('li');
+                        var spanTab = document.createElement('span');
+                        var ULTabla = document.createElement('ul');
+                        spanTab.className = 'caret';
+                        spanTab.innerHTML = tabla.name;
+
+                        //cargo las columnas de las tablas
+                        for (k in tabla.columns) {
+                            var columna = tabla.columns[k];
+                            var liCol = document.createElement('li');
+                            liCol.innerHTML = columna;
+                            ULTabla.appendChild(liCol);
+                        }
+
+                        liTab.appendChild(spanTab);
+                        liTab.appendChild(ULTabla);
+                        ULTabs.appendChild(liTab);
+                    }
+                    
+                    //Procedures
+                    liProc.appendChild(spanProc);
+                    liProc.appendChild(ULProc);
+                    ULdb.appendChild(liProc);
+                    
+                    //UserTypes
+                    liUser.appendChild(spanUser);
+                    liUser.appendChild(ULUser);
+                    ULdb.appendChild(liUser);
+
+                    //tablas
+                    liTabs.appendChild(spanTabs);
+                    liTabs.appendChild(ULTabs);
+                    ULdb.appendChild(liTabs);
+
+                    //global
+                    liDb.appendChild(span);
+                    liDb.appendChild(ULdb);
+                    myUL.appendChild(liDb);
+                }
+
+                var toggler = document.getElementsByClassName("caret");
+                var i;
+
+                for (i = 0; i < toggler.length; i++) {
+                    toggler[i].addEventListener("click", function () {
+                        this.parentElement.querySelector(".nested").classList.toggle("active");
+                        this.classList.toggle("caret-down");
+                    });
+                }
+                //document.getElementById('txtConsola').value = myUL.innerHTML;
             }
 
         </script>
