@@ -8,9 +8,11 @@ namespace Server.AST.SentenciasCQL
 {
     public class RollBack : Sentencia
     {
-        public RollBack(int fila, int columna) {
+        bool batch;
+        public RollBack(int fila, int columna, bool batch) {
             this.fila = fila;
             this.columna = columna;
+            this.batch = batch;
         }
 
         public override object Ejecutar(AST_CQL arbol)
@@ -18,7 +20,14 @@ namespace Server.AST.SentenciasCQL
             String baseUso = arbol.dbms.system.id;
             String userActivo = arbol.dbms.usuarioActivo.id;
             arbol.dbms = new Management();
-            arbol.dbms.analizarChison("");
+            if (batch)
+            {
+                arbol.dbms.analizarChison("batch");
+            }
+            else
+            {
+                arbol.dbms.analizarChison("");
+            }
             arbol.dbms.usuarioActivo = arbol.dbms.getUser(userActivo);
             return arbol.dbms.useDataBase(baseUso,arbol,fila,columna) ;
         }

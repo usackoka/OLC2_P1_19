@@ -20,7 +20,7 @@ namespace Server.AST.SentenciasCQL
         {
             arbol.entorno = new Entorno(arbol.entorno);
             //commit para guardar si hay algún error y hacer rollback
-            Commit c = new Commit(fila,columna);
+            Commit c = new Commit(fila,columna,true);
             c.Ejecutar(arbol);
 
             foreach (NodoCQL nodo in this.instrucciones)
@@ -34,7 +34,7 @@ namespace Server.AST.SentenciasCQL
                         if (val is ExceptionCQL)
                         {
                             //rollback
-                            RollBack r = new RollBack(fila,columna);
+                            RollBack r = new RollBack(fila,columna,true);
                             r.Ejecutar(arbol);
                             return val;
                         }

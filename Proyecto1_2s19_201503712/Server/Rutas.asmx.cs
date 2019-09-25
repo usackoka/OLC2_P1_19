@@ -22,11 +22,14 @@ namespace Server
     // [System.Web.Script.Services.ScriptService]
     public class Rutas : System.Web.Services.WebService
     {
-        static Management dbms;
+        public static Management dbms;
 
         public Rutas() {
-            dbms = new Management();
-            dbms.analizarChison("");
+            if (dbms==null)
+            {
+                dbms = new Management();
+                dbms.analizarChison("");
+            }
         }
 
         [WebMethod]
@@ -64,7 +67,6 @@ namespace Server
                 if (parserLUP.padre.Root != null)
                 {
                     //Graficar.ConstruirArbol(parserLUP.padre.Root, "AST_LUP", "");
-
                     RecorridoLUP recorrido = new RecorridoLUP();
                     Object o = recorrido.ejecutarLUP(parserLUP.padre.Root, dbms);
                     if (o is AST.DBMS.User)

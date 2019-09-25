@@ -1,10 +1,9 @@
 //pendientes
-arreglar carga chison // archivos de entrada
-probar cargar counter de chison
 terminar bloques
+arreglar carga chison // archivos de entrada
 arreglar bug cursor
+probar cargar counter de chison
 manuales
-primaria compuesta
 orderBy descendente
 
 //no evaluado

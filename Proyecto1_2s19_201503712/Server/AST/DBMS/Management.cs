@@ -58,8 +58,14 @@ namespace Server.AST.DBMS
         ////////////////////////////////////////////////////////////////////////////////////////////////////
         public void analizarChison(String ruta) {
             //============ creo el archivo chison principal
-            if(ruta=="")
+            if (ruta == "")
+            {
                 ruta = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Chisons\principal.chison");
+            }
+            else
+            {
+                ruta = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Chisons\"+ruta+".chison");
+            }
 
             if (!File.Exists(ruta)) {
                 addError("Analizar Chison","No existe el chison principal.chison en: "+ruta,0,0);
@@ -94,7 +100,13 @@ namespace Server.AST.DBMS
 
             //============ creo el archivo chison principal
             if (ruta.Equals(""))
+            {
                 ruta = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Chisons\principal.chison");
+            }
+            else
+            {
+                ruta = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Chisons\"+ruta+".chison");
+            }
 
             try
             {

@@ -148,10 +148,10 @@ namespace Server.Analizador
                 String tipo = getLexema(raiz, 0);
                 if (tipo.Equals("commit", System.StringComparison.InvariantCultureIgnoreCase))
                 {
-                    return new Commit(getFila(raiz, 0), getColumna(raiz, 0));
+                    return new Commit(getFila(raiz, 0), getColumna(raiz, 0),false);
                 }
                 else {
-                    return new RollBack(getFila(raiz, 0), getColumna(raiz, 0));
+                    return new RollBack(getFila(raiz, 0), getColumna(raiz, 0),false);
                 }
             }
             else if (CompararNombre(raiz, "TYPES"))
