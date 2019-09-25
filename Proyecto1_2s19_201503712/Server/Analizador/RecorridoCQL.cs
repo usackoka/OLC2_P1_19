@@ -599,7 +599,13 @@ namespace Server.Analizador
             }
             else if (CompararNombre(raiz, "ACCESO_ARR_Q")) {
                 if (raiz.ChildNodes.Count != 0) {
-                    return recorrido(raiz.ChildNodes[0]);
+                    if (CompararNombre(raiz.ChildNodes[0], "ACCESO_ARR"))
+                    {
+                        return recorrido(raiz.ChildNodes[0]);
+                    }
+                    else {
+                        return new AccesoArreglo(getLexema(raiz,0),null, getFila(raiz, 0), getColumna(raiz, 0));
+                    }
                 }
                 return null;
             }

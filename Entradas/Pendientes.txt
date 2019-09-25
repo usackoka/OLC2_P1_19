@@ -2,12 +2,12 @@
 terminar bloques
 arreglar carga chison // archivos de entrada
 arreglar bug cursor
-probar cargar counter de chison
+ejectuar texto seleccionado
 manuales
 orderBy descendente
 
 //no evaluado
 metodos date y time
 metodos string
-correr desde cursor
+correr seleccionado
 colores en el editor

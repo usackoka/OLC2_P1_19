@@ -22,3 +22,7 @@ apply batch;
 insert into Estudiante(carnet,nombre) values(201600000,"Alvin Alegría");
 
 commit;
+
+use UltimaPrueba;
+delete nombre from Estudiante;
+select * from Estudiante;

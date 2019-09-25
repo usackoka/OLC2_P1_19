@@ -392,7 +392,7 @@ namespace Server.Analizador
 
             ACCESO_ARR.Rule = id + l_corchete + E + r_corchete;
 
-            ACCESO_ARR_Q.Rule = ACCESO_ARR | Empty;
+            ACCESO_ARR_Q.Rule = ACCESO_ARR | id | Empty;
 
             /*
             ACCESO_ARR.Rule = id + LISTA_CORCHETES;

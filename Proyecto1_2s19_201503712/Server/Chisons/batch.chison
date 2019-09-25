@@ -28,23 +28,261 @@ $<
        >],
    "DATA" = [
        <
-       "cod_estudiante"=0,
-       "carnet"=201503712,
-       "nombre"="Oscar Cuellar",
-       "id"=0
-       >,
-       <
        "cod_estudiante"=1,
-       "carnet"=201600000,
-       "nombre"="Alvin Alegría",
+       "carnet"=201503712,
+       "nombre"=Null,
        "id"=1
        >,
        <
-       "cod_estudiante"=0,
+       "cod_estudiante"=2,
+       "carnet"=201600000,
+       "nombre"=Null,
+       "id"=2
+       >,
+       <
+       "cod_estudiante"=3,
        "carnet"=201503712,
-       "nombre"="Oscar Cuellar",
-       "id"=0
+       "nombre"=Null,
+       "id"=3
+       >,
+       <
+       "cod_estudiante"=4,
+       "carnet"=201600000,
+       "nombre"=Null,
+       "id"=4
        >]
+   >
+]
+>,
+<
+"NAME"="virtual",
+"DATA"= [   <
+   "CQL-TYPE" = "TABLE",
+   "NAME" = "estudiante",
+   "COLUMNS" = [
+       <
+       "NAME"="carnet",
+       "TYPE"="INT",
+       "PK"=TRUE
+       >,
+       <
+       "NAME"="contador",
+       "TYPE"="COUNTER",
+       "PK"=FALSE
+       >,
+       <
+       "NAME"="comidas_favoritas",
+       "TYPE"="SET<STRING>",
+       "PK"=FALSE
+       >,
+       <
+       "NAME"="nombres",
+       "TYPE"="STRING",
+       "PK"=FALSE
+       >,
+       <
+       "NAME"="apellidos",
+       "TYPE"="STRING",
+       "PK"=FALSE
+       >,
+       <
+       "NAME"="fecha_nacimiento",
+       "TYPE"="DATE",
+       "PK"=FALSE
+       >,
+       <
+       "NAME"="pet",
+       "TYPE"="mascota",
+       "PK"=FALSE
+       >,
+       <
+       "NAME"="facultad",
+       "TYPE"="STRING",
+       "PK"=FALSE
+       >,
+       <
+       "NAME"="edad",
+       "TYPE"="INT",
+       "PK"=FALSE
+       >],
+   "DATA" = [
+       <
+       "carnet"=201503712,
+       "contador"=1,
+       "comidas_favoritas"=Null,
+       "nombres"="Oscar René",
+       "apellidos"="Cuéllar Mancillar",
+       "fecha_nacimiento"=Null,
+       "pet"=Null,
+       "facultad"=Null,
+       "edad"=Null
+       >,
+       <
+       "carnet"=201513629,
+       "contador"=2,
+       "comidas_favoritas"=Null,
+       "nombres"="Alba Jeanneeth",
+       "apellidos"="Chinchilla Morales",
+       "fecha_nacimiento"=Null,
+       "pet"=Null,
+       "facultad"=Null,
+       "edad"=Null
+       >,
+       <
+       "carnet"=201504028,
+       "contador"=3,
+       "comidas_favoritas"=Null,
+       "nombres"="Rodney Estuardo",
+       "apellidos"="Lopez Marroquín",
+       "fecha_nacimiento"=Null,
+       "pet"=Null,
+       "facultad"=Null,
+       "edad"=Null
+       >,
+       <
+       "carnet"=201403904,
+       "contador"=4,
+       "comidas_favoritas"=Null,
+       "nombres"="Irving Samuel",
+       "apellidos"="Rosales Dominguez",
+       "fecha_nacimiento"=Null,
+       "pet"=Null,
+       "facultad"=Null,
+       "edad"=Null
+       >,
+       <
+       "carnet"=201408486,
+       "contador"=5,
+       "comidas_favoritas"=Null,
+       "nombres"="Sharolin Guadalupe",
+       "apellidos"="Lacunza González",
+       "fecha_nacimiento"=Null,
+       "pet"=Null,
+       "facultad"=Null,
+       "edad"=Null
+       >,
+       <
+       "carnet"=201504480,
+       "contador"=6,
+       "comidas_favoritas"=Null,
+       "nombres"="David Andres",
+       "apellidos"="Alcazar Escobar",
+       "fecha_nacimiento"=Null,
+       "pet"=Null,
+       "facultad"=Null,
+       "edad"=Null
+       >,
+       <
+       "carnet"=201503865,
+       "contador"=7,
+       "comidas_favoritas"=Null,
+       "nombres"="Julia Argentina",
+       "apellidos"="Sierra Herrera",
+       "fecha_nacimiento"=Null,
+       "pet"=Null,
+       "facultad"=Null,
+       "edad"=Null
+       >,
+       <
+       "carnet"=201318570,
+       "contador"=8,
+       "comidas_favoritas"=Null,
+       "nombres"="Mitchel Andrea",
+       "apellidos"="Cano Marroquín",
+       "fecha_nacimiento"=Null,
+       "pet"=Null,
+       "facultad"=Null,
+       "edad"=Null
+       >,
+       <
+       "carnet"=201602929,
+       "contador"=9,
+       "comidas_favoritas"=Null,
+       "nombres"="Sebastián",
+       "apellidos"="Gómez Lavarreda",
+       "fecha_nacimiento"=Null,
+       "pet"=Null,
+       "facultad"=Null,
+       "edad"=Null
+       >,
+       <
+       "carnet"=201503666,
+       "contador"=10,
+       "comidas_favoritas"=Null,
+       "nombres"="Miguel Angel Omar",
+       "apellidos"="Ruano Roca",
+       "fecha_nacimiento"=Null,
+       "pet"=Null,
+       "facultad"=Null,
+       "edad"=Null
+       >,
+       <
+       "carnet"=201504429,
+       "contador"=11,
+       "comidas_favoritas"=Null,
+       "nombres"="Gustavo Adolfo",
+       "apellidos"="Gamboa Cruz",
+       "fecha_nacimiento"=Null,
+       "pet"=Null,
+       "facultad"=Null,
+       "edad"=Null
+       >]
+   >
+,   <
+   "CQL-TYPE" = "TABLE",
+   "NAME" = "libro",
+   "COLUMNS" = [
+       <
+       "NAME"="cod_libro",
+       "TYPE"="COUNTER",
+       "PK"=TRUE
+       >,
+       <
+       "NAME"="nombre",
+       "TYPE"="STRING",
+       "PK"=FALSE
+       >,
+       <
+       "NAME"="serie",
+       "TYPE"="STRING",
+       "PK"=FALSE
+       >,
+       <
+       "NAME"="folio",
+       "TYPE"="STRING",
+       "PK"=FALSE
+       >],
+   "DATA" = []
+   >
+,   <
+   "CQL-TYPE" = "TABLE",
+   "NAME" = "prestamo",
+   "COLUMNS" = [
+       <
+       "NAME"="carnet",
+       "TYPE"="INT",
+       "PK"=TRUE
+       >,
+       <
+       "NAME"="cod_libro",
+       "TYPE"="INT",
+       "PK"=TRUE
+       >],
+   "DATA" = []
+   >
+,   <
+   "CQL-TYPE"="OBJECT",
+   "NAME"="mascota",
+   "ATTRS"=[
+       <"NAME"="nombre",
+"TYPE"="STRING"
+        >,
+       <"NAME"="raza",
+"TYPE"="STRING"
+        >,
+       <"NAME"="edad",
+"TYPE"="INT"
+        >]
    >
 ]
 >],
@@ -54,6 +292,8 @@ $<
 "PASSWORD"="admin",
 "PERMISSIONS"= [
    <"NAME"="ultimaprueba"
+   >,
+   <"NAME"="virtual"
    >]
 >]
 

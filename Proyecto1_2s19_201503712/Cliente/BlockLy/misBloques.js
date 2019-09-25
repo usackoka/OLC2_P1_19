@@ -278,7 +278,10 @@ Blockly.JavaScript['insert'] = function(block) {
   var value_campos = Blockly.JavaScript.valueToCode(block, 'campos', Blockly.JavaScript.ORDER_ATOMIC);
   var value_name = Blockly.JavaScript.valueToCode(block, 'NAME', Blockly.JavaScript.ORDER_ATOMIC);
   // TODO: Assemble JavaScript into code variable.
-  var code = 'INSERT INTO '+text_tabla+value_campos+' VALUES ('+value_name+');\n';
+  if(value_campos.length!=0){
+  	value_campos = value_campos.substring(1, value_campos.length-1);
+  }
+  var code = 'INSERT INTO '+text_tabla+value_campos+' VALUES ('+value_name.substring(1, value_name.length-1)+');\n';
   return code;
 };
 

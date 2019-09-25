@@ -193,7 +193,7 @@ FOR EACH(String @nombres) IN @ccc{
 }
 CLOSE @ccc;
 
-//commit;
+commit;
 
 BEGIN BATCH
 INSERT INTO Estudiante(nombres,carnet) values("Esto no se guardará",200000);

@@ -1,4 +1,5 @@
 ﻿using Server.AST.DBMS;
+using Server.AST.ExpresionesCQL;
 using Server.AST.ExpresionesCQL.Tipos;
 using System;
 using System.Collections.Generic;
@@ -44,6 +45,13 @@ namespace Server.AST.CQL
             this.columna = copia.columna;
             this.primaryKeys = copia.primaryKeys;
             this.valores = copia.valores;
+        }
+
+        public void setNulls() {
+            for (int i = 0; i < this.valores.Count; i++)
+            {
+                this.valores[i] = new Null();
+            }
         }
 
         public string getData(int i) {

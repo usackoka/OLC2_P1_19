@@ -279,7 +279,11 @@ namespace Server.AST.DBMS
                             {
                                 if (acceso.id.Equals(column.id))
                                 {
-                                    if (column.valores[i] is ListCQL)
+                                    if (acceso.expresion == null)
+                                    {
+                                        column.setNulls();
+                                    }
+                                    else if (column.valores[i] is ListCQL)
                                     {
                                         ((ListCQL)column.valores[i]).expresiones = new List<Expresion>();
                                         ((ListCQL)column.valores[i]).expresiones.Add(acceso.expresion);
@@ -384,7 +388,8 @@ namespace Server.AST.DBMS
                     {
                         if (columna.tipoDato.Equals(Primitivo.TIPO_DATO.COUNTER))
                         {
-                            columna.valores.Add(columna.counter++);
+                            int cont = columna.valores.Count != 0 ? Convert.ToInt32(columna.valores[columna.valores.Count - 1]) : 0;
+                            columna.valores.Add(cont+1);
                         }
                         else
                         {
