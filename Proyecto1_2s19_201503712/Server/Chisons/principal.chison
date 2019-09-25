@@ -1,54 +1,9 @@
 $<
-"DATABASES"=[
-<
-"NAME"="ultimaprueba",
-"DATA"= [   <
-   "CQL-TYPE" = "TABLE",
-   "NAME" = "estudiante",
-   "COLUMNS" = [
-       <
-       "NAME"="cod_estudiante",
-       "TYPE"="COUNTER",
-       "PK"=TRUE
-       >,
-       <
-       "NAME"="carnet",
-       "TYPE"="INT",
-       "PK"=TRUE
-       >,
-       <
-       "NAME"="nombre",
-       "TYPE"="STRING",
-       "PK"=FALSE
-       >,
-       <
-       "NAME"="id",
-       "TYPE"="COUNTER",
-       "PK"=FALSE
-       >],
-   "DATA" = [
-       <
-       "cod_estudiante"=0,
-       "carnet"=201503712,
-       "nombre"="Oscar Cuellar",
-       "id"=0
-       >,
-       <
-       "cod_estudiante"=1,
-       "carnet"=201600000,
-       "nombre"="Alvin Alegría",
-       "id"=1
-       >]
-   >
-]
->],
+"DATABASES"=[],
 "USERS"=[
 <
 "NAME"="admin",
 "PASSWORD"="admin",
-"PERMISSIONS"= [
-   <"NAME"="ultimaprueba"
-   >]
+"PERMISSIONS"= []
 >]
-
 >$

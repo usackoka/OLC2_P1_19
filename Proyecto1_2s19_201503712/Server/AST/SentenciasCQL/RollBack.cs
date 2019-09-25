@@ -19,7 +19,8 @@ namespace Server.AST.SentenciasCQL
         {
             String baseUso = arbol.dbms.system.id;
             String userActivo = arbol.dbms.usuarioActivo.id;
-            arbol.dbms = new Management();
+            Rutas.dbms = new Management();
+            arbol.dbms = Rutas.dbms;
             if (batch)
             {
                 arbol.dbms.analizarChison("batch");

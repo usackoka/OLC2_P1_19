@@ -11,7 +11,6 @@ create table Estudiante(
 
 insert into Estudiante(carnet,nombre) values(201503712,"Oscar Cuellar");
 
-/*
 begin batch
 	insert into Estudiante(carnet,nombre) values(201503666,"Miguel Angel Omar Ruano Roca");
 	insert into Estudiante(carnet,nombre) values(201503121,"Julia Argentina Yuyi");
@@ -19,13 +18,7 @@ begin batch
 	insert into Estudiante values(201504480,"David Andres Alcazar Escobar");
 	insert into Estudiante values(201504028,"Rodney Estuardo Lopez Marroquin");
 apply batch;
-*/
 
 insert into Estudiante(carnet,nombre) values(201600000,"Alvin Alegría");
 
 commit;
-
-	insert into Estudiante(carnet,nombre) values(201503666,"Miguel Angel Omar Ruano Roca");
-	insert into Estudiante(carnet,nombre) values(201503121,"Julia Argentina Yuyi");
-
-rollback;
