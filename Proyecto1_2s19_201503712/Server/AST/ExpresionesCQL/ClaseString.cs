@@ -48,7 +48,11 @@ namespace Server.AST.ExpresionesCQL
             }
         }
 
-        public Object getMetodoString(String idMetodo, String value, AST_CQL arbol) {
+        public Object getMetodoString(String idMetodo, String value, AST_CQL arbol, int fila, int columna)
+        {
+            this.fila = fila;
+            this.columna = columna;
+
             if (idMetodo.ToLower().Equals("length")) {
                 if (this.expresiones.Count != 0)
                 {

@@ -56,9 +56,11 @@ namespace Server.AST.ExpresionesCQL
             }
         }
 
-        public Object getMetodoTime(String idMetodo, TimeSpan value, AST_CQL arbol)
+        public Object getMetodoTime(String idMetodo, TimeSpan value, AST_CQL arbol, int fila, int columna)
         {
-            
+            this.fila = fila;
+            this.columna = columna;
+
             if (idMetodo.ToLower().Equals("gethour"))
             {
                 if (this.expresiones.Count != 0)
@@ -93,8 +95,10 @@ namespace Server.AST.ExpresionesCQL
             }
         }
 
-        public Object getMetodoDateTime(String idMetodo, Date value, AST_CQL arbol)
+        public Object getMetodoDateTime(String idMetodo, Date value, AST_CQL arbol, int fila, int columna)
         {
+            this.fila = fila;
+            this.columna = columna;
             if (idMetodo.ToLower().Equals("getyear"))
             {
                 if (this.expresiones.Count != 0)

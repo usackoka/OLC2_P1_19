@@ -691,7 +691,7 @@ namespace Server.Analizador
                 {
                     lista.Add(recorrido(nodo));
                 }
-                return new Referencia(lista, null);
+                return new Referencia(lista, null, getFila2(raiz), getColumna2(raiz));
             }
             else if (CompararNombre(raiz, "REFERENCIA"))
             {
@@ -796,7 +796,7 @@ namespace Server.Analizador
                     {
                         lista.Add(recorrido(nodo));
                     }
-                    return new Referencia(lista, (Expresion)recorrido(raiz.ChildNodes[2]));
+                    return new Referencia(lista, (Expresion)recorrido(raiz.ChildNodes[2]), getFila2(raiz), getColumna2(raiz));
                 }
                 else if (raiz.ChildNodes.Count == 2)
                 {
@@ -1095,6 +1095,27 @@ namespace Server.Analizador
         int getColumna(ParseTreeNode nodo, int num)
         {
             return nodo.ChildNodes[num].Token.Location.Column;
+        }
+
+        int getFila2(ParseTreeNode raiz) {
+            if (raiz.ChildNodes.Count > 0)
+            {
+                return getFila2(raiz.ChildNodes[0]);
+            }
+            else {
+                return raiz.Token.Location.Line;
+            }
+        }
+
+        int getColumna2(ParseTreeNode raiz) {
+            if (raiz.ChildNodes.Count > 0)
+            {
+                return getColumna2(raiz.ChildNodes[0]);
+            }
+            else
+            {
+                return raiz.Token.Location.Column;
+            }
         }
 
         String getArbolString(ParseTreeNode raiz) {

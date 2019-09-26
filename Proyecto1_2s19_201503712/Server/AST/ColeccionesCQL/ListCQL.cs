@@ -115,8 +115,12 @@ namespace Server.AST.ColeccionesCQL
         {
             return this;
         }
+        
+        public Object getMetodo(AST_CQL arbol, String idLlamada, int fila, int columna) {
 
-        public Object getMetodo(AST_CQL arbol, String idLlamada) {
+            this.fila = fila;
+            this.columna = columna;
+
             if (idLlamada.ToLower().Equals("insert"))
             {
                 return insert(arbol);
@@ -153,7 +157,7 @@ namespace Server.AST.ColeccionesCQL
         Object insert(AST_CQL arbol) {
 
             if (this.expresiones.Count != 1) {
-                arbol.addError("List","(insert) debe tener exclusivamente 1 parámetro",fila,columna);
+                arbol.addError("List","(insert) debe tener exclusivamente 1 parámetro", fila, columna);
                 return null;
             }
 
@@ -223,7 +227,7 @@ namespace Server.AST.ColeccionesCQL
             else
             {
                 arbol.addError("EXCEPTION.IndexOutException", "(Remove, LIST) index: "+index+" size: "+this.valores.Count, fila, columna);
-                return new ExceptionCQL(ExceptionCQL.EXCEPTION.IndexOutException, "(Remove, LIST) index: " + index + " size: " + this.valores.Count,fila,columna);
+                return new ExceptionCQL(ExceptionCQL.EXCEPTION.IndexOutException, "(Remove, LIST) index: " + index + " size: " + this.valores.Count, fila, columna);
             }
         }
 
@@ -254,7 +258,7 @@ namespace Server.AST.ColeccionesCQL
             else
             {
                 arbol.addError("EXCEPTION.IndexOutException", "(Get, List) index: " + index + " size: " + this.valores.Count, fila, columna);
-                return new ExceptionCQL(ExceptionCQL.EXCEPTION.IndexOutException, "(Get, List) index: " + index + " size: " + this.valores.Count,fila,columna);
+                return new ExceptionCQL(ExceptionCQL.EXCEPTION.IndexOutException, "(Get, List) index: " + index + " size: " + this.valores.Count, fila, columna);
             }
         }
 

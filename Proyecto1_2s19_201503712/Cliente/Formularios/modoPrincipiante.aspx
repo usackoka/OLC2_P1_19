@@ -82,12 +82,14 @@
                 <block type="use"></block>
             </category>
              <category name="Atributos">
-                <block type="text"></block>
                 <block type="seleccion"></block>
              </category>
              <category name="Valores">
-                <block type="text"></block>
                 <block type="lists_create_with"></block>
+                <block type="string"></block>
+                <block type="id"></block>
+                <block type="date_time"></block>
+                <block type="booleano"></block>
                 <block type="math_number"></block>
             </category>
             <category name="Operadores">
@@ -178,7 +180,7 @@
                 alert("Logout True");
             } else {
                 document.getElementById('hdCierre').value = "false";
-                alert("Logout False");
+                //alert("Logout False");
             }
 
             //imprimo los mensajes en la consola

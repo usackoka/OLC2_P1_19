@@ -141,8 +141,10 @@ namespace Server.AST.ColeccionesCQL
             }
         }
 
-        public Object getMetodo(AST_CQL arbol, String idLlamada)
+        public Object getMetodo(AST_CQL arbol, String idLlamada, int fila, int columna)
         {
+            this.fila = fila;
+            this.columna = columna;
             if (idLlamada.ToLower().Equals("insert"))
             {
                 return insert(arbol);

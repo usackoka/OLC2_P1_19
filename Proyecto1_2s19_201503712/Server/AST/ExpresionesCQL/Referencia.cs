@@ -15,7 +15,9 @@ namespace Server.AST.ExpresionesCQL
         public List<Object> referencias;
         public Expresion valor;
 
-        public Referencia(List<Object> referencias, Expresion valor) {
+        public Referencia(List<Object> referencias, Expresion valor, int fila, int columna) {
+            this.fila = fila;
+            this.columna = columna;
             this.referencias = referencias;
             this.valor = valor;
         }
@@ -110,39 +112,39 @@ namespace Server.AST.ExpresionesCQL
                     if (valorRetorno is String) {
                         ClaseString cs = new ClaseString();
                         cs.expresiones = llf.expresiones;
-                        valorRetorno = cs.getMetodoString(llf.idLlamada, valorRetorno.ToString(), arbol);
+                        valorRetorno = cs.getMetodoString(llf.idLlamada, valorRetorno.ToString(), arbol, fila, columna);
                     }
                     else if (valorRetorno is Date)
                     {
                         ClaseDateTime cs = new ClaseDateTime();
                         cs.expresiones = llf.expresiones;
-                        valorRetorno = cs.getMetodoDateTime(llf.idLlamada, (Date)valorRetorno, arbol);
+                        valorRetorno = cs.getMetodoDateTime(llf.idLlamada, (Date)valorRetorno, arbol, fila, columna);
                     }
                     else if (valorRetorno is TimeSpan)
                     {
                         ClaseDateTime cs = new ClaseDateTime();
                         cs.expresiones = llf.expresiones;
-                        valorRetorno = cs.getMetodoTime(llf.idLlamada, (TimeSpan)valorRetorno, arbol);
+                        valorRetorno = cs.getMetodoTime(llf.idLlamada, (TimeSpan)valorRetorno, arbol, fila, columna);
                     }
                     else if (valorRetorno is ListCQL) {
                         ListCQL list = (ListCQL)valorRetorno;
                         //verifico el nombre del método para aplicarlo
                         list.expresiones = llf.expresiones;
-                        valorRetorno = list.getMetodo(arbol, llf.idLlamada);
+                        valorRetorno = list.getMetodo(arbol, llf.idLlamada, fila, columna);
                     }
                     else if (valorRetorno is SetCQL)
                     {
                         SetCQL list = (SetCQL)valorRetorno;
                         //verifico el nombre del método para aplicarlo
                         list.expresiones = llf.expresiones;
-                        valorRetorno = list.getMetodo(arbol, llf.idLlamada);
+                        valorRetorno = list.getMetodo(arbol, llf.idLlamada, fila, columna);
                     }
                     else if (valorRetorno is MapCQL)
                     {
                         MapCQL list = (MapCQL)valorRetorno;
                         //verifico el nombre del método para aplicarlo
                         list.expresiones = llf.expresiones;
-                        valorRetorno = list.getMetodo(arbol, llf.idLlamada);
+                        valorRetorno = list.getMetodo(arbol, llf.idLlamada, fila, columna);
                     }
                     else if (valorRetorno is Null)
                     {
@@ -202,21 +204,21 @@ namespace Server.AST.ExpresionesCQL
                     {
                         ClaseString cs = new ClaseString();
                         cs.expresiones = llf.expresiones;
-                        valorRetorno = cs.getMetodoString(llf.idLlamada, valorRetorno.ToString(), arbol);
+                        valorRetorno = cs.getMetodoString(llf.idLlamada, valorRetorno.ToString(), arbol, fila, columna);
                         tipoRetorno = cs.getTipoMetodo(llf.idLlamada, arbol);
                     }
                     else if (valorRetorno is Date)
                     {
                         ClaseDateTime cs = new ClaseDateTime();
                         cs.expresiones = llf.expresiones;
-                        valorRetorno = cs.getMetodoDateTime(llf.idLlamada, (Date)valorRetorno, arbol);
+                        valorRetorno = cs.getMetodoDateTime(llf.idLlamada, (Date)valorRetorno, arbol, fila, columna);
                         tipoRetorno = Primitivo.TIPO_DATO.DATE;
                     }
                     else if (valorRetorno is TimeSpan)
                     {
                         ClaseDateTime cs = new ClaseDateTime();
                         cs.expresiones = llf.expresiones;
-                        valorRetorno = cs.getMetodoTime(llf.idLlamada, (TimeSpan)valorRetorno, arbol);
+                        valorRetorno = cs.getMetodoTime(llf.idLlamada, (TimeSpan)valorRetorno, arbol, fila, columna);
                         tipoRetorno = Primitivo.TIPO_DATO.TIME;
                     }
                     else if (valorRetorno is ListCQL)
@@ -224,7 +226,7 @@ namespace Server.AST.ExpresionesCQL
                         ListCQL list = (ListCQL)valorRetorno;
                         //verifico el nombre del método para aplicarlo
                         list.expresiones = llf.expresiones;
-                        valorRetorno = list.getMetodo(arbol, llf.idLlamada);
+                        valorRetorno = list.getMetodo(arbol, llf.idLlamada, fila, columna);
                         tipoRetorno = list.getTipoMetodo(llf.idLlamada);
                     }
                     else if (valorRetorno is SetCQL)
@@ -232,7 +234,7 @@ namespace Server.AST.ExpresionesCQL
                         SetCQL list = (SetCQL)valorRetorno;
                         //verifico el nombre del método para aplicarlo
                         list.expresiones = llf.expresiones;
-                        valorRetorno = list.getMetodo(arbol, llf.idLlamada);
+                        valorRetorno = list.getMetodo(arbol, llf.idLlamada, fila, columna);
                         tipoRetorno = list.getTipoMetodo(llf.idLlamada);
                     }
                     else if (valorRetorno is MapCQL)
@@ -240,7 +242,7 @@ namespace Server.AST.ExpresionesCQL
                         MapCQL list = (MapCQL)valorRetorno;
                         //verifico el nombre del método para aplicarlo
                         list.expresiones = llf.expresiones;
-                        valorRetorno = list.getMetodo(arbol, llf.idLlamada);
+                        valorRetorno = list.getMetodo(arbol, llf.idLlamada, fila, columna);
                         tipoRetorno = list.getTipoMetodo(llf.idLlamada);
                     }
                 }

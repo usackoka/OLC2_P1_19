@@ -82,12 +82,14 @@
                 <block type="use"></block>
             </category>
              <category name="Atributos">
-                <block type="text"></block>
                 <block type="seleccion"></block>
              </category>
              <category name="Valores">
-                <block type="text"></block>
                 <block type="lists_create_with"></block>
+                <block type="string"></block>
+                <block type="id"></block>
+                <block type="date_time"></block>
+                <block type="booleano"></block>
                 <block type="math_number"></block>
             </category>
             <category name="Operadores">
@@ -95,14 +97,19 @@
                 <block type="math_arithmetic"></block>
             </category>
             <category name="Sentencias de Control" colour="330">
-                <block type="controls_if"></block>
+                <block type="for"></block>
+                <block type="if"></block>
+                <block type="else"></block>
             </category>
             <category name="Variables" colour="330">
                 <block type="var"></block>
                 <block type="reasignar"></block>
-                <block type="valinstancia"></block>
+                <block type="igual"></block>
                 <block type="create_var"></block>
-
+            </category>
+            <category name="Procedimientos" colour="330">
+                <block type="llamadafuncion"></block>
+                <block type="log"></block>
             </category>
         </xml>
         <script>
