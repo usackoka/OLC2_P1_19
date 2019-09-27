@@ -42,7 +42,8 @@ namespace Cliente.Formularios
                 Response.Redirect("Login.aspx");
             }
             else {
-                localhost.RutasSoapClient servidor = new localhost.RutasSoapClient(); String user = "admin";
+                localhost.RutasSoapClient servidor = new localhost.RutasSoapClient();
+                String user = "admin";
                 String res1 = servidor.getErroresChison();
                 if (Session["idUser"] != null)
                 {

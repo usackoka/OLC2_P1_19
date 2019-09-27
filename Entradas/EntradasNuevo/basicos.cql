@@ -67,7 +67,7 @@ INSERT INTO playlists (name, songs, dateCreated, timeCreated)
 VALUES(
     "Soft Rock",
     {
-        {"It's probably Me", 1, 5.02, '2001-02-01', false, @GENRE_ROCK, "Fields of Gold", "Erick Clapton"} as Song,
+        {"Its probably Me", 1, 5.02, '2001-02-01', false, @GENRE_ROCK, "Fields of Gold", "Erick Clapton"} as Song,
         {"Bother", 2, 4.00, '2011-03-02', true, @GENRE_ROCK, "Stone Sour", "Stone Sour"} as Song,
         {"Strong Enough", 3, 4.00, '2012-03-24', false, @GENRE_ROCK, "Hits and Raritis", "Sheryl Crowl"} as Song,
         {"Purple Rain", 4, 8.41, '2012-03-17', false, @GENRE_ROCK, "Purple Rain", "Prince"} as Song,
@@ -116,7 +116,6 @@ SET songs = songs + {
 
 procedure printSongsByYear(String @playlistName, int @year),() {
     Cursor @c1 = getPlaylist(@playlistName);
-
     OPEN @c1;
 
     LOG( @playlistName +  " tiene las siguientes canciones del " + @year + ":");
@@ -124,7 +123,6 @@ procedure printSongsByYear(String @playlistName, int @year),() {
         
         for (int @i = 0; @i < @songs.size(); @i++) {
             Song @song = @songs.get(@i);
-
             if (@song.dateReleased.getYear() == @year) {
                 LOG( @song.name + " del artista: " + @song.artist + " de su album " + @song.album);
             }

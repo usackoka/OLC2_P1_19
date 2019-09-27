@@ -403,7 +403,7 @@ namespace Server.AST.ExpresionesCQL
                         }
                         else
                         {
-                            arbol.addError("", "(Binaria, getValor, !=) No soportado: " + tipIzq + " y " + tipDer, fila, columna);
+                            arbol.addError("", "(Binaria, getValor, ==) No soportado: " + tipIzq + " y " + tipDer, fila, columna);
                             return izquierda.getValor(arbol).Equals(derecha.getValor(arbol));
                         }
                     case "&&":

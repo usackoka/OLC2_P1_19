@@ -21,6 +21,7 @@ namespace Server.AST.SentenciasCQL
             this.select = valorCursor;
             this.columna = columna;
             this.tipoCursor = tipoCursor;
+            this.entornoEjecucion = null;
         }
 
         public enum TIPO_CURSOR {
@@ -31,8 +32,7 @@ namespace Server.AST.SentenciasCQL
         {
             switch (this.tipoCursor) {
                 case TIPO_CURSOR.INSTANCE:
-                    Entorno ent = new Entorno(arbol.entorno);
-                    this.entornoEjecucion = ent;
+                    this.entornoEjecucion = arbol.entorno;
                     arbol.entorno.addVariable(this.id, new Variable(this, Primitivo.TIPO_DATO.CURSOR),arbol,fila,columna);
                     return null;
                 case TIPO_CURSOR.OPEN:
@@ -47,29 +47,30 @@ namespace Server.AST.SentenciasCQL
                     else {
                         o = ((Expresion)cursor.select).getValor(arbol);
                     }
-                    arbol.entorno = temp;
 
                     if (o is List<ColumnCQL>)
                     {
                         cursor.data = (List<ColumnCQL>)o;
-                        arbol.entorno.reasignarVariable(this.id, cursor, Primitivo.TIPO_DATO.CURSOR, arbol, fila, columna);
+                        //arbol.entorno.reasignarVariable(this.id, cursor, Primitivo.TIPO_DATO.CURSOR, arbol, fila, columna);
                         arbol.result_consultas.RemoveAt(arbol.result_consultas.Count - 1);
-                        return null;
+                        o = null;
                     }
                     else if (o is Cursor) {
                         cursor.data = ((Cursor)o).getSelect(arbol);
-                        arbol.entorno.reasignarVariable(this.id, cursor, Primitivo.TIPO_DATO.CURSOR, arbol, fila, columna);
+                        //arbol.entorno.reasignarVariable(this.id, cursor, Primitivo.TIPO_DATO.CURSOR, arbol, fila, columna);
                         arbol.result_consultas.RemoveAt(arbol.result_consultas.Count - 1);
-                        return null;
+                        o = null;
                     }
                     else {
                         arbol.addError("SELECT-OPEN-" + this.id, "El open devolvió un objeto de tipo: " + o, fila, columna);
                     }
+
+                    arbol.entorno = temp;
                     return o;
                 default:
                     Cursor cursor2 = (Cursor)arbol.entorno.getValorVariable(this.id, arbol, fila, columna);
                     cursor2.data = null;
-                    arbol.entorno.reasignarVariable(this.id, cursor2, Primitivo.TIPO_DATO.CURSOR, arbol, fila, columna);
+                    //arbol.entorno.reasignarVariable(this.id, cursor2, Primitivo.TIPO_DATO.CURSOR, arbol, fila, columna);
                     return null;
             }
         }
@@ -77,6 +78,8 @@ namespace Server.AST.SentenciasCQL
         List<ColumnCQL> getSelect(AST_CQL arbol) {
             if (this.select != null)
             {
+                Entorno te = arbol.entorno;
+                arbol.entorno = this.entornoEjecucion;
                 Object o;
                 if (this.select is Select)
                 {
@@ -86,6 +89,7 @@ namespace Server.AST.SentenciasCQL
                 {
                     o = ((Expresion)select).getValor(arbol);
                 }
+                arbol.entorno = te;
 
                 if (o is List<ColumnCQL>)
                 {
@@ -93,7 +97,11 @@ namespace Server.AST.SentenciasCQL
                 }
                 else if (o is Cursor)
                 {
-                    return ((Cursor)o).getSelect(arbol);
+                    Entorno temp = arbol.entorno;
+                    arbol.entorno = ((Cursor)o).entornoEjecucion;
+                    List<ColumnCQL> oo = ((Cursor)o).getSelect(arbol);
+                    arbol.entorno = temp;
+                    return oo;
                 }
                 else {
                     arbol.addError("SELECT-OPEN-" + this.id, "El open devolvió un objeto de tipo: " + o, fila, columna);

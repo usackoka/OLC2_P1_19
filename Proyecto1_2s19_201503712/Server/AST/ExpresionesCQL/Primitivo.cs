@@ -24,9 +24,9 @@ namespace Server.AST.ExpresionesCQL
         }
 
         private void setTipoDato() {
-            if (this.value.ToString().Contains(" (numero)"))
+            if (this.value.ToString().Contains(" (entero)") || this.value.ToString().Contains(" (decimal)") || this.value.ToString().Contains(" (numero)"))
             {
-                this.value = this.value.ToString().Replace(" (numero)", "");
+                this.value = this.value.ToString().Replace(" (entero)", "").Replace(" (decimal)","").Replace(" (numero)","");
                 if (this.value.ToString().Contains("."))
                 {
                     this.value = Convert.ToDouble(this.value);

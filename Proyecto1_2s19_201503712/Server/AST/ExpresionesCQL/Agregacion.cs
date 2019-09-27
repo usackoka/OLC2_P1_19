@@ -56,7 +56,14 @@ namespace Server.AST.ExpresionesCQL
                         arbol.addError("Agregacion MIN","Solo se debió seleccionar un campo de la tabla",fila,columna);
                         return new ExceptionCQL(ExceptionCQL.EXCEPTION.ValuesException, "Solo se debió seleccionar un campo de la tabla",fila,columna);
                     }
-                    data[0].valores.Sort();
+                    try
+                    {
+                        data[0].valores.Sort();
+                    }
+                    catch (Exception)
+                    {
+                        Console.Write("");
+                    }
                     return data[0].valores[0];
                 case TIPO_AGR.MAX:
                     if (data.Count != 1)
@@ -64,7 +71,14 @@ namespace Server.AST.ExpresionesCQL
                         arbol.addError("Agregacion MAX", "Solo se debió seleccionar un campo de la tabla", fila, columna);
                         return new ExceptionCQL(ExceptionCQL.EXCEPTION.ValuesException, "Solo se debió seleccionar un campo de la tabla", fila, columna);
                     }
-                    data[0].valores.Sort();
+                    try
+                    {
+                        data[0].valores.Sort();
+                    }
+                    catch (Exception)
+                    {
+                        Console.Write("");
+                    }
                     return data[0].valores[data[0].valores.Count-1];
                 case TIPO_AGR.SUM:
                     if (data.Count != 1)
@@ -85,7 +99,8 @@ namespace Server.AST.ExpresionesCQL
                         {
                             sumaInt += Convert.ToInt32(dato);
                         }
-                        else {
+                        else if(data[0].tipoDato.Equals(Primitivo.TIPO_DATO.DOUBLE))
+                        {
                             sumaDouble += Convert.ToDouble(dato);
                         }
                     }
@@ -119,7 +134,7 @@ namespace Server.AST.ExpresionesCQL
                         {
                             sumaInt += Convert.ToInt32(dato);
                         }
-                        else
+                        else if (data[0].tipoDato.Equals(Primitivo.TIPO_DATO.DOUBLE))
                         {
                             sumaDouble += Convert.ToDouble(dato);
                         }

@@ -212,14 +212,14 @@ namespace Server.AST.ExpresionesCQL
                         ClaseDateTime cs = new ClaseDateTime();
                         cs.expresiones = llf.expresiones;
                         valorRetorno = cs.getMetodoDateTime(llf.idLlamada, (Date)valorRetorno, arbol, fila, columna);
-                        tipoRetorno = Primitivo.TIPO_DATO.DATE;
+                        tipoRetorno = Primitivo.TIPO_DATO.INT;
                     }
                     else if (valorRetorno is TimeSpan)
                     {
                         ClaseDateTime cs = new ClaseDateTime();
                         cs.expresiones = llf.expresiones;
                         valorRetorno = cs.getMetodoTime(llf.idLlamada, (TimeSpan)valorRetorno, arbol, fila, columna);
-                        tipoRetorno = Primitivo.TIPO_DATO.TIME;
+                        tipoRetorno = Primitivo.TIPO_DATO.INT;
                     }
                     else if (valorRetorno is ListCQL)
                     {

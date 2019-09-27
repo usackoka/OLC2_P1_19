@@ -11,7 +11,9 @@ namespace Server.Analizador
         public GramaticaCQL() : base(false)
         {
             #region Expresiones Regulares
-            var numero = new NumberLiteral("numero");
+            //var numero = new NumberLiteral("numero");
+            RegexBasedTerminal entero = new RegexBasedTerminal("entero", "[0-9]+");
+            RegexBasedTerminal er_decimal = new RegexBasedTerminal("decimal", "[0-9]+(\\.[0-9]+)+");
             var id = TerminalFactory.CreatePythonIdentifier("id");
             //StringLiteral caracter = new StringLiteral("caracter", "\'", StringOptions.IsChar);
             StringLiteral cadena = new StringLiteral("cadena", "\"", StringOptions.AllowsAllEscapes);
@@ -610,7 +612,7 @@ namespace Server.Analizador
 
             UNARIO.Rule = mas + E | menos + E | not + E;
 
-            PRIMITIVO.Rule = id | numero | cadena | cadena2 | res_true | res_false | res_null | arroba + id;
+            PRIMITIVO.Rule = id | entero | er_decimal | cadena | cadena2 | res_true | res_false | res_null | arroba + id;
 
             //========================================================================
 
