@@ -179,10 +179,11 @@ ERROR : 'res_errorOpen'
 ;
 
 DBMS : res_dataBasesOpen DATA_BASES res_dataBasesClose
+	| res_dataBasesOpen res_dataBasesClose
 ;
 
 DATA_BASES : DATA_BASES res_dataBaseOpen CONTENIDO res_dataBaseClose 
-	| res_dataBaseOpen CONTENIDO res_dataBaseClose 
+	| res_dataBaseOpen CONTENIDO res_dataBaseClose
 ;
 
 CONTENIDO : res_nameOpen id res_nameClose res_tablesOpen TABLES res_typesOpen TYPES res_proceduresOpen PROCEDURES {

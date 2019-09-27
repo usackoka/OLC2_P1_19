@@ -1,5 +1,4 @@
 //pendientes
-terminar bloques
 arreglar carga chison // archivos de entrada
 arreglar bug cursor
 ejectuar texto seleccionado
@@ -10,4 +9,4 @@ orderBy descendente
 metodos date y time
 metodos string
 correr seleccionado
-colores en el editor
+colores en el editorsi

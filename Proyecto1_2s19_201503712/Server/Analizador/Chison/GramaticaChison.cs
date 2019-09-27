@@ -16,7 +16,7 @@ namespace Server.Analizador.Chison
             //StringLiteral caracter = new StringLiteral("caracter", "\'", StringOptions.IsChar);
             StringLiteral cadena = new StringLiteral("cadena", "\"", StringOptions.AllowsAllEscapes);
             StringLiteral cadena2 = new StringLiteral("cadena2", "\'", StringOptions.AllowsAllEscapes);
-            StringLiteral cadena3 = new StringLiteral("cadena3", "$", StringOptions.AllowsAllEscapes);
+            StringLiteral cadena3 = new StringLiteral("cadena3", "$", StringOptions.AllowsLineBreak);
 
             //TERMINALES DE COMENTARIO
             //CommentTerminal COMENTARIO_LINEA = new CommentTerminal("COMENTARIO_LINEA", "//", "\n", "\r");
@@ -204,7 +204,8 @@ namespace Server.Analizador.Chison
                 | LISTA
                 | MAP;
 
-            LISTA.Rule = l_corchete + LISTA_VALORES + r_corchete;
+            LISTA.Rule = l_corchete + LISTA_VALORES + r_corchete
+                | l_llave + LISTA_VALORES + r_llave;
 
             MAP.Rule = menor_que + LISTA_KEY_VALUE_PAIR + mayor_que
                 | IMPORT;

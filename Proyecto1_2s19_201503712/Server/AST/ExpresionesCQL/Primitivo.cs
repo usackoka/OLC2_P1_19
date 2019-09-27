@@ -238,14 +238,7 @@ namespace Server.AST.ExpresionesCQL
                 }
             }
             else if (obj is Null) {
-                if (tipoDato is String || tipoDato is SetCQL || tipoDato is MapCQL || tipoDato is ListCQL || tipoDato.Equals(Primitivo.TIPO_DATO.STRING))
-                {
-                    return obj;
-                }
-                else {
-                    dbms.addError("getObjectByList - obj is Null", "No se encontró el tipo: " + tipoDato, 0, 0);
-                    return new Null();
-                }
+                return obj;
             }
             else {//primitivo
                 if (tipoDato is Primitivo.TIPO_DATO)
@@ -325,7 +318,6 @@ namespace Server.AST.ExpresionesCQL
 
         public static Object getDefecto(Object tipoDato, Management arbol)
         {
-
             if (tipoDato is String || tipoDato is TipoMAP || tipoDato is TipoList || tipoDato is TipoSet)
             {
                 return new Null();

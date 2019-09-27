@@ -433,9 +433,6 @@ Blockly.Blocks['if'] = {
         .appendField(new Blockly.FieldTextInput("condicion"), "condicion");
     this.appendStatementInput("instrucciones")
         .setCheck(null);
-    this.appendValueInput("else")
-        .setCheck("else")
-        .appendField("Else");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(230);
@@ -447,12 +444,11 @@ Blockly.Blocks['if'] = {
 Blockly.JavaScript['if'] = function(block) {
   var text_condicion = block.getFieldValue('condicion');
   var statements_instrucciones = Blockly.JavaScript.statementToCode(block, 'instrucciones');
-  var value_else = Blockly.JavaScript.valueToCode(block, 'else', Blockly.JavaScript.ORDER_ATOMIC);
   // TODO: Assemble JavaScript into code variable.
   if(statements_instrucciones==undefined){
   	statements_instrucciones = "";
   }
-  var code = ' If ('+text_condicion+'){\n'+statements_instrucciones+'\n}'+value_else+'\n';
+  var code = ' If ('+text_condicion+'){\n'+statements_instrucciones+'\n}\n';
   return code;
 };
 
@@ -462,7 +458,8 @@ Blockly.Blocks['else'] = {
         .appendField("Else");
     this.appendStatementInput("instrucciones")
         .setCheck(null);
-    this.setOutput(true, null);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
     this.setColour(230);
  this.setTooltip("");
  this.setHelpUrl("");
@@ -526,7 +523,6 @@ Blockly.Blocks['for'] = {
   }
 };
 
-/*
 Blockly.JavaScript['for'] = function(block) {
   var dropdown_tipo = block.getFieldValue('tipo');
   var text_iterador = block.getFieldValue('iterador');
@@ -536,14 +532,15 @@ Blockly.JavaScript['for'] = function(block) {
   var dropdown_actualizador = block.getFieldValue('actualizador');
   var value_actualizador = Blockly.JavaScript.valueToCode(block, 'Actualizador', Blockly.JavaScript.ORDER_ATOMIC);
   var statements_name = Blockly.JavaScript.statementToCode(block, 'NAME');
-  if(statements_instrucciones==undefined){
-  	statements_instrucciones = "";
-  }
   // TODO: Assemble JavaScript into code variable.
-  var code = ' For ('+dropdown_tipo+' '+text_iterador+' = '+value_declaracion+'; '+text_condicion+'; '+text_var+dropdown_actualizador+value_actualizador'){\n'+statements_name+'\n}\n';
+  if(statements_name==undefined){
+  	statements_name = "";
+  }
+  //var code = ';';
+  var code = ' For ('+dropdown_tipo+' '+text_iterador+' = '+value_declaracion+'; '+text_condicion+'; '+
+  			text_var+dropdown_actualizador+value_actualizador+'){\n'+statements_name+'\n}\n';
   return code;
 };
-*/
 
 Blockly.Blocks['llamadafuncion'] = {
   init: function() {
@@ -574,6 +571,35 @@ Blockly.JavaScript['llamadafuncion'] = function(block) {
   return code;
 };
 
+Blockly.Blocks['call'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Call");
+    this.appendDummyInput()
+        .appendField("id")
+        .appendField(new Blockly.FieldTextInput("function"), "function");
+    this.appendValueInput("NAME")
+        .setCheck("Array")
+        .appendField("Parametros");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(20);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};
+
+Blockly.JavaScript['call'] = function(block) {
+  var text_function = block.getFieldValue('function');
+  var value_name = Blockly.JavaScript.valueToCode(block, 'NAME', Blockly.JavaScript.ORDER_ATOMIC);
+  if(value_name==undefined){
+  	value_name = "()";
+  }
+  // TODO: Assemble JavaScript into code variable.
+  var code = "call "+text_function+value_name+';\n';
+  return code;
+};
+
 Blockly.Blocks['log'] = {
   init: function() {
     this.appendDummyInput()
@@ -591,5 +617,141 @@ Blockly.JavaScript['log'] = function(block) {
   var text_expresion = block.getFieldValue('expresion');
   // TODO: Assemble JavaScript into code variable.
   var code = 'LOG('+text_expresion+');\n';
+  return code;
+};
+
+Blockly.Blocks['switch'] = {
+  init: function() {
+    this.appendValueInput("valor")
+        .setCheck(null)
+        .appendField("Switch");
+    this.appendStatementInput("NAME")
+        .setCheck(null);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(75);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};
+
+Blockly.JavaScript['switch'] = function(block) {
+  var value_valor = Blockly.JavaScript.valueToCode(block, 'valor', Blockly.JavaScript.ORDER_ATOMIC);
+  var statements_name = Blockly.JavaScript.statementToCode(block, 'NAME');
+  // TODO: Assemble JavaScript into code variable.
+  var code = 'switch ('+value_valor+'){\n'+statements_name+'\n}\n';
+  return code;
+};
+
+
+Blockly.Blocks['case'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Case")
+        .appendField(new Blockly.FieldTextInput("expresion"), "expresion");
+    this.appendStatementInput("NAME")
+        .setCheck(null);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};
+
+Blockly.JavaScript['case'] = function(block) {
+  var text_expresion = block.getFieldValue('expresion');
+  var statements_name = Blockly.JavaScript.statementToCode(block, 'NAME');
+  // TODO: Assemble JavaScript into code variable.
+  var code = 'case '+text_expresion+':\n'+statements_name+'\n';
+  return code;
+};
+
+Blockly.Blocks['break'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Break");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};
+
+Blockly.JavaScript['break'] = function(block) {
+  // TODO: Assemble JavaScript into code variable.
+  var code = 'break;\n';
+  return code;
+};
+
+Blockly.Blocks['default'] = {
+  init: function() {
+    this.appendValueInput("default")
+        .setCheck(null)
+        .appendField("default");
+    this.appendStatementInput("NAME")
+        .setCheck(null);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};
+
+Blockly.JavaScript['default'] = function(block) {
+  var value_default = Blockly.JavaScript.valueToCode(block, 'default', Blockly.JavaScript.ORDER_ATOMIC);
+  var statements_name = Blockly.JavaScript.statementToCode(block, 'NAME');
+  // TODO: Assemble JavaScript into code variable.
+  var code = 'default: \n'+statements_name+'\n';
+  return code;
+};
+
+Blockly.Blocks['while'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("While")
+        .appendField(new Blockly.FieldTextInput("expresion"), "expresion");
+    this.appendStatementInput("NAME")
+        .setCheck(null);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};
+
+Blockly.JavaScript['while'] = function(block) {
+  var text_expresion = block.getFieldValue('expresion');
+  var statements_name = Blockly.JavaScript.statementToCode(block, 'NAME');
+  // TODO: Assemble JavaScript into code variable.
+  var code = 'while('+text_expresion+'){\n'+statements_name+'}\n';
+  return code;
+};
+
+Blockly.Blocks['do'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("do");
+    this.appendStatementInput("NAME")
+        .setCheck(null);
+    this.appendDummyInput()
+        .appendField("While")
+        .appendField(new Blockly.FieldTextInput("expresion"), "expresion");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};
+
+Blockly.JavaScript['do'] = function(block) {
+  var statements_name = Blockly.JavaScript.statementToCode(block, 'NAME');
+  var text_expresion = block.getFieldValue('expresion');
+  // TODO: Assemble JavaScript into code variable.
+  var code = 'do{\n'+statements_name+'\n}while('+text_expresion+');\n';
   return code;
 };

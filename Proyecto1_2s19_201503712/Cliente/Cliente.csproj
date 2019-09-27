@@ -652,6 +652,7 @@
     <Content Include="Formularios\modoAvanzado.aspx" />
     <Content Include="Formularios\modoIntermedio.aspx" />
     <Content Include="Formularios\modoPrincipiante.aspx" />
+    <Content Include="Jison\Analizador.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>

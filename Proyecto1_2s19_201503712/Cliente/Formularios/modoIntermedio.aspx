@@ -96,10 +96,18 @@
                 <block type="logic_compare"></block>
                 <block type="math_arithmetic"></block>
             </category>
-            <category name="Sentencias de Control" colour="330">
+            <category name="Ciclos"  colour="330">
                 <block type="for"></block>
+                <block type="while"></block>
+                <block type="do"></block>
+            </category>
+            <category name="Sentencias de Control" colour="330">
                 <block type="if"></block>
                 <block type="else"></block>
+                <block type="switch"></block>
+                <block type="case"></block>
+                <block type="default"></block>
+                <block type="break"></block>
             </category>
             <category name="Variables" colour="330">
                 <block type="var"></block>
@@ -108,6 +116,7 @@
                 <block type="create_var"></block>
             </category>
             <category name="Procedimientos" colour="330">
+                <block type="call"></block>
                 <block type="llamadafuncion"></block>
                 <block type="log"></block>
             </category>
@@ -195,7 +204,7 @@
                 alert("Logout True");
             } else {
                 document.getElementById('hdCierre').value = "false";
-                alert("Logout False");
+                //alert("Logout False");
             }
 
             //imprimo los mensajes en la consola
