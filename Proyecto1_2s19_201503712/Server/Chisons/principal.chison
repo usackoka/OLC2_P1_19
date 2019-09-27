@@ -1,225 +1,304 @@
 $<
-    "DATABASES"= [
-        <
-            "NAME" = "Database1",
-            "Data" = [
-                <
-                    "CQL-TYPE" = "OBJECT",
-                    "NAME" = "Direccion",
-                    "ATTRS" = [
-                        < 
-                            "NAME" = "Apartamento",
-                            "TYPE" = "String" 
-                        >,
-                        < 
-                            "NAME" = "Zona",
-                            "TYPE" = "String"
-                        >,
-                        < 
-                            "NAME" = "Nivel",
-                            "TYPE" = "Int"
-                        >
-                    ]
-                >,
-                <
-                    "CQL-TYPE" = "TABLE",
-                    "NAME" = "Alumno",
-                    "COLUMNS" = [
-                        <
-                            "NAME" = "Carnet",
-                            "TYPE" = "Counter",
-                            "PK" = TRUE      
-                        >,
-                        <
-                            "NAME" = "Nombre",
-                            "TYPE" = "String",
-                            "PK" = FALSE      
-                        >,
-                        <
-                            "NAME" = "Edad",
-                            "TYPE" = "Int",
-                            "PK" = FALSE      
-                        >,
-                        <
-                            "NAME" = "Cursos_Aprobados",
-                            "TYPE" = "Set<String>",
-                            "PK" = FALSE      
-                        >,
-                        <
-                            "NAME" = "Direccion",
-                            "TYPE" = "Direccion",
-                            "PK" = FALSE      
-                        >
-                    ],
-                    "DATA" = [
-                        ${ alumnos.chison }$
-                    ]  
-                >,      
-                <
-                    "ATTRS" = [
-                        < 
-                            "NAME" = "Nombre",
-                            "TYPE" = "String" 
-                        >,
-                        < 
-                            "NAME" = "Aficion",
-                            "TYPE" = "Int"
-                        >,
-                        < 
-                            "NAME" = "Pais",
-                            "TYPE" = "String"
-                        >
-                    ],
-                    "CQL-TYPE" = "OBJECT",
-                    "NAME" = "Equipo"                    
-                >,
-                <
-                    "CQL-TYPE" = "OBJECT",
-                    "NAME" = "Resultado",
-                    "ATTRS" = [
-                        < 
-                            "NAME" = "local",
-                            "TYPE" = "Int" 
-                        >,
-                        < 
-                            "NAME" = "visita",
-                            "TYPE" = "Int"
-                        >
-                    ]
-                >,
-                <
-                    "CQL-TYPE" = "TABLE",
-                    "NAME" = "Partido",
-                    "DATA" = [
-                        ${ partido.chison }$
-                    ],  
-                    "COLUMNS" = [
-                        < 
-                            "NAME" = "Hora",
-                            "TYPE" = "Time",
-                            "PK" = TRUE      
-                        >,
-                        < 
-                            "NAME" = "Fecha",
-                            "TYPE" = "Date",
-                            "PK" = TRUE      
-                        >,
-                        < 
-                            "NAME" = "Local",
-                            "TYPE" = "Equipo" ,
-                            "PK" = FALSE
-                        >,
-                        < 
-                            "NAME" = "Visita",
-                            "TYPE" = "Equipo",
-                            "PK" = FALSE
-                        >,
-                        < 
-                            "NAME" = "Resultado",
-                            "TYPE" = "Resultado",
-                            "PK" = FALSE
+	"DATABASES" = 
+					[
 
-                        >
-                    ]
-                >,                
-                <
-                    "ATTRS" = [
-                        < 
-                            "NAME" = "Tipo",
-                            "TYPE" = "String" 
-                        >,
-                        < 
-                            "NAME" = "Marca",
-                            "TYPE" = "String"
-                        >,
-                        < 
-                            "NAME" = "Precio",
-                            "TYPE" = "Double"
-                        >,
-                        < 
-                            "NAME" = "Tallas",
-                            "TYPE" = "Set<Double>"
-                        >
-                    ],
-                    "CQL-TYPE" = "OBJECT",
-                    "NAME" = "Articulo"
-                    
-                >,
-                <                    
-                    "DATA" = [
-                        ${ tiendaropa.chison }$
-                    ],  
-                    "NAME" = "TiendaRopa",
-                    "CQL-TYPE" = "TABLE",                    
-                    "COLUMNS" = [
-                        < 
-                            "NAME" = "ID",
-                            "TYPE" = "Int",
-                            "PK" = TRUE      
-                        >,
-                        < 
-                            "NAME" = "Articulo",
-                            "TYPE" = "Articulo",
-                            "PK" =  FALSE
-                        >
-                    ]
-                >         
+						<
+						"NAME" = "world",
+						"DATA" = 
+								[
+										<
+											"CQL-TYPE" = "TABLE",
+											"NAME" = "prueba",
+											"COLUMNS" = 
+												[
+													<
+														"NAME" = "nombre",
+														"TYPE" = "STRING",
+														"PK" = FALSE
+													>,
+													<
+														"NAME" = "apellido",
+														"TYPE" = "STRING",
+														"PK" = FALSE
+													>,
+													<
+														"NAME" = "edad",
+														"TYPE" = "STRING",
+														"PK" = FALSE
+													>,
+													<
+														"NAME" = "lista1",
+														"TYPE" = "LIST<STRING>",
+														"PK" = FALSE
+													>,
+													<
+														"NAME" = "set1",
+														"TYPE" = "SET<BOOLEAN>",
+														"PK" = FALSE
+													>,
+													<
+														"NAME" = "set2",
+														"TYPE" = "SET<STRING>",
+														"PK" = FALSE
+													>,
+													<
+														"NAME" = "set3",
+														"TYPE" = "SET<INT>",
+														"PK" = FALSE
+													>,
+													<
+														"NAME" = "hash1",
+														"TYPE" = "MAP<INT, STRING>",
+														"PK" = FALSE
+													>,
+													<
+														"NAME" = "hash2",
+														"TYPE" = "MAP<BOOLEAN, DOUBLE>",
+														"PK" = FALSE
+													>,
+													<
+														"NAME" = "hash3",
+														"TYPE" = "MAP<STRING, TIME>",
+														"PK" = FALSE
+													>,
+													<
+														"NAME" = "hash4",
+														"TYPE" = "MAP<DATE, TIME>",
+														"PK" = FALSE
+													>,
+													<
+														"NAME" = "set4",
+														"TYPE" = "SET<DATE>",
+														"PK" = FALSE
+													>,
+													<
+														"NAME" = "set5",
+														"TYPE" = "SET<TIME>",
+														"PK" = FALSE
+													>,
+													<
+														"NAME" = "set6",
+														"TYPE" = "SET<DOUBLE>",
+														"PK" = FALSE
+													>
+												],
+											"DATA" = 
+												[
+													<
+                                                       "nombre" = "pavel",
+                                                       "apellido" = "vasquez",
+                                                       "edad" = "23",
+                                                       "lista1" = ["hola", "mundo"],
+                                                       "set1" = [True],
+                                                       "set2" = ["asd1"],
+                                                       "set3" = [1, 2, 4, 5, 6, 7, 9],
+                                                       "hash1" = <
+                                                                 "5" = "5.5",
+                                                                 "4" = "pc",
+                                                                 "3" = "asd1",
+                                                                 "2" = "casa5"
+                                                       >,
+                                                       "hash2" = <
+                                                                 "true" = 34.3,
+                                                                 "false" = 59.3
+                                                       >,
+                                                       "hash3" = <
+                                                                 "adios" = '15:10:13',
+                                                                 "prueba" = '15:09:36',
+                                                                 "hola1" = '15:09:33',
+                                                                 "hola" = '15:09:32'
+                                                       >,
+                                                       "hash4" = <
+                                                                 "27/06/1996 0:00:00" = '09:32:44',
+                                                                 "25/09/2019 0:00:00" = '15:13:34',
+                                                                 "11/09/2001 0:00:00" = '08:32:34'
+                                                       >,
+                                                       "set4" = ['2018-06-23', '2018-06-27', '2018-06-28', '2019-09-25'],
+                                                       "set5" = ['00:12:32', '09:59:32', '10:00:09', '12:32:42'],
+                                                       "set6" = [3.2, 43.3]
+													>,
+													<
+                                                       "nombre" = "nath",
+                                                       "apellido" = null,
+                                                       "edad" = "22",
+                                                       "lista1" = null,
+                                                       "set1" = null,
+                                                       "set2" = null,
+                                                       "set3" = null,
+                                                       "hash1" = null,
+                                                       "hash2" = null,
+                                                       "hash3" = null,
+                                                       "hash4" = null,
+                                                       "set4" = null,
+                                                       "set5" = null,
+                                                       "set6" = null
+													>
+												]
+										>,
+										<
+											"CQL-TYPE" = "TABLE",
+											"NAME" = "animal",
+											"COLUMNS" = 
+												[
+													<
+														"NAME" = "nombre",
+														"TYPE" = "STRING",
+														"PK" = FALSE
+													>,
+													<
+														"NAME" = "patas",
+														"TYPE" = "LIST<STRING>",
+														"PK" = FALSE
+													>,
+													<
+														"NAME" = "edad",
+														"TYPE" = "INT",
+														"PK" = FALSE
+													>
+												],
+											"DATA" = 
+												[
+													<
+                                                       "nombre" = "perro",
+                                                       "patas" = ["1", "2", "3"],
+                                                       "edad" = 32
+													>,
+													<
+                                                       "nombre" = "gato",
+                                                       "patas" = ["1", "2", "3", "4"],
+                                                       "edad" = 3
+													>,
+													<
+                                                       "nombre" = "tigre",
+                                                       "patas" = ["1", "2", "3", "4", "5"],
+                                                       "edad" = 332
+													>
+												]
+										>,
+										<
+											"CQL-TYPE" = "OBJECT",
+											"NAME" = "perro",
+											"ATTRS" = 
+												[
+													<
+														"NAME" = "nombre",
+														"TYPE" = "STRING"
+													>
+												]
+										>,
+										<
+											"CQL-TYPE" = "PROCEDURE",
+											"NAME" = "ejemplo_procedure",
+											"PARAMETERS" = 
+												[
+													<
+														"NAME" = "@n",
+														"TYPE" = "int",
+														"AS" = in
+													>,
+													<
+														"NAME" = "@retorno1",
+														"TYPE" = "int",
+														"AS" = out
+													>
+												],
+											"INSTR" = $
+												 if ( @n == 0 ) { return 1 ; } else { return 4 ; }        
+											$
+										>,
+										<
+											"CQL-TYPE" = "PROCEDURE",
+											"NAME" = "ejemplo_procedure1",
+											"PARAMETERS" = 
+												[
+													<
+														"NAME" = "@n",
+														"TYPE" = "int",
+														"AS" = in
+													>,
+													<
+														"NAME" = "@retorno1",
+														"TYPE" = "int",
+														"AS" = out
+													>
+												],
+											"INSTR" = $
+												 return  0;       
+											$
+										>
+								]
+						>,
 
-            ]
-        >,    
-        <
-        "NAME"= "Database2",
-        "Data"= [
-            ${ bd2data.chison }$
-        ]
-        >,
-        <
-        "Data"= [],
-        "NAME"= "Database3"
-        
-        >
-    ],
-    "USERS"= [        
-        <            
-            "PERMISSIONS"= [< "Name"="DataBase1">],
-            "NAME"="Fernando",
-            "PASSWORD"= "5678"
-        >,
-        <
-            "NAME"="Lilly",
-            "PASSWORD"= "Collins",
-            "PERMISSIONS"= [
-                <
-                    "NAME" = "Database1"
-                >
-            ]
-        >,
-        <
-            "NAME"="Luis",
-            "PASSWORD"= "1234",
-            "PERMISSIONS"= [
-                <
-                    "NAME" = "Database1"
-                >,
-                <
-                    "NAME" = "Database2"
-                >
-            ]
-        >,
-        <
-            "NAME"="Admin",
-            "PASSWORD"= "admin",
-            "PERMISSIONS"= [
-                <
-                    "NAME" = "Database1"
-                >,
-                <
-                    "NAME" = "Database2"
-                >,
-                <
-                    "NAME" = "Database3"
-                >
-            ]
-        >
-    ]
+						<
+						"NAME" = "holamundo",
+						"DATA" = 
+								[
+
+								]
+						>
+					],
+	"USERS" = 
+					[
+
+						<
+						"NAME" = "admin",
+						"PASSWORD" = "admin",
+						"PERMISSIONS" = 
+							[
+								<
+									"NAME" = "world"
+								>,
+								<
+									"NAME" = "holamundo"
+								>
+							]
+						>,
+
+						<
+						"NAME" = "pavel",
+						"PASSWORD" = "123",
+						"PERMISSIONS" = 
+							[
+								<
+									"NAME" = "world"
+								>,
+								<
+									"NAME" = "holamundo"
+								>
+							]
+						>,
+
+						<
+						"NAME" = "nath",
+						"PASSWORD" = "12345",
+						"PERMISSIONS" = 
+							[
+							]
+						>,
+
+						<
+						"NAME" = "daniela",
+						"PASSWORD" = "1234",
+						"PERMISSIONS" = 
+							[
+								<
+									"NAME" = "world"
+								>,
+								<
+									"NAME" = "holamundo"
+								>
+							]
+						>,
+
+						<
+						"NAME" = "karla",
+						"PASSWORD" = "1234",
+						"PERMISSIONS" = 
+							[
+								<
+									"NAME" = "holamundo"
+								>
+							]
+						>
+					]
 >$

@@ -265,6 +265,8 @@ namespace Server.AST.ExpresionesCQL
                 Console.Write("...");
             }
 
+            nombre = nombre.Replace(" ", "");
+
             if (carColl.Equals("lis")) {
                 nombre = nombre.Substring(4);
                 nombre = nombre.TrimStart('<').TrimEnd('>');
