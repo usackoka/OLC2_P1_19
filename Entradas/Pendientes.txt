@@ -1,8 +1,8 @@
 //pendientes
-arreglar bug cursor
 ejectuar texto seleccionado
 manuales
 orderBy descendente
+arreglar el primary key a todo :'v
 
 //no evaluado
 metodos date y time

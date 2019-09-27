@@ -1072,7 +1072,7 @@ namespace Server.Analizador
             }
             else
             {
-                ast.addError("", "RecorridoCQL no soportado: " + raiz.ToString(), 0, 0);
+                ast.addError("", "RecorridoCQL no soportado: " + raiz.ToString(), getFila2(raiz), getColumna2(raiz));
                 return "NULL";
             }
         }

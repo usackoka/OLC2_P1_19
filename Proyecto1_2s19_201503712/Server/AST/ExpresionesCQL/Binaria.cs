@@ -25,6 +25,12 @@ namespace Server.AST.ExpresionesCQL
             Object izq = izquierda.getTipo(arbol);
             Object der = derecha.getTipo(arbol);
 
+            if (izq.Equals(Primitivo.TIPO_DATO.COUNTER)) {
+                izq = Primitivo.TIPO_DATO.INT;
+            } else if (der.Equals(Primitivo.TIPO_DATO.COUNTER)) {
+                der = Primitivo.TIPO_DATO.INT;
+            }
+
             switch (operador) {
                 case "+":
                     if (izq.Equals(Primitivo.TIPO_DATO.STRING) || der.Equals(Primitivo.TIPO_DATO.STRING))
@@ -118,6 +124,16 @@ namespace Server.AST.ExpresionesCQL
         {
             Object tipIzq = izquierda.getTipo(arbol);
             Object tipDer = derecha.getTipo(arbol);
+
+
+            if (tipIzq.Equals(Primitivo.TIPO_DATO.COUNTER))
+            {
+                tipIzq = Primitivo.TIPO_DATO.INT;
+            }
+            else if (tipDer.Equals(Primitivo.TIPO_DATO.COUNTER))
+            {
+                tipDer = Primitivo.TIPO_DATO.INT;
+            }
 
             try
             {

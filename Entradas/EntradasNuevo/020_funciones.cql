@@ -11,11 +11,12 @@ log("Factorial 10: "+factorial(10));
 log("Modulo 35/6: "+modulo((double)35,(double)6));
 log("MCD 5,6: "+mcd(5,6));
 log("Fibonacci 9: "+fibonaci(9));
-log("Ackerman 3,3: "+ackermann(3,3));
+log("Ackerman 3,3: "+ackermann(3,4));
 log("hofstaderFemenina 10: "+hofstaderFemenina(10));
 log("hofstaderMasculino 10: "+hofstaderMasculino(10));
 log("Par 90: "+par(90));
 log("Impar 90: "+impar(90));
+Call hanoi(4, "1", "2", "3");
 
 double potencia(double @base, double @exp) {
     return @exp == 0 ? 1 : @base * potencia(@base, @exp - 1);

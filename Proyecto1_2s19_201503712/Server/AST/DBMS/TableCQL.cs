@@ -169,7 +169,7 @@ namespace Server.AST.DBMS
                     {
                         foreach (AsignacionColumna asc in asignaciones)
                         {
-                            if (asc.idColumna.Equals(column.id))
+                            if (asc.idColumna.Equals(column.id, StringComparison.InvariantCultureIgnoreCase))
                             {
                                 if (asc.acceso != null)
                                 {
@@ -277,7 +277,7 @@ namespace Server.AST.DBMS
                         {
                             if (acceso != null)
                             {
-                                if (acceso.id.Equals(column.id))
+                                if (acceso.id.Equals(column.id, StringComparison.InvariantCultureIgnoreCase))
                                 {
                                     if (acceso.expresion == null)
                                     {
@@ -372,7 +372,7 @@ namespace Server.AST.DBMS
                     foreach (ColumnCQL columna in data)
                     {
                         //encuentra la columna
-                        if (columna.id.Equals(idColumna))
+                        if (columna.id.Equals(idColumna, StringComparison.InvariantCultureIgnoreCase))
                         {
                             columna.valores.Add(values[indexValor++].getValor(arbol));
                             indiceTupla = columna.valores.Count;
