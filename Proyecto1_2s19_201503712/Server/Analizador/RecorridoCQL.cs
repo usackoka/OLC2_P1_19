@@ -989,7 +989,7 @@ namespace Server.Analizador
                 if (raiz.ChildNodes.Count > 8)
                 {
                     return new While((Expresion)recorrido(raiz.ChildNodes[6]), (List<NodoCQL>)recorrido(raiz.ChildNodes[2]),
-                        While.TIPO_WHILE.WHILE, getFila(raiz, 0), getColumna(raiz, 0));
+                        While.TIPO_WHILE.DO_WHILE, getFila(raiz, 0), getColumna(raiz, 0));
                 }
                 else
                 {

@@ -15,6 +15,7 @@ create type if not exists Reservacion(
 
 create type if not exists NodoHash(
     llave int,
+    calendario Calendario,
     value Reservacion,
     lista_planVuelo Lista
 );
@@ -30,6 +31,38 @@ create type if not exists Lista(
     size int
 );
 
+Create table Pais(
+    nombre String
+);
+
+//================== paises a guardar ============================
+INSERT INTO Pais values("Guatemala");
+INSERT INTO Pais values("Francia");
+INSERT INTO Pais values("Jamaica");
+INSERT INTO Pais values("Ungria");
+INSERT INTO Pais values("Arabia Saudita");
+INSERT INTO Pais values("EEUU");
+INSERT INTO Pais values("Bolivia");
+INSERT INTO Pais values("Tus ojos bb");
+INSERT INTO Pais values("Belice");
+INSERT INTO Pais values("El Salvador");
+INSERT INTO Pais values("Brasil");
+INSERT INTO Pais values("Argentina");
+INSERT INTO Pais values("Costa Rica");
+INSERT INTO Pais values("Ecuador");
+INSERT INTO Pais values("Colombia");
+INSERT INTO Pais values("Guinea");
+INSERT INTO Pais values("Sierra Leona");
+INSERT INTO Pais values("Haití");
+INSERT INTO Pais values("Panamá");
+INSERT INTO Pais values("Canadá");
+
+//Lista que representan los días
+//Mapa representa las actividades que se realizan en determinada hora del día
+//ejemplo Mapa[3] = {"correr","jugar"}; //se corre y se juega a las 3 am de ese día
+create type if not exists Calendario(
+    almanaque List<Map<int,Set<String>>>
+);
 
 int imprimirLista(Lista @lista){
     for(int @i =0; @i<@lista.size; @i++){
@@ -104,27 +137,32 @@ List<NodoHash> getNodos(){
          LOG("Realizando reHash... nuevo num @primo: "+@nodosHash.size());
      }
     
+    
     //sacamos una nueva @llave según la funcion hash
     int @llave = getKey(@no_reservacion);
     LOG("Key para el @nodoHash @llave: "+@llave);
     
+
     //creamos el @nodoHash
     NodoHash @nodoHash = new NodoHash;
     @nodoHash.lista_planVuelo = @lista_planDeVuelo;
     @nodoHash.value = @reservacion;
     @nodoHash.value.num_reservacion = @no_reservacion;
-    @nodoHash.@llave = @llave;
+    @nodoHash.llave = @llave;
     
+
     //metemos el @nodo en la tabla hash, en la posición "@llave"
     //si ya hay algo en esta posición, es una colisión
     if(@nodosHash.get(@llave)!=null){
         int @newKey = collision(@llave);
-        @nodoHash.@llave = @newKey;
-        @nodosHash.set(@llave,@nodosHash);
+        @nodoHash.llave = @newKey;
+        @nodosHash.set(@newKey,@nodoHash);
         LOG("Colision resolBida :v -> antigua @llave: "+@llave+" nueva @llave: "+@newKey);
     }else{
-        @nodosHash.set(@llave,@nodosHash);
+        @nodosHash.set(@llave,@nodoHash);
     }
+    
+    return 0;
 }
 
  int collision(int @llave){
@@ -154,7 +192,7 @@ List<NodoHash> getNodos(){
     for(int @i=0; @i<@size; @i++){
         @nodosHash.insert(null);
     }
-    for (int @i = 0; @i < @nodosTemp.size; @i++) {
+    for (int @i = 0; @i < @nodosTemp.size(); @i++) {
         @nodosHash.set(@i,@nodosTemp.get(@i));
     }
 }
@@ -198,13 +236,15 @@ List<NodoHash> getNodos(){
 
  boolean is50percent(){
     int @cont=0;
-    for (int @i=0; @i<@nodosHash.size(); @i+=1) {
-        NodoHash @nodosHash1 = @nodosHash.get(@i);
-        if (@nodosHash1 != null) {
+    for (int @i=0; @i<@nodosHash.size(); @i++) {
+        NodoHash @nodo = @nodosHash.get(@i);
+        if (@nodo != null) {
             @cont++;
         }
     }
+    //LOG("========= CONTADOR = "+@cont+" y division = "+(@nodosHash.size()/2)+" y bool = "+( @cont>=(@nodosHash.size()/2))+"===========");
     return @cont>=(@nodosHash.size()/2);
+    //return false;
 }
 
  boolean esPrimo(int @numero){
@@ -250,17 +290,17 @@ List<NodoHash> getNodos(){
             Nodo @raiz = @nodoHash.lista_planVuelo.cabeza;
             int @cont2 = @cont1;
             while(@raiz != null){
-                @recorrido = @recorrido +  "@nodo"+(@cont2++)+" ";
+                @recorrido = @recorrido +  "nodo"+(@cont2++)+" ";
                 @recorrido = @recorrido +  "[label = \"{<izq> | "+@raiz.valor+" |<der>}\"];\n";
                 @raiz = @raiz.siguiente;
             }
 
             for (int @i = @cont1; @i < @cont2; @i++) {
                 if(@i==@cont1){
-                    @recorrido = @recorrido +  "hash:"+@nodoHash.llave+" -> @nodo"+@i+":izq;\n";
+                    @recorrido = @recorrido +  "hash:"+@nodoHash.llave+" -> nodo"+@i+":izq;\n";
                 }
                 if(@i+1!=@cont2){
-                    @recorrido = @recorrido +  "@nodo"+@i+":der -> @nodo"+(@i+1)+":izq;\n";
+                    @recorrido = @recorrido +  "nodo"+@i+":der -> nodo"+(@i+1)+":izq;\n";
                 }
             }
             @cont1 = @cont2;
@@ -281,15 +321,24 @@ for (int @i; @i<43; @i+=1) {
     @nodosHash.insert(null);
 }
 LOG("================ EMPIEZA CREACION DE LA HASH =================");
+Cursor @cur is Select * FROM Pais;
+OPEN @cur;
 for (int @i = 0; @i < 70; @i++) {
     Lista @lista = new Lista;
-    addPrimero(@lista,"Canada");
-    addPrimero(@lista,"EEUU");
-    addPrimero(@lista,"Guatemala");
+    int @n = 0;
+    int @n2 = @i;
+    for each(String @pais) in @cur{
+        if(@n++ == @n2){
+            addPrimero(@lista,@pais);
+        }
+    }
     Reservacion @res = new Reservacion;
     @res.nombre_cliente = "Kokita bb <3";
-    //addNodoHash(@res, @lista);
+    addNodoHash(@res, @lista);
 }
+CLOSE @cur;
 LOG("================= EMPIEZA GRAFICA DE LA HASH ==================");
-//LOG(recorrido());
+LOG(recorrido());
 //==================================
+
+
