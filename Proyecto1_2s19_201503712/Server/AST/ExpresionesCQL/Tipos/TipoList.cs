@@ -10,6 +10,7 @@ namespace Server.AST.ExpresionesCQL.Tipos
         public Object tipo;
 
         public TipoList() {
+            this.tipo = new Null();
         }
 
         public TipoList(Object tipo) {

@@ -1,6 +1,5 @@
 //pendientes
 ejectuar texto seleccionado
-manuales
 orderBy descendente
 arreglar el primary key a todo :'v
 

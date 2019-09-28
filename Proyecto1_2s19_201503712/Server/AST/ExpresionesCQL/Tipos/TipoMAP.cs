@@ -11,6 +11,8 @@ namespace Server.AST.ExpresionesCQL.Tipos
         public Object tipoValor;
 
         public TipoMAP() {
+            this.tipoValor = new Null();
+            this.tipoClave = new Null();
         }
 
         public TipoMAP(Object tipoClave, Object tipoValor) {

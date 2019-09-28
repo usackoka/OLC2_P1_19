@@ -1,12 +1,16 @@
 double toRadians(double @angle){
+    lOG("Recibo en toRadians @angle: "+@angle);
     return @angle*3.141592653589793/180;
 }
 
 double pow(double @base, int @exponente){
+    lOG("Recibo en pow @base: "+@base);
+    lOG("Recibo en pow @exponente: "+@exponente);
     return @base**@exponente;
 }
 
 double sine(double @x){
+    lOG("Recibo en sine @x: "+@x);
     double @sin=0.0;
     int @fact;
     for(int @i=1; @i<=10; @i++){
@@ -21,6 +25,10 @@ double sine(double @x){
 }
 
 int drawTree(double @x1, double @y1, double @angle, int @depth) {
+    lOG("Recibo en drawTree @x1: "+@x1);
+    lOG("Recibo en drawTree @y1: "+@y1);
+    lOG("Recibo en drawTree @angle: "+@angle);
+    lOG("Recibo en drawTree @depth: "+@depth);
 	if (@depth == 0) {
         return 0;
     }
@@ -38,3 +46,12 @@ int main() {
 }
 
 main();
+
+List<int> @n = [1,2,3,4,5,6];
+
+if(4 in {1,2,3,4,5}){
+    log("correcto");
+}else{
+    log("incorrecto");
+}
+

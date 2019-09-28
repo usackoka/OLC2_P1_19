@@ -580,6 +580,8 @@ namespace Server.Analizador
 
             TERMINO.Rule = PRIMITIVO | E_PARENT | NATIVAS | COLECCION | REFERENCIAS | CASTEOS | INSTANCIA | FUN_AGR | ACTUALIZACION;
 
+            UNARIO.Rule = mas + E | menos + E | not + E;
+
             INSTANCIA.Rule = res_new + id
                 | res_new + res_list + menor_que + TIPO + mayor_que
                 | res_new + res_set + menor_que + TIPO + mayor_que
@@ -609,8 +611,6 @@ namespace Server.Analizador
             KEY_VALUE.Rule = E + dospuntos + E;
 
             E_PARENT.Rule = l_parent + E + r_parent;
-
-            UNARIO.Rule = mas + E | menos + E | not + E;
 
             PRIMITIVO.Rule = id | entero | er_decimal | cadena | cadena2 | res_true | res_false | res_null | arroba + id;
 

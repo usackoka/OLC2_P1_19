@@ -9,7 +9,9 @@ namespace Server.AST.ExpresionesCQL.Tipos
     {
         public Object tipo;
 
-        public TipoSet() {
+        public TipoSet()
+        {
+            this.tipo = new Null();
         }
 
         public TipoSet(Object tipo) {

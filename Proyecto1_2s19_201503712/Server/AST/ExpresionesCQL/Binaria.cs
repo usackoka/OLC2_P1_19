@@ -113,6 +113,7 @@ namespace Server.AST.ExpresionesCQL
                 case "&&":
                 case "||":
                 case "^":
+                case "in":
                     return Primitivo.TIPO_DATO.BOOLEAN;
                 default:
                     arbol.addError("","(Binaria, getTipo, default) No soportado: "+operador, fila, columna);
@@ -210,6 +211,27 @@ namespace Server.AST.ExpresionesCQL
                             arbol.addError("", "(Binaria, getValor, Resta) No soportado: " + tipIzq + " y " + tipDer, fila, columna);
                             return -1;
                         }
+                    case "in":
+                        if (tipDer is TipoSet)
+                        {
+                            SetCQL setIzq = (SetCQL)derecha.getValor(arbol);
+                            return setIzq.valores.Contains(izquierda.getValor(arbol));
+                        }
+                        else if (tipDer is TipoMAP)
+                        {
+                            MapCQL mapIzq = (MapCQL)derecha.getValor(arbol);
+                            return mapIzq.valores.ContainsKey(izquierda.getValor(arbol));
+                        }
+                        else if (tipDer is TipoList)
+                        {
+                            ListCQL listIzq = (ListCQL)derecha.getValor(arbol);
+                            return listIzq.valores.Contains(izquierda.getValor(arbol));
+                        }
+                        else
+                        {
+                            arbol.addError("", "(Binaria, getValor, IN) No soportado: " + tipIzq + " y " + tipDer, fila, columna);
+                            return -1;
+                        }
                     case "*":
                         if (tipIzq.Equals(Primitivo.TIPO_DATO.DOUBLE) || tipDer.Equals(Primitivo.TIPO_DATO.DOUBLE))
                         {
@@ -286,7 +308,7 @@ namespace Server.AST.ExpresionesCQL
                         else
                         {
                             arbol.addError("", "(Binaria, getValor, <=) No soportado: " + tipIzq + " y " + tipDer, fila, columna);
-                            return -1;
+                            return false;
                         }
                     case ">=":
                         if (tipIzq.Equals(Primitivo.TIPO_DATO.DOUBLE) || tipDer.Equals(Primitivo.TIPO_DATO.DOUBLE))
@@ -308,7 +330,7 @@ namespace Server.AST.ExpresionesCQL
                         else
                         {
                             arbol.addError("", "(Binaria, getValor, >=) No soportado: " + tipIzq + " y " + tipDer, fila, columna);
-                            return -1;
+                            return false;
                         }
                     case ">":
                         if (tipIzq.Equals(Primitivo.TIPO_DATO.DOUBLE) || tipDer.Equals(Primitivo.TIPO_DATO.DOUBLE))
@@ -330,7 +352,7 @@ namespace Server.AST.ExpresionesCQL
                         else
                         {
                             arbol.addError("", "(Binaria, getValor, >) No soportado: " + tipIzq + " y " + tipDer, fila, columna);
-                            return -1;
+                            return false;
                         }
                     case "<":
                         if (tipIzq.Equals(Primitivo.TIPO_DATO.DOUBLE) || tipDer.Equals(Primitivo.TIPO_DATO.DOUBLE))
@@ -352,7 +374,7 @@ namespace Server.AST.ExpresionesCQL
                         else
                         {
                             arbol.addError("", "(Binaria, getValor, <) No soportado: " + tipIzq + " y " + tipDer, fila, columna);
-                            return -1;
+                            return false;
                         }
                     case "!=":
                         if (tipIzq.Equals(Primitivo.TIPO_DATO.STRING) || tipDer.Equals(Primitivo.TIPO_DATO.STRING))
@@ -429,8 +451,8 @@ namespace Server.AST.ExpresionesCQL
                         }
                         else
                         {
-                            arbol.addError("", "(Primitivo, getValor, &&) No soportado: " + operador, fila, columna);
-                            return -1;
+                            arbol.addError("", "(Primitivo, getValor, &&) No soportado: " +tipIzq + " y " + tipDer, fila, columna);
+                            return false;
                         }
                     case "||":
                         if (tipIzq.Equals(Primitivo.TIPO_DATO.BOOLEAN) && tipDer.Equals(Primitivo.TIPO_DATO.BOOLEAN))
@@ -439,8 +461,8 @@ namespace Server.AST.ExpresionesCQL
                         }
                         else
                         {
-                            arbol.addError("", "(Primitivo, getValor, ||) No soportado: " + operador, fila, columna);
-                            return -1;
+                            arbol.addError("", "(Primitivo, getValor, ||) No soportado: " + tipIzq + " y " + tipDer, fila, columna);
+                            return false;
                         }
                     case "^":
                         if (tipIzq.Equals(Primitivo.TIPO_DATO.BOOLEAN) && tipDer.Equals(Primitivo.TIPO_DATO.BOOLEAN))
@@ -449,8 +471,8 @@ namespace Server.AST.ExpresionesCQL
                         }
                         else
                         {
-                            arbol.addError("", "(Primitivo, getValor, ^) No soportado: " + operador, fila, columna);
-                            return -1;
+                            arbol.addError("", "(Primitivo, getValor, ^) No soportado: " + tipIzq + " y " + tipDer, fila, columna);
+                            return false;
                         }
                     default:
                         arbol.addError("", "(Primitivo, getValor, default) No soportado: " + operador, fila, columna);

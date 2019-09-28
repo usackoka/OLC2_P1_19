@@ -1089,12 +1089,12 @@ namespace Server.Analizador
 
         int getFila(ParseTreeNode nodo, int num)
         {
-            return nodo.ChildNodes[num].Token.Location.Line;
+            return nodo.ChildNodes[num].Token.Location.Line + 1;
         }
 
         int getColumna(ParseTreeNode nodo, int num)
         {
-            return nodo.ChildNodes[num].Token.Location.Column;
+            return nodo.ChildNodes[num].Token.Location.Column + 1;
         }
 
         int getFila2(ParseTreeNode raiz) {
@@ -1103,7 +1103,7 @@ namespace Server.Analizador
                 return getFila2(raiz.ChildNodes[0]);
             }
             else {
-                return raiz.Token.Location.Line;
+                return raiz.Token.Location.Line + 1;
             }
         }
 
@@ -1114,7 +1114,7 @@ namespace Server.Analizador
             }
             else
             {
-                return raiz.Token.Location.Column;
+                return raiz.Token.Location.Column + 1;
             }
         }
 

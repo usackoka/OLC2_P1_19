@@ -16,7 +16,6 @@ log("hofstaderFemenina 10: "+hofstaderFemenina(10));
 log("hofstaderMasculino 10: "+hofstaderMasculino(10));
 log("Par 90: "+par(90));
 log("Impar 90: "+impar(90));
-Call hanoi(4, "1", "2", "3");
 
 double potencia(double @base, double @exp) {
     return @exp == 0 ? 1 : @base * potencia(@base, @exp - 1);
@@ -87,3 +86,5 @@ int impar(int @numi) {
     }
     return par(@numi - 1);
 }
+
+Call hanoi(4, "1", "2", "3");

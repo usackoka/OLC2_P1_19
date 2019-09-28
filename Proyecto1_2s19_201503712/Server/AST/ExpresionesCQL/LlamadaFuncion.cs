@@ -132,7 +132,16 @@ namespace Server.AST.ExpresionesCQL
             String firma = "";
             foreach (Expresion kvp in expresiones)
             {
-                firma += "_" + kvp.getTipo(arbol);
+                Object tipo = kvp.getTipo(arbol);
+                if (tipo is TipoList) {
+                    tipo = new TipoList();
+                } else if (tipo is TipoSet) {
+                    tipo = new TipoSet();
+                } else if (tipo is TipoMAP) {
+                    tipo = new TipoMAP();
+                }
+
+                firma += "_" + tipo;
             }
             return firma;
         }
