@@ -91,6 +91,8 @@ VALUES (
     "21000.00"
 );
 
+commit;
+
 /*
 INSERT INTO customers(customerNumber)
 VALUES (-1); // Error

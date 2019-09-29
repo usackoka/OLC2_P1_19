@@ -61,7 +61,8 @@ namespace Server.Analizador.Chison
         {
             if (this.valores.ContainsKey("pk"))
             {
-                return this.valores["pk"].ToString().Equals("false")?false:true;
+                String pk = this.valores["pk"].ToString().ToLower();
+                return pk.Equals("false")?false:true;
             }
             else
             {

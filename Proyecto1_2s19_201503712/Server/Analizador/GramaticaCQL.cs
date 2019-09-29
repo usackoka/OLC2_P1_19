@@ -309,6 +309,7 @@ namespace Server.Analizador
 
             CURSOR.Rule = res_cursor + arroba + id + res_is + SELECT
                 | res_cursor + arroba + id + igual + E
+                | res_cursor + LISTA_DECLARACION_E
                 | res_open + arroba + id
                 | res_close + arroba + id;
 

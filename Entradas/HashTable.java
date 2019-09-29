@@ -202,7 +202,7 @@ List<NodoHash> getNodos(){
     //verficar que no sea @repetido
     boolean @repetido = true;
     while(@repetido){
-        @random = (int) (random() * 2000);
+        @random = (int)(random() * 2000);
         @repetido = false;
         for (int @i=0; @i<@nodosHash.size(); @i+=1) {
             NodoHash @nodo = @nodosHash.get(@i);

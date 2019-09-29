@@ -333,7 +333,9 @@ namespace Server.Analizador.Chison
                 | res_pk + igual + PRIMITIVO*/
                 if (raiz.ChildNodes[0].ToString().ToLower().Contains("pk"))
                 {
-                    return new Columna(getLexema(raiz, 0).Replace("\"", ""), getLexema(raiz, 2).Equals("TRUE", StringComparison.InvariantCulture) ? true : false);
+                    String lex = getLexema(raiz, 2).Replace(" (Keyword)", "").ToLower();
+                    Boolean esPk = lex.Equals("true");
+                    return new Columna(getLexema(raiz, 0).Replace("\"", ""), esPk);
                 }
                 else {
                     return new Columna(getLexema(raiz, 0).Replace("\"", ""), getLexema(raiz, 2).Replace("\"", ""));

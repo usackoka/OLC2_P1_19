@@ -100,7 +100,7 @@ boolean Eliminar(int @elem){
 			}else{ 
 				Log("Encontrado...");
 				if(@aux.izq == null){ 
-					if(hijoIzq){
+					if(@hijoIzq){
 						@Padre.izq=@aux.der;
 					}else{
 						@Padre.der=@aux.der;
@@ -118,7 +118,7 @@ boolean Eliminar(int @elem){
 			@aux=null;
 		}else{ 
 			@Padre = @aux;
-			if(@aux.valor > @elem){ 
+			if(@aux.Clave > @elem){ 
 				@aux=@aux.izq;
 				@hijoIzq=true; 
 			}else{ 

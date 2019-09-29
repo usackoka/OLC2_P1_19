@@ -202,7 +202,7 @@ LOG(getDot(@arbol.raiz));
 
 
 INSERT into Usuario(arbol,nombre) values(@arbol,"Koka nnmms");
-//commit;
+commit;
 
 
 //================ luego de cargar el chison

@@ -310,11 +310,17 @@ namespace Server.Analizador
             }
             else if (CompararNombre(raiz, "CURSOR"))
             {
-                /*res_cursor + arroba + id + res_is + SELECT
+                /* res_cursor + arroba + id + res_is + SELECT
+                | res_cursor + arroba + id + igual + E
+                | res_cursor + LISTA_DECLARACION_E
                 | res_open + arroba + id
                 | res_close + arroba + id;*/
                 if (ContainsString(getLexema(raiz, 0), "cursor"))
                 {
+                    if (raiz.ChildNodes.Count==2) {
+                        return new Declaracion(Primitivo.TIPO_DATO.CURSOR, (List<KeyValuePair<String,Expresion>>)recorrido(raiz.ChildNodes[1]),
+                            getFila(raiz,0),getColumna(raiz,0));
+                    }
                     return new Cursor(getLexema(raiz, 2), (NodoCQL)recorrido(raiz.ChildNodes[4]),
                         Cursor.TIPO_CURSOR.INSTANCE, getFila(raiz, 0), getColumna(raiz, 0));
                 }

@@ -193,8 +193,6 @@ FOR EACH(String @nombres) IN @ccc{
 }
 CLOSE @ccc;
 
-commit;
-
 BEGIN BATCH
 INSERT INTO Estudiante(nombres,carnet) values("Esto no se guardará",200000);
 INSERT INTO Estudiante(nombres,carnet) values("Esto no se guardará",200001);
@@ -205,6 +203,43 @@ APPLY BATCH;
 SELECT * FROM Estudiante Order by carnet asc;
 
 log(count(<<SELECT * FROM Estudiante LIMIT 4>>));
+
+Cursor @cursor1, @cursor2, @cursor3;
+
+Procedure retornoMultiple(),(Cursor @c1, Cursor @c2, Cursor @c3){
+	Cursor @n is select nombres,carnet from Estudiante where nombres == "Oscar René";
+	Cursor @n2 is select nombres,carnet from Estudiante limit 5;
+	Cursor @n3 is select nombres,carnet from Estudiante limit 10;
+	return @n, @n2, @n3;
+}
+
+@cursor1, @cursor2, @cursor3 = call retornoMultiple();
+
+try{
+	OPEN @cursor1;
+}catch(Exception @e){
+	LOG("======= CATCH CAPTURADO ======");
+	LOG(@e.message);
+}
+LOG("==================== IMPRIMIENDO CURSOR 1 =================");
+for each(String @name, int @carnet) in @cursor1{
+	LOG("Nombre: "+@name+" -- Carnet: "+@carnet);
+}
+CLOSE @cursor1;
+
+OPEN @cursor2;
+LOG("==================== IMPRIMIENDO CURSOR 2 =================");
+for each(String @name, int @carnet) in @cursor2{
+	LOG("Nombre: "+@name+" -- Carnet: "+@carnet);
+}
+CLOSE @cursor2;
+
+OPEN @cursor3;
+LOG("==================== IMPRIMIENDO CURSOR 3 =================");
+for each(String @name, int @carnet) in @cursor3{
+	LOG("Nombre: "+@name+" -- Carnet: "+@carnet);
+}
+CLOSE @cursor3;
 
 create database db;
 use db;
@@ -246,3 +281,4 @@ Procedure orderList(boolean @asc_),()
 }
 
 call orderList(true);
+

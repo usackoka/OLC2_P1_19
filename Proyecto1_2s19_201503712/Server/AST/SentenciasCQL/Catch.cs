@@ -24,7 +24,7 @@ namespace Server.AST.SentenciasCQL
         public override object Ejecutar(AST_CQL arbol)
         {
 
-            if (!excCapturada.ex.Equals(exception) && !excCapturada.ex.Equals(ExceptionCQL.EXCEPTION.Exception)) {
+            if (!excCapturada.ex.Equals(exception) && !exception.Equals(ExceptionCQL.EXCEPTION.Exception)) {
                 arbol.addError("Catch-"+exception,"Se capturó una excepción: "+excCapturada+" y se esperaba: "+exception, fila, columna);
                 return null;
             }

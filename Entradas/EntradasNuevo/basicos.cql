@@ -138,3 +138,5 @@ Cursor getPlaylist(String @name) {
     Cursor @c1 IS SELECT songs from playlists where name == @name;
     return @c1;
 }
+
+commit;

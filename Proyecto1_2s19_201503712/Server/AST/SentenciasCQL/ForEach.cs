@@ -28,7 +28,11 @@ namespace Server.AST.SentenciasCQL
             arbol.entorno = new Entorno(arbol.entorno);
 
             //obtengo el cursor y el resultado del select
-            Cursor cursor = (Cursor)arbol.entorno.getValorVariable(this.idCursor, arbol, fila, columna);
+            Object recibido = arbol.entorno.getValorVariable(this.idCursor, arbol, fila, columna);
+            if (!(recibido is Cursor)) {
+                return recibido;
+            }
+            Cursor cursor = (Cursor)recibido;
             List<ColumnCQL> data = cursor.data != null ? cursor.data : new List<ColumnCQL>();
 
             //si no hay resultados en el select

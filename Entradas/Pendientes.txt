@@ -1,7 +1,6 @@
 //pendientes
 ejectuar texto seleccionado
 orderBy descendente
-arreglar el primary key a todo :'v
 probar multiple retorno de cursores
 
 //no evaluado

@@ -36,7 +36,11 @@ namespace Server.AST.SentenciasCQL
                     arbol.entorno.addVariable(this.id, new Variable(this, Primitivo.TIPO_DATO.CURSOR),arbol,fila,columna);
                     return null;
                 case TIPO_CURSOR.OPEN:
-                    Cursor cursor = (Cursor)arbol.entorno.getValorVariable(this.id, arbol, fila, columna);
+                    Object recibido = arbol.entorno.getValorVariable(this.id, arbol, fila, columna);
+                    if (!(recibido is Cursor)) {
+                        return recibido;
+                    }
+                    Cursor cursor = (Cursor)recibido;
                     Object o;
                     Entorno temp = arbol.entorno;
                     arbol.entorno = cursor.entornoEjecucion;
@@ -68,7 +72,12 @@ namespace Server.AST.SentenciasCQL
                     arbol.entorno = temp;
                     return o;
                 default:
-                    Cursor cursor2 = (Cursor)arbol.entorno.getValorVariable(this.id, arbol, fila, columna);
+                    recibido = arbol.entorno.getValorVariable(this.id, arbol, fila, columna);
+                    if (!(recibido is Cursor))
+                    {
+                        return recibido;
+                    }
+                    Cursor cursor2 = (Cursor)recibido;
                     cursor2.data = null;
                     //arbol.entorno.reasignarVariable(this.id, cursor2, Primitivo.TIPO_DATO.CURSOR, arbol, fila, columna);
                     return null;
