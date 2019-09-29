@@ -95,11 +95,11 @@ namespace Server.AST.ExpresionesCQL
                     int sumaInt = 0;
                     double sumaDouble = 0;
                     foreach (Object dato in data[0].valores) {
-                        if (data[0].tipoDato.Equals(Primitivo.TIPO_DATO.INT))
+                        if (dato is Int32)
                         {
                             sumaInt += Convert.ToInt32(dato);
                         }
-                        else if(data[0].tipoDato.Equals(Primitivo.TIPO_DATO.DOUBLE))
+                        else if(dato is Double)
                         {
                             sumaDouble += Convert.ToDouble(dato);
                         }
@@ -130,11 +130,11 @@ namespace Server.AST.ExpresionesCQL
                     sumaDouble = 0;
                     foreach (Object dato in data[0].valores)
                     {
-                        if (data[0].tipoDato.Equals(Primitivo.TIPO_DATO.INT))
+                        if (dato is Int32)
                         {
                             sumaInt += Convert.ToInt32(dato);
                         }
-                        else if (data[0].tipoDato.Equals(Primitivo.TIPO_DATO.DOUBLE))
+                        else if (dato is Double)
                         {
                             sumaDouble += Convert.ToDouble(dato);
                         }
